@@ -1,3 +1,6 @@
+//==============================================================//
+//							Login								//
+//==============================================================//
 define("PBKDF2_HASH_ALGORITHM", "sha256");
 define("PBKDF2_ITERATIONS", 1500);
 define("PBKDF2_SALT_BYTE_SIZE", 10);
@@ -174,4 +177,39 @@ $app->post('/loginUser', function(){
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
 	echo "Finish5";
+});
+
+
+//==============================================================//
+//						Register								//
+//==============================================================//
+$app->post('/createUserAccount', function(){
+	global $mysqli;
+	$fName = $_POST['fName'];
+	$lName = $_POST['lName'];
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	if($fName === "" || $lName === "" || $email === "" || $password === "")
+	$outputJSON = array ('u_id'=>-2);
+	else{
+	$dupCheck = $mysqli->query("SELECT email FROM User WHERE email = '$email' LIMIT 1");
+	$checkResults = $dupCheck->fetch_assoc();
+	$hashedPassword = create_hash($password);
+		if(!($checkResults === NULL))
+			$outputJSON = array ('u_id'=>-1);
+			else{
+			$prevUser = $mysqli->query("SELECT user_ID FROM User ORDER BY user_ID DESC LIMIT 1");
+			$row = $prevUser->fetch_assoc();
+			if($row === NULL){
+				$outputJSON = array ('u_id'=>1);
+				$insertion = $mysqli->query("INSERT INTO User (user_ID, fName, lName, email, password, saltValue) VALUES (1, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+			}
+			else{
+				$newID = $row['user_ID']+1;
+				$outputJSON = array ('u_id'=>$newID);
+				$insertion = $mysqli->query("INSERT INTO User (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+			}
+		}
+	}
+	echo json_encode($outputJSON);
 });
