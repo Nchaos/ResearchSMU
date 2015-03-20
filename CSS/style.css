@@ -1,5 +1,6 @@
 body {
-    background:blue
+    background-image:url(../img/DallasHall.png);
+    background-size: cover;
 }
  
 .clearfix:after {
