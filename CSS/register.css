@@ -1,10 +1,30 @@
 body {
     background-image:url(../img/DallasHall.jpg);
-    background-size: cover;}
+    background-size: cover;
+
+}
 
 form {
 	position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);	
+    font-weight: bold;
+
+    width:25em;
+    margin-bottom: .5em;
+}
+
+input {
+	width: 20em;
+	float: right;
+	text-align: left;
+	/*margin-right: .5em;*/
+	margin-bottom: .5em;
+	display: block
+}
+
+.submit input {
+	width: 10em;
+	margin-left: .5em;
 }
