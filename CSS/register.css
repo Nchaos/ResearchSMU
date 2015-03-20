@@ -1,0 +1,10 @@
+body {
+    background-image:url(../img/DallasHall.jpg);
+    background-size: cover;}
+
+form {
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);	
+}
