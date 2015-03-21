@@ -100,7 +100,7 @@ $app->post('/loginUser', function(){
 	$email = $_POST['email'];
 	$password = $_POST['password'];
 	try {
-		$sql = "SELECT user_ID FROM User WHERE email=(?)";
+		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> bind_param('s', $email);
 		$stmt -> execute();
@@ -117,7 +117,7 @@ $app->post('/loginUser', function(){
 		}
 		else{
 			$stmt->close();
-			$sql = "SELECT saltValue FROM User WHERE email=(?)";
+			$sql = "SELECT saltValue FROM Users WHERE email=(?)";
 			$stmt1 = $mysqli -> prepare($sql);
 			$stmt1 -> bind_param('s', $email);
 			$stmt1 -> execute();
@@ -137,22 +137,22 @@ $app->post('/loginUser', function(){
 			else if(validate_password($password,$passwordVal)) {
 				$stmt1->close();
 				$_SESSION['loggedin'] = true;
-				$query = "SELECT idUser FROM User WHERE email=(?)";
+				$query = "SELECT user_ID FROM Users WHERE email=(?)";
 				$stmt2 = $mysqli -> prepare($query);
 				$stmt2 -> bind_param('s', $email);
 				$stmt2 -> execute();
 				$stmt2->bind_result($temp);
 				$stmt2 -> fetch();
-				$_SESSION['userId'] = $temp;
+				$_SESSION['user_ID'] = $temp;
 				$_SESSION['email'] = $email;
 				$statusFlg = 'Succeed';
 				$stmt2->close();
-				$components = "SELECT * FROM User WHERE email='$email'";
+				$components = "SELECT * FROM Users WHERE email='$email'";
 				$returnValue = $mysqli -> query($components);
 				$iteration = $returnValue -> fetch_assoc();
 				$JSONarray = array(
 				'status'=>$statusFlg,
-				'user_ID'=>$iteration['idUser'],
+				'user_ID'=>$iteration['user_ID'],
 				'firstName'=>$iteration['firstName'],
 				'lastName'=>$iteration['lastName'],
 				'email'=>$iteration['email']);
@@ -192,22 +192,24 @@ $app->post('/createUserAccount', function(){
 	if($fName === "" || $lName === "" || $email === "" || $password === "")
 	$outputJSON = array ('u_id'=>-2);
 	else{
-	$dupCheck = $mysqli->query("SELECT email FROM User WHERE email = '$email' LIMIT 1");
+	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
 	$checkResults = $dupCheck->fetch_assoc();
 	$hashedPassword = create_hash($password);
 		if(!($checkResults === NULL))
 			$outputJSON = array ('u_id'=>-1);
 			else{
-			$prevUser = $mysqli->query("SELECT user_ID FROM User ORDER BY user_ID DESC LIMIT 1");
+			$prevUser = $mysqli->query("SELECT user_ID FROM Users ORDER BY user_ID DESC LIMIT 1");
 			$row = $prevUser->fetch_assoc();
 			if($row === NULL){
 				$outputJSON = array ('u_id'=>1);
-				$insertion = $mysqli->query("INSERT INTO User (user_ID, fName, lName, email, password, saltValue) VALUES (1, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, saltValue) VALUES (1, '$fName', '$lName', '$email', '$hashedPassword')");
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$fName', '$lName', '$email')");
+				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
 			}
 			else{
 				$newID = $row['user_ID']+1;
 				$outputJSON = array ('u_id'=>$newID);
-				$insertion = $mysqli->query("INSERT INTO User (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
 			}
 		}
 	}
