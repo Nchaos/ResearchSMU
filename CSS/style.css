@@ -1,6 +1,8 @@
 body {
     background-image:url(../img/DallasHall.png);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
  
 .clearfix:after {
@@ -24,6 +26,7 @@ body {
     margin:0px;
     list-style:none;
     font-family:'Ek Mukta';
+    text-align: center
 }
  
 .menu a {
@@ -67,7 +70,6 @@ body {
 }
  
 .sub-menu {
-    width:160%;
     padding:5px 0px;
     position:absolute;
     top:100%;
@@ -92,6 +94,8 @@ body {
 .sub-menu li a:hover, .sub-menu .current-item a {
     background:#3e3436;
 }
+
+/* Search page CSS stuff */
 
 #tfheader{
     background-color:#c3dfef;
