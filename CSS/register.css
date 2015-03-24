@@ -1,0 +1,49 @@
+body {
+    background-image:url(../img/DallasHall.jpg);
+    background-size: cover;
+	opacity: 50%;
+}
+
+
+form {
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);	
+    font-weight: bold;
+    text-align: left;
+    font-size: 110%;	
+    width:15.5em;
+
+}
+
+span {
+
+	height: 10px;
+}
+
+input {
+	width: 20em;
+	float: right;
+	text-align: left;
+	margin-right: .25em;
+	margin-bottom: .5em;
+	display: block
+}
+
+form[type=label] {
+	color: red;
+}
+
+input[type=file] {
+	width: 20em;
+	margin-right: .5em;
+	margin-bottom: .5em;
+	font-weight: bold;
+}
+
+input[type=submit] {
+	width: 10em;
+	margin-right: 10.5em;
+	margin-top: .5em;
+}
