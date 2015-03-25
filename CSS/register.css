@@ -1,6 +1,8 @@
 body {
     background-image:url(../img/DallasHall.jpg);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 	opacity: 50%;
 }
 
