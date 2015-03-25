@@ -108,9 +108,9 @@ $app->post('/loginUser', function(){
 		if(($username_test === NULL)) {
 			$JSONarray = array(
 				'status'=>'Failure',
-				'user_ID'=>NULL,
-				'fName'=>NULL,
-				'lName'=>NULL,
+				'userId'=>NULL,
+				'fistName'=>NULL,
+				'lastName'=>NULL,
 				'email'=>NULL);
 			echo json_encode($JSONarray);
 			return;
@@ -127,9 +127,9 @@ $app->post('/loginUser', function(){
 			if($passwordVal === NULL) {
 				$JSONarray = array(
 				'status'=>'Failure',
-				'user_ID'=>NULL,
-				'fName'=>NULL,
-				'lName'=>NULL,
+				'userId'=>NULL,
+				'firstName'=>NULL,
+				'lastName'=>NULL,
 				'email'=>NULL);
 				echo json_encode($JSONarray);
 				return;
@@ -143,7 +143,7 @@ $app->post('/loginUser', function(){
 				$stmt2 -> execute();
 				$stmt2->bind_result($temp);
 				$stmt2 -> fetch();
-				$_SESSION['user_ID'] = $temp;
+				$_SESSION['userId'] = $temp;
 				$_SESSION['email'] = $email;
 				$statusFlg = 'Succeed';
 				$stmt2->close();
@@ -152,7 +152,7 @@ $app->post('/loginUser', function(){
 				$iteration = $returnValue -> fetch_assoc();
 				$JSONarray = array(
 				'status'=>$statusFlg,
-				'user_ID'=>$iteration['user_ID'],
+				'userId'=>$iteration['userId'],
 				'firstName'=>$iteration['firstName'],
 				'lastName'=>$iteration['lastName'],
 				'email'=>$iteration['email']);
@@ -163,9 +163,9 @@ $app->post('/loginUser', function(){
 			else {
 				$JSONarray = array(
 				'status'=>'Failure',
-				'user_ID'=>NULL,
-				'fName'=>NULL,
-				'lName'=>NULL,
+				'userId'=>NULL,
+				'firstName'=>NULL,
+				'lastName'=>NULL,
 				'email'=>NULL);
 				echo json_encode($JSONarray);
 				return;
@@ -185,11 +185,11 @@ $app->post('/loginUser', function(){
 //==============================================================//
 $app->post('/createUserAccount', function(){
 	global $mysqli;
-	$fName = $_POST['fName'];
-	$lName = $_POST['lName'];
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	if($fName === "" || $lName === "" || $email === "" || $password === "")
+	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
 	$outputJSON = array ('u_id'=>-2);
 	else{
 	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
@@ -203,13 +203,15 @@ $app->post('/createUserAccount', function(){
 			if($row === NULL){
 				$outputJSON = array ('u_id'=>1);
 				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, saltValue) VALUES (1, '$fName', '$lName', '$email', '$hashedPassword')");
-				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$fName', '$lName', '$email')");
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
 				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
 			}
 			else{
 				$newID = $row['user_ID']+1;
 				$outputJSON = array ('u_id'=>$newID);
 				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
+				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
 			}
 		}
 	}
