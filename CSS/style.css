@@ -53,6 +53,7 @@ body {
   transition: all 0.25s ease-out;
 }
 #cssmenu > ul > li {
+  text-align: center;
   float: left;
 }
 #cssmenu.align-center > ul {
