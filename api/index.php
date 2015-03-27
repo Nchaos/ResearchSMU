@@ -108,9 +108,15 @@ $app->post('/loginUser', function(){
 		if(($username_test === NULL)) {
 			$JSONarray = array(
 				'status'=>'Failure',
+<<<<<<< HEAD
 				'user_ID'=>NULL,
 				'fName'=>NULL,
 				'lName'=>NULL,
+=======
+				'userId'=>NULL,
+				'fistName'=>NULL,
+				'lastName'=>NULL,
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				'email'=>NULL);
 			echo json_encode($JSONarray);
 			return;
@@ -127,9 +133,15 @@ $app->post('/loginUser', function(){
 			if($passwordVal === NULL) {
 				$JSONarray = array(
 				'status'=>'Failure',
+<<<<<<< HEAD
 				'user_ID'=>NULL,
 				'fName'=>NULL,
 				'lName'=>NULL,
+=======
+				'userId'=>NULL,
+				'firstName'=>NULL,
+				'lastName'=>NULL,
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				'email'=>NULL);
 				echo json_encode($JSONarray);
 				return;
@@ -143,7 +155,11 @@ $app->post('/loginUser', function(){
 				$stmt2 -> execute();
 				$stmt2->bind_result($temp);
 				$stmt2 -> fetch();
+<<<<<<< HEAD
 				$_SESSION['user_ID'] = $temp;
+=======
+				$_SESSION['userId'] = $temp;
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				$_SESSION['email'] = $email;
 				$statusFlg = 'Succeed';
 				$stmt2->close();
@@ -152,7 +168,11 @@ $app->post('/loginUser', function(){
 				$iteration = $returnValue -> fetch_assoc();
 				$JSONarray = array(
 				'status'=>$statusFlg,
+<<<<<<< HEAD
 				'user_ID'=>$iteration['user_ID'],
+=======
+				'userId'=>$iteration['userId'],
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				'firstName'=>$iteration['firstName'],
 				'lastName'=>$iteration['lastName'],
 				'email'=>$iteration['email']);
@@ -163,9 +183,15 @@ $app->post('/loginUser', function(){
 			else {
 				$JSONarray = array(
 				'status'=>'Failure',
+<<<<<<< HEAD
 				'user_ID'=>NULL,
 				'fName'=>NULL,
 				'lName'=>NULL,
+=======
+				'userId'=>NULL,
+				'firstName'=>NULL,
+				'lastName'=>NULL,
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				'email'=>NULL);
 				echo json_encode($JSONarray);
 				return;
@@ -185,11 +211,19 @@ $app->post('/loginUser', function(){
 //==============================================================//
 $app->post('/createUserAccount', function(){
 	global $mysqli;
+<<<<<<< HEAD
 	$fName = $_POST['fName'];
 	$lName = $_POST['lName'];
 	$email = $_POST['email'];
 	$password = $_POST['password'];
 	if($fName === "" || $lName === "" || $email === "" || $password === "")
+=======
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 	$outputJSON = array ('u_id'=>-2);
 	else{
 	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
@@ -203,13 +237,22 @@ $app->post('/createUserAccount', function(){
 			if($row === NULL){
 				$outputJSON = array ('u_id'=>1);
 				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, saltValue) VALUES (1, '$fName', '$lName', '$email', '$hashedPassword')");
+<<<<<<< HEAD
 				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$fName', '$lName', '$email')");
+=======
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
 			}
 			else{
 				$newID = $row['user_ID']+1;
 				$outputJSON = array ('u_id'=>$newID);
 				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+<<<<<<< HEAD
+=======
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
+				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
+>>>>>>> d425329bba8339aec953c5697a36f7c76de2ac39
 			}
 		}
 	}
