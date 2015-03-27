@@ -318,9 +318,6 @@ body {
 
 /* Search page CSS stuff */
 
-#tfheader{
-    background-color:#c3dfef;
-}
 #tfnewsearch{
     float:right;
     padding:20px;
@@ -364,3 +361,5 @@ body {
 .tfclear{
     clear:both;
 }
+
+/* CSS for dropdown filter */

@@ -3,6 +3,7 @@
 <head>
 <title> ResearchSMU Search </title>
 <link rel="stylesheet" type="text/css" media = "screen" href="CSS/style.css">
+<link rel="stylesheet" type="text/css" media = "screen" href="CSS/filters.css">
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
@@ -12,6 +13,38 @@
 		        <input type="text" class="tftextinput" name="q" size="100" maxlength="120"><input type="submit" value="search" class="tfbutton">
 		</form>
 	<div class="tfclear"></div>
-	</div>
+	
+	<!-- HTML for FILTER BAR -->
+    <div id="filter">
+        <form action="action_page.php">
+            Dedman:<br>
+            <input type="checkbox" name="Dept" value="Anthropology">Anthropology
+            <input type="checkbox" name="Dept" value="Biologicial Sciences">Biologicial Sciences
+            <input type="checkbox" name="Dept" value="Chemistry">Chemistry
+            <input type="checkbox" name="Dept" value="Earth Sciences">Earth Sciences
+            <input type="checkbox" name="Dept" value="Economics">Economics
+            <input type="checkbox" name="Dept" value="English">English
+            <input type="checkbox" name="Dept" value="History">History
+            <input type="checkbox" name="Dept" value="Mathematics">Mathematics
+            <input type="checkbox" name="Dept" value="Philosophy">Philosophy
+            <input type="checkbox" name="Dept" value="Physics">Physics
+            <input type="checkbox" name="Dept" value="Political Science">Political Science
+            <input type="checkbox" name="Dept" value="Psychology">Psychology
+            <input type="checkbox" name="Dept" value="Religious Studies">Religious Studies
+            <input type="checkbox" name="Dept" value="Sociology">Sociology
+            <input type="checkbox" name="Dept" value="Statisical Sciences">Statisical Sciences
+            <input type="checkbox" name="Dept" value="World Language">World Language
+            <br>
+            Lyle:<br>
+            <input type="checkbox" name="Dept" value="Computer Science &amp; Engineering">Computer Science &amp; Engineering
+            <input type="checkbox" name="Dept" value="Electrical Engineering">Electrical Engineering
+            <input type="checkbox" name="Dept" value="Mechanical Engineering">Mechanical Engineering
+            <input type="checkbox" name="Dept" value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+
 </body>
 </html>
