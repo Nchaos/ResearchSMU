@@ -136,7 +136,7 @@ $app->post('/loginUser', function(){
 			}
 			else if(validate_password($password,$passwordVal)) {
 				$stmt1->close();
-				$_SESSION['loggedin'] = true;
+				$_SESSION['loggedIn'] = true;
 				$query = "SELECT user_ID FROM Users WHERE email=(?)";
 				$stmt2 = $mysqli -> prepare($query);
 				$stmt2 -> bind_param('s', $email);
@@ -144,6 +144,8 @@ $app->post('/loginUser', function(){
 				$stmt2->bind_result($temp);
 				$stmt2 -> fetch();
 				$_SESSION['userId'] = $temp;
+				$_SESSION['firstName'] = $firstName;
+				$_SESSION['lastName'] = $lastName;
 				$_SESSION['email'] = $email;
 				$statusFlg = 'Succeed';
 				$stmt2->close();
@@ -179,11 +181,61 @@ $app->post('/loginUser', function(){
 	echo "Finish5";
 });
 
+$app->post('/logout', function() {
+	session_start();
+	$_SESSION = array();
+	if (ini_get("session.use_cookies")) {
+		$params = session_get_cookie_params();
+		setcookie(session_name(), '', time() - 42000,
+		$params["path"], $params["domain"],
+		$params["secure"], $params["httponly"]
+		);
+	}
+	session_destroy();
+});
+
+
 
 //==============================================================//
 //						Register								//
 //==============================================================//
-$app->post('/createUserAccount', function(){
+$app->post('/createStudentAccount', function(){
+	global $mysqli;
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
+	$email = $_POST['email'];
+	
+	$password = $_POST['password'];
+	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
+	$outputJSON = array ('u_id'=>-2);
+	else{
+	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
+	$checkResults = $dupCheck->fetch_assoc();
+	$hashedPassword = create_hash($password);
+		if(!($checkResults === NULL))
+			$outputJSON = array ('u_id'=>-1);
+			else{
+			$prevUser = $mysqli->query("SELECT user_ID FROM Users ORDER BY user_ID DESC LIMIT 1");
+			$row = $prevUser->fetch_assoc();
+			if($row === NULL){
+				$outputJSON = array ('u_id'=>1);
+				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, saltValue) VALUES (1, '$fName', '$lName', '$email', '$hashedPassword')");
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
+				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
+			}
+			else{
+				$newID = $row['user_ID']+1;
+				$outputJSON = array ('u_id'=>$newID);
+				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
+				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
+				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
+			}
+		}
+	}
+	echo json_encode($outputJSON);
+});
+
+$app->post('/createFacultyAccount', function(){
 	global $mysqli;
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
@@ -216,4 +268,17 @@ $app->post('/createUserAccount', function(){
 		}
 	}
 	echo json_encode($outputJSON);
+});
+
+//==============================================================//
+//						Update Info								//
+//==============================================================//
+$app->post('/updateInfo', function(){
+	global $mysqli;
+	$userId = $_POST['userId'];
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	
 });
