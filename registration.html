@@ -6,17 +6,68 @@
 	</head>
 
 	<body>
-		<form action="User_Registration_form.asp">
-		First name: <input type="text" name="firstName" value="" ><br>
-		Last name: <input type="text" name="lastName" value=""><br>
-		Email: <input type="email" name="email" value = ""><br>
-		Password: <input type="text" name="password" value = ""><br>
-		Verify Password: <input type= "text" name = "passwordVer" value = ""><br>
-		Phone Number: <input type="text" name="phoneNum" value = ""><br>
-		Resume: <input type="file" name="resume" value = ""><br>
-		<!-- <input type="submit" value="Register"> -->
-		</form>
+		<div id="form">
+			<form action="User_Registration_form.asp" id="user_form">
+			First name:<input type="text" name="firstName" value=""><br>
+			Last name:<input type="text" name="lastName" value=""><br>
+			Email: <input type="email" name="email" value = ""><br>
+			Password: <input type="text" name="password" value = ""><br>
+			Verify Password: <input type= "text" name = "passwordVer" value = ""><br>
+			<input type="radio" name="userType" value="Student">Student<br>
+			<input type="radio" name="userType" value="Faculty">Faculty<br>
+			Resume:(optional) <input type="file" name="resume" value = ""><br>
+			</form>
 
+			Department: <select name="Department" form="user_form">
+				<option selected disabled hidden value=''></option>
+ 				<option value="Accounting">Accounting</option>
+  				<option value="Advertising">Advertising</option>
+ 				<option value="Anthropology">Anthropology</option>
+  				<option value="Applied Physiology">Applied Physiology</option>
+  				<option value="Art">Art</option>
+  				<option value="Art History">Art History</option>
+  				<option value="Art Management">Art Management</option>
+  				<option value="Biologicial Sciences">Biological Sciences</option>
+  				<option value="Business">Business</option>
+  				<option value="Chemistry">Chemistry</option>
+  				<option value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
+  				<option value="Communication Studies">Communication Studies</option>
+  				<option value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
+  				<option value="Creative Computing">Creative Computing</option>
+  				<option value="Dance">Dance</option>
+  				<option value="Dispute Resolution">Dispute Resolution</option>
+  				<option value="Earth Sciences">Earth Sciences</option>
+  				<option value="Economics">Economics</option>
+  				<option value="Electrical Engineering">Electrical Engineering</option>
+  				<option value="English">English</option>
+  				<option value="Film and Media Arts">Film and Media Arts</option>
+  				<option value="Finance">Finance</option>
+  				<option value="Higher Education">Higher Eduction</option>
+  				<option value="History">History</option>
+  				<option value="Journalism">Journalism</option>
+  				<option value="Management Science">Management Science</option>
+  				<option value="Marketing">Marketing</option>
+  				<option value="Mathematics">Mathematics</option>
+  				<option value="Mechanical Engineering">Mechanical Engineering</option>
+  				<option value="Music">Music</option>
+  				<option value="Philosophy">Philosophy</option>
+  				<option value="Physics">Physics</option>
+  				<option value="Political Science">Political Science</option>
+  				<option value="Psychology">Psychology</option>
+  				<option value="Real Estate">Real Estate</option>
+  				<option value="Religious Studies">Religious Studies</option>
+  				<option value="Risk Management and Insurance">Risk Management and Insurance</option>
+  				<option value="Sports Management">Sports Management</option>
+  				<option value="Sociology">Sociology</option>
+  				<option value="Statisical Sciences">Statisical Sciences</option>
+  				<option value="Teacher Education">Teacher Education</option>
+  				<option value="Theatre">Theatre</option>
+  				<option value="Wellness">Wellness</option>
+  				<option value="World Lanuage">World Language</option>
+
+			</select>
+			<input type="submit" value="Register" form="user_form">
+		</div>
 		<!-- <p>Submit information to complete registration.</p> -->
 
 	</body>
