@@ -199,7 +199,7 @@ $app->post('/logout', function() {
 //==============================================================//
 //						Register								//
 //==============================================================//
-$app->post('/createStudentAccount', function(){
+$app->post('/createAccount', function(){
 	global $mysqli;
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
@@ -209,11 +209,11 @@ $app->post('/createStudentAccount', function(){
 	$major = $_POST['major'];
 	$password = $_POST['password'];
 	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
-	$outputJSON = array ('u_id'=>-2);
+		$outputJSON = array ('u_id'=>-2);
 	else{
-	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
-	$checkResults = $dupCheck->fetch_assoc();
-	$hashedPassword = create_hash($password);
+		$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
+		$checkResults = $dupCheck->fetch_assoc();
+		$hashedPassword = create_hash($password);
 		if(!($checkResults === NULL))
 			$outputJSON = array ('u_id'=>-1);
 		else{
@@ -231,48 +231,13 @@ $app->post('/createStudentAccount', function(){
 				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
 				$insertion1 = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
 				$insertion2 = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
-			//}
+			}
 		}
 	}
 	echo json_encode($outputJSON);
 });
 
-$app->post('/createFacultyAccount', function(){
-	global $mysqli;
-	$firstName = $_POST['firstName'];
-	$lastName = $_POST['lastName'];
-	$email = $_POST['email'];
-	$instId = $_POST['instId'];
-	$deptId = $_POST['deptId'];
-	$password = $_POST['password'];
-	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
-	$outputJSON = array ('u_id'=>-2);
-	else{
-	$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email = '$email' LIMIT 1");
-	$checkResults = $dupCheck->fetch_assoc();
-	$hashedPassword = create_hash($password);
-		if(!($checkResults === NULL))
-			$outputJSON = array ('u_id'=>-1);
-		else{
-			$prevUser = $mysqli->query("SELECT user_ID FROM Users ORDER BY user_ID DESC LIMIT 1");
-			$row = $prevUser->fetch_assoc();
-			if($row === NULL){
-				$outputJSON = array ('u_id'=>1);
-				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, saltValue) VALUES (1, '$fName', '$lName', '$email', '$hashedPassword')");
-				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
-				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
-			}
-			else{
-				$newID = $row['user_ID']+1;
-				$outputJSON = array ('u_id'=>$newID);
-				//$insertion = $mysqli->query("INSERT INTO Users (user_ID, fName, lName, email, password, saltValue) VALUES ($newID, '$fName', '$lName', '$email', '$password', '$hashedPassword')");
-				$insertion1 = $mysqli->("INSERT INTO Users (user_ID, fName, lName, email) VALUES (1, '$firstName', '$lastName', '$email')");
-				$insertion2 = $mysqli->("INSERT INTO Password (user_ID, password) VALUES ((SELECT user_ID FROM Users WHERE email='$email'), '$password')");
-			}
-		}
-	}
-	echo json_encode($outputJSON);
-});
+
 
 //==============================================================//
 //						Update Info								//
