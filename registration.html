@@ -6,21 +6,23 @@
 	</head>
 
 	<body>
+
 		<div id="form">
 			<form action="User_Registration_form.asp" id="user_form">
-			First name:<input type="text" name="firstName" ><br>
-			Last name:<input type="text" name="lastName" ><br>
-			Email: <input type="email" name="email" ><br>
-			Password: <input type="text" name="password" ><br>
-			Verify Password: <input type= "text" name = "passwordVer" ><br>
-			<input type="radio" name="userType" value="Student">Student<br>
-			<input type="radio" name="userType" value="Faculty">Faculty<br>
-			Resume:(optional) <input type="file" name="resume" ><br>
+      <h2>Create an Account</h2><br>
+			<h1>First name:</h1><input type="text" name="firstName" ><br>
+			<h1>Last name:</h1><input type="text" name="lastName" ><br>
+			<h1>Email:</h1><input type="email" name="email" ><br>
+			<h1>Password:</h1><input type="password" name="password" ><br>
+			<h1>Verify Password:</h1><input type= "password" name = "passwordVer" ><br>
+			<input type="radio" name="userType" value="Student">Student
+			<input type="radio" name="userType" value="Faculty">Faculty<br><br><br>
+			<h1>Resume:(optional) </h1><input type="file" name="resume" ><br>
 			</form>
 
-			<label for="Department">Department</label>
+			<label for="Department"></label>
       <select name="Department" form="user_form" id="Department">
-				<option label='Select'></option>
+				<option selected disabled hidden label='Department'></option>
  				<option label="Accounting">Accounting</option>
   			<option label="Advertising">Advertising</option>
  				<option label="Anthropology">Anthropology</option>
@@ -69,11 +71,8 @@
 			</select>
 			<input type="submit" form="user_form">
 		</div>
-		<!-- <p>Submit information to complete registration.</p> -->
 
 	</body>
 
 
 </html>
-
-<!-- align ="left"  -->
