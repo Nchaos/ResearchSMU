@@ -293,7 +293,7 @@ function filterSchool(){//$dept_ID, $inst_ID
 		echo "Error creating database: " . $conn->error;
 	} 
 	$s = "SELECT * 
-			FROM ROP
+			FROM researchOP
 			WHERE dept_ID = $dept_ID";
 	if($conn->query($s) === TRUE) {
 		$result = $conn->query($s);
@@ -323,7 +323,7 @@ function positionLink(){//$dept_ID, $inst_ID
 		echo "Error creating database: " . $conn->error;
 	} 
 	$s = "SELECT name, dateCreated, dateFinished, num_Positions 
-			FROM ROP
+			FROM researchOP
 			WHERE dept_ID = $dept_ID";
 	if($conn->query($s) === TRUE) {
 		$result = $conn->query($s);
