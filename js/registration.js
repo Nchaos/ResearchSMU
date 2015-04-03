@@ -21,15 +21,15 @@
       form.lastName.focus();
       return false;
     }
-    if(form.pwd1.value != "" && form.pwd1.value == form.pwd2.value) {
-      if(!checkPassword(form.pwd1.value)) {
+    if(form.password.value != "" && form.password.value == form.password2.value) {
+      if(!checkPassword(form.password.value)) {
         alert("The password you have entered is not valid!");
-        form.pwd1.focus();
+        form.password.focus();
         return false;
       }
     } else {
       alert("Error: Please check that you've entered and confirmed your password!");
-      form.pwd1.focus();
+      form.password.focus();
       return false;
     }
     return true;
