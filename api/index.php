@@ -231,9 +231,46 @@ $app->post('/logout', function() {
 	}
 	session_destroy();
 });
+//==============================================================//
+//							positions applied to				//
+//==============================================================//
+function application_button_press()
+{
+	global $mysqli;
+	session_start();
+	$userID = $_SESSION['userId'];
 
+	
+	$sql = "SELECT researchOp_ID FROM ResearchO WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = ( SELECT user_ID FROM Student WHERE user_ID = $userID))";
+	if($mysqli ->query($sql) ===true)
+	{
+		echo "New record created successfully";
+	}
+	else
+	{
+		echo "NO INSERT";
+	}
+	$conn -> close();
+	session_destroy();
+}
+//==============================================================//
+//							application button press			//
+//==============================================================//
+function application_button_press($user_ID, $researchOP_ID)
+{
 
-
+global $mysqli;
+$sql = "INSERT INTO Applicants(user_ID, researchOp_ID) VALUES ($user_ID, $researchOP_ID)";
+if($mysqli ->query($sql) ===true)
+{
+echo "New record created successfully";
+}
+else
+{
+echo "NO INSERT";
+}
+$conn -> close();
+}
 //==============================================================//
 //							Register							//
 //==============================================================//
