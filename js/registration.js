@@ -1,14 +1,24 @@
   function checkForm(form)
   {
-    if(form.username.value == "") {
-      alert("Error: Username cannot be blank!");
-      form.username.focus();
+    if(form.firstName.value == "") {
+      alert("Error: First Name!");
+      form.firstName.focus();
       return false;
     }
     re = /^\w+$/;
-    if(!re.test(form.username.value)) {
-      alert("Error: Username must contain only letters, numbers and underscores!");
-      form.username.focus();
+    if(!re.test(form.firstName.value)) {
+      alert("Error: First Name!");
+      form.firstName.focus();
+      return false;
+    }
+	if(form.lastName.value == "") {
+      alert("Error: Last Name!");
+      form.lastName.focus();
+      return false;
+    }
+    if(!re.test(form.lastName.value)) {
+      alert("Error: Last Name!");
+      form.lastName.focus();
       return false;
     }
     if(form.pwd1.value != "" && form.pwd1.value == form.pwd2.value) {
