@@ -1,3 +1,4 @@
+<?php
 global $debug = true;
 
 //==============================================================//
@@ -17,6 +18,7 @@ function create_hash($password, $salt)
 {
 	if ($debug)
 		echo "Hashing password";
+	
 	global $mysqli;
 	return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" .
 	base64_encode(pbkdf2(
@@ -186,7 +188,7 @@ $app->post('/loginUser', function(){
 					
 					/*==================\\
 					||	Get Admin Data  ||
-					\\==================/*
+					\\==================*/
 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 					if($checkAdmin !== NULL){
 						$components = "SELECT * FROM Student WHERE user_ID='$userId'";
@@ -259,18 +261,21 @@ $app->post('/createAccount', function(){
 			$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, saltValue) VALUES ('$firstName', '$lastName', '$email', '$saltValue')");
 			$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 			$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
-		}
+			
+			if($check === "Student"){
+				$instId = $_POST['instId'];
+				$major = $_POST['major'];
+				$grad = $_POST['grad'];
+				$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
+			}
+			elseif($check === "Faculty"){
+				$instId = $_POST['instId'];
+				$deptId = $_POST['deptId'];
+				$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+			}
 	}
 	
-	if($check === "Student"){
-		$instId = $_POST['instId'];
-		$major = $_POST['major'];
-		$grad = $_POST['grad'];
-		$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
-	}
-	elseif($check === "Faculty"){
-		$instId = $_POST['instId'];
-		$deptId = $_POST['deptId'];
-		$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+
 	}
 });
+?>
