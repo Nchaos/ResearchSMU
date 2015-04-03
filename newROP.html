@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ResearchOP </title>
+	  <link rel="stylesheet" type="text/css" media = "screen" href="CSS/register.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+
+
+		<div id="form">
+			<form id="user_form" method="post" onsubmit="checkForm(this);">
+      <h2>Create a new Research Opportunity</h2><br>
+			<h1>Title:</h1><input type="text" name="title" placeholder="Title" required><br>
+      <h1>Start Date:</h1> <input type="date" name="startDate"><br><br>
+      <h1>End Date:</h1> <input type="date" name="endDate"><br><br>
+			<h1>Number of Positions:</h1><input type="text" name="numOfPos" placeholder="Number of Positions"><br>
+			<input type="checkbox" name="paid" value="Paid">Paid
+			<input type="checkbox" name="workStudy" value="Work Study">Work Study
+      <input type="checkbox" name="undergraduate" value="undergraduate">Undergraduate
+      <input type="checkbox" name="graduate" value="graduate">Graduate<br><br><br>
+			</form>
+
+			<label for="Department"></label>
+      <select name="Department" form="user_form" id="Department">
+				<option selected disabled hidden label='Department'></option>
+ 				<option label="Accounting">Accounting</option>
+  			<option label="Advertising">Advertising</option>
+ 				<option label="Anthropology">Anthropology</option>
+  			<option label="Applied Physiology">Applied Physiology</option>
+  			<option label="Art">Art</option>
+  			<option label="Art History">Art History</option>
+  			<option label="Art Management">Art Management</option>
+  			<option label="Biologicial Sciences">Biological Sciences</option>
+  			<option label="Business">Business</option>
+  			<option label="Chemistry">Chemistry</option>
+  			<option label="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
+  			<option label="Communication Studies">Communication Studies</option>
+  			<option label="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
+  			<option label="Creative Computing">Creative Computing</option>
+				<option label="Dance">Dance</option>
+  			<option label="Dispute Resolution">Dispute Resolution</option>
+  			<option label="Earth Sciences">Earth Sciences</option>
+  			<option label="Economics">Economics</option>
+				<option label="Electrical Engineering">Electrical Engineering</option>
+				<option label="English">English</option>
+  			<option label="Film and Media Arts">Film and Media Arts</option>
+  			<option label="Finance">Finance</option>
+  			<option label="Higher Education">Higher Eduction</option>
+  			<option label="History">History</option>
+  			<option label="Journalism">Journalism</option>
+  			<option label="Management Science">Management Science</option>
+				<option label="Marketing">Marketing</option>
+  			<option label="Mathematics">Mathematics</option>
+  			<option label="Mechanical Engineering">Mechanical Engineering</option>
+  			<option label="Music">Music</option>
+				<option label="Philosophy">Philosophy</option>
+				<option label="Physics">Physics</option>
+  			<option label="Political Science">Political Science</option>
+  			<option label="Psychology">Psychology</option>
+  			<option label="Real Estate">Real Estate</option>
+  			<option label="Religious Studies">Religious Studies</option>
+  			<option label="Risk Management and Insurance">Risk Management and Insurance</option>
+  			<option label="Sports Management">Sports Management</option>
+  			<option label="Sociology">Sociology</option>
+  			<option label="Statisical Sciences">Statisical Sciences</option>
+  			<option label="Teacher Education">Teacher Education</option>
+  			<option label="Theatre">Theatre</option>
+  			<option label="Wellness">Wellness</option>
+  			<option label="World Lanuage">World Language</option>
+
+			</select>
+			<input type="submit" form="user_form"> 
+		</div>
+
+	</body>
+
+
+</html>
