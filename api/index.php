@@ -1,3 +1,4 @@
+<?php
 global $debug = true;
 
 //==============================================================//
@@ -274,3 +275,64 @@ $app->post('/createAccount', function(){
 		$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 	}
 });
+
+//==============================================================//
+//						Filter School							//
+//==============================================================//
+
+function filterSchool(){//$dept_ID, $inst_ID
+	$department = $_GET['searchString'];
+	$conn = new mysqli("localhost", "root", "toor", "DBGUI");
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	$sql = "SELECT dept_ID FROM Department WHERE name = $department";
+	if($conn->query($sql) === TRUE) {
+		$dept_ID = $conn->query($sql);
+	} else {
+		echo "Error creating database: " . $conn->error;
+	} 
+	$s = "SELECT * 
+			FROM researchOP
+			WHERE dept_ID = $dept_ID";
+	if($conn->query($s) === TRUE) {
+		$result = $conn->query($s);
+	} else {
+		echo "Error creating database: " . $conn->error;
+	}
+
+	$conn->close();
+	
+	return $result;
+}
+
+//==============================================================//
+//						Position Link							//
+//==============================================================//
+	
+function positionLink(){//$dept_ID, $inst_ID
+	$buttonName = $_GET['buttonClick'];
+	$conn = new mysqli("localhost", "root", "toor", "DBGUI");
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	$sql = "SELECT dept_ID FROM Department WHERE name = $buttonName";
+	if($conn->query($sql) === TRUE) {
+		$dept_ID = $conn->query($sql);
+	} else {
+		echo "Error creating database: " . $conn->error;
+	} 
+	$s = "SELECT name, dateCreated, dateFinished, num_Positions 
+			FROM researchOP
+			WHERE dept_ID = $dept_ID";
+	if($conn->query($s) === TRUE) {
+		$result = $conn->query($s);
+	} else {
+		echo "Error creating database: " . $conn->error;
+	}
+
+	$conn->close();
+	
+	return $result;
+}
+?>
