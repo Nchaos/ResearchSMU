@@ -80,42 +80,44 @@
 			<li class="has-sub"><a href="search.html">Wellness</a>
 		  </ul>
 	   </li>
-		<li> </li>
 	   <li><a href="registration.html">Register</a></li>
-	    <div class ="container">
+	   <li><a href="#login-box" class="login-window">Login</a></li>
+		</div>
+	</ul>
+	</div>
+
+	<div id="login-box" class="login-popup">
+        <a href="index.html" class="close"><img src="img/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+          	<form method="post" class="signin" action="#">
+                <fieldset class="textbox">
+            	<label class="username">
+                	<span>Email</span>
+                	<input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
+                </label>
+                <label class="password">
+                	<span>Password</span>
+                	<input id="password" name="password" value="" type="password" placeholder="Password">
+                </label>
+                
+                <button class="submit button" type="button">Sign in</button>
+                
+                <p>
+                <a class="forgot" href="#">Forgot your password?</a>
+                </p>
+                
+                </fieldset>
+          	</form>
+	</div>
+<!--  old login box, keep this for reference
+		    <div class ="container">
 	    	<div id ="content">
 	    		<div class="post"> 
 	    			<div class="btn-sign">
 	    				<li><a href="#login-box" class="login-window">Login</a></li> 
 	    			</div>
 	    		</div>
-	    		<div id="login-box" class="login-popup">
-        			<a href="index.html" class="close"><img src="img/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
-          				<form method="post" class="signin" action="#">
-                			<fieldset class="textbox">
-            				<label class="username">
-                				<span>Username or email</span>
-                				<input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
-                			</label>
-                			<label class="password">
-                				<span>Password</span>
-                				<input id="password" name="password" value="" type="password" placeholder="Password">
-                			</label>
-                
-                			<button class="submit button" type="button">Sign in</button>
-                
-                			<p>
-                			<a class="forgot" href="#">Forgot your password?</a>
-                			</p>
-                
-                			</fieldset>
-          				</form>
-				</div>
-			</div>
-		</div>
-	</ul>
-	</div>
-
+			</div
+ -->
 </body>
 </html>
 
