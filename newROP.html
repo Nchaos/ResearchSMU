@@ -15,7 +15,7 @@
 			<h1>Title:</h1><input type="text" name="title" placeholder="Title" required><br>
       <h1>Start Date:</h1> <input type="date" name="startDate"><br><br>
       <h1>End Date:</h1> <input type="date" name="endDate"><br><br>
-			<h1>Number of Positions:</h1><input type="text" name="numOfPos" placeholder="Number of Positions"><br>
+			<h1>Number of Positions:</h1><input type="number" name="numOfPos" min='1' max='25'><br>
 			<input type="checkbox" name="paid" value="Paid">Paid
 			<input type="checkbox" name="workStudy" value="Work Study">Work Study
       <input type="checkbox" name="undergraduate" value="undergraduate">Undergraduate
@@ -71,6 +71,10 @@
   			<option label="World Lanuage">World Language</option>
 
 			</select>
+
+      <h1>Description:</h1><textarea name="Description" cols="25" rows="5">
+      </textarea><br>
+
 			<input type="submit" form="user_form"> 
 		</div>
 
