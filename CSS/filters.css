@@ -57,3 +57,8 @@
 .tfclear{
     clear:both;
 }
+
+#results{
+    background: white;
+    margin: 10em, 10em, 10em, 10em;
+}
