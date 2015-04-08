@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> ResearchSMU Search </title>
+<title> ResearchSMU </title>
       <link rel="stylesheet" type="text/css" media = "screen" href="CSS/bootstrap.css">
       <link rel="stylesheet" type="text/css" media = "screen" href="CSS/style.css">
       <link rel="stylesheet" type="text/css" media = "screen" href="CSS/filters.css">
@@ -18,76 +18,84 @@
 	<div class="tfclear"></div>
       </div>
 	
+      <div id="content">
 	<!-- HTML for FILTER BAR -->
-    <div id="filter">
-        <form action="action_page.php">
-            Dedman:<br>
-            <input type="checkbox" name="Dept" value="Anthropology">Anthropology
-            <input type="checkbox" name="Dept" value="Biologicial Sciences">Biologicial Sciences
-            <input type="checkbox" name="Dept" value="Chemistry">Chemistry
-            <input type="checkbox" name="Dept" value="Earth Sciences">Earth Sciences
-            <input type="checkbox" name="Dept" value="Economics">Economics
-            <input type="checkbox" name="Dept" value="English">English
-            <input type="checkbox" name="Dept" value="History">History
-            <input type="checkbox" name="Dept" value="Mathematics">Mathematics
-            <input type="checkbox" name="Dept" value="Philosophy">Philosophy
-            <input type="checkbox" name="Dept" value="Physics">Physics
-            <input type="checkbox" name="Dept" value="Political Science">Political Science
-            <input type="checkbox" name="Dept" value="Psychology">Psychology
-            <input type="checkbox" name="Dept" value="Religious Studies">Religious Studies
-            <input type="checkbox" name="Dept" value="Sociology">Sociology
-            <input type="checkbox" name="Dept" value="Statisical Sciences">Statisical Sciences
-            <input type="checkbox" name="Dept" value="World Language">World Language
-            <input type="checkbox" name="Dept" value="All Dedman Departments">All Dedman Departments
-            <br>
-            Lyle:<br>
-            <input type="checkbox" name="Dept" value="Computer Science &amp; Engineering">Computer Science &amp; Engineering
-            <input type="checkbox" name="Dept" value="Electrical Engineering">Electrical Engineering
-            <input type="checkbox" name="Dept" value="Mechanical Engineering">Mechanical Engineering
-            <input type="checkbox" name="Dept" value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering
-            <input type="checkbox" name="Dept" value="All Lyle Departments">All Lyle Departments
-            <br>
-            Cox:<br>
-            <input type="checkbox" name="Dept" value="Accounting">Accounting
-            <input type="checkbox" name="Dept" value="Finance">Finance
-            <input type="checkbox" name="Dept" value="Marketing">Marketing
-            <input type="checkbox" name="Dept" value="Management">Management
-            <input type="checkbox" name="Dept" value="Real Estate">Real Estate
-            <input type="checkbox" name="Dept" value="Risk Management &amp; Insuarance">Risk Management &amp; Insuarance
-            <input type="checkbox" name="Dept" value="All Cox Departments">All Cox Departments
-            <br>
-            Meadows:<br>
-            <input type="checkbox" name="Dept" value="Advertising">Advertising
-            <input type="checkbox" name="Dept" value="Art">Art
-            <input type="checkbox" name="Dept" value="Art History">Art History
-            <input type="checkbox" name="Dept" value="Arts Management">Arts Management
-            <input type="checkbox" name="Dept" value="Communication Studies">Communication Studies
-            <input type="checkbox" name="Dept" value="Creative Computation">Creative Computation
-            <input type="checkbox" name="Dept" value="Dance">Dance
-            <input type="checkbox" name="Dept" value="Film and Media Arts">Film and Media Arts
-            <input type="checkbox" name="Dept" value="Journalism">Journalism
-            <input type="checkbox" name="Dept" value="Music">Music
-            <input type="checkbox" name="Dept" value="Theatre">Threatre
-            <input type="checkbox" name="Dept" value="All Meadows Departments">All Meadows Departments
-            <br>
-            Simmons:<br>
-            <input type="checkbox" name="Dept" value="Sports Management">Sports Management
-            <input type="checkbox" name="Dept" value="Applied Phsiology">Applied Phsiology
-            <input type="checkbox" name="Dept" value="Wellness">Wellness
-            <input type="checkbox" name="Dept" value="Counseling">Counseling
-            <input type="checkbox" name="Dept" value="Dispute Resolution">Dispute Resolution
-            <input type="checkbox" name="Dept" value="Teacher Education">Teacher Education
-            <input type="checkbox" name="Dept" value="Higher Education">Higher Education
-            <input type="checkbox" name="Dept" value="All Simmons Departments">All Simmons Departments
-            <br><br>
-            <input type="submit"  value="Filter Search">
-        </form>
-    </div>
+            <div id="filters">
 
-    <div id="results">
-            <!-- Post Results of search here -->
-            
-    </div>
+
+                  <form action="action_page.php">
+                        <span class="filterDept" title="Dedman">Dedman</span>
+                        <ul id="dedman" class="filter">
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Anthropology"><label for="Anthropology">Anthropology</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Biologicial Sciences"><label for="Biologicial Sciences">Biological Sciences </label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Chemistry"><label for="Chemistry">Chemistry</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Earth Sciences"><label for="Earth Sciences">Earth Sciences</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Economics"><label for="Economics">Economics</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="English"><label for="English">English</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="History"><label for="History">History</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Mathematics"><label for="Mathematics">Mathematics</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Philosophy"><label for="Philosophy">Philosophy</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Physics"><label for="Physics">Physics</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Political Science"><label for="Political Science">Political Science</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Psychology"><label for="Psychology">Psychology</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Religious Studies"><label for="Religious Studies">Religious Studies</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Sociology"><label for="Sociology">Sociology</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Statisical Sciences"><label for="Statisical Sciences">Statisical Sciences</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="World Language"><label for="World Language">World Language</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="All Dedman Departments"><label for="All Dedman Departments">All Dedman Departments</label></li>
+                        </ul>
+                        <span class="filterDept" title="Lyle">Lyle</span>
+                        <ul>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Computer Science &amp; Engineering"><label for="Computer Science &amp; Engineering">Computer Science &amp; Engineering</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Electrical Engineering"><label for="Electrical Engineering">Electrical Engineering</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Mechanical Engineering"><label for="Mechanical Engineering">Mechanical Engineering</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Civil &amp; Environmental Engineering"><label for="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="All Lyle Departments"><label for="All Lyle Departments"></label></li>
+                        </ul>
+                        <span class="filterDept" title="Cox">Cox</span>
+                        <ul>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Accounting"><label for="Accounting">Accounting</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Finance"><label for="Finance">Finance</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Marketing"><label for="Marketing">Marketing</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Management"><label for="Management">Management</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Real Estate"><label for="Real Estate">Real Estate</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Risk Management &amp; Insuarance"><label for="Risk Management &amp; Insuarance">Risk Management &amp; Insuarance</label></li>
+                              </li><input class="Dept" type="checkbox" name="Dept" value="All Cox Departments"><label for="All Cox Departments">All Cox Departments</label></li>
+                        </ul>
+                        <span class="filterDept" title="Meadows">Meadows</span>
+                        <ul>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Advertising"><label for="Advertising">Advertising</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Art"><label for="Art">Art</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Art History"><label for="Art History">Art History</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Arts Management"><label for="Arts Management">Arts Management</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Communication Studies"><label for="Communication Studies">Communication Studies</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Creative Computation"><label for="Creative Computation">Creative Computation</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Dance"><label for="Dance">Dance</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Film and Media Arts"><label for="Film and Media Arts">Film and Media Arts</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Journalism"><label for="Journalism">Journalism</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Music"><label for="Music">Music</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="Theatre"><label for="Theatre">Theatre</label></li>
+                              <li><input class="Dept" type="checkbox" name="Dept" value="All Meadows Departments"><label for="All Meadows Departments">All Meadows Departments</label></li>
+                        </ul>
+                        <span class="filterDept" title="Simmons">Simmons</span>
+                        <ul>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Sports Management"><label for="Sports Management">Sports Management</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Applied Phsiology"><label for="Applied Phsiology">Applied Phsiology</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Wellness"><label for="Wellness">Wellness</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Counseling"><label for="Counseling">Counseling</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Dispute Resolution"><label for="Dispute Resolution">Dispute Resolution</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Teacher Education"><label for="Teacher Education">Teacher Education</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="Higher Education"><label for="Higher Education">Higher Education</label></li>
+                        <li><input class="Dept" type="checkbox" name="Dept" value="All Simmons Departments"><label for="All Simmons Departments">All Simmons Departments</label></li>
+                        </ul>
+                        <input type="submit"  value="Filter Search">
+                  </form>
+            </div>
+      
+            <div id="results">
+                  <!-- Post Results of search here -->
+            </div>
+      </div>
 
 
 </body>

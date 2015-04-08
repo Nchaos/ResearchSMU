@@ -1,10 +1,14 @@
-#filter {
+#filters {
 	background:gray;
 	width:25%;
     float:left;
     padding:10px; 
     margin: 10px;
     height:100%;
+}
+
+.Dept{
+    width: 5%;
 }
 
 #filterbtn{
