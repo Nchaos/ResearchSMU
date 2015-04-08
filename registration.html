@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ResearchSMU Registration </title>
+		<title>ResearchSMU </title>
 	  <link rel="stylesheet" type="text/css" media = "screen" href="CSS/register.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
@@ -17,15 +17,15 @@
 			<h1>First name:</h1><input type="text" name="firstName" placeholder="First name" required><br>
 			<h1>Last name:</h1><input type="text" name="lastName" placeholder="Last name" required><br>
 			<h1>Email:</h1><input type="email" name="email" placeholder="Example@example.com" required><br>
-			<h1>Password:</h1><input type="password" name="password" placeholder="password"><br>
-			<h1>Confirm Password:</h1><input type= "password" name = "password2" placeholder="password" ><br>
-			<input type="radio" name="check">Student
+			<h1>Password:</h1><input type="password" name="password" placeholder="password" required><br>
+			<h1>Confirm Password:</h1><input type= "password" name = "password2" placeholder="password" required><br>
+			<input type="radio" name="check" required>Student
 			<input type="radio" name="check">Faculty<br><br><br>
 			<h1>Resume(optional): </h1><input type="file" name="resume" ><br>
 			</form>
 
 			<label for="Department"></label>
-      <select name="Department" form="createAccount" id="Department">
+      <select name="Department" form="createAccount" id="Department" required>
 				<option selected disabled hidden label='Department'></option>
  				<option label="Accounting">Accounting</option>
   			<option label="Advertising">Advertising</option>
