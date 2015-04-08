@@ -109,8 +109,10 @@ $app->post('/loginUser', function(){
 		//Try to find the email in 'Users' table:
 		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 		$stmt = $mysqli -> prepare($sql);
-		$stmt -> bind_param('s', $userId);
+		$userId = '';
+		$stmt -> bind_param('i', $email);
 		$stmt -> execute();
+		$stmt -> bind_result($userId);
 		$username_test = $stmt -> fetch();
 		
 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -122,107 +124,128 @@ $app->post('/loginUser', function(){
 			//email was successfully found in the 'Users' table
 			$stmt->close();
 			
-			//Fetch the associated saltValue for that user
-			/*$sql = "SELECT saltValue FROM Users WHERE email=(?)";
-			$stmt1 = $mysqli -> prepare($sql);
-			$stmt1 -> bind_param('s', $email);
-			$stmt1 -> execute();
-			$saltVal = '';
-			$stmt1->bind_result($saltVal);
-			$stmt1 -> fetch();
-			$stmt1->close();*/
-			
-			//Fetch the associated password hash for that user form the 'Password' table
-			$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
+			//Fetch the status of activation for a user:
+			$sql = "SELECT active FROM Users WHERE user_ID='$userId'";
 			$stmt1 = $mysqli->prepare($sql);
 			$stmt1->execute();
-			$passwordVal = '';
-			$stmt1->bind_result($passwordVal);
-			$stmt1->fetch();
-			$stmt1->close();			
+			$active = '';
+			$stmt1->bind_result($active);
+			$stmt1-fetch();
+			$stmt1->close();
+			//Check if user's account is deactivated:
+			if($active){
+				//Fetch the associated saltValue for that user
+				/*$sql = "SELECT saltValue FROM Users WHERE email=(?)";
+				$stmt1 = $mysqli -> prepare($sql);
+				$stmt1 -> bind_param('s', $email);
+				$stmt1 -> execute();
+				$saltVal = '';
+				$stmt1->bind_result($saltVal);
+				$stmt1 -> fetch();
+				$stmt1->close();*/
+				
+				//Fetch the associated password hash for that user form the 'Password' table
+				$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
+				$stmt1 = $mysqli->prepare($sql);
+				$stmt1->execute();
+				$passwordVal = '';
+				$stmt1->bind_result($passwordVal);
+				$stmt1->fetch();
+				$stmt1->close();			
 
-			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			if($passwordVal === NULL) {																						
-				die(json_encode(array('ERROR' => 'User could not be validated')));											
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			/*=================\\
-			||	Get User Data  ||
-			\\=================*/
-			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			else if(password_verify($password,$passwordVal)) {
-				$components = "SELECT * FROM Users WHERE user_ID='$userId'";
-				$returnValue = $mysqli -> query($components);
-				$iteration = $returnValue -> fetch_assoc();
-				
-				$_SESSION['userId'] = $userId;
-				$_SESSION['firstName'] = $iteration['fName'];
-				$_SESSION['lastName'] = $iteration['lName'];
-				$_SESSION['email'] = $iteration['email'];
-				
-				$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
-				$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
-				$resultStudent = $checkStudent->fetch_assoc();
-				$resultFaculty = $checkFaculty->fetch_assoc();
-				
-				/*====================\\
-				||	Get Student Data  ||
-				\\====================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				if($resultStudent !== NULL && $resultFaculty === NULL){
-					$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-					$returnValue = $mysqli->query($components);
-					$iteration = $returnValue->fetch_assoc();
+				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+				if($passwordVal === NULL) {																						
+					die(json_encode(array('ERROR' => 'User could not be validated')));											
+				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+				/*=================\\
+				||	Get User Data  ||
+				\\=================*/
+				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+				else if(password_verify($password,$passwordVal)) {
+					$components = "SELECT * FROM Users WHERE user_ID='$userId'";
+					$returnValue = $mysqli -> query($components);
+					$iteration = $returnValue -> fetch_assoc();
 					
-					$_SESSION['instId'] = $iteration['inst_ID'];
-					$_SESSION['deptId'] = $iteration['dept_ID'];
-					$_SESSION['grad'] = $iteration['graduateStudent'];
-					$_SESSION['check'] = 'Student';
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*====================\\
-				||	Get Faculty Data  ||
-				\\====================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				elseif($resultStudent === NULL && $resultFaculty !== NULL){
-					$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
-					$returnValue = $mysqli->query($components);
-					$iteration = $returnValue->fetch_assoc();
+					$_SESSION['userId'] = $userId;
+					$_SESSION['firstName'] = $iteration['fName'];
+					$_SESSION['lastName'] = $iteration['lName'];
+					$_SESSION['email'] = $iteration['email'];
 					
-					$_SESSION['instId'] = $iteration['inst_ID'];
-					$_SESSION['deptId'] = $iteration['dept_ID'];
-					$_SESSION]'check'] = 'Faculty';
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*===============================================\\
-				||	If the user isn't in either the Student or	 ||
-				||	  Faculty table, then check the Admin table  ||
-				\\===============================================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				elseif($resultStudent === NULL && $resultFaculty === NULL){
-					$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
-					$result = $checkAdmin->fetch_assoc();
+					$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
+					$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
+					$resultStudent = $checkStudent->fetch_assoc();
+					$resultFaculty = $checkFaculty->fetch_assoc();
 					
-					/*==================\\
-					||	Get Admin Data  ||
-					\\==================*/
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					if($checkAdmin !== NULL){
+					/*====================\\
+					||	Get Student Data  ||
+					\\====================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					if($resultStudent !== NULL && $resultFaculty === NULL){
 						$components = "SELECT * FROM Student WHERE user_ID='$userId'";
 						$returnValue = $mysqli->query($components);
 						$iteration = $returnValue->fetch_assoc();
-					
-						$_SESSION['check'] = 'Admin';
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						
+						$_SESSION['instId'] = $iteration['inst_ID'];
+						$_SESSION['deptId'] = $iteration['dept_ID'];
+						$_SESSION['grad'] = $iteration['graduateStudent'];
+						$_SESSION['check'] = 'Student';
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+					/*====================\\
+					||	Get Faculty Data  ||
+					\\====================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					elseif($resultStudent === NULL && $resultFaculty !== NULL){
+						$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
+						$returnValue = $mysqli->query($components);
+						$iteration = $returnValue->fetch_assoc();
+						
+						$_SESSION['instId'] = $iteration['inst_ID'];
+						$_SESSION['deptId'] = $iteration['dept_ID'];
+						$_SESSION]'check'] = 'Faculty';
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+					/*===============================================\\
+					||	If the user isn't in either the Student or	 ||
+					||	  Faculty table, then check the Admin table  ||
+					\\===============================================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					elseif($resultStudent === NULL && $resultFaculty === NULL){
+						$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
+						$result = $checkAdmin->fetch_assoc();
+						
+						/*==================\\
+						||	Get Admin Data  ||
+						\\==================*/
+						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+						if($checkAdmin !== NULL){
+							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
+							$returnValue = $mysqli->query($components);
+							$iteration = $returnValue->fetch_assoc();
+						
+							$_SESSION['check'] = 'Admin';
+						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						else
+							die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					else
-						die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
+				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+				/*====================\\
+				||	Invalid Password  ||
+				\\====================*/
 				else
-					die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			/*====================\\
-			||	Invalid Password  ||
-			\\====================*/
-			else
-				die(json_encode(array('ERROR' => 'Password invalid')));
+					die(json_encode(array('ERROR' => 'Password invalid')));
+			}
 		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		
+		$logCount = $mysqli->query("UPDATE Users SET loginCount=
+			(SELECT loginCount FROM Users WHERE user_ID='$userId')+1 
+			WHERE user_ID='$userId'");
+		
+		if($logCount)
+			echo "Successfully updated login count!";
+		else
+			echo "ERROR: could not update login count";
+		
 		$mysqli = null;
 	}catch(exception $e){
 		//echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -291,7 +314,7 @@ $app->post('/createAccount', function(){
 				$deptId = $_POST['deptId'];
 				$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 			}
-	}
+		}
 	
 
 	}
