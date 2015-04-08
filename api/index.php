@@ -157,6 +157,8 @@
 			//echo '{"error":{"text":'. $e->getMessage() .'}}';
 			die(json_encode(array('ERROR' => $e->getMessage())));
 		}
+		
+		echo json_encode(array('SUCCESS' => 'User logged in.'));
 	});
 
 
@@ -221,9 +223,9 @@
 					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 				}
 			}
-		
-
 		}
+		
+		echo json_encode(array('SUCCESS' => 'Created user!'));
 	});
 
 	//==============================================================//
