@@ -185,6 +185,7 @@
 	//							Register							//
 	//==============================================================//
 	$app->post('/createAccount', function(){
+		echo "Creating account";
 		global $mysqli;
 		$check = $_POST['studentOrFaculty'];
 		$firstName = $_POST['firstName'];
