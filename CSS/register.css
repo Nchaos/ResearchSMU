@@ -82,7 +82,7 @@ h2 {
 
 
 #form select {
-    background: #FFF url(../img/down-arrow.png) no-repeat right;
+   /* background: #FFF url(../img/down-arrow.png) no-repeat right;*/
     background-size: contain;
     appearance:none;
     text-indent: 0.01px;
