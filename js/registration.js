@@ -35,28 +35,28 @@
     return true;
   }
 
-function register(form) {
-    if(checkForm(form)) {
-        $.ajax({
-            url: "api/register.php",
-            type: "post",
-            data: {
-                "firstName":$("#firstName").val(), 
-                "lastName":$("#lastName").val(), 
-                "email":$("#email").val(), 
-                "password":$("#password").val()
-            },
-            dataType: "json",
-            success: function(data) {
-                if(data.success) {
-                    alert("Welcome, " + data.firstName + "!");
-                    window.location = "index.php";
-                }
-                else
-                    alert("Error: " + data.errorType);
-            }
-        });
-    }
+// function register(form) {
+//     if(checkForm(form)) {
+//         $.ajax({
+//             url: "api/register.php",
+//             type: "post",
+//             data: {
+//                 "firstName":$("#firstName").val(), 
+//                 "lastName":$("#lastName").val(), 
+//                 "email":$("#email").val(), 
+//                 "password":$("#password").val()
+//             },
+//             dataType: "json",
+//             success: function(data) {
+//                 if(data.success) {
+//                     alert("Welcome, " + data.firstName + "!");
+//                     window.location = "index.php";
+//                 }
+//                 else
+//                     alert("Error: " + data.errorType);
+//             }
+//         });
+//     }
 
 
 // $(document).ready(function()
