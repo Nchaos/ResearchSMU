@@ -1,347 +1,383 @@
 <?php
-global $debug = true;
+	global $debug = true;
 
-//==============================================================//
-//						Password Stuff							//
-//==============================================================//
-define("PBKDF2_HASH_ALGORITHM", "sha256");
-define("PBKDF2_ITERATIONS", 1500);
-define("PBKDF2_SALT_BYTE_SIZE", 10);
-define("PBKDF2_HASH_BYTE_SIZE", 60);
-define("HASH_SECTIONS", 4);
-define("HASH_ALGORITHM_INDEX", 0);
-define("HASH_ITERATION_INDEX", 1);
-define("HASH_SALT_INDEX", 2);
-define("HASH_PBKDF2_INDEX", 3);
+	//==============================================================//
+	//                      Password Stuff                          //
+	//==============================================================//
+	define("PBKDF2_HASH_ALGORITHM", "sha256");
+	define("PBKDF2_ITERATIONS", 1500);
+	define("PBKDF2_SALT_BYTE_SIZE", 10);
+	define("PBKDF2_HASH_BYTE_SIZE", 60);
+	define("HASH_SECTIONS", 4);
+	define("HASH_ALGORITHM_INDEX", 0);
+	define("HASH_ITERATION_INDEX", 1);
+	define("HASH_SALT_INDEX", 2);
+	define("HASH_PBKDF2_INDEX", 3);
 
-function create_hash($password, $salt)
-{
-	if ($debug)
-		echo "Hashing password";
-	global $mysqli;
-	return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" .
-	base64_encode(pbkdf2(
-		PBKDF2_HASH_ALGORITHM,
-		$password,
-		$salt,
-		PBKDF2_ITERATIONS,
-		PBKDF2_HASH_BYTE_SIZE,
-		true
-	));
-}
-
-function validate_password($password, $correct_hash){
-	if($debug)
-		echo "Validating Password";
-	$params = explode(":", $correct_hash);
-	if(count($params) < HASH_SECTIONS)
-		return false;
-	$pbkdf2 = base64_decode($params[HASH_PBKDF2_INDEX]);
-	return slow_equals(
-		$pbkdf2,
-		pbkdf2(
-			$params[HASH_ALGORITHM_INDEX],
+	function create_hash($password, $salt)
+	{
+		if ($debug)
+			echo "Hashing password";
+		global $mysqli;
+		return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" .
+		base64_encode(pbkdf2(
+			PBKDF2_HASH_ALGORITHM,
 			$password,
-			$params[HASH_SALT_INDEX],
-			(int)$params[HASH_ITERATION_INDEX],
-			strlen($pbkdf2),
+			$salt,
+			PBKDF2_ITERATIONS,
+			PBKDF2_HASH_BYTE_SIZE,
 			true
-		)
-	);}
+		));
+	}
 
-function slow_equals($a, $b){
-	$diff = strlen($a) ^ strlen($b);
-	for($i = 0; $i < strlen($a) && $i < strlen($b); $i++){
-	$diff |= ord($a[$i]) ^ ord($b[$i]);}
-	return $diff === 0;
-}
+	function validate_password($password, $correct_hash){
+		if($debug)
+			echo "Validating Password";
+		$params = explode(":", $correct_hash);
+		if(count($params) < HASH_SECTIONS)
+			return false;
+		$pbkdf2 = base64_decode($params[HASH_PBKDF2_INDEX]);
+		return slow_equals(
+			$pbkdf2,
+			pbkdf2(
+				$params[HASH_ALGORITHM_INDEX],
+				$password,
+				$params[HASH_SALT_INDEX],
+				(int)$params[HASH_ITERATION_INDEX],
+				strlen($pbkdf2),
+				true
+			)
+		);}
 
-function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false){
-	$algorithm = strtolower($algorithm);
-	
-	if(!in_array($algorithm, hash_algos(), true)){
-		trigger_error('PBKDF2 ERROR: Invalid hash algorithm.', E_USER_ERROR);}
+	function slow_equals($a, $b){
+		$diff = strlen($a) ^ strlen($b);
+		for($i = 0; $i < strlen($a) && $i < strlen($b); $i++){
+		$diff |= ord($a[$i]) ^ ord($b[$i]);}
+		return $diff === 0;
+	}
+
+	function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false){
+		$algorithm = strtolower($algorithm);
 		
-	if($count <= 0 || $key_length <= 0){
-		trigger_error('PBKDF2 ERROR: Invalid parameters.', E_USER_ERROR);}
-		
-	if (function_exists("hash_pbkdf2")) {
-		// The output length is in NIBBLES (4-bits) if $raw_output is false!
-		if (!$raw_output) {
-			$key_length = $key_length * 2;
+		if(!in_array($algorithm, hash_algos(), true)){
+			trigger_error('PBKDF2 ERROR: Invalid hash algorithm.', E_USER_ERROR);}
+			
+		if($count <= 0 || $key_length <= 0){
+			trigger_error('PBKDF2 ERROR: Invalid parameters.', E_USER_ERROR);}
+			
+		if (function_exists("hash_pbkdf2")) {
+			// The output length is in NIBBLES (4-bits) if $raw_output is false!
+			if (!$raw_output) {
+				$key_length = $key_length * 2;
+			}
+			
+		return hash_pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output);
 		}
 		
-	return hash_pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output);
-	}
-	
-	$hash_length = strlen(hash($algorithm, "", true));
-	$block_count = ceil($key_length / $hash_length);
-	$output = "";
-	for($i = 1; $i <= $block_count; $i++) {
-		// $i encoded as 4 bytes, big endian.
-		$last = $salt . pack("N", $i);
-		// first iteration
-		$last = $xorsum = hash_hmac($algorithm, $last, $password, true);
-		// perform the other $count - 1 iterations
-		for ($j = 1; $j < $count; $j++) {
-		$xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
+		$hash_length = strlen(hash($algorithm, "", true));
+		$block_count = ceil($key_length / $hash_length);
+		$output = "";
+		for($i = 1; $i <= $block_count; $i++) {
+			// $i encoded as 4 bytes, big endian.
+			$last = $salt . pack("N", $i);
+			// first iteration
+			$last = $xorsum = hash_hmac($algorithm, $last, $password, true);
+			// perform the other $count - 1 iterations
+			for ($j = 1; $j < $count; $j++) {
+			$xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
+			}
+			$output .= $xorsum;
 		}
-		$output .= $xorsum;
-	}
-	if($raw_output){
-		return substr($output, 0, $key_length);}
-	else{
-		return bin2hex(substr($output, 0, $key_length));}
-}
-
-
-
-//==============================================================//
-//							Login								//
-//==============================================================//
-$app->post('/loginUser', function(){
-	session_start();
-	global $mysqli;
-	$email = $_POST['email'];
-	$password = $_POST['password'];
-
-	try {
-		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
-		$stmt = $mysqli -> prepare($sql);
-		$stmt -> bind_param('s', $email);
-		$stmt -> execute();
-		$username_test = $stmt -> fetch();
-		
-		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-		if(($username_test === NULL)) {
-			die(json_encode(array('ERROR' => 'Could not find user')));
-		}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		if($raw_output){
+			return substr($output, 0, $key_length);}
 		else{
-			$stmt->close();
-			$sql = "SELECT saltValue FROM Users WHERE email=(?)";
-			$stmt1 = $mysqli -> prepare($sql);
-			$stmt1 -> bind_param('s', $email);
-			$stmt1 -> execute();
-			$passwordVal = '';
-			$stmt1->bind_result($passwordVal);
-			$stmt1 -> fetch();
-			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			if($passwordVal === NULL) {																						
-				die(json_encode(array('ERROR' => 'User could not be validated')));											
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			/*=================\\
-			||	Get User Data  ||
-			\\=================*/
-			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			else if(validate_password($password,$passwordVal)) {
-				$stmt1->close();
-				$components = "SELECT * FROM Users WHERE email='$email'";
-				$returnValue = $mysqli -> query($components);
-				$iteration = $returnValue -> fetch_assoc();
-				
-				$userId = $_SESSION['userId'] = $iteration['user_ID'];
-				$_SESSION['firstName'] = $iteration['fName'];
-				$_SESSION['lastName'] = $iteration['lName'];
-				$_SESSION['email'] = $iteration['email'];
-				
-				$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
-				$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
-				$resultStudent = $checkStudent->fetch_assoc();
-				$resultFaculty = $checkFaculty->fetch_assoc();
-				
-				/*====================\\
-				||	Get Student Data  ||
-				\\====================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				if($resultStudent !== NULL && $resultFaculty === NULL){
-					$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-					$returnValue = $mysqli->query($components);
-					$iteration = $returnValue->fetch_assoc();
+			return bin2hex(substr($output, 0, $key_length));}
+	}
+
+
+
+	//==============================================================//
+	//                          Login                               //
+	//==============================================================//
+	$app->post('/loginUser', function(){
+		session_start();
+		global $mysqli;
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+
+		try {
+			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('s', $email);
+			$stmt -> execute();
+			$username_test = $stmt -> fetch();
+			
+			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+			if(($username_test === NULL)) {
+				die(json_encode(array('ERROR' => 'Could not find user')));
+			}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+			else{
+				$stmt->close();
+				$sql = "SELECT saltValue FROM Users WHERE email=(?)";
+				$stmt1 = $mysqli -> prepare($sql);
+				$stmt1 -> bind_param('s', $email);
+				$stmt1 -> execute();
+				$passwordVal = '';
+				$stmt1->bind_result($passwordVal);
+				$stmt1 -> fetch();
+				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+				if($passwordVal === NULL) {																						
+					die(json_encode(array('ERROR' => 'User could not be validated')));											
+				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+				/*=================\\
+				||  Get User Data  ||
+				\\=================*/
+				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+				else if(validate_password($password,$passwordVal)) {
+					$stmt1->close();
+					$components = "SELECT * FROM Users WHERE email='$email'";
+					$returnValue = $mysqli -> query($components);
+					$iteration = $returnValue -> fetch_assoc();
 					
-					$_SESSION['instId'] = $iteration['inst_ID'];
-					$_SESSION['deptId'] = $iteration['dept_ID'];
-					$_SESSION['grad'] = $iteration['graduateStudent'];
-					$_SESSION['check'] = 'Student';
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*====================\\
-				||	Get Faculty Data  ||
-				\\====================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				elseif($resultStudent === NULL && $resultFaculty !== NULL){
-					$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
-					$returnValue = $mysqli->query($components);
-					$iteration = $returnValue->fetch_assoc();
+					$userId = $_SESSION['userId'] = $iteration['user_ID'];
+					$_SESSION['firstName'] = $iteration['fName'];
+					$_SESSION['lastName'] = $iteration['lName'];
+					$_SESSION['email'] = $iteration['email'];
 					
-					$_SESSION['instId'] = $iteration['inst_ID'];
-					$_SESSION['deptId'] = $iteration['dept_ID'];
-					$_SESSION]'check'] = 'Faculty';
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*===============================================\\
-				||	If the user isn't in either the Student or	 ||
-				||	  Faculty table, then check the Admin table  ||
-				\\===============================================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				elseif($resultStudent === NULL && $resultFaculty === NULL){
-					$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
-					$result = $checkAdmin->fetch_assoc();
+					$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
+					$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
+					$resultStudent = $checkStudent->fetch_assoc();
+					$resultFaculty = $checkFaculty->fetch_assoc();
 					
-					/*==================\\
-					||	Get Admin Data  ||
-					\\==================/*
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					if($checkAdmin !== NULL){
+					/*====================\\
+					||  Get Student Data  ||
+					\\====================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					if($resultStudent !== NULL && $resultFaculty === NULL){
 						$components = "SELECT * FROM Student WHERE user_ID='$userId'";
 						$returnValue = $mysqli->query($components);
 						$iteration = $returnValue->fetch_assoc();
-					
-						$_SESSION['check'] = 'Admin';
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						
+						$_SESSION['instId'] = $iteration['inst_ID'];
+						$_SESSION['deptId'] = $iteration['dept_ID'];
+						$_SESSION['grad'] = $iteration['graduateStudent'];
+						$_SESSION['check'] = 'Student';
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+					/*====================\\
+					||  Get Faculty Data  ||
+					\\====================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					elseif($resultStudent === NULL && $resultFaculty !== NULL){
+						$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
+						$returnValue = $mysqli->query($components);
+						$iteration = $returnValue->fetch_assoc();
+						
+						$_SESSION['instId'] = $iteration['inst_ID'];
+						$_SESSION['deptId'] = $iteration['dept_ID'];
+						$_SESSION]'check'] = 'Faculty';
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+					/*===============================================\\
+					||  If the user isn't in either the Student or   ||
+					||    Faculty table, then check the Admin table  ||
+					\\===============================================*/
+					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+					elseif($resultStudent === NULL && $resultFaculty === NULL){
+						$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
+						$result = $checkAdmin->fetch_assoc();
+						
+						/*==================\\
+						||	Get Admin Data  ||
+						\\==================/*
+						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+						if($checkAdmin !== NULL){
+							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
+							$returnValue = $mysqli->query($components);
+							$iteration = $returnValue->fetch_assoc();
+						
+							$_SESSION['check'] = 'Admin';
+						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						else
+							die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
+					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					else
-						die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+						die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
+				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+				/*====================\\
+				||	Invalid Password  ||
+				\\====================*/
 				else
-					die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			/*====================\\
-			||	Invalid Password  ||
-			\\====================*/
-			else
-				die(json_encode(array('ERROR' => 'Password invalid')));
-		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		$mysqli = null;
-	}catch(exception $e){
-		//echo '{"error":{"text":'. $e->getMessage() .'}}';
-		die(json_encode(array('ERROR' => $e->getMessage())));
-	}
-});
+					die(json_encode(array('ERROR' => 'Password invalid')));
+			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+			$mysqli = null;
+		}catch(exception $e){
+			//echo '{"error":{"text":'. $e->getMessage() .'}}';
+			die(json_encode(array('ERROR' => $e->getMessage())));
+		}
+	});
 
 
 
-//==============================================================//
-//							Logout								//
-//==============================================================//
-$app->post('/logout', function() {
-	session_start();
-	$_SESSION = array();
-	if (ini_get("session.use_cookies")) {
-		$params = session_get_cookie_params();
-		setcookie(session_name(), '', time() - 42000,
-		$params["path"], $params["domain"],
-		$params["secure"], $params["httponly"]
-		);
-	}
-	session_destroy();
-});
+	//==============================================================//
+	//                          Logout                              //
+	//==============================================================//
+	$app->post('/logout', function() {
+		session_start();
+		$_SESSION = array();
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000,
+			$params["path"], $params["domain"],
+			$params["secure"], $params["httponly"]
+			);
+		}
+		session_destroy();
+	});
 
 
 
-//==============================================================//
-//							Register							//
-//==============================================================//
-$app->post('/createAccount', function(){
-	echo "Registering user...\n";
-	global $mysqli;
-	$check = $_POST['studentOrFaculty'];
-	$firstName = $_POST['firstName'];
-	$lastName = $_POST['lastName'];
-	$email = $_POST['email'];
-	$userId = '';
-	echo "Retrieved parameters...\n";
-	
-	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
-		die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
-	else{
-		echo "Checking for duplicate... ";
-		$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
-		$checkResults = $dupCheck->fetch_assoc();
-		if(!($checkResults === NULL))
-			die(json_encode(array('ERROR' => 'User already exists')));
+	//==============================================================//
+	//                          Register                            //
+	//==============================================================//
+	$app->post('/createAccount', function(){
+		echo "Registering user...\n";
+		global $mysqli;
+		$check = $_POST['studentOrFaculty'];
+		$firstName = $_POST['firstName'];
+		$lastName = $_POST['lastName'];
+		$email = $_POST['email'];
+		$userId = '';
+		echo "Retrieved parameters...\n";
+		
+		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
+			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
 		else{
-			echo "None found!\n";
-			$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
-			$hashedPassword = create_hash($password, $saltValue);
-			
-			echo "Inserting user... ";
-			$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, saltValue) VALUES ('$firstName', '$lastName', '$email', '$saltValue')");
-			$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
-			$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
-			
-			if($check === "Student"){
-				echo "Student\n";
-				$instId = $_POST['instId'];
-				$major = $_POST['major'];
-				$grad = $_POST['grad'];
-				$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
-			}
-			elseif($check === "Faculty"){
-				echo "Faulty\n";
-				$instId = $_POST['instId'];
-				$deptId = $_POST['deptId'];
-				$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+			echo "Checking for duplicate... ";
+			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
+			$checkResults = $dupCheck->fetch_assoc();
+			if(!($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'User already exists')));
+			else{
+				echo "None found!\n";
+				$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
+				$hashedPassword = create_hash($password, $saltValue);
+				
+				echo "Inserting user... ";
+				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, saltValue) VALUES ('$firstName', '$lastName', '$email', '$saltValue')");
+				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
+				
+				if($check === "Student"){
+					echo "Student\n";
+					$instId = $_POST['instId'];
+					$major = $_POST['major'];
+					$grad = $_POST['grad'];
+					$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
+				}
+				elseif($check === "Faculty"){
+					echo "Faulty\n";
+					$instId = $_POST['instId'];
+					$deptId = $_POST['deptId'];
+					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+				}
 			}
 		}
+		
+
+	});
+
+	//==============================================================//
+	//                      Filter School                           //
+	//==============================================================//
+
+	function filterSchool(){//$dept_ID, $inst_ID
+		$department = $_GET['searchString'];
+		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		$sql = "SELECT dept_ID FROM Department WHERE name = $department";
+		if($conn->query($sql) === TRUE) {
+			$dept_ID = $conn->query($sql);
+		} else {
+			echo "Error creating database: " . $conn->error;
+		} 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = $dept_ID";
+		if($conn->query($s) === TRUE) {
+			$result = $conn->query($s);
+		} else {
+			echo "Error creating database: " . $conn->error;
+		}
+
+		$conn->close();
+		
+		return $result;
+	}
+
+	//==============================================================//
+	//                      Position Link                           //
+	//==============================================================//
+		
+	function positionLink(){//$dept_ID, $inst_ID
+		$buttonName = $_GET['buttonClick'];
+		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		$sql = "SELECT dept_ID FROM Department WHERE name = $buttonName";
+		if($conn->query($sql) === TRUE) {
+			$dept_ID = $conn->query($sql);
+		} else {
+			echo "Error creating database: " . $conn->error;
+		} 
+		$s = "SELECT name, dateCreated, dateFinished, num_Positions 
+				FROM researchOP
+				WHERE dept_ID = $dept_ID";
+		if($conn->query($s) === TRUE) {
+			$result = $conn->query($s);
+		} else {
+			echo "Error creating database: " . $conn->error;
+		}
+
+		$conn->close();
+		
+		return $result;
 	}
 	
-
-});
-
-//==============================================================//
-//						Filter School							//
-//==============================================================//
-
-function filterSchool(){//$dept_ID, $inst_ID
-	$department = $_GET['searchString'];
-	$conn = new mysqli("localhost", "root", "toor", "DBGUI");
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	}
-	$sql = "SELECT dept_ID FROM Department WHERE name = $department";
-	if($conn->query($sql) === TRUE) {
-		$dept_ID = $conn->query($sql);
-	} else {
-		echo "Error creating database: " . $conn->error;
-	} 
-	$s = "SELECT * 
-			FROM researchOP
-			WHERE dept_ID = $dept_ID";
-	if($conn->query($s) === TRUE) {
-		$result = $conn->query($s);
-	} else {
-		echo "Error creating database: " . $conn->error;
-	}
-
-	$conn->close();
 	
-	return $result;
-}
-
-//==============================================================//
-//						Position Link							//
-//==============================================================//
 	
-function positionLink(){//$dept_ID, $inst_ID
-	$buttonName = $_GET['buttonClick'];
-	$conn = new mysqli("localhost", "root", "toor", "DBGUI");
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	}
-	$sql = "SELECT dept_ID FROM Department WHERE name = $buttonName";
-	if($conn->query($sql) === TRUE) {
-		$dept_ID = $conn->query($sql);
-	} else {
-		echo "Error creating database: " . $conn->error;
-	} 
-	$s = "SELECT name, dateCreated, dateFinished, num_Positions 
-			FROM researchOP
-			WHERE dept_ID = $dept_ID";
-	if($conn->query($s) === TRUE) {
-		$result = $conn->query($s);
-	} else {
-		echo "Error creating database: " . $conn->error;
-	}
-
-	$conn->close();
-	
-	return $result;
-}
+	//==============================================================//
+	//                      Create ResearchOp                       //
+	//==============================================================//
+	app->post('/createResearchOpportunity', function(){
+		global $mysqli;
+		$userId = $_SESSION['userId'];
+		$instId = $_SESSION['instId'];
+		$deptId = $_SESSION['deptId'];
+		$check = $_POST['check'];
+		$name = $_POST['name'];
+		$dateStart = $_POST['dateStart'];
+		$dateEnd = $_POST['dateEnd'];
+		$numPositions = $_POST['numPositions'];
+		$paid = $_POST['paid'];
+		$workStudy = $_POST['workStudy'];
+		$graduate = $_POST['graduate'];
+		$undergraduate = $_POST['undergraduate'];
+		
+		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
+			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
+		else{
+			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND dateEnd='$dateEnd' AND num_Positions='$numPositions'");
+			$checkResults = $dupCheck->fetch_assoc();
+			
+			if(!($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
+			else{
+				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, name, dateStart, dateEnd, num_Positions, paid, work_study, graduate, undergraduate)
+					VALUES ('$userId', '$instId', '$deptId', '$name', '$dateStart', '$dateEnd', '$numPositions', '$paid', '$workStudy', '$graduate', '$undergraduate')");
+				die(json_encode(array('Status' => 'Success')));
+			}
+		}
+	});
 ?>
