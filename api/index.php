@@ -1,5 +1,14 @@
 <?php
 	global $debug = true;
+	require 'vendor/autoload.php';
+	$app = new \Slim\Slim();
+	$app->get('/hello/:name', function($name){
+		echo "Hello, $name";
+	});
+	
+	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
+	if($mysql->connect_errno)
+		die("Connection failed: " . $mysqli->connect_error);
 
 
 	//==============================================================//
