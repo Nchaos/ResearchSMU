@@ -193,6 +193,8 @@
 		$password = $_POST['password'];
 		$userId = '';
 		
+		echo "Received parameters";
+		
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
 		else{
@@ -225,7 +227,8 @@
 			}
 		}
 		
-		echo json_encode(array('SUCCESS' => 'Created user!'));
+		#echo json_encode(array('SUCCESS' => 'Created user!'));
+		echo "Created User!";
 	});
 
 	//==============================================================//
