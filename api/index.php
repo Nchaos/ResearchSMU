@@ -4,7 +4,7 @@ global $debug = true;
 //==============================================================//
 //						Password Stuff							//
 //==============================================================//
-define("PBKDF2_HASH_ALGORITHM", "sha256");
+/*define("PBKDF2_HASH_ALGORITHM", "sha256");
 define("PBKDF2_ITERATIONS", 1500);
 define("PBKDF2_SALT_BYTE_SIZE", 10);
 define("PBKDF2_HASH_BYTE_SIZE", 60);
@@ -20,8 +20,7 @@ function create_hash($password, $salt)
 		echo "Hashing password";
 	
 	global $mysqli;
-	return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" .
-	base64_encode(pbkdf2(
+	return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" . base64_encode(pbkdf2(
 		PBKDF2_HASH_ALGORITHM,
 		$password,
 		$salt,
@@ -93,7 +92,7 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
 		return substr($output, 0, $key_length);}
 	else{
 		return bin2hex(substr($output, 0, $key_length));}
-}
+}*/
 
 
 
@@ -107,25 +106,41 @@ $app->post('/loginUser', function(){
 	$password = $_POST['password'];
 
 	try {
+		//Try to find the email in 'Users' table:
 		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 		$stmt = $mysqli -> prepare($sql);
-		$stmt -> bind_param('s', $email);
+		$stmt -> bind_param('s', $userId);
 		$stmt -> execute();
 		$username_test = $stmt -> fetch();
 		
 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 		if(($username_test === NULL)) {
+			//email was not found in the 'Users' table
 			die(json_encode(array('ERROR' => 'Could not find user')));
-		}^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		else{
+			//email was successfully found in the 'Users' table
 			$stmt->close();
-			$sql = "SELECT saltValue FROM Users WHERE email=(?)";
+			
+			//Fetch the associated saltValue for that user
+			/*$sql = "SELECT saltValue FROM Users WHERE email=(?)";
 			$stmt1 = $mysqli -> prepare($sql);
 			$stmt1 -> bind_param('s', $email);
 			$stmt1 -> execute();
+			$saltVal = '';
+			$stmt1->bind_result($saltVal);
+			$stmt1 -> fetch();
+			$stmt1->close();*/
+			
+			//Fetch the associated password hash for that user form the 'Password' table
+			$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
+			$stmt1 = $mysqli->prepare($sql);
+			$stmt1->execute();
 			$passwordVal = '';
 			$stmt1->bind_result($passwordVal);
-			$stmt1 -> fetch();
+			$stmt1->fetch();
+			$stmt1->close();			
+
 			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 			if($passwordVal === NULL) {																						
 				die(json_encode(array('ERROR' => 'User could not be validated')));											
@@ -134,13 +149,12 @@ $app->post('/loginUser', function(){
 			||	Get User Data  ||
 			\\=================*/
 			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			else if(validate_password($password,$passwordVal)) {
-				$stmt1->close();
-				$components = "SELECT * FROM Users WHERE email='$email'";
+			else if(password_verify($password,$passwordVal)) {
+				$components = "SELECT * FROM Users WHERE user_ID='$userId'";
 				$returnValue = $mysqli -> query($components);
 				$iteration = $returnValue -> fetch_assoc();
 				
-				$userId = $_SESSION['userId'] = $iteration['user_ID'];
+				$_SESSION['userId'] = $userId;
 				$_SESSION['firstName'] = $iteration['fName'];
 				$_SESSION['lastName'] = $iteration['lName'];
 				$_SESSION['email'] = $iteration['email'];
@@ -245,6 +259,7 @@ $app->post('/createAccount', function(){
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
 	$email = $_POST['email'];
+	$password = $_POST['password'];
 	$userId = '';
 	
 	if($firstName === "" || $lastName === "" || $email === "" || $password === "")
@@ -255,10 +270,13 @@ $app->post('/createAccount', function(){
 		if(!($checkResults === NULL))
 			die(json_encode(array('ERROR' => 'User already exists')));
 		else{
-			$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
-			$hashedPassword = create_hash($password, $saltValue);
+			//$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
+			//$hashedPassword = create_hash($password, $saltValue);
+			
+			//Create encrypted hash from password:
+			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-			$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, saltValue) VALUES ('$firstName', '$lastName', '$email', '$saltValue')");
+			$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
 			$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 			$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 			
