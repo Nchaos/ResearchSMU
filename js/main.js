@@ -32,7 +32,8 @@ $(document).ready(function() {
   }); 
   return false;
   });
-});    
+});  
+
 
 
     <!-- //JAVASCRIPT to clear search text when the field is clicked -->
