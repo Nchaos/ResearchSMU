@@ -1,5 +1,5 @@
 #filters {
-	background:gray;
+    background-color: rgb(221, 203, 164);
 	width:25%;
     float:left;
     padding:10px; 
@@ -9,6 +9,30 @@
 
 .Dept{
     width: 5%;
+}
+
+.filterDept{
+    color:rgb(206,0,0);
+}
+
+#dedman{
+    color:rgb(53,76,161);
+}
+
+#lyle{
+    color:rgb(53,76,161);
+}
+
+#cox{
+    color:rgb(53,76,161);
+}
+
+#meadows{
+    color:rgb(53,76,161);
+}
+
+#simmons{
+    color:rgb(53,76,161);
 }
 
 #filterbtn{
