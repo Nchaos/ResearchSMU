@@ -296,6 +296,29 @@
 		return $result;
 	}
 	
+	//==============================================================//
+	//                      Filter Faculty                          //
+	//==============================================================//
+
+	function filterFaculty(){
+		session_start();
+		global $mysqli;
+		$search = $_POST['search'];
+		$firstlast = explode(" ", $search)
+
+		try {
+			$sql1 = "SELECT * FROM ResearchOp natural join (select user_ID from faculty natural join users where fName = $firstlast[0] AND lName = $firstlast[1]) as aggr";
+			$search = $mysqli -> prepare($sql);
+			$search -> execute();
+			$searchres = $search -> fetch();
+			$stmt -> close();
+		}
+		else {
+			return "Search failed"
+		}
+		return $searchres
+	});
+	
 	
 	//==============================================================//
 	//                      Position Link                           //
@@ -383,11 +406,11 @@
 			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			echo $search_test
+			return $search_test
 			$stmt -> close();
 		}
 		else {
-			echo "Search failed"
+			return "Search failed"
 		}	 
 	});
 ?>
