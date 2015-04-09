@@ -32,8 +32,35 @@
       form.password.focus();
       return false;
     }
-    return true;
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var check = document.getElementById("check").value;
+    // Returns successful data submission message when the entered information is stored in database.
+    var dataString = 'firstName=' + form.firstName + '&lastName=' + form.lastName + '&email=' + form.email + '&password=' + form.password + '&check=' + form.check;
+    var dataString = 
+    {
+      "firstName": "firstName",
+      "lastName": "lastName",
+      "email": "email",
+      "password": "password",
+      "check": "check"
+    }
+
+    // AJAX code to submit form.
+    $.ajax({
+    type: "POST",
+    url: "api/index.php/createAccount",
+    dataType:"json",
+    data: dataString,
+    success: function() {
+      alert("success!");
+    }
+    });
+    return false;
   }
+
 
   function checkOPForm(form)
   {
@@ -50,34 +77,6 @@
     }
     return true;
   }
-
-
-function myFunction() {
-    var firstName = document.getElementById("firstName").value;
-    var lastName = document.getElementById("lastName").value;
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
-    var check = document.getElementById("check").value;
-    // Returns successful data submission message when the entered information is stored in database.
-    var dataString = 'firstName=' + firstname + '&lastName=' + lastName + '&email=' + email + '&password=' + password + '&check=' + check;
-    if (firstName == '' ||  lastName == '' || email == '' || password == '' || check == '') {
-      alert("Please Fill All Fields");
-    }
-   else {
-    // AJAX code to submit form.
-    $.ajax({
-    type: "POST",
-    url: "index.php",
-    dataType:json,
-    data: dataString,
-    success: function() {
-      alert("success!");
-    }
-    });
-    }
-    return false;
-}
-
 
 // function register(form) {
 //     if(checkForm(form)) {
