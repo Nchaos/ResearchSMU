@@ -11,12 +11,14 @@
 	//							Login								//
 	//==============================================================//
 	$app->post('/loginUser', function(){
+		if ($debug) echo "Logging in...\n";
 		session_start();
 		global $mysqli;
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		try {
 			//Try to find the email in 'Users' table:
+			if ($debug) echo "Looking for email in User's table\n";
 			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 			$stmt = $mysqli -> prepare($sql);
 			$userId = '';
@@ -31,6 +33,7 @@
 				die(json_encode(array('ERROR' => 'Could not find user')));
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			else{
+				if ($debug) echo "Found user, checking if active...\n";
 				//email was successfully found in the 'Users' table
 				$stmt->close();
 				
@@ -43,18 +46,9 @@
 				$stmt1-fetch();
 				$stmt1->close();
 				//Check if user's account is deactivated:
-				if($active){
-					//Fetch the associated saltValue for that user
-					/*$sql = "SELECT saltValue FROM Users WHERE email=(?)";
-					$stmt1 = $mysqli -> prepare($sql);
-					$stmt1 -> bind_param('s', $email);
-					$stmt1 -> execute();
-					$saltVal = '';
-					$stmt1->bind_result($saltVal);
-					$stmt1 -> fetch();
-					$stmt1->close();*/
-					
-					//Fetch the associated password hash for that user form the 'Password' table
+				if($active){	
+					if ($debug) echo "User is not deactivated, validating password...\n";
+					//Fetch the associated password hash for that user from the 'Password' table
 					$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
 					$stmt1 = $mysqli->prepare($sql);
 					$stmt1->execute();
@@ -70,7 +64,8 @@
 					||	Get User Data  ||
 					\\=================*/
 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					else if(password_verify($password,$passwordVal)) {
+					else if(password_verify($password,$passwordVal)){
+						if ($debug) echo "Password correct, fetching info...\n";
 						$components = "SELECT * FROM Users WHERE user_ID='$userId'";
 						$returnValue = $mysqli -> query($components);
 						$iteration = $returnValue -> fetch_assoc();
@@ -90,6 +85,7 @@
 						\\====================*/
 						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 						if($resultStudent !== NULL && $resultFaculty === NULL){
+							if ($debug) echo "User is student\n";
 							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
 							$returnValue = $mysqli->query($components);
 							$iteration = $returnValue->fetch_assoc();
@@ -104,6 +100,7 @@
 						\\====================*/
 						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 						elseif($resultStudent === NULL && $resultFaculty !== NULL){
+							if ($debug) echo "User is faculty\n";
 							$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
 							$returnValue = $mysqli->query($components);
 							$iteration = $returnValue->fetch_assoc();
@@ -118,6 +115,7 @@
 						\\===============================================*/
 						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 						elseif($resultStudent === NULL && $resultFaculty === NULL){
+							if ($debug) echo "User is not in student or faculty\n";
 							$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
 							$result = $checkAdmin->fetch_assoc();
 							
@@ -126,6 +124,7 @@
 							\\==================*/
 							//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 							if($checkAdmin !== NULL){
+								if ($debug) echo "User is an admin\n";
 								$components = "SELECT * FROM Student WHERE user_ID='$userId'";
 								$returnValue = $mysqli->query($components);
 								$iteration = $returnValue->fetch_assoc();
@@ -146,14 +145,17 @@
 				}
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
+			if ($debug) echo "Incrementing log count\n";
 			$logCount = $mysqli->query("UPDATE Users SET loginCount=
 				(SELECT loginCount FROM Users WHERE user_ID='$userId')+1 
 				WHERE user_ID='$userId'");
 			
-			if($logCount)
-				echo "Successfully updated login count!";
-			else
-				echo "ERROR: could not update login count";
+			if ($debug){
+				if($logCount)
+					echo "Successfully updated login count!";
+				else
+					echo "ERROR: could not update login count";
+			}
 			
 			$mysqli = null;
 		}catch(exception $e){
@@ -163,6 +165,9 @@
 		
 		echo json_encode(array('SUCCESS' => 'User logged in.'));
 	});
+	
+	
+	
 	//==============================================================//
 	//							Logout								//
 	//==============================================================//
@@ -178,11 +183,14 @@
 		}
 		session_destroy();
 	});
+	
+	
+	
 	//==============================================================//
 	//							Register							//
 	//==============================================================//
 	$app->post('/createAccount', function(){
-		echo "Creating account";
+		if ($debug) echo "Creating account";
 		global $mysqli;
 		$check = $_POST['studentOrFaculty'];
 		$firstName = $_POST['firstName'];
@@ -191,18 +199,18 @@
 		$password = $_POST['password'];
 		$userId = '';
 		
-		echo "Received parameters";
+		if ($debug) echo "Received parameters";
 		
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
 		else{
+			if ($debug) echo "Checking user doesn't already exist...\n";
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
 			if(!($checkResults === NULL))
 				die(json_encode(array('ERROR' => 'User already exists')));
 			else{
-				//$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
-				//$hashedPassword = create_hash($password, $saltValue);
+				if ($debug) echo "Creating new user...\n";
 				
 				//Create encrypted hash from password:
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -210,23 +218,30 @@
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
+				if ($debug) ehco "User is a... ";
 				if($check === "Student"){
+					if ($debug) echo "student\n";
 					$instId = $_POST['instId'];
 					$major = $_POST['major'];
 					$grad = $_POST['grad'];
 					$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
 				}
 				elseif($check === "Faculty"){
+					if ($debug) echo "faculty\n";
 					$instId = $_POST['instId'];
 					$deptId = $_POST['deptId'];
 					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 				}
+				else
+					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
 			}
 		}
-		
 		#echo json_encode(array('SUCCESS' => 'Created user!'));
-		echo "Created User!";
+		if ($debug) echo "Created User!";
 	});
+	
+	
+	
 	//==============================================================//
 	//                      Filter School                           //
 	//==============================================================//
@@ -254,10 +269,12 @@
 		
 		return $result;
 	}
+	
+	
+	
 	//==============================================================//
 	//                      Position Link                           //
-	//==============================================================//
-		
+	//==============================================================//	
 	function positionLink(){//$dept_ID, $inst_ID
 		$buttonName = $_GET['buttonClick'];
 		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
@@ -289,6 +306,7 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
+		if ($debug) echo "Creating research opportunity...\n"
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
@@ -308,12 +326,14 @@
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
+			if ($debug) echo "Checking for duplicate entry...\n"
 			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
 			
 			if(!($checkResults === NULL))
 				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
 			else{
+				if ($debug) echo "Creating unique entry\n";
 				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
