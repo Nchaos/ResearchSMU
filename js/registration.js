@@ -33,6 +33,7 @@
       return false;
     }
     var firstName = document.getElementById("firstName").value;
+    alert("firstName");
     var lastName = document.getElementById("lastName").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
