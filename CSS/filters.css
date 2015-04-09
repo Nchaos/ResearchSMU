@@ -1,10 +1,38 @@
-#filter {
-	background:gray;
+#filters {
+    background-color: rgb(221, 203, 164);
 	width:25%;
     float:left;
     padding:10px; 
     margin: 10px;
     height:100%;
+}
+
+.Dept{
+    width: 5%;
+}
+
+.filterDept{
+    color:rgb(206,0,0);
+}
+
+#dedman{
+    color:rgb(53,76,161);
+}
+
+#lyle{
+    color:rgb(53,76,161);
+}
+
+#cox{
+    color:rgb(53,76,161);
+}
+
+#meadows{
+    color:rgb(53,76,161);
+}
+
+#simmons{
+    color:rgb(53,76,161);
 }
 
 #filterbtn{
@@ -56,4 +84,9 @@
 }
 .tfclear{
     clear:both;
+}
+
+#results{
+    background: white;
+    margin: 10em, 10em, 10em, 10em;
 }

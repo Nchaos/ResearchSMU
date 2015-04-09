@@ -1,71 +1,68 @@
 USE 'DBGUI';
 
+INSERT INTO Users(user_ID, active, dateCreated fname, lname, email) VALUES
+
+	(000, TRUE, 2012-03-13, "Dwayne 'The Rock'", "Johnson", "rock@smu.edu"),
+	(001, TRUE, 2012-04-14, "Macho Man Randy", "Savage", "savage@smu.edu"),
+	(002, TRUE, 2013-05-15, "Hulk", "Hogan", "hulk@smu.edu"),
+	(003, TRUE, 2013-06-16, "George", "Harrison", "george@smu.edu"),
+	(004, TRUE, 2013-07-17, "Paul", "McCartney", "paul@smu.edu"),
+	(005, TRUE, 2013-08-18, "Ringo", "Starr", "ringo@smu.edu"),
+	(006, TRUE, 2013-09-19, "Barack", "Obama", "obama@smu.edu"),
+	(007, TRUE, 2014-10-20, "Dubya", "Bush", "dubya@smu.edu"),
+	(008, TRUE, 2013-11-21, "Willy", "Clinton", "bill@smu.edu"),
+	(009, TRUE, 2012-12-22, "John", "Dorian", "dorian@smu.edu"),
+	(010, TRUE, 2011-01-23, "Elliot", "Reid", "ET@smu.edu"),
+	(011, TRUE, 2012-02-24, "Christopher", "Turkleton", "turk@smu.edu"),
+	(012, TRUE, 2013-03-25, "Crazy", "Hooch", "hooch@smu.edu");
+	
+INSERT INTO Admin(user_ID) VALUES
+
+	(006),
+	(007),
+	(008);
+
 INSERT INTO Institution(inst_ID, name) VALUES
 
 	(999, "SMU"),
 	(998, "TCU");
 
-INSERT INTO Users(user_ID, inst_ID, fname, lname) VALUES
+INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 
-	(000, 999, "Dwayne 'The Rock'", "Johnson"),
-	(001, 999, "Macho Man Randy", "Savage"),
-	(002, 999, "Hulk", "Hogan"),
-	(003, 999, "George", "Harrison"),
-	(004, 999, "Paul", "McCartney"),
-	(005, 999, "Ringo", "Starr"),
-	(006, 999, "Barack", "Obama"),
-	(007, 999, "Dubya", "Bush"),
-	(008, 998, "Willy", "Clinton"),
-	(009, 999, "John", "Dorian"),
-	(010, 999, "Elliot", "Reid"),
-	(011, 999, "Christopher", "Turkleton"),
-	(012, 999, "Crazy", "Hooch");
-
-INSERT INTO Admin(admin_ID, user_ID) VALUES
-
-	(200, 006),
-	(201, 007),
-	(202, 008);
-
-INSERT INTO Guest(user_ID, Guestcol) VALUES
-
-	(003, "George"),
-	(004, "Paul"),
-	(005, "Ringo");
-
-INSERT INTO General(gen_ID, user_ID, loginCount, inst_ID, major, resume, graduate) VALUES
-
-	(500, 009, 6, 999, "Biology", "yes plz", true),
-	(501, 010, 50, 999, "Chemistry", "amazing", true),
-	(502, 011, 3, 999, "Medical", "its all here baby", false),
-	(503, 012, 1, 999, "Crazyology", "yo", false);
-
-INSERT INTO Department(dept_ID, inst_ID, name, rop_ID) VALUES
-
-	(600, 999, "Lyle", 100),
-	(601, 999, "Cox", 101),
-	(602, 999, "Meadows", 102),
-	(603, 999, "Dedman Science", 103),
-	(604, 999, "Dedman Law", 104);
-
-INSERT INTO Faculty(faculty_ID, user_ID, inst_ID, dept_ID, loginCount) VALUES
-
-	(700, 000, 999, 600, 3),
-	(701, 001, 999, 601, 2),
-	(702, 002, 999, 604, 4);
-
-INSERT INTO ROP(rop_ID, faculty_ID, inst_ID, name, dateCreated, dateFinished, num_Positions, applicant_Count) VALUES
-
-	(100, 700, 999, "Virtual Girlfriend Creation", "01/25/2015", "02/15/2015", 12, 0),
-	(101, 701, 999, "Business in America", "03/13/2015", "03/18/2015", 5, 0),
-	(102, 702, 999, "Future of Art", "06/02/2015", "07/01/2015", 1, 1),
-	(103, 700, 999, "Disection of Cow Stomach", "10/30/2015", "10/30/2015", 5, 1),
-	(104, 702, 999, "Court Behavior Analysis", "12/12/2015", "12/25/2015", 3, 1);	
+	(600, 999, "Lyle"),
+	(601, 999, "Cox"),
+	(602, 999, "Meadows"),
+	(603, 999, "Dedman Science"),
+	(604, 999, "Dedman Law");
 	
-INSERT INTO Applicants(app_ID, rop_ID, gen_ID) VALUES
-	(800, 102, 500),
-	(801, 103, 501),
-	(802, 104, 502);
+INSERT INTO Student(user_ID, inst_ID, dept_ID, resume, graduateStudent, loginCount) VALUES
+
+	(003, 999, 600, "dont got one", FALSE, 3),
+	(004, 999, 601, "https:lol.com", FALSE, 2),
+	(005, 999, 602, "yes", FALSE, 5),
+	(009, 999, 603, "holy dookies", FALSE, 6),
+	(010, 999, 602, "UUUUUHHHH", FALSE, 4),
+	(011, 999, 602, "no", TRUE, 1),
+	(012, 999, 604, "hue", TRUE, 2);
+
+INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
+
+	(000, 999, 600, 3),
+	(001, 999, 601, 2),
+	(002, 999, 604, 4);
+
+INSERT INTO ResearchOP(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, num_Positions, openPositions, paid, wage, workStudy, acceptsUndergrad, acceptsGrad) VALUES
+
+	(100, 000, 999, 600, TRUE, 2014-11-22, "Virtual Girlfriend Creation", "Create a girlfriend so you don't have to talk to real people!", 2015-01-15, 12, 5, true, 20.20, false, true, false),
+	(101, 001, 999, 601, TRUE, 2014-11-23, "Business in America", "You live in America. Do the business OUR way.", 2015-03-13, 5, 0, true, 7.25, false, false, true),
+	(102, 002, 999, 602, TRUE, 2014-11-24, "Future of Art", "Art didn't used to suck, maybe it won't suck in the future?", 2015-06-02, 1, 1, false, 12.22, false, false, true),
+	(103, 000, 999, 603, TRUE, 2014-11-25, "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", 2015-10-30, 5, 1, false, 10.00, true, false, false),
+	(104, 002, 999, 604, TRUE, 2014-11-26, "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let's watch what they do.", 2015-12-12, 3, 2, true, 15.50, true, true, true);	
+	
+INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
+	(102, 009, "no?", 2015-12-14),
+	(103, 010, "yes please.", 2015-12-15),
+	(104, 011, "MMM WATCHU SAAAAAAAAY", 2015-12-13);
 
 INSERT INTO Password(user_ID, password) VALUES
 	(000, "ImCookingNoodles"),
@@ -81,6 +78,7 @@ INSERT INTO Password(user_ID, password) VALUES
 	(010, "Bajingo"),
 	(011, "SurgeryR00lz"),
 	(012, "CRaaaAaAAzy");
+
 
 
 		

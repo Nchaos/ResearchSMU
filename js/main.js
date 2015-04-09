@@ -1,4 +1,82 @@
-    <!-- JAVASCRIPT to clear search text when the field is clicked -->
+$(document).ready(function() {
+
+// Check all Departments functions
+
+//////////////////////
+//        Dedman
+//////////////////////
+function toggleDedman(source) {
+  checkboxes = document.getElementsByName('Dedman');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+//////////////////////
+//        Lyle
+//////////////////////
+function toggleLyle(source) {
+  checkboxes = document.getElementsByName('Lyle');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+//////////////////////
+//        Cox
+//////////////////////
+function toggleCox(source) {
+  checkboxes = document.getElementsByName('Cox');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+//////////////////////
+//        Meadows
+//////////////////////
+function toggleMeadows(source) {
+  checkboxes = document.getElementsByName('Meadows');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+//////////////////////
+//        Simmons
+//////////////////////
+function toggleSimmons(source) {
+  checkboxes = document.getElementsByName('Simmons');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+
+$("input[name='AllDedman']").click(function(){
+  toggleDedman(this);
+});
+
+$("input[name='AllLyle']").click(function(){
+  toggleLyle(this);
+});
+
+$("input[name='AllCox']").click(function(){
+  toggleCox(this);
+});
+
+$("input[name='AllMeadows']").click(function(){
+  toggleMeadows(this);
+});
+
+$("input[name='AllSimmons']").click(function(){
+  toggleSimmons(this);
+});
+
+
+});  
+
+    <!-- //JAVASCRIPT to clear search text when the field is clicked -->
 $(function() {
 	$("#tfq2b").click(function() {
 		if ($("#tfq2b").val() == "Search our website"){
@@ -95,7 +173,7 @@ if (foundActive === false) {
 
 defaultWidth = lineWidth = activeElement.width();
 
-defaultPosition = linePosition = activeElement.position().left;
+// defaultPosition = linePosition = activeElement.position().left;
 
 menuLine.css("width", lineWidth);
 menuLine.css("left", linePosition);
@@ -117,4 +195,42 @@ function() {
 
 });
 })(jQuery);
+
+// Login JS stuff
+
+$(document).ready(function() {
+  $('a.login-window').click(function() {
+    
+    // Getting the variable's value from a link 
+    var loginBox = $(this).attr('href');
+
+    //Fade in the Popup and add close button
+    $(loginBox).fadeIn(300);
+    
+    //Set the center alignment padding + border
+    var popMargTop = ($(loginBox).height() + 24) / 2; 
+    var popMargLeft = ($(loginBox).width() + 24) / 2; 
+    
+    $(loginBox).css({ 
+      'margin-top' : -popMargTop,
+      'margin-left' : -popMargLeft
+    });
+    
+    // Add the mask to body
+    $('body').append('<div id="mask"></div>');
+    $('#mask').fadeIn(300);
+    
+    return false;
+  });
+  
+  // When clicking on the button close or the mask layer the popup closed
+  
+  $('a.close, #mask').on('click',function() { 
+    $('#mask , .login-popup').fadeOut(300 , function() {
+    $('#mask').remove();  
+  }); 
+  return false;
+  });
+
+});  
 
