@@ -1,36 +1,4 @@
 <?php
-<<<<<<< HEAD
-global $debug = true;
-
-//==============================================================//
-//						Password Stuff							//
-//==============================================================//
-/*define("PBKDF2_HASH_ALGORITHM", "sha256");
-define("PBKDF2_ITERATIONS", 1500);
-define("PBKDF2_SALT_BYTE_SIZE", 10);
-define("PBKDF2_HASH_BYTE_SIZE", 60);
-define("HASH_SECTIONS", 4);
-define("HASH_ALGORITHM_INDEX", 0);
-define("HASH_ITERATION_INDEX", 1);
-define("HASH_SALT_INDEX", 2);
-define("HASH_PBKDF2_INDEX", 3);
-
-function create_hash($password, $salt)
-{
-	if ($debug)
-		echo "Hashing password";
-	
-	global $mysqli;
-	return PBKDF2_HASH_ALGORITHM . ":" . PBKDF2_ITERATIONS . ":" . $salt . ":" . base64_encode(pbkdf2(
-		PBKDF2_HASH_ALGORITHM,
-		$password,
-		$salt,
-		PBKDF2_ITERATIONS,
-		PBKDF2_HASH_BYTE_SIZE,
-		true
-	));
-}
-=======
 	global $debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -41,9 +9,6 @@ function create_hash($password, $salt)
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	if($mysql->connect_errno)
 		die("Connection failed: " . $mysqli->connect_error);
-
->>>>>>> master
-
 	//==============================================================//
 	//							Login								//
 	//==============================================================//
@@ -52,7 +17,6 @@ function create_hash($password, $salt)
 		global $mysqli;
 		$email = $_POST['email'];
 		$password = $_POST['password'];
-
 		try {
 			//Try to find the email in 'Users' table:
 			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
@@ -100,7 +64,6 @@ function create_hash($password, $salt)
 					$stmt1->bind_result($passwordVal);
 					$stmt1->fetch();
 					$stmt1->close();			
-
 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 					if($passwordVal === NULL) {																						
 						die(json_encode(array('ERROR' => 'User could not be validated')));											
@@ -200,36 +163,8 @@ function create_hash($password, $salt)
 			die(json_encode(array('ERROR' => $e->getMessage())));
 		}
 		
-<<<<<<< HEAD
-	return hash_pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output);
-	}
-	
-	$hash_length = strlen(hash($algorithm, "", true));
-	$block_count = ceil($key_length / $hash_length);
-	$output = "";
-	for($i = 1; $i <= $block_count; $i++) {
-		// $i encoded as 4 bytes, big endian.
-		$last = $salt . pack("N", $i);
-		// first iteration
-		$last = $xorsum = hash_hmac($algorithm, $last, $password, true);
-		// perform the other $count - 1 iterations
-		for ($j = 1; $j < $count; $j++) {
-		$xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
-		}
-		$output .= $xorsum;
-	}
-	if($raw_output){
-		return substr($output, 0, $key_length);}
-	else{
-		return bin2hex(substr($output, 0, $key_length));}
-}*/
-=======
 		echo json_encode(array('SUCCESS' => 'User logged in.'));
 	});
-
->>>>>>> master
-
-
 	//==============================================================//
 	//							Logout								//
 	//==============================================================//
@@ -245,158 +180,6 @@ function create_hash($password, $salt)
 		}
 		session_destroy();
 	});
-
-
-
-<<<<<<< HEAD
-	try {
-		//Try to find the email in 'Users' table:
-		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
-		$stmt = $mysqli -> prepare($sql);
-		$userId = '';
-		$stmt -> bind_param('i', $email);
-		$stmt -> execute();
-		$stmt -> bind_result($userId);
-		$username_test = $stmt -> fetch();
-		
-		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-		if(($username_test === NULL)) {
-			//email was not found in the 'Users' table
-			die(json_encode(array('ERROR' => 'Could not find user')));
-		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		else{
-			//email was successfully found in the 'Users' table
-			$stmt->close();
-			
-			//Fetch the status of activation for a user:
-			$sql = "SELECT active FROM Users WHERE user_ID='$userId'";
-			$stmt1 = $mysqli->prepare($sql);
-			$stmt1->execute();
-			$active = '';
-			$stmt1->bind_result($active);
-			$stmt1-fetch();
-			$stmt1->close();
-			//Check if user's account is deactivated:
-			if($active){
-				//Fetch the associated saltValue for that user
-				/*$sql = "SELECT saltValue FROM Users WHERE email=(?)";
-				$stmt1 = $mysqli -> prepare($sql);
-				$stmt1 -> bind_param('s', $email);
-				$stmt1 -> execute();
-				$saltVal = '';
-				$stmt1->bind_result($saltVal);
-				$stmt1 -> fetch();
-				$stmt1->close();*/
-				
-				//Fetch the associated password hash for that user form the 'Password' table
-				$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
-				$stmt1 = $mysqli->prepare($sql);
-				$stmt1->execute();
-				$passwordVal = '';
-				$stmt1->bind_result($passwordVal);
-				$stmt1->fetch();
-				$stmt1->close();			
-
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				if($passwordVal === NULL) {																						
-					die(json_encode(array('ERROR' => 'User could not be validated')));											
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*=================\\
-				||	Get User Data  ||
-				\\=================*/
-				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-				else if(password_verify($password,$passwordVal)) {
-					$components = "SELECT * FROM Users WHERE user_ID='$userId'";
-					$returnValue = $mysqli -> query($components);
-					$iteration = $returnValue -> fetch_assoc();
-					
-					$_SESSION['userId'] = $userId;
-					$_SESSION['firstName'] = $iteration['fName'];
-					$_SESSION['lastName'] = $iteration['lName'];
-					$_SESSION['email'] = $iteration['email'];
-					
-					$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
-					$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
-					$resultStudent = $checkStudent->fetch_assoc();
-					$resultFaculty = $checkFaculty->fetch_assoc();
-					
-					/*====================\\
-					||	Get Student Data  ||
-					\\====================*/
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					if($resultStudent !== NULL && $resultFaculty === NULL){
-						$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-						$returnValue = $mysqli->query($components);
-						$iteration = $returnValue->fetch_assoc();
-						
-						$_SESSION['instId'] = $iteration['inst_ID'];
-						$_SESSION['deptId'] = $iteration['dept_ID'];
-						$_SESSION['grad'] = $iteration['graduateStudent'];
-						$_SESSION['check'] = 'Student';
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-					/*====================\\
-					||	Get Faculty Data  ||
-					\\====================*/
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					elseif($resultStudent === NULL && $resultFaculty !== NULL){
-						$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
-						$returnValue = $mysqli->query($components);
-						$iteration = $returnValue->fetch_assoc();
-						
-						$_SESSION['instId'] = $iteration['inst_ID'];
-						$_SESSION['deptId'] = $iteration['dept_ID'];
-						$_SESSION]'check'] = 'Faculty';
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-					/*===============================================\\
-					||	If the user isn't in either the Student or	 ||
-					||	  Faculty table, then check the Admin table  ||
-					\\===============================================*/
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					elseif($resultStudent === NULL && $resultFaculty === NULL){
-						$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
-						$result = $checkAdmin->fetch_assoc();
-						
-						/*==================\\
-						||	Get Admin Data  ||
-						\\==================*/
-						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-						if($checkAdmin !== NULL){
-							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-							$returnValue = $mysqli->query($components);
-							$iteration = $returnValue->fetch_assoc();
-						
-							$_SESSION['check'] = 'Admin';
-						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-						else
-							die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-					else
-						die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
-				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				/*====================\\
-				||	Invalid Password  ||
-				\\====================*/
-				else
-					die(json_encode(array('ERROR' => 'Password invalid')));
-			}
-		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		
-		$logCount = $mysqli->query("UPDATE Users SET loginCount=
-			(SELECT loginCount FROM Users WHERE user_ID='$userId')+1 
-			WHERE user_ID='$userId'");
-		
-		if($logCount)
-			echo "Successfully updated login count!";
-		else
-			echo "ERROR: could not update login count";
-		
-		$mysqli = null;
-	}catch(exception $e){
-		//echo '{"error":{"text":'. $e->getMessage() .'}}';
-		die(json_encode(array('ERROR' => $e->getMessage())));
-	}
-});
-=======
 	//==============================================================//
 	//							Register							//
 	//==============================================================//
@@ -425,7 +208,6 @@ function create_hash($password, $salt)
 				
 				//Create encrypted hash from password:
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
@@ -447,12 +229,9 @@ function create_hash($password, $salt)
 		#echo json_encode(array('SUCCESS' => 'Created user!'));
 		echo "Created User!";
 	});
->>>>>>> master
-
 	//==============================================================//
 	//                      Filter School                           //
 	//==============================================================//
-
 	function filterSchool(){//$dept_ID, $inst_ID
 		$department = $_GET['searchString'];
 		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
@@ -473,12 +252,10 @@ function create_hash($password, $salt)
 		} else {
 			echo "Error creating database: " . $conn->error;
 		}
-
 		$conn->close();
 		
 		return $result;
 	}
-
 	//==============================================================//
 	//                      Position Link                           //
 	//==============================================================//
@@ -503,25 +280,10 @@ function create_hash($password, $salt)
 		} else {
 			echo "Error creating database: " . $conn->error;
 		}
-
-<<<<<<< HEAD
-//==============================================================//
-//							Register							//
-//==============================================================//
-$app->post('/createAccount', function(){
-	global $mysqli;
-	$check = $_POST['studentOrFaculty'];
-	$firstName = $_POST['firstName'];
-	$lastName = $_POST['lastName'];
-	$email = $_POST['email'];
-	$password = $_POST['password'];
-	$userId = '';
-=======
 		$conn->close();
 		
 		return $result;
 	}
->>>>>>> master
 	
 	
 	
@@ -548,34 +310,6 @@ $app->post('/createAccount', function(){
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-<<<<<<< HEAD
-			//$saltValue = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
-			//$hashedPassword = create_hash($password, $saltValue);
-			
-			//Create encrypted hash from password:
-			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-			$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
-			$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
-			$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
-			
-			if($check === "Student"){
-				$instId = $_POST['instId'];
-				$major = $_POST['major'];
-				$grad = $_POST['grad'];
-				$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
-			}
-			elseif($check === "Faculty"){
-				$instId = $_POST['instId'];
-				$deptId = $_POST['deptId'];
-				$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
-			}
-		}
-	
-
-	}
-});
-=======
 			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
 			
@@ -591,5 +325,4 @@ $app->post('/createAccount', function(){
 			}
 		}
 	});
->>>>>>> master
 ?>
