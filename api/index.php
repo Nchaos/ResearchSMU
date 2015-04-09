@@ -343,4 +343,26 @@
 			}
 		}
 	});
+	
+	//==============================================================//
+	//                      Search			                        //
+	//==============================================================//
+	$app->post('/search', function(){
+		session_start();
+		global $mysqli;
+		$search = $_POST['search'];
+
+		try {
+			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('s', $search);
+			$stmt -> execute();
+			$search_test = $stmt -> fetch();
+			echo $search_test
+			$stmt -> close();
+		}
+		else {
+			echo "Search failed"
+		}	 
+	});
 ?>
