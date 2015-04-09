@@ -1,53 +1,55 @@
-  function checkForm(form)
+  function checkForm(event)
   {
-    if(form.firstName.value == "") {
+    //if(form.firstName.value == "") {
+	if($("#firstName").val() == "") {
       alert("Error: First Name!");
-      form.firstName.focus();
+      $("#firstName").focus();
       return false;
     }
     re = /^\w+$/;
-    if(!re.test(form.firstName.value)) {
+    //if(!re.test(form.firstName.value)) {
+	if(!re.test($("#firstName").val())) {
       alert("Error: First Name!");
-      form.firstName.focus();
+      $("#firstName").focus();
       return false;
     }
-	if(form.lastName.value == "") {
+	if($("#lastName").val() == "") {
       alert("Error: Last Name!");
-      form.lastName.focus();
+      $("#lastName").focus();
       return false;
     }
-    if(!re.test(form.lastName.value)) {
+    if(!re.test($("#lastName").val())) {
       alert("Error: Last Name!");
-      form.lastName.focus();
+      $("#lastName").focus();
       return false;
     }
-    if(form.password.value != "" && form.password.value == form.password2.value) {
-      if(!checkPassword(form.password.value)) {
+    if($("#password").val() != "" && $("#password").val() == $("#password2").val()) {
+      if(!checkPassword($("#password").val())) {
         alert("The password you have entered is not valid!");
         form.password.focus();
         return false;
       }
     } else {
       alert("Error: Please check that you've entered and confirmed your password!");
-      form.password.focus();
+      $("#password").focus();
       return false;
     }
     var firstName = document.getElementById("firstName").value;
-    alert("firstName");
     var lastName = document.getElementById("lastName").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
     var check = document.getElementById("check").value;
     // Returns successful data submission message when the entered information is stored in database.
-    var dataString = 'firstName=' + form.firstName + '&lastName=' + form.lastName + '&email=' + form.email + '&password=' + form.password + '&check=' + form.check;
+    //var dataString = 'firstName=' + form.firstName + '&lastName=' + form.lastName + '&email=' + form.email + '&password=' + form.password + '&check=' + form.check;
     var dataString = 
     {
-      "firstName": firstName,
-      "lastName": lastName,
-      "email": email,
-      "password": password,
-      "check": check
+      "firstName": $("#firstName").val(),
+      "lastName": $("#lastName").val(),
+      "email": $("#email").val(),
+      "password": $("#password").val(),
+      "check": $("#check").val()
     }
+	console.log(dataString);
 
     // AJAX code to submit form.
     $.ajax({

@@ -243,33 +243,58 @@
 	
 	
 	//==============================================================//
-	//                      Filter School                           //
+	//                      Filter Institution                      //
 	//==============================================================//
 	function filterSchool(){//$dept_ID, $inst_ID
-		$department = $_GET['searchString'];
-		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
-		if ($conn->connect_error) {
+		$institution = $_POST['searchString'];
+		global $mysqli;
+		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		$sql = "SELECT dept_ID FROM Department WHERE name = $department";
-		if($conn->query($sql) === TRUE) {
-			$dept_ID = $conn->query($sql);
+		$sql = "SELECT inst_ID FROM institution WHERE name = $institution";
+		if($mysqli->query($sql) === TRUE) {
+			$inst_ID = $mysqli->query($sql);
 		} else {
-			echo "Error creating database: " . $conn->error;
+			echo "Error creating database: " . $mysqli->error;
 		} 
 		$s = "SELECT * 
 				FROM researchOP
-				WHERE dept_ID = $dept_ID";
-		if($conn->query($s) === TRUE) {
-			$result = $conn->query($s);
+				WHERE inst_ID = $inst_ID";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
 		} else {
-			echo "Error creating database: " . $conn->error;
+			echo "Error creating database: " . $mysqli->error;
 		}
-		$conn->close();
 		
 		return $result;
 	}
 	
+	//==============================================================//
+	//                      Filter Department                       //
+	//==============================================================//
+	function filterSchool(){//$dept_ID, $inst_ID
+		$department = $_POST['searchString'];
+		global $mysqli;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $mysqli->connect_error);
+		}
+		$sql = "SELECT dept_ID FROM department WHERE name = $department";
+		if($mysqli->query($sql) === TRUE) {
+			$dept_ID = $mysqli->query($sql);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		} 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = $dept_ID";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 	
 	
 	//==============================================================//
@@ -342,5 +367,27 @@
 				die(json_encode(array('Status' => 'Success')));
 			}
 		}
+	});
+	
+	//==============================================================//
+	//                      Search			                        //
+	//==============================================================//
+	$app->post('/search', function(){
+		session_start();
+		global $mysqli;
+		$search = $_POST['search'];
+
+		try {
+			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('s', $search);
+			$stmt -> execute();
+			$search_test = $stmt -> fetch();
+			echo $search_test
+			$stmt -> close();
+		}
+		else {
+			echo "Search failed"
+		}	 
 	});
 ?>
