@@ -1,13 +1,11 @@
 <?php
-	global $debug = true;
+	global $debug;
+	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
-	$app->get('/hello/:name', function($name){
-		echo "Hello, $name";
-	});
 	
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
-	if($mysql->connect_errno)
+	if($mysqli->connect_errno)
 		die("Connection failed: " . $mysqli->connect_error);
 	//==============================================================//
 	//							Login								//
@@ -112,7 +110,7 @@
 							
 							$_SESSION['instId'] = $iteration['inst_ID'];
 							$_SESSION['deptId'] = $iteration['dept_ID'];
-							$_SESSION]'check'] = 'Faculty';
+							$_SESSION['check'] = 'Faculty';
 						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 						/*===============================================\\
 						||	If the user isn't in either the Student or	 ||
@@ -135,7 +133,7 @@
 								$_SESSION['check'] = 'Admin';
 							}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 							else
-								die(json_encode(array('ERROR' => 'User could not be found outside of Users table');
+								die(json_encode(array('ERROR' => 'User could not be found outside of Users table')));
 						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 						else
 							die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
@@ -290,7 +288,7 @@
 	//==============================================================//
 	//                      Create ResearchOp                       //
 	//==============================================================//
-	app->post('/createResearchOpportunity', function(){
+	$app->post('/createResearchOpportunity', function(){
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
