@@ -41,11 +41,11 @@
     var dataString = 'firstName=' + form.firstName + '&lastName=' + form.lastName + '&email=' + form.email + '&password=' + form.password + '&check=' + form.check;
     var dataString = 
     {
-      "firstName": "firstName",
-      "lastName": "lastName",
-      "email": "email",
-      "password": "password",
-      "check": "check"
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "password": password,
+      "check": check
     }
 
     // AJAX code to submit form.
