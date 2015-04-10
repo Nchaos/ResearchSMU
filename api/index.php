@@ -214,14 +214,17 @@
 				//Create encrypted hash from password:
 				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-				if($debug) echo "Hashed password, now creating user";
+				if($debug) echo "Hashed password, now creating user\n";
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
+	
 				if ($debug) echo "User created, now fetching id\n";
-				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$res = $selectUserId->fetch_assoc();
+				$userId = $res['user_ID'];
+				echo "$userId\n";
+
 				if ($debug) echo "Got id, now inserting password\n";
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
-				//Above line has an error:
-				//  Object of class mysqli_result could not be converted to string
 				
 				if ($debug) echo "User is a... ";
 				if($check === "Student"){
