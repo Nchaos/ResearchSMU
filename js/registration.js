@@ -76,20 +76,22 @@ function checkForm(event)
 		"major": $("#Department").val()
 	};
   
-	console.log(dataString);
+  	var json_string = JSON.stringify(dataString);
+	console.log(json_string);
 
 	// AJAX code to submit form.
 	request = $.ajax({
 		type: "POST",
 		url: "api/index.php/createAccount",
 		datatype:"json",
-		data: dataString,
+		data: json_string,
+		contentType: "application/json"
 		/*success: function(result) {
 			console.log("Success");
 		}*/
 	});
 	
-
+console.log(request);
 	//////////////////////////////////////////////////
 	//  check to see if submited  //
 	//////////////////////////////////////////////////
