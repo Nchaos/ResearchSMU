@@ -38,7 +38,7 @@
     var lastName = document.getElementById("lastName").value;
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
-    var check = document.getElementById("check").value;
+    var studentOrFaculty = document.getElementById("studentOrFaculty").value;
     // Returns successful data submission message when the entered information is stored in database.
     //var dataString = 'firstName=' + form.firstName + '&lastName=' + form.lastName + '&email=' + form.email + '&password=' + form.password + '&check=' + form.check;
     var dataString = 
@@ -47,7 +47,7 @@
       "lastName": $("#lastName").val(),
       "email": $("#email").val(),
       "password": $("#password").val(),
-      "check": $("#check").val()
+      "check": $("#studentOrFaculty").val()
     };
 	console.log(dataString);
 
