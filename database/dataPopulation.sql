@@ -1,6 +1,6 @@
 USE 'DBGUI';
 
-INSERT INTO Users(user_ID, active, dateCreated fname, lname, email) VALUES
+INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email) VALUES
 
 	(000, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu"),
 	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu"),
@@ -51,7 +51,7 @@ INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 	(001, 999, 601, 2),
 	(002, 999, 604, 4);
 
-INSERT INTO ResearchOP(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, num_Positions, openPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
+INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, num_Positions, openPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
 
 	(100, 000, 999, 600, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you don't have to talk to real people!", '2015-01-15', 12, 5, true, false, true, false),
 	(101, 001, 999, 601, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, 0, true,  false, false, true),
