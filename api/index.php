@@ -216,13 +216,12 @@
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 				if($debug) echo "Hashed password, now creating user";
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
-				//The above is where it currently fails...
-				$insertUser->close();
 				if ($debug) echo "User created, now fetching id\n";
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
-				$userId->close();
 				if ($debug) echo "Got id, now inserting password\n";
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
+				//Above line has an error:
+				//  Object of class mysqli_result could not be converted to string
 				
 				if ($debug) echo "User is a... ";
 				if($check === "Student"){
