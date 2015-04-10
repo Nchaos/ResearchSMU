@@ -60,7 +60,7 @@ function checkForm(event)
 	request = $.ajax({
 		type: "POST",
 		url: "api/index.php/createAccount",
-		dataType:"json",
+		datatype:"json",
 		data: dataString,
 		/*success: function(result) {
 			console.log("Success");

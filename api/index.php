@@ -1,5 +1,4 @@
 <?php
-	global $debug;
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -11,9 +10,10 @@
 	//							Login								//
 	//==============================================================//
 	$app->post('/loginUser', function(){
+		global $debug;
 		if ($debug) echo "Logging in...\n";
 		session_start();
-		global $mysqli;
+		global $mysqli, $debug;
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		try {
@@ -190,9 +190,8 @@
 	//							Register							//
 	//==============================================================//
 	$app->post('/createAccount', function(){
-		if ($debug) echo "<script>console.log(\"Creating account\")</script>";
-		global $mysqli;
-		$check = $_POST['studentOrFaculty'];
+		global $mysqli, $debug;
+		$check = $_POST['check'];
 		$firstName = $_POST['firstName'];
 		$lastName = $_POST['lastName'];
 		$email = $_POST['email'];
@@ -247,7 +246,7 @@
 	//==============================================================//
 	function filterSchool(){//$dept_ID, $inst_ID
 		$institution = $_POST['searchString'];
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -274,7 +273,7 @@
 	//==============================================================//
 	function filterDepartment(){//$dept_ID, $inst_ID
 		$department = $_POST['searchString'];
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $mysqli->connect_error);
 		}
@@ -302,7 +301,7 @@
 
 	function filterFaculty(){
 		session_start();
-		global $mysqli;
+		global $mysqli, $debug;
 		$search = $_POST['search'];
 		$firstlast = explode(" ", $search);
 
@@ -323,6 +322,7 @@
 	//                      Position Link                           //
 	//==============================================================//	
 	function positionLink(){//$dept_ID, $inst_ID
+		global $debug;
 		$buttonName = $_GET['buttonClick'];
 		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
 		if ($conn->connect_error) {
@@ -354,7 +354,7 @@
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
 		if ($debug) echo "Creating research opportunity...\n";
-		global $mysqli;
+		global $mysqli, $debug;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
 		$deptId = $_SESSION['deptId'];
@@ -396,7 +396,7 @@
 	//==============================================================//
 	$app->post('/search', function(){
 		session_start();
-		global $mysqli;
+		global $mysqli, $debug;
 		$search = $_POST['search'];
 
 		try {
@@ -417,7 +417,7 @@
 	//                   filters (inst. dept.)                      //
 	//==============================================================//
 	function filterDedman(){//all OPs in Dedman
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -435,7 +435,7 @@
 		}
 		
 	function filterCox(){//all OPs in Cox
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -453,7 +453,7 @@
 		}
 		
 	function filterMeadows(){//all OPs in Meadows
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -471,7 +471,7 @@
 		}
 		
 	function filterSimmons(){//all OPs in Simmons
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -489,7 +489,7 @@
 		}
 		
 	function filterAnthropolgy(){//all OPs in Anthropology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -507,7 +507,7 @@
 		}
 		
 	function filterBioScience(){//all OPs in BioScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -525,7 +525,7 @@
 		}
 		
 	function filterChemistry(){//all OPs in Chemistry
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -543,7 +543,7 @@
 		}
 		
 	function filterEarthScience(){//all OPs in EarthScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -561,7 +561,7 @@
 		}
 		
 	function filterEconomics(){//all OPs in Economics
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -579,7 +579,7 @@
 	}
 		
 	function filterEnglish(){//all OPs in English
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -597,7 +597,7 @@
 		}
 		
 	function filterHistory(){//all OPs in History
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -615,7 +615,7 @@
 		}
 		
 	function filterMath(){//all OPs in Math
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -633,7 +633,7 @@
 		}
 		
 	function filterPhilosophy(){//all OPs in Philosophy
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -651,7 +651,7 @@
 		}
 		
 	function filterPhysics(){//all OPs in Physics
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -669,7 +669,7 @@
 		}
 		
 	function filterPoliScience(){//all OPs in PoliScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -687,7 +687,7 @@
 		}
 		
 	function filterPsychology(){//all OPs in Psychology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -705,7 +705,7 @@
 		}
 		
 	function filterReligionScience(){//all OPs in ReligionScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -723,7 +723,7 @@
 		}
 		
 	function filterSociology(){//all OPs in Sociology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -741,7 +741,7 @@
 		}
 		
 	function filterStatScience(){//all OPs in StatScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -759,7 +759,7 @@
 		}
 		
 	function filterWorldLang(){//all OPs in WorldLang
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -777,7 +777,7 @@
 		}
 		
 	function filterCivilEnviroEngin(){//all OPs in CivilEnviroEngin
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -795,7 +795,7 @@
 		}
 		
 	function filterCSCSE(){//all OPs in CSCSE
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -813,7 +813,7 @@
 		}
 		
 	function filterEE(){//all OPs in EE
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -831,7 +831,7 @@
 		}
 		
 	function filterManageScience(){//all OPs in ManageScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -849,7 +849,7 @@
 		}
 
 	function filterMechEngin(){//all OPs in MechEngin
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -867,7 +867,7 @@
 		}
 		
 	function filterAccounting(){//all OPs in Accounting
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -885,7 +885,7 @@
 		}
 		
 	function filterFinance(){//all OPs in Finance
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -903,7 +903,7 @@
 		}
 		
 	function filterMarketing(){//all OPs in Marketing
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -921,7 +921,7 @@
 	}
 		
 	function filterManagement(){//all OPs in Management
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -939,7 +939,7 @@
 	}
 		
 	function filterRealEstate(){//all OPs in RealEstate
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -957,7 +957,7 @@
 	}
 		
 	function filterRiskManage(){//all OPs in RiskManage
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -975,7 +975,7 @@
 	}
 		
 	function filterAdvertising(){//all OPs in Advertising
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -993,7 +993,7 @@
 	}
 		
 	function filterArt(){//all OPs in Art
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1011,7 +1011,7 @@
 	}
 		
 	function filterArtHistory(){//all OPs in ArtHistory
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1029,7 +1029,7 @@
 	}
 		
 	function filterArtManage(){//all OPs in ArtManage
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1047,7 +1047,7 @@
 	}
 	
 	function filterCommunication(){//all OPs in Communications
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1065,7 +1065,7 @@
 	}
 		
 	function filterCreativeComp(){//all OPs in CreativeComp
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1083,7 +1083,7 @@
 	}
 		
 	function filterDance(){//all OPs in Dance
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1101,7 +1101,7 @@
 	}
 		
 	function filterFilmMediaArts(){//all OPs in FilmMedia
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1119,7 +1119,7 @@
 	}
 		
 	function filterJournalism(){//all OPs in Journalism
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1137,7 +1137,7 @@
 	}
 		
 	function filterMusic(){//all OPs in Music
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1155,7 +1155,7 @@
 	}
 		
 	function filterTheatre(){//all OPs in Theatre
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -1173,7 +1173,7 @@
 	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1191,7 +1191,7 @@
 	}
 		
 	function filterCounseling(){//all OPs in Counseling
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1209,7 +1209,7 @@
 	}
 		
 	function filterDisputeResolution(){//all OPs in DisputeResolution
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1227,7 +1227,7 @@
 	}
 		
 	function filterHigherEd(){//all OPs in HigherEd
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1245,7 +1245,7 @@
 	}
 		
 	function filterSportsManage(){//all OPs in SportsManage
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1263,7 +1263,7 @@
 	}
 		
 	function filterTeacherEd(){//all OPs in TeacherEd
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1281,7 +1281,7 @@
 	}
 		
 	function filterWellness(){//all OPs in Wellness
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -1297,6 +1297,10 @@
 		
 		return $result;
 	}
+	
+	/*&app->get('/', function() use ($app) {
+		echo "Index";
+	});*/
 	
 	$app->run();
 ?>
