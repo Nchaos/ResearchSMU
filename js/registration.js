@@ -51,9 +51,10 @@ function checkForm(event)
 		"lastName": $("#lastName").val(),
 		"email": $("#email").val(),
 		"password": $("#password").val(),
-		"check": $("#check").val(),
+		"check": $("#studentOrFaculty").val(),
 		"major": $("#Department").val()
 	};
+  
 	console.log(dataString);
 
 	// AJAX code to submit form.
