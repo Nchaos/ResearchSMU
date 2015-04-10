@@ -12,11 +12,11 @@
 		<div id="form">
 			<form id="createAccount" action="registration.html" method="POST">
 				<h2>Create an Account</h2><br>
-				<h1>First name:</h1><input type="text" id="firstName" placeholder="First name" required/><br>
-				<h1>Last name:</h1><input type="text" id="lastName" placeholder="Last name" required/><br>
-				<h1>Email:</h1><input type="email" id="email" placeholder="Example@example.com" required/><br>
-				<h1>Password:</h1><input type="password" id="password" placeholder="password" required/><br>
-				<h1>Confirm Password:</h1><input type="password" id = "password2" placeholder="password" required/><br>
+				<h1>First name:</h1><input type="text" id="fName" name="firstName" placeholder="First name" required/><br>
+				<h1>Last name:</h1><input type="text" id="lName" name="lastName" placeholder="Last name" required/><br>
+				<h1>Email:</h1><input type="email" id="email" name="Email" placeholder="Example@example.com" required/><br>
+				<h1>Password:</h1><input type="password" id="pwd" name="password" placeholder="password" required/><br>
+				<h1>Confirm Password:</h1><input type="password" id = "pwd2" placeholder="password" required/><br>
 				
 					<input type="radio" id="student" name="studentOrFaculty" value="Student"/>Undergraduate Student
 					<input type="radio" id="faculty" name="studentOrFaculty" value="Faculty"/>Faculty<br><br><br>
@@ -26,7 +26,7 @@
 				<!--label for="Department"></label-->
 				<select id="Department" name="major" required>
 					<option selected disabled hidden label='Department'></option>
-					<option value="Accounting">Accounting</option>
+					<option value="Accounting" name="major">Accounting</option>
 					<option value="Advertising">Advertising</option>
 					<option value="Anthropology">Anthropology</option>
 					<option value="Applied Physiology">Applied Physiology</option>

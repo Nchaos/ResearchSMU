@@ -68,14 +68,14 @@ function checkForm(event)
 	//////////////////////////////////////////////////
 	// Returns successful data submission message when the entered information is stored in database.
 	var dataString = {
-		"firstName": $("#firstName").val(),
-		"lastName": $("#lastName").val(),
-		"email": $("#email").val(),
-		"password": $("#password").val(),
-		"check": $("#studentOrFaculty").val(),
-		"major": $("#Department").val()
+		"firstName": $('input[name=firstName]').val(),
+		"lastName": $('input[name=lastName]').val(),
+		"email": $('input[name=Email]').val(),
+		"password": $('input[name=password]').val(),
+		"check": $("input[name='studentOrFaculty']:checked").val(),
+		"major": $('option:selected').val()
 	};
-  
+  	console.log(dataString);
   	var json_string = JSON.stringify(dataString);
 	console.log(json_string);
 
