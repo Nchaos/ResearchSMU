@@ -24,16 +24,16 @@ INSERT INTO Admin(user_ID) VALUES
 
 INSERT INTO Institution(inst_ID, name) VALUES
 
-	(999, "SMU"),
-	(998, "TCU");
+	(999, "Lyle"),
+	(998, "Cox");
 
 INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 
-	(600, 999, "Lyle"),
-	(601, 999, "Cox"),
-	(602, 999, "Meadows"),
-	(603, 999, "Dedman Science"),
-	(604, 999, "Dedman Law");
+	(600, 999, "CSE"),
+	(601, 999, "EE"),
+	(602, 999, "ME"),
+	(603, 999, "EMIS"),
+	(604, 998, "MBA");
 	
 INSERT INTO Student(user_ID, inst_ID, dept_ID, resume, graduateStudent, loginCount) VALUES
 
