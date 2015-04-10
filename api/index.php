@@ -218,7 +218,7 @@
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
-				if ($debug) ehco "User is a... ";
+				if ($debug) echo "User is a... ";
 				if($check === "Student"){
 					if ($debug) echo "student\n";
 					$instId = $_POST['instId'];
