@@ -1306,6 +1306,29 @@
 		return $result;
 	}
 	
+	//==============================================================//
+	//                    button app			                    //
+	//==============================================================//
+	
+	function application_button_press()
+	{
+		global $mysqli;
+		_s
+		$deptID = 1231231
+		$sql = "SELECT name,count(name) AS c FROM ResearchOp WHERE dept_ID = $deptID GROUP BY name ORDER BY c DESC LIMIT 3";
+		if($mysqli ->query($sql) ===true)
+		{
+			echo "New record created successfully";
+		}
+		else
+		{
+			echo "NO INSERT";
+		}
+		$conn -> close();
+	}
+	
+	
+	
 	/*&app->get('/', function() use ($app) {
 		echo "Index";
 	});*/
