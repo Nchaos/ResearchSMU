@@ -402,15 +402,13 @@
 	//==============================================================//
 	//                      Search			                        //
 	//==============================================================//
-	$app->post('/search', function(){
-		session_start();
-		global $mysqli, $debug;
-		$search = $_POST['search'];
+	function search($defsearch){
+		global $mysqli
 
 		try {
-			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$sql = "SELECT * FROM ResearchOp 
+			WHERE ResearchOp.dept_ID = (select dept_ID from Department where name = $defsearch) as dID";
 			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
 			$stmt -> close();
@@ -420,6 +418,7 @@
 			return "Search failed";
 		}	 
 	});
+
 	
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
