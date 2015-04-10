@@ -1,5 +1,4 @@
 <?php
-	global $debug;
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -11,9 +10,10 @@
 	//							Login								//
 	//==============================================================//
 	$app->post('/loginUser', function(){
+		global $debug;
 		if ($debug) echo "Logging in...\n";
 		session_start();
-		global $mysqli;
+		global $mysqli, $debug;
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		try {
@@ -30,7 +30,7 @@
 			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 			if(($username_test === NULL)) {
 				//email was not found in the 'Users' table
-				die(json_encode(array('ERROR' => 'Could not find user')));
+				die(json_encode(array('status' => 'Failure', 'ERROR' => 'Could not find user')));
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			else{
 				if ($debug) echo "Found user, checking if active...\n";
@@ -58,7 +58,7 @@
 					$stmt1->close();			
 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 					if($passwordVal === NULL) {																						
-						die(json_encode(array('ERROR' => 'User could not be validated')));											
+						die(json_encode(array('status' => 'Failure', 'ERROR' => 'User could not be validated')));											
 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					/*=================\\
 					||	Get User Data  ||
@@ -132,16 +132,16 @@
 								$_SESSION['check'] = 'Admin';
 							}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 							else
-								die(json_encode(array('ERROR' => 'User could not be found outside of Users table')));
+								die(json_encode(array('status' => 'Failure', 'ERROR' => 'User could not be found outside of Users table')));
 						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 						else
-							die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
+							die(json_encode(array('status' => 'Failure', 'ERROR' => 'User is somehow in both Student and Faculty tables')));
 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					/*====================\\
 					||	Invalid Password  ||
 					\\====================*/
 					else
-						die(json_encode(array('ERROR' => 'Password invalid')));
+						die(json_encode(array('status' => 'Failure', 'ERROR' => 'Password invalid')));
 				}
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
@@ -160,10 +160,10 @@
 			$mysqli = null;
 		}catch(exception $e){
 			//echo '{"error":{"text":'. $e->getMessage() .'}}';
-			die(json_encode(array('ERROR' => $e->getMessage())));
+			die(json_encode(array('status' => 'Failure', 'ERROR' => $e->getMessage())));
 		}
 		
-		echo json_encode(array('SUCCESS' => 'User logged in.'));
+		echo json_encode(array('status' => 'Success'));
 	});
 	
 	
@@ -190,35 +190,43 @@
 	//							Register							//
 	//==============================================================//
 	$app->post('/createAccount', function(){
-		if ($debug) echo "Creating account";
-		global $mysqli;
-		$check = $_POST['studentOrFaculty'];
+		global $mysqli, $debug;
+		$check = $_POST['check'];
 		$firstName = $_POST['firstName'];
 		$lastName = $_POST['lastName'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$userId = '';
 		
-		if ($debug) echo "Received parameters";
+		if ($debug) echo "Received parameters\n";
 		
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
-			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
+			die(json_encode(array('status' => 'Failure', 'ERROR' => 'Received blank parameters from registration')));
 		else{
 			if ($debug) echo "Checking user doesn't already exist...\n";
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
 			if(!($checkResults === NULL))
-				die(json_encode(array('ERROR' => 'User already exists')));
+				die(json_encode(array('status' => 'Failure', 'ERROR' => 'User already exists')));
 			else{
 				if ($debug) echo "Creating new user...\n";
 				
 				//Create encrypted hash from password:
+				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+				if($debug) echo "Hashed password, now creating user\n";
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
-				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+	
+				if ($debug) echo "User created, now fetching id\n";
+				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$res = $selectUserId->fetch_assoc();
+				$userId = $res['user_ID'];
+				echo "$userId\n";
+
+				if ($debug) echo "Got id, now inserting password\n";
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
-				if ($debug) ehco "User is a... ";
+				if ($debug) echo "User is a... ";
 				if($check === "Student"){
 					if ($debug) echo "student\n";
 					$instId = $_POST['instId'];
@@ -233,11 +241,10 @@
 					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 				}
 				else
-					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
+					die(json_encode(array('status' => 'Failure', 'ERROR' => 'Is user student or faculty?')));
 			}
 		}
-		#echo json_encode(array('SUCCESS' => 'Created user!'));
-		if ($debug) echo "Created User!";
+		echo json_encode(array('status' => 'Success'));
 	});
 	
 	
@@ -247,7 +254,7 @@
 	//==============================================================//
 	function filterSchool(){//$dept_ID, $inst_ID
 		$institution = $_POST['searchString'];
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -272,9 +279,9 @@
 	//==============================================================//
 	//                      Filter Department                       //
 	//==============================================================//
-	function filterSchool(){//$dept_ID, $inst_ID
+	function filterDepartment(){//$dept_ID, $inst_ID
 		$department = $_POST['searchString'];
-		global $mysqli;
+		global $mysqli, $debug;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $mysqli->connect_error);
 		}
@@ -302,28 +309,28 @@
 
 	function filterFaculty(){
 		session_start();
-		global $mysqli;
+		global $mysqli, $debug;
 		$search = $_POST['search'];
-		$firstlast = explode(" ", $search)
+		$firstlast = explode(" ", $search);
 
-		try {
+		try{
 			$sql1 = "SELECT * FROM ResearchOp natural join (select user_ID from faculty natural join users where fName = $firstlast[0] AND lName = $firstlast[1]) as aggr";
 			$search = $mysqli -> prepare($sql);
 			$search -> execute();
 			$searchres = $search -> fetch();
 			$stmt -> close();
+		}catch(exception $e){
+			return "Search failed";
 		}
-		else {
-			return "Search failed"
-		}
-		return $searchres
-	});
+		return $searchres;
+	}
 	
 	
 	//==============================================================//
 	//                      Position Link                           //
 	//==============================================================//	
 	function positionLink(){//$dept_ID, $inst_ID
+		global $debug;
 		$buttonName = $_GET['buttonClick'];
 		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
 		if ($conn->connect_error) {
@@ -354,8 +361,8 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
-		if ($debug) echo "Creating research opportunity...\n"
-		global $mysqli;
+		if ($debug) echo "Creating research opportunity...\n";
+		global $mysqli, $debug;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
 		$deptId = $_SESSION['deptId'];
@@ -374,7 +381,7 @@
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-			if ($debug) echo "Checking for duplicate entry...\n"
+			if ($debug) echo "Checking for duplicate entry...\n";
 			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
 			
@@ -395,30 +402,29 @@
 	//==============================================================//
 	//                      Search			                        //
 	//==============================================================//
-	$app->post('/search', function(){
-		session_start();
-		global $mysqli;
-		$search = $_POST['search'];
+	function search($defsearch){
+		global $mysqli
 
 		try {
-			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$sql = "SELECT * FROM ResearchOp 
+			WHERE ResearchOp.dept_ID = (select dept_ID from Department where name = $defsearch) as dID";
 			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			return $search_test
 			$stmt -> close();
+			return $search_test;
 		}
-		else {
-			return "Search failed"
+		catch(exception $e) {
+			return "Search failed";
 		}	 
 	});
+
 	
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
 	//==============================================================//
 	function filterDedman(){//all OPs in Dedman
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -436,7 +442,7 @@
 		}
 		
 	function filterCox(){//all OPs in Cox
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -454,7 +460,7 @@
 		}
 		
 	function filterMeadows(){//all OPs in Meadows
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -472,7 +478,7 @@
 		}
 		
 	function filterSimmons(){//all OPs in Simmons
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -490,7 +496,7 @@
 		}
 		
 	function filterAnthropolgy(){//all OPs in Anthropology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -508,7 +514,7 @@
 		}
 		
 	function filterBioScience(){//all OPs in BioScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -526,7 +532,7 @@
 		}
 		
 	function filterChemistry(){//all OPs in Chemistry
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -544,7 +550,7 @@
 		}
 		
 	function filterEarthScience(){//all OPs in EarthScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -562,7 +568,7 @@
 		}
 		
 	function filterEconomics(){//all OPs in Economics
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -577,9 +583,10 @@
 			}
 			
 			return $result;
+	}
 		
 	function filterEnglish(){//all OPs in English
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -597,7 +604,7 @@
 		}
 		
 	function filterHistory(){//all OPs in History
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -615,7 +622,7 @@
 		}
 		
 	function filterMath(){//all OPs in Math
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -633,7 +640,7 @@
 		}
 		
 	function filterPhilosophy(){//all OPs in Philosophy
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -651,7 +658,7 @@
 		}
 		
 	function filterPhysics(){//all OPs in Physics
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -669,7 +676,7 @@
 		}
 		
 	function filterPoliScience(){//all OPs in PoliScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -687,7 +694,7 @@
 		}
 		
 	function filterPsychology(){//all OPs in Psychology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -705,7 +712,7 @@
 		}
 		
 	function filterReligionScience(){//all OPs in ReligionScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -723,7 +730,7 @@
 		}
 		
 	function filterSociology(){//all OPs in Sociology
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -741,7 +748,7 @@
 		}
 		
 	function filterStatScience(){//all OPs in StatScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -759,7 +766,7 @@
 		}
 		
 	function filterWorldLang(){//all OPs in WorldLang
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -777,7 +784,7 @@
 		}
 		
 	function filterCivilEnviroEngin(){//all OPs in CivilEnviroEngin
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -795,7 +802,7 @@
 		}
 		
 	function filterCSCSE(){//all OPs in CSCSE
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -813,7 +820,7 @@
 		}
 		
 	function filterEE(){//all OPs in EE
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -831,7 +838,7 @@
 		}
 		
 	function filterManageScience(){//all OPs in ManageScience
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -849,7 +856,7 @@
 		}
 
 	function filterMechEngin(){//all OPs in MechEngin
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -867,7 +874,7 @@
 		}
 		
 	function filterAccounting(){//all OPs in Accounting
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -885,7 +892,7 @@
 		}
 		
 	function filterFinance(){//all OPs in Finance
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -903,259 +910,259 @@
 		}
 		
 	function filterMarketing(){//all OPs in Marketing
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1023";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1023";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterManagement(){//all OPs in Management
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1024";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1024";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterRealEstate(){//all OPs in RealEstate
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1025";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1025";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterRiskManage(){//all OPs in RiskManage
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1026";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1026";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterAdvertising(){//all OPs in Advertising
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1027";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1027";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterArt(){//all OPs in Art
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1028";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1028";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterArtHistory(){//all OPs in ArtHistory
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1029";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1029";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterArtManage(){//all OPs in ArtManage
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1030";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1030";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
 		}
 		
+		return $result;
+	}
+	
 	function filterCommunication(){//all OPs in Communications
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1031";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1031";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterCreativeComp(){//all OPs in CreativeComp
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1032";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1032";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterDance(){//all OPs in Dance
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1033";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1033";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterFilmMediaArts(){//all OPs in FilmMedia
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1034";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1034";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterJournalism(){//all OPs in Journalism
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1035";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1035";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterMusic(){//all OPs in Music
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1036";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1036";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
 		}
 		
+		return $result;
+	}
+		
 	function filterTheatre(){//all OPs in Theatre
-			global $mysqli;
+			global $mysqli, $debug;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -1170,130 +1177,160 @@
 			}
 			
 			return $result;
+	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1038";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1038";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterCounseling(){//all OPs in Counseling
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1039";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1039";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterDisputeResolution(){//all OPs in DisputeResolution
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1040";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1040";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterHigherEd(){//all OPs in HigherEd
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1041";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1041";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterSportsManage(){//all OPs in SportsManage
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1042";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1042";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
 		
 	function filterTeacherEd(){//all OPs in TeacherEd
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1043";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1043";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
 		}
 		
-	function filterWellness(){//all OPs in Wellness
-			global $mysqli;
-			if ($mysqli->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
-			 
-			$s = "SELECT * 
-					FROM researchOP
-					WHERE dept_ID = 1044";
-			if($mysqli->query($s) === TRUE) {
-				$result = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-			
-			return $result;
+		return $result;
 	}
+		
+	function filterWellness(){//all OPs in Wellness
+		global $mysqli, $debug;
+		if ($mysqli->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		 
+		$s = "SELECT * 
+				FROM researchOP
+				WHERE dept_ID = 1044";
+		if($mysqli->query($s) === TRUE) {
+			$result = $mysqli->query($s);
+		} else {
+			echo "Error creating database: " . $mysqli->error;
+		}
+		
+		return $result;
+	}
+	
+	//==============================================================//
+	//                    button app			                    //
+	//==============================================================//
+	
+	function application_button_press()
+	{
+		global $mysqli;
+		_s
+		$deptID = 1231231
+		$sql = "SELECT name,count(name) AS c FROM ResearchOp WHERE dept_ID = $deptID GROUP BY name ORDER BY c DESC LIMIT 3";
+		if($mysqli ->query($sql) ===true)
+		{
+			echo "New record created successfully";
+		}
+		else
+		{
+			echo "NO INSERT";
+		}
+		$conn -> close();
+	}
+	
+	
+	
+	/*&app->get('/', function() use ($app) {
+		echo "Index";
+	});*/
+	
+	$app->run();
 ?>
