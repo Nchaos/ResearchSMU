@@ -198,10 +198,10 @@
 		$password = $_POST['password'];
 		$userId = '';
 		
-		if ($debug) echo "Received parameters";
+		if ($debug) echo "Received parameters\n";
 		
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
-			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
+			die(json_encode(array('status' => 'Failure', 'ERROR' => 'Received blank parameters from registration')));
 		else{
 			if ($debug) echo "Checking user doesn't already exist...\n";
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
@@ -212,9 +212,16 @@
 				if ($debug) echo "Creating new user...\n";
 				
 				//Create encrypted hash from password:
+				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+				if($debug) echo "Hashed password, now creating user";
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
+				//The above is where it currently fails...
+				$insertUser->close();
+				if ($debug) echo "User created, now fetching id\n";
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$userId->close();
+				if ($debug) echo "Got id, now inserting password\n";
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
 				if ($debug) echo "User is a... ";
