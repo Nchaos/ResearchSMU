@@ -51,20 +51,30 @@ function checkForm(event)
 		"lastName": $("#lastName").val(),
 		"email": $("#email").val(),
 		"password": $("#password").val(),
-		"check": $("#check").val()
-	}
+		"check": $("#check").val(),
+		"major": $("#Department").val()
+	};
 	console.log(dataString);
 
 	// AJAX code to submit form.
-	$.ajax({
+	request = $.ajax({
 		type: "POST",
 		url: "api/index.php/createAccount",
 		dataType:"json",
 		data: dataString,
-		success: function() {
+		/*success: function(result) {
 			console.log("Success");
-		}
+		}*/
 	});
+	
+	request.done(function (response, textStatus, jqXHR){
+		console.log("Request Test");
+	});
+	
+	request.fail(function(jqXHR, textStatus, errorThrown){
+		console.error("The following error occured: " + textStatus, errorThrown);
+	});
+	
 	return false;
 }
 

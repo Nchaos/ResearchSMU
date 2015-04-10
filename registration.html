@@ -10,7 +10,7 @@
 
 	<body>
 		<div id="form">
-			<form id="createAccount" onsubmit="registration.html" method="POST">
+			<form id="createAccount" action="registration.html" method="POST">
 				<h2>Create an Account</h2><br>
 				<h1>First name:</h1><input type="text" id="firstName" placeholder="First name" required/><br>
 				<h1>Last name:</h1><input type="text" id="lastName" placeholder="Last name" required/><br>
@@ -21,53 +21,53 @@
 				<input type="radio" id="check" value="Faculty"/>Faculty<br><br><br>
 				<h1>Resume(optional): </h1><input type="file" name="resume"/><br>			
 				
-				<label for="Department"></label>
-				<select name="Department" form="createAccount" id="Department" required>
-					<option selected disabled hidden label='Department'></option>
-					<option label="Accounting">Accounting</option>
-					<option label="Advertising">Advertising</option>
-					<option label="Anthropology">Anthropology</option>
-					<option label="Applied Physiology">Applied Physiology</option>
-					<option label="Art">Art</option>
-					<option label="Art History">Art History</option>
-					<option label="Art Management">Art Management</option>
-					<option label="Biologicial Sciences">Biological Sciences</option>
-					<option label="Business">Business</option>
-					<option label="Chemistry">Chemistry</option>
-					<option label="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
-					<option label="Communication Studies">Communication Studies</option>
-					<option label="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
-					<option label="Creative Computing">Creative Computing</option>
-					<option label="Dance">Dance</option>
-					<option label="Dispute Resolution">Dispute Resolution</option>
-					<option label="Earth Sciences">Earth Sciences</option>
-					<option label="Economics">Economics</option>
-					<option label="Electrical Engineering">Electrical Engineering</option>
-					<option label="English">English</option>
-					<option label="Film and Media Arts">Film and Media Arts</option>
-					<option label="Finance">Finance</option>
-					<option label="Higher Education">Higher Eduction</option>
-					<option label="History">History</option>
-					<option label="Journalism">Journalism</option>
-					<option label="Management Science">Management Science</option>
-					<option label="Marketing">Marketing</option>
-					<option label="Mathematics">Mathematics</option>
-					<option label="Mechanical Engineering">Mechanical Engineering</option>
-					<option label="Music">Music</option>
-					<option label="Philosophy">Philosophy</option>
-					<option label="Physics">Physics</option>
-					<option label="Political Science">Political Science</option>
-					<option label="Psychology">Psychology</option>
-					<option label="Real Estate">Real Estate</option>
-					<option label="Religious Studies">Religious Studies</option>
-					<option label="Risk Management and Insurance">Risk Management and Insurance</option>
-					<option label="Sports Management">Sports Management</option>
-					<option label="Sociology">Sociology</option>
-					<option label="Statisical Sciences">Statisical Sciences</option>
-					<option label="Teacher Education">Teacher Education</option>
-					<option label="Theatre">Theatre</option>
-					<option label="Wellness">Wellness</option>
-					<option label="World Lanuage">World Language</option>
+				<!--label for="Department"></label-->
+				<select name="Department" id="major" required>
+					<!--option selected disabled hidden label='Department'></option-->
+					<option value="Accounting">Accounting</option>
+					<option value="Advertising">Advertising</option>
+					<option value="Anthropology">Anthropology</option>
+					<option value="Applied Physiology">Applied Physiology</option>
+					<option value="Art">Art</option>
+					<option value="Art History">Art History</option>
+					<option value="Art Management">Art Management</option>
+					<option value="Biological Sciences">Biological Sciences</option>
+					<option value="Business">Business</option>
+					<option value="Chemistry">Chemistry</option>
+					<option value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
+					<option value="Communication Studies">Communication Studies</option>
+					<option value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
+					<option value="Creative Computing">Creative Computing</option>
+					<option value="Dance">Dance</option>
+					<option value="Dispute Resolution">Dispute Resolution</option>
+					<option value="Earth Sciences">Earth Sciences</option>
+					<option value="Economics">Economics</option>
+					<option value="Electrical Engineering">Electrical Engineering</option>
+					<option value="English">English</option>
+					<option value="Film and Media Arts">Film and Media Arts</option>
+					<option value="Finance">Finance</option>
+					<option value="Higher Education">Higher Eduction</option>
+					<option value="History">History</option>
+					<option value="Journalism">Journalism</option>
+					<option value="Management Science">Management Science</option>
+					<option value="Marketing">Marketing</option>
+					<option value="Mathematics">Mathematics</option>
+					<option value="Mechanical Engineering">Mechanical Engineering</option>
+					<option value="Music">Music</option>
+					<option value="Philosophy">Philosophy</option>
+					<option value="Physics">Physics</option>
+					<option value="Political Science">Political Science</option>
+					<option value="Psychology">Psychology</option>
+					<option value="Real Estate">Real Estate</option>
+					<option value="Religious Studies">Religious Studies</option>
+					<option value="Risk Management and Insurance">Risk Management and Insurance</option>
+					<option value="Sports Management">Sports Management</option>
+					<option value="Sociology">Sociology</option>
+					<option value="Statisical Sciences">Statisical Sciences</option>
+					<option value="Teacher Education">Teacher Education</option>
+					<option value="Theatre">Theatre</option>
+					<option value="Wellness">Wellness</option>
+					<option value="World Lanuage">World Language</option>
 				</select>
 				<input id="register" class="button" type="submit" value="Register"/> 
 			</form>
