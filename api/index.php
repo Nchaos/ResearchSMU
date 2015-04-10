@@ -273,7 +273,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		return json_encode($result);
 	}
 	
 	//==============================================================//
@@ -300,7 +300,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		return json_encode($result);
 	}
 	
 	//==============================================================//
@@ -322,7 +322,7 @@
 		}catch(exception $e){
 			return "Search failed";
 		}
-		return $searchres;
+		return json_encode($searchres);
 	}
 	
 	
@@ -352,7 +352,7 @@
 		}
 		$conn->close();
 		
-		return $result;
+		return json_encode($result);
 	}
 	
 	
@@ -402,7 +402,8 @@
 	//==============================================================//
 	//                      Search			                        //
 	//==============================================================//
-	function search($defsearch){
+	$app->post('/search',function(){
+		search = $_POST['search'];
 		global $mysqli
 
 		try {
@@ -412,7 +413,8 @@
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
 			$stmt -> close();
-			return $search_test;
+			json_encode(array('status' => 'Success'));
+			return json_encode($search_test);
 		}
 		catch(exception $e) {
 			return "Search failed";
