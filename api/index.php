@@ -30,7 +30,7 @@
 			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 			if(($username_test === NULL)) {
 				//email was not found in the 'Users' table
-				die(json_encode(array('ERROR' => 'Could not find user')));
+				die(json_encode(array('status' => 'Failure', 'ERROR' => 'Could not find user')));
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			else{
 				if ($debug) echo "Found user, checking if active...\n";
@@ -58,7 +58,7 @@
 					$stmt1->close();			
 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 					if($passwordVal === NULL) {																						
-						die(json_encode(array('ERROR' => 'User could not be validated')));											
+						die(json_encode(array('status' => 'Failure', 'ERROR' => 'User could not be validated')));											
 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					/*=================\\
 					||	Get User Data  ||
@@ -132,16 +132,16 @@
 								$_SESSION['check'] = 'Admin';
 							}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 							else
-								die(json_encode(array('ERROR' => 'User could not be found outside of Users table')));
+								die(json_encode(array('status' => 'Failure', 'ERROR' => 'User could not be found outside of Users table')));
 						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 						else
-							die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
+							die(json_encode(array('status' => 'Failure', 'ERROR' => 'User is somehow in both Student and Faculty tables')));
 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 					/*====================\\
 					||	Invalid Password  ||
 					\\====================*/
 					else
-						die(json_encode(array('ERROR' => 'Password invalid')));
+						die(json_encode(array('status' => 'Failure', 'ERROR' => 'Password invalid')));
 				}
 			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
@@ -160,10 +160,10 @@
 			$mysqli = null;
 		}catch(exception $e){
 			//echo '{"error":{"text":'. $e->getMessage() .'}}';
-			die(json_encode(array('ERROR' => $e->getMessage())));
+			die(json_encode(array('status' => 'Failure', 'ERROR' => $e->getMessage())));
 		}
 		
-		echo json_encode(array('SUCCESS' => 'User logged in.'));
+		echo json_encode(array('status' => 'Success'));
 	});
 	
 	
@@ -207,7 +207,7 @@
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
 			if(!($checkResults === NULL))
-				die(json_encode(array('ERROR' => 'User already exists')));
+				die(json_encode(array('status' => 'Failure', 'ERROR' => 'User already exists')));
 			else{
 				if ($debug) echo "Creating new user...\n";
 				
@@ -241,11 +241,10 @@
 					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
 				}
 				else
-					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
+					die(json_encode(array('status' => 'Failure', 'ERROR' => 'Is user student or faculty?')));
 			}
 		}
-		#echo json_encode(array('SUCCESS' => 'Created user!'));
-		if ($debug) echo "Created User!";
+		echo json_encode(array('status' => 'Success'));
 	});
 	
 	

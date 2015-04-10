@@ -1,77 +1,77 @@
 $(document).ready(function() {
 
-// Check all Departments functions
+	// Check all Departments functions
 
-//////////////////////
-//        Dedman
-//////////////////////
-function toggleDedman(source) {
-  checkboxes = document.getElementsByName('Dedman');
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
+	//////////////////////
+	//        Dedman
+	//////////////////////
+	function toggleDedman(source) {
+	  checkboxes = document.getElementsByName('Dedman');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = source.checked;
+	  }
+	}
 
-//////////////////////
-//        Lyle
-//////////////////////
-function toggleLyle(source) {
-  checkboxes = document.getElementsByName('Lyle');
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
+	//////////////////////
+	//        Lyle
+	//////////////////////
+	function toggleLyle(source) {
+	  checkboxes = document.getElementsByName('Lyle');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = source.checked;
+	  }
+	}
 
-//////////////////////
-//        Cox
-//////////////////////
-function toggleCox(source) {
-  checkboxes = document.getElementsByName('Cox');
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
+	//////////////////////
+	//        Cox
+	//////////////////////
+	function toggleCox(source) {
+	  checkboxes = document.getElementsByName('Cox');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = source.checked;
+	  }
+	}
 
-//////////////////////
-//        Meadows
-//////////////////////
-function toggleMeadows(source) {
-  checkboxes = document.getElementsByName('Meadows');
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
+	//////////////////////
+	//        Meadows
+	//////////////////////
+	function toggleMeadows(source) {
+	  checkboxes = document.getElementsByName('Meadows');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = source.checked;
+	  }
+	}
 
-//////////////////////
-//        Simmons
-//////////////////////
-function toggleSimmons(source) {
-  checkboxes = document.getElementsByName('Simmons');
-  for(var i=0, n=checkboxes.length;i<n;i++) {
-    checkboxes[i].checked = source.checked;
-  }
-}
+	//////////////////////
+	//        Simmons
+	//////////////////////
+	function toggleSimmons(source) {
+	  checkboxes = document.getElementsByName('Simmons');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = source.checked;
+	  }
+	}
 
 
-$("input[name='AllDedman']").click(function(){
-  toggleDedman(this);
-});
+	$("input[name='AllDedman']").click(function(){
+	  toggleDedman(this);
+	});
 
-$("input[name='AllLyle']").click(function(){
-  toggleLyle(this);
-});
+	$("input[name='AllLyle']").click(function(){
+	  toggleLyle(this);
+	});
 
-$("input[name='AllCox']").click(function(){
-  toggleCox(this);
-});
+	$("input[name='AllCox']").click(function(){
+	  toggleCox(this);
+	});
 
-$("input[name='AllMeadows']").click(function(){
-  toggleMeadows(this);
-});
+	$("input[name='AllMeadows']").click(function(){
+	  toggleMeadows(this);
+	});
 
-$("input[name='AllSimmons']").click(function(){
-  toggleSimmons(this);
-});
+	$("input[name='AllSimmons']").click(function(){
+	  toggleSimmons(this);
+	});
 
 
 });  
