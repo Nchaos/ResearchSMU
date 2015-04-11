@@ -86,9 +86,9 @@ function checkForm(event)
 		datatype:"json",
 		data: json_string,
 		contentType: "application/json"
-		/*success: function(result) {
+		success: function(result) {
 			console.log("Success");
-		}*/
+		}
 	});
 	
 console.log(request);
