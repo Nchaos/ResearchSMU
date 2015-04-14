@@ -1,5 +1,4 @@
 <?php
-	global $debug;
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -190,9 +189,9 @@
 	//							Register							//
 	//==============================================================//
 	$app->post('/createAccount', function(){
+		global $mysqli, $debug;
 		if ($debug) echo "Creating account";
-		global $mysqli;
-		$check = $_POST['studentOrFaculty'];
+		$check = $_POST['check'];
 		$firstName = $_POST['firstName'];
 		$lastName = $_POST['lastName'];
 		$email = $_POST['email'];
