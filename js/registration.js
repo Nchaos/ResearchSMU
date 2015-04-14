@@ -1,5 +1,4 @@
-$(document).ready(function () {
-	
+$(document).ready(function(){
 	$("#register").click(checkForm);
 });
 
@@ -43,7 +42,7 @@ function checkForm(event){
 		console.log("Fix password check...");
 	} else {
 		alert("Error: Please check that you've entered and confirmed your password!");
-		$("#password").focus();
+		$("#pwd").focus();
 		return false;
 	}
 	
@@ -58,12 +57,12 @@ function checkForm(event){
 	
 	var dataString = 
 	{
-	  "firstName": document.getElementsByName("firstName")[0].value,
-	  "lastName": document.getElementsByName("lastName")[0].value,
-	  "email": document.getElementsByName("Email")[0].value,
-	  "password": document.getElementsByName("password")[0].value,
-	  "check": document.getElementsByName("studentOrFaculty")[0].value,
-	  "department": document.getElementsByName("major")[0].value
+	  firstName: document.getElementsByName("firstName")[0].value,
+	  lastName: document.getElementsByName("lastName")[0].value,
+	  email: document.getElementsByName("Email")[0].value,
+	  password: document.getElementsByName("password")[0].value,
+	  check: document.getElementsByName("studentOrFaculty")[0].value,
+	  deptId: document.getElementsByName("major")[0].value
 	};
 	
 	console.log(dataString);
@@ -74,20 +73,31 @@ function checkForm(event){
 		url: "api/index.php/createAccount",
 		datatype:"json",
 		data: dataString,
-		success: function(result) {
+		/*success: function(result) {
 			var json = JSON.parse(result);
 			if(json === null){
 				window.alert("Failure");
 				return false;
 			}
-			alert("success!");
-		}
+			else {
+				alert("success!");
+			}
+		}*/
 	});
-	//return false;
+	
+	/*request.done(function (response, textStatus, jqXHR){
+		console.log("Request Test");
+	});
+	
+	request.fail(function(jqXHR, textStatus, errorThrown){
+		console.error("The following error occurred: " + textStatus, errorThrown);
+	});*/
+	
+	return false;
 }
 
 
-  function checkOPForm(form)
+  /*function checkOPForm(form)
   {
     if(form.OPtitle.value == "") {
       alert("Error: Need a title!");
@@ -101,5 +111,5 @@ function checkForm(event){
       return false;
     }
     return true;
-  }
+  }*/
 

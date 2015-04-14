@@ -217,7 +217,7 @@
 				$userId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
-				if ($debug) ehco "User is a... ";
+				if ($debug) echo "User is a... ";
 				if($check === "Student"){
 					if ($debug) echo "student\n";
 					$instId = $_POST['instId'];
@@ -271,7 +271,7 @@
 	//==============================================================//
 	//                      Filter Department                       //
 	//==============================================================//
-	function filterSchool(){//$dept_ID, $inst_ID
+	function filterDepartment(){//$dept_ID, $inst_ID
 		$department = $_POST['searchString'];
 		global $mysqli;
 		if ($mysqli->connect_error) {
@@ -303,20 +303,19 @@
 		session_start();
 		global $mysqli;
 		$search = $_POST['search'];
-		$firstlast = explode(" ", $search)
+		$firstlast = explode(" ", $search);
 
-		try {
+		try{
 			$sql1 = "SELECT * FROM ResearchOp natural join (select user_ID from faculty natural join users where fName = $firstlast[0] AND lName = $firstlast[1]) as aggr";
 			$search = $mysqli -> prepare($sql);
 			$search -> execute();
 			$searchres = $search -> fetch();
 			$stmt -> close();
+		}catch(exception $e){
+			return "Search failed: ";
 		}
-		else {
-			return "Search failed"
-		}
-		return $searchres
-	});
+		return $searchres;
+	};
 	
 	
 	//==============================================================//
@@ -353,7 +352,7 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
-		if ($debug) echo "Creating research opportunity...\n"
+		if ($debug) echo "Creating research opportunity...\n";
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
@@ -373,7 +372,7 @@
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-			if ($debug) echo "Checking for duplicate entry...\n"
+			if ($debug) echo "Checking for duplicate entry...\n";
 			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
 			
@@ -405,11 +404,10 @@
 			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			return $search_test
+			return $search_test;
 			$stmt -> close();
-		}
-		else {
-			return "Search failed"
+		}catch(exception $e){
+			return "Search failed";
 		}	 
 	});
 	
@@ -576,6 +574,7 @@
 			}
 			
 			return $result;
+	}
 		
 	function filterEnglish(){//all OPs in English
 			global $mysqli;
@@ -1169,6 +1168,7 @@
 			}
 			
 			return $result;
+	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
 			global $mysqli;
@@ -1295,4 +1295,6 @@
 			
 			return $result;
 	}
+	
+	$app->run();
 ?>

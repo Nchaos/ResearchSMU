@@ -39,7 +39,7 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   #config.vm.synced_folder "var-www", "/var/www"
   #config.vm.synced_folder "../../git/ResearchSMU", "/home/vagrant/git/ResearchSMU"
-  config.vm.synced_folder "../../git/ResearchSMU", "/var/www"
+  config.vm.synced_folder "../../git/ResearchSMU", "/var/www/html"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
