@@ -51,6 +51,7 @@ function checkForm(event){
 	var grad = 0;
 	var radios = document.getElementsByName("studentOrFaculty");
 	
+	//Check for grad, undergrad or faculty 
 	for (var i = 0, length = radios.length; i < length; i++){
 		if(radios[i].checked){
 			if(radios[i].checked == "Grad"){
