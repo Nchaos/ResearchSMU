@@ -203,6 +203,12 @@
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
 		else{
+			if ($debug) echo "Checking user doesn't already exist...\n";
+			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
+			$checkResults = $dupCheck->fetch_assoc();
+			if(!($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'User already exists')));
+			else{
 				if ($debug) echo "Creating new user...\n";
 				
 				//Create encrypted hash from password:
@@ -235,6 +241,8 @@
 				}
 				else
 					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
+				
+			}
 			}
 		#echo json_encode(array('SUCCESS' => 'Created user!'));
 		if ($debug) echo "Created User!";

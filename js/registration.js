@@ -83,7 +83,8 @@ function checkForm(event){
 	  "password": document.getElementsByName("password")[0].value,
 	  "check": check,
 	  "deptId": document.getElementsByName("major")[0].value,
-	  "grad": grad
+	  "grad": grad,
+	  "instId": "1"
 	};
 	
 	console.log(dataString);
