@@ -1,130 +1,121 @@
 $(document).ready(function(){
 	$("#register").click(checkForm);
 });
-  
-function checkForm(event)
-{
+
+function checkForm(event){
 	event.preventDefault();
-	//////////////////////////////////////////////////
-	//  checks to see if user filled first name out //
-	//////////////////////////////////////////////////
-	//if(form.firstName.value == "") {
-	if($("#firstName").val() == "") {
+	
+	/*console.log(document.getElementsByName("firstName")[0].value);
+	console.log(document.getElementsByName("lastName")[0].value);
+	console.log(document.getElementsByName("Email")[0].value);
+	console.log(document.getElementsByName("password")[0].value);
+	console.log(document.getElementsByName("studentOrFaculty")[0].value);
+	console.log(document.getElementsByName("major")[0].value);*/
+
+	
+	if(document.getElementsByName("firstName")[0].value == "") {
 		alert("Error: First Name!");
-		$("#firstName").focus();
+		$("#fName").focus();
 		return false;
 	}
-
-
-	//////////////////////////////////////////////////
-	//  checks to see if user filled first name out //
-	//////////////////////////////////////////////////
 	re = /^\w+$/;
-	//if(!re.test(form.firstName.value)) {
-	if(!re.test($("#firstName").val())) {
+	if(!re.test(document.getElementsByName("firstName")[0].value)) {
 		alert("Error: First Name!");
-		$("#firstName").focus();
+		$("#fName").focus();
 		return false;
 	}
-	
-	//////////////////////////////////////////////////
-	//  checks to see if user filled last name out //
-	//////////////////////////////////////////////////
-	if($("#lastName").val() == "") {
+	if(document.getElementsByName("lastName")[0].value == "") {
 		alert("Error: Last Name!");
-		$("#lastName").focus();
+		$("#lName").focus();
 		return false;
 	}
-	
-	//////////////////////////////////////////////////
-	//  checks to see if user filled first name out //
-	//////////////////////////////////////////////////
-	if(!re.test($("#lastName").val())) {
+	if(!re.test(document.getElementsByName("lastName")[0].value)) {
 		alert("Error: Last Name!");
-		$("#lastName").focus();
+		$("#lName").focus();
 		return false;
 	}
-	
-
-	//////////////////////////////////////////////////
-	//  validates password field confirm correct   ///
-	//  Not function at this moment                ///
-	//////////////////////////////////////////////////
-	if($("#password").val() != "" && $("#password").val() == $("#password2").val()) {
+	if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
 		/*if(!checkPassword($("#password").val())) {
 		alert("The password you have entered is not valid!");
 		form.password.focus();
-		return false;
-		}*/
+		return false;*/
 		console.log("Fix password check...");
 	} else {
 		alert("Error: Please check that you've entered and confirmed your password!");
-		$("#password").focus();
+		$("#pwd").focus();
 		return false;
 	}
-
-	//////////////////////////////////////////////////
-	//  The JSON variable that should be POST to php//
-	//////////////////////////////////////////////////
-	// Returns successful data submission message when the entered information is stored in database.
-	var dataString = {
-		"firstName": $('input[name=firstName]').val(),
-		"lastName": $('input[name=lastName]').val(),
-		"email": $('input[name=Email]').val(),
-		"password": $('input[name=password]').val(),
-		"check": $("input[name='studentOrFaculty']:checked").val(),
-		"major": $('option:selected').val()
+	
+	
+	var check = "";
+	var grad = 0;
+	var radios = document.getElementsByName("studentOrFaculty");
+	
+	for (var i = 0, length = radios.length; i < length; i++){
+		if(radios[i].checked){
+			if(radios[i].checked == "Grad"){
+				check = "Student";
+				grad = 1;
+			} else if(radios[i].value == "Undergrad"){
+				check = "Student";
+			} else {
+				check = "Faculty";
+			}
+			break;
+		}
+	}
+	
+	
+	/*if(document.getElementsByName("studentOrFaculty")[0].value == "Grad"){
+		check = "Student";
+		grad = 1;
+	} else if(document.getElementsByName("studentOrFaculty")[0].value == "Undergrad"){
+		check = "Student";
+	} else {
+		check = "Faculty";
+	}*/
+	
+	var dataString = 
+	{
+	  "firstName": document.getElementsByName("firstName")[0].value,
+	  "lastName": document.getElementsByName("lastName")[0].value,
+	  "email": document.getElementsByName("Email")[0].value,
+	  "password": document.getElementsByName("password")[0].value,
+	  "check": check,
+	  "deptId": document.getElementsByName("major")[0].value,
+	  "grad": grad,
+	  "instId": "1"
 	};
-  	console.log(dataString);
-  	var json_string = JSON.stringify(dataString);
-	console.log(json_string);
+	
+	console.log(dataString);
 
 	// AJAX code to submit form.
-	request = $.ajax({
+	$.ajax({
 		type: "POST",
 		url: "api/index.php/createAccount",
 		datatype:"json",
-		data: json_string,
-		contentType: "application/json"
+		data: dataString,
 		/*success: function(result) {
-			console.log("Success");
+			var json = JSON.parse(result);
+			if(json === null){
+				window.alert("Failure");
+				return false;
+			}
+			else {
+				alert("success!");
+			}
 		}*/
 	});
 	
-console.log(request);
-	//////////////////////////////////////////////////
-	//  check to see if submited  //
-	//////////////////////////////////////////////////
-	request.done(function (response, textStatus, jqXHR){
+	/*request.done(function (response, textStatus, jqXHR){
 		console.log("Request Test");
 	});
 	
 	request.fail(function(jqXHR, textStatus, errorThrown){
-		console.error("The following error occured: " + textStatus, errorThrown);
-	});
+		console.error("The following error occurred: " + textStatus, errorThrown);
+	});*/
 	
 	return false;
 }
-
-
-	//////////////////////////////////////////////////
-	//  checks OP form validatation //
-	//////////////////////////////////////////////////
-
-// function checkOPForm(form)
-// {
-// if(form.OPtitle.value == "") {
-//   alert("Error: Need a title!");
-//   form.Optitle.focus();
-//   return false;
-// }
-// re = /^\w+$/;
-// if(!re.test(form.OPtitle.value)) {
-//   alert("Error: Need a title!");
-//   form.OPtitle.focus();
-//   return false;
-// }
-// return true;
-// }
 
 

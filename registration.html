@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" media = "screen" href="CSS/register.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-		<script src="js/registration.js"></script>
+		<script type="text/javascript" src="js/registration.js"></script>
 	</head>
 
 	<body>
@@ -16,17 +16,26 @@
 				<h1>Last name:</h1><input type="text" id="lName" name="lastName" placeholder="Last name" required/><br>
 				<h1>Email:</h1><input type="email" id="email" name="Email" placeholder="Example@example.com" required/><br>
 				<h1>Password:</h1><input type="password" id="pwd" name="password" placeholder="password" required/><br>
-				<h1>Confirm Password:</h1><input type="password" id = "pwd2" placeholder="password" required/><br>
-				
-					<input type="radio" id="student" name="studentOrFaculty" value="Student"/>Undergraduate Student
+				<h1>Confirm Password:</h1><input type="password" name="password2" id = "pwd2" placeholder="password" required/><br>
+				<!--
+					<input type="radio" id="graduate" name="studentOrFaculty" value="Grad"/>Graduate Student
+					<input type="radio" id="undergraduate" name="studentOrFaculty" value="Undergrad"/>Undergraduate Student
 					<input type="radio" id="faculty" name="studentOrFaculty" value="Faculty"/>Faculty<br><br><br>
+				-->
+				
+				<input type="radio" name="studentOrFaculty" id="grad" value="Grad" />
+					<label for="grad">Grad</label>
+				<input type="radio" name="studentOrFaculty" id="undergrad" value="Undergrad" />
+					<label for="undergrad">Undergrad</label>
+				<input type="radio" name="studentOrFaculty" id="faculty" value="Faculty" />
+					<label for="faculty">Faculty</label><br><br><br>
 				
 				<h1>Resume(optional): </h1><input type="file" name="resume"/><br>			
 				
 				<!--label for="Department"></label-->
-				<select id="Department" name="major" required>
+				<!--select id="Department" name="major" required>
 					<option selected disabled hidden label='Department'></option>
-					<option value="Accounting" name="major">Accounting</option>
+					<option value="Accounting">Accounting</option>
 					<option value="Advertising">Advertising</option>
 					<option value="Anthropology">Anthropology</option>
 					<option value="Applied Physiology">Applied Physiology</option>
@@ -70,6 +79,54 @@
 					<option value="Theatre">Theatre</option>
 					<option value="Wellness">Wellness</option>
 					<option value="World Lanuage">World Language</option>
+				</select-->
+				
+				<select id="Department" name="major" required>
+					<option selected disabled hidden label='Department'></option>
+					<option value="01">Accounting</option>
+					<option value="02">Advertising</option>
+					<option value="03">Anthropology</option>
+					<option value="04">Applied Physiology</option>
+					<option value="05">Art</option>
+					<option value="06">Art History</option>
+					<option value="07">Art Management</option>
+					<option value="08">Biological Sciences</option>
+					<option value="08">Business</option>
+					<option value="09">Chemistry</option>
+					<option value="10">Civil &amp; Environmental Engineering</option>
+					<option value="11">Communication Studies</option>
+					<option value="12">Computer Science &amp; Engineering</option>
+					<option value="13">Creative Computing</option>
+					<option value="14">Dance</option>
+					<option value="15">Dispute Resolution</option>
+					<option value="16">Earth Sciences</option>
+					<option value="17">Economics</option>
+					<option value="18">Electrical Engineering</option>
+					<option value="19">English</option>
+					<option value="20">Film and Media Arts</option>
+					<option value="21">Finance</option>
+					<option value="22">Higher Eduction</option>
+					<option value="23">History</option>
+					<option value="24">Journalism</option>
+					<option value="25">Management Science</option>
+					<option value="26">Marketing</option>
+					<option value="27">Mathematics</option>
+					<option value="28">Mechanical Engineering</option>
+					<option value="29">Music</option>
+					<option value="30">Philosophy</option>
+					<option value="31">Physics</option>
+					<option value="32">Political Science</option>
+					<option value="33">Psychology</option>
+					<option value="34">Real Estate</option>
+					<option value="35">Religious Studies</option>
+					<option value="36">Risk Management and Insurance</option>
+					<option value="37">Sports Management</option>
+					<option value="38">Sociology</option>
+					<option value="39">Statisical Sciences</option>
+					<option value="40">Teacher Education</option>
+					<option value="41">Theatre</option>
+					<option value="42">Wellness</option>
+					<option value="43">World Language</option>
 				</select>
 
 
