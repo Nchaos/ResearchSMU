@@ -73,7 +73,7 @@ $(document).ready(function(){
 	$("#signout").click(logout);
 });
 
-function Login(event){
+function logout(event){
 	event.preventDefault();
 
 
