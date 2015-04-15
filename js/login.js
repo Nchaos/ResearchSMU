@@ -1,8 +1,8 @@
 $(document).ready(function(){
-	$("#signin").click(LoginIn);
+	$("#signin").click(Login);
 });
 
-function checkForm(event){
+function Login(event){
 	event.preventDefault();
 
 	////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ function checkForm(event){
 
 	// AJAX code to submit form.
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "api/index.php/loginUser",
 		datatype:"json",
 		data: dataString,
@@ -64,3 +64,22 @@ function checkForm(event){
 
 	return false;
 }
+
+	////////////////////////////////////////////////////////
+	/////////// 		LOGOUT				////////////////
+	////////////////////////////////////////////////////////
+
+$(document).ready(function(){
+	$("#signout").click(logout);
+});
+
+function Login(event){
+	event.preventDefault();
+
+
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/logout",
+	});
+}
+
