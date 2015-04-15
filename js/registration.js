@@ -47,22 +47,43 @@ function checkForm(event){
 	}
 	
 	
-	/*var firstName = $("#firstName").val();
-	var lastName = $("#lName").val();
-	var email = $("#email").val();
-	var password = $("#pwd").val();
-	var check = $("#studeontOrFaculty").val();*/
-	// Returns successful data submission message when the entered information is stored in database.
+	var check = "";
+	var grad = 0;
+	var radios = document.getElementsByName("studentOrFaculty");
 	
+	for (var i = 0, length = radios.length; i < length; i++){
+		if(radios[i].checked){
+			if(radios[i].checked == "Grad"){
+				check = "Student";
+				grad = 1;
+			} else if(radios[i].value == "Undergrad"){
+				check = "Student";
+			} else {
+				check = "Faculty";
+			}
+			break;
+		}
+	}
+	
+	
+	/*if(document.getElementsByName("studentOrFaculty")[0].value == "Grad"){
+		check = "Student";
+		grad = 1;
+	} else if(document.getElementsByName("studentOrFaculty")[0].value == "Undergrad"){
+		check = "Student";
+	} else {
+		check = "Faculty";
+	}*/
 	
 	var dataString = 
 	{
-	  firstName: document.getElementsByName("firstName")[0].value,
-	  lastName: document.getElementsByName("lastName")[0].value,
-	  email: document.getElementsByName("Email")[0].value,
-	  password: document.getElementsByName("password")[0].value,
-	  check: document.getElementsByName("studentOrFaculty")[0].value,
-	  deptId: document.getElementsByName("major")[0].value
+	  "firstName": document.getElementsByName("firstName")[0].value,
+	  "lastName": document.getElementsByName("lastName")[0].value,
+	  "email": document.getElementsByName("Email")[0].value,
+	  "password": document.getElementsByName("password")[0].value,
+	  "check": check,
+	  "deptId": document.getElementsByName("major")[0].value,
+	  "grad": grad
 	};
 	
 	console.log(dataString);

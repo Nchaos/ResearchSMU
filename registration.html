@@ -17,9 +17,18 @@
 				<h1>Email:</h1><input type="email" id="email" name="Email" placeholder="Example@example.com" required/><br>
 				<h1>Password:</h1><input type="password" id="pwd" name="password" placeholder="password" required/><br>
 				<h1>Confirm Password:</h1><input type="password" name="password2" id = "pwd2" placeholder="password" required/><br>
-				
-					<input type="radio" id="student" name="studentOrFaculty" value="Student"/>Student
+				<!--
+					<input type="radio" id="graduate" name="studentOrFaculty" value="Grad"/>Graduate Student
+					<input type="radio" id="undergraduate" name="studentOrFaculty" value="Undergrad"/>Undergraduate Student
 					<input type="radio" id="faculty" name="studentOrFaculty" value="Faculty"/>Faculty<br><br><br>
+				-->
+				
+				<input type="radio" name="studentOrFaculty" id="grad" value="Grad" />
+					<label for="grad">Grad</label>
+				<input type="radio" name="studentOrFaculty" id="undergrad" value="Undergrad" />
+					<label for="undergrad">Undergrad</label>
+				<input type="radio" name="studentOrFaculty" id="faculty" value="Faculty" />
+					<label for="faculty">Faculty</label><br><br><br>
 				
 				<h1>Resume(optional): </h1><input type="file" name="resume"/><br>			
 				
