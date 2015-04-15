@@ -188,6 +188,11 @@
 	//==============================================================//
 	//							Register							//
 	//==============================================================//
+	
+	//Still need to add date created:
+	//  Get the current time, assign it to a variable,
+	//  and insert it with all the user's information.
+	
 	$app->post('/createAccount', function(){
 		global $mysqli, $debug;
 		if ($debug) echo "Creating account";
@@ -197,6 +202,7 @@
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$userId = '';
+		$date = date("Y-m-d");
 		
 		if ($debug) echo "Received parameters";
 		
@@ -215,7 +221,7 @@
 				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 				if($debug) echo "Hashed password, now creating user\n";
-				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email) VALUES ('$firstName', '$lastName', '$email')");
+				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
 	
 				if ($debug) echo "User created, now fetching id\n";
 				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
@@ -229,7 +235,7 @@
 				if($check === "Student"){
 					if ($debug) echo "student\n";
 					$instId = $_POST['instId'];
-					$major = $_POST['major'];
+					$major = $_POST['deptId'];
 					$grad = $_POST['grad'];
 					$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
 				}
