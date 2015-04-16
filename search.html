@@ -9,6 +9,8 @@
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
       <script type="text/javascript" src="js/main.js"></script>
       <script type ="text/javascript" src="js/results.js"></script>
+      <script src="js/sidemenufilters.js"></script>
+
 </head>
 <body>
 
@@ -109,8 +111,85 @@
             </form>
       </div>
 
+
+
+      <div id='filters'>
+          <ul>
+              <li class='sidebar-nav'><a href='#'><span>Dedman</span></a>
+              <ul>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Anthropology">Antropology</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Biologicial Sciences">Biological Sciences <a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Chemistry">Chemistry<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Earth Sciences">Earth Sciences<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Economics">Economics<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="English">English<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="History">History<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Mathematics">Mathematics<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Philosophy">Philosophy<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Physics">Physics<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Political Science">Political Science<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Psychology">Psychology<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Religious Studies">Religious Studies<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Sociology">Sociology<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="Statisical Sciences">Statisical Sciences<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="Dedman" value="World Language">World Language<a/></li>
+                  <li><a><input class="Dept" type="checkbox" name="AllDedman" value="All Dedman Departments">All Dedman Departments<a/></li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Lyle</span></a>
+              <ul>
+                  <li><a><input class="Dept" type="checkbox" name="Lyle" value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Lyle" value="Electrical Engineering">Electrical Engineering</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Lyle" value="Mechanical Engineering">Mechanical Engineering</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Lyle" value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="AllLyle" value="All Lyle Departments">All Lyle Departments</a></li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Cox</span></a>
+              <ul>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Accounting">Accounting</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Finance">Finance</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Marketing">Marketing</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Management">Management</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Real Estate">Real Estate</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Cox" value="Risk Management &amp; Insuarance">Risk Management &amp; Insuarance</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="AllCox" value="All Cox Departments">All Cox Departments</a></li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Meadows</span></a>
+              <ul>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Advertising">Advertising</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Art">Art</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Art History">Art History</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Arts Management">Arts Management</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Communication Studies">Communication Studies</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Creative Computation">Creative Computation</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Dance">Dance</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Film and Media Arts">Film and Media Arts</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Journalism">Journalism</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Music">Music</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Meadows" value="Theatre">Theatre</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="AllMeadows" value="All Meadows Departments">All Meadows Departments</a></li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Simmons</span></a>
+              <ul>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Sports Management">Sports Management</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Applied Phsiology">Applied Phsiology</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Wellness">Wellness</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Counseling">Counseling</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Dispute Resolution">Dispute Resolution</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Teacher Education">Teacher Education</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="Simmons" value="Higher Education">Higher Education</a></li>
+                  <li><a><input class="Dept" type="checkbox" name="AllSimmons" value="All Simmons Departments">All Simmons Departments</a></li>
+              </ul>
+              </li>
+          </ul>
+      </div>
+
+
 	<!-- HTML for SEARCH BAR -->
-	<div id="tfheader">
+<!-- 	<div id="tfheader">
 		<form id="tfnewsearch" method="get" action="#">
 		        <input type="text" class="tftextinput" name="q" size="100" maxlength="120"><input type="submit" id="search" class="tfbutton">
 		</form>
@@ -118,13 +197,14 @@
       </div>
 	
       <div id="content">
+ -->
+
 	<!-- HTML for FILTER BAR -->
-            <div id="filters">
-
-
-                  <form action="action_page.php">
+<!--             <div id="filters">
+                <div id="sidebar-filters">
+                  <form action="#">
                         <span class="filterDept" title="Dedman">Dedman</span>
-                        <ul id="dedman" class="filter">
+                        <ul id="dedman" class="sidebar-nav">
                               <li><input class="Dept" type="checkbox" name="Dedman" value="Anthropology">Anthropology</li>
                               <li><input class="Dept" type="checkbox" name="Dedman" value="Biologicial Sciences">Biological Sciences </li>
                               <li><input class="Dept" type="checkbox" name="Dedman" value="Chemistry">Chemistry</li>
@@ -144,7 +224,7 @@
                               <li><input class="Dept" type="checkbox" name="AllDedman" value="All Dedman Departments">All Dedman Departments</li>
                         </ul>
                         <span class="filterDept" title="Lyle">Lyle</span>
-                        <ul id="lyle" class="filter">
+                        <ul id="lyle" class="sidebar-nav">
                               <li><input class="Dept" type="checkbox" name="Lyle" value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</li>
                               <li><input class="Dept" type="checkbox" name="Lyle" value="Electrical Engineering">Electrical Engineering</li>
                               <li><input class="Dept" type="checkbox" name="Lyle" value="Mechanical Engineering">Mechanical Engineering</li>
@@ -152,7 +232,7 @@
                               <li><input class="Dept" type="checkbox" name="AllLyle" value="All Lyle Departments">All Lyle Departments</li>
                         </ul>
                         <span class="filterDept" title="Cox">Cox</span>
-                        <ul id="cox" class="filter">
+                        <ul id="cox" class="sidebar-nav">
                               <li><input class="Dept" type="checkbox" name="Cox" value="Accounting">Accounting</li>
                               <li><input class="Dept" type="checkbox" name="Cox" value="Finance">Finance</li>
                               <li><input class="Dept" type="checkbox" name="Cox" value="Marketing">Marketing</li>
@@ -162,7 +242,7 @@
                               <li><input class="Dept" type="checkbox" name="AllCox" value="All Cox Departments">All Cox Departments</li>
                         </ul>
                         <span class="filterDept" title="Meadows">Meadows</span>
-                        <ul id="meadows" class="filter">
+                        <ul id="meadows" class="sidebar-nav">
                               <li><input class="Dept" type="checkbox" name="Meadows" value="Advertising">Advertising</li>
                               <li><input class="Dept" type="checkbox" name="Meadows" value="Art">Art</li>
                               <li><input class="Dept" type="checkbox" name="Meadows" value="Art History">Art History</li>
@@ -177,7 +257,7 @@
                               <li><input class="Dept" type="checkbox" name="AllMeadows" value="All Meadows Departments">All Meadows Departments</li>
                         </ul>
                         <span class="filterDept" title="Simmons">Simmons</span>
-                        <ul id="simmons" class="filter">
+                        <ul id="simmons" class="sidebar-nav">
                               <li><input class="Dept" type="checkbox" name="Simmons" value="Sports Management">Sports Management</li>
                               <li><input class="Dept" type="checkbox" name="Simmons" value="Applied Phsiology">Applied Phsiology</li>
                               <li><input class="Dept" type="checkbox" name="Simmons" value="Wellness">Wellness</li>
@@ -189,7 +269,8 @@
                         </ul>
                         <input type="submit"  value="Filter Search">
                   </form>
-            </div>
+                </div>
+            </div> -->
       
             <div id="results">
                   <!-- Post Results of search here -->
