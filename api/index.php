@@ -430,6 +430,23 @@
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
 	//==============================================================//
+	function filterLyle(){//all OPs in Lyle
+			global $mysqli;
+			if ($mysqli->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			}
+			 
+			$s = "SELECT * 
+					FROM researchOP
+					WHERE inst_ID = 00";
+			if($mysqli->query($s) === TRUE) {
+				$result = $mysqli->query($s);
+			} else {
+				echo "Error creating database: " . $mysqli->error;
+			}
+			
+			return $result;
+
 	function filterDedman(){//all OPs in Dedman
 			global $mysqli;
 			if ($mysqli->connect_error) {
