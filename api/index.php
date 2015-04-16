@@ -527,7 +527,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1000";
+					WHERE dept_ID = 03";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -545,7 +545,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1001";
+					WHERE dept_ID = 08";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -563,7 +563,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1002";
+					WHERE dept_ID = 10";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -581,7 +581,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1003";
+					WHERE dept_ID = 18";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -599,7 +599,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1004";
+					WHERE dept_ID = 19";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -617,7 +617,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1005";
+					WHERE dept_ID = 21";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -635,7 +635,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1006";
+					WHERE dept_ID = 25";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -653,7 +653,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1007";
+					WHERE dept_ID = 30";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -671,7 +671,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1008";
+					WHERE dept_ID = 33";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -689,7 +689,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1009";
+					WHERE dept_ID = 34";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -707,7 +707,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1010";
+					WHERE dept_ID = 35";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -725,7 +725,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1011";
+					WHERE dept_ID = 36";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -743,7 +743,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1012";
+					WHERE dept_ID = 38";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -761,7 +761,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1013";
+					WHERE dept_ID = 41";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -779,7 +779,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1014";
+					WHERE dept_ID = 42";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -797,7 +797,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1015";
+					WHERE dept_ID = 46";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -815,7 +815,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1016";
+					WHERE dept_ID = 11";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -833,7 +833,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1017";
+					WHERE dept_ID = 13";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -851,7 +851,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1018";
+					WHERE dept_ID = 20";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -869,7 +869,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1019";
+					WHERE dept_ID = 28";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -887,7 +887,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1020";
+					WHERE dept_ID = 31";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -905,7 +905,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1021";
+					WHERE dept_ID = 01";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -923,7 +923,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1022";
+					WHERE dept_ID = 23";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -941,7 +941,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1023";
+					WHERE dept_ID = 29";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -959,7 +959,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1024";
+					WHERE dept_ID = 27";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -977,7 +977,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1025";
+					WHERE dept_ID = 37";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -995,7 +995,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1026";
+					WHERE dept_ID = 39";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1013,7 +1013,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1027";
+					WHERE dept_ID = 02";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1031,7 +1031,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1028";
+					WHERE dept_ID = 05";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1049,7 +1049,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1029";
+					WHERE dept_ID = 06";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1067,7 +1067,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1030";
+					WHERE dept_ID = 07";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1085,7 +1085,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1031";
+					WHERE dept_ID = 12";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1103,7 +1103,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1032";
+					WHERE dept_ID = 15";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1121,7 +1121,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1033";
+					WHERE dept_ID = 16";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1139,7 +1139,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1034";
+					WHERE dept_ID = 22";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1157,7 +1157,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1035";
+					WHERE dept_ID = 26";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1175,7 +1175,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1036";
+					WHERE dept_ID = 32";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1193,7 +1193,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1037";
+					WHERE dept_ID = 44";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1211,7 +1211,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1038";
+					WHERE dept_ID = 04";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1229,7 +1229,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1039";
+					WHERE dept_ID = 14";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1247,7 +1247,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1040";
+					WHERE dept_ID = 17";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1265,7 +1265,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1041";
+					WHERE dept_ID = 23";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1283,7 +1283,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1042";
+					WHERE dept_ID = 40";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1301,7 +1301,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1043";
+					WHERE dept_ID = 43";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
@@ -1319,7 +1319,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1044";
+					WHERE dept_ID = 45";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
