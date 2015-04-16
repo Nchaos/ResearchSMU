@@ -1,4 +1,5 @@
 <?php
+	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -250,8 +251,8 @@
 				
 			}
 			}
-		#echo json_encode(array('SUCCESS' => 'Created user!'));
-		if ($debug) echo "Created User!";
+		echo json_encode(array('SUCCESS' => 'Created user!'));
+		#if ($debug) echo "Created User!";
 	});
 	
 	
