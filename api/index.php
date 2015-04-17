@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
-	$app = new \Slim\Slim();
+	$app = new Slim\Slim();
 	
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	if($mysqli->connect_errno)
