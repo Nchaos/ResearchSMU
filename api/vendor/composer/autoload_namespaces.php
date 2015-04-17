@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Slim' => array($vendorDir . '/slim/slim'),
+    'Happyr\\LinkedIn\\' => array($vendorDir . '/happyr/linkedin-api-client/src'),
 );
