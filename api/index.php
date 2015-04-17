@@ -1,4 +1,5 @@
 <?php
+	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -250,8 +251,8 @@
 				
 			}
 			}
-		#echo json_encode(array('SUCCESS' => 'Created user!'));
-		if ($debug) echo "Created User!";
+		echo json_encode(array('SUCCESS' => 'Created user!'));
+		#if ($debug) echo "Created User!";
 	});
 	
 	
@@ -280,7 +281,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		echo json_encode($result);
 	}
 	
 	//==============================================================//
@@ -307,7 +308,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		echo json_encode($result);
 	}
 	
 	//==============================================================//
@@ -327,9 +328,9 @@
 			$searchres = $search -> fetch();
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed: ";
+			echo "Search failed: ";
 		}
-		return $searchres;
+		echo json_encode($searchres);
 	};
 	
 	
@@ -358,7 +359,7 @@
 		}
 		$conn->close();
 		
-		return $result;
+		echo json_encode($result);
 	}
 	
 	
@@ -414,21 +415,60 @@
 		$search = $_POST['search'];
 
 		try {
-			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$sql = "SELECT * FROM ResearchOp WHERE dept_ID like ?";
 			$stmt = $mysqli -> prepare($sql);
 			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			return $search_test;
+			$count = 0;
+			
+			echo sqltojsonarray($array);
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed";
+			echo "Search failed";
 		}	 
 	});
 	
 	//==============================================================//
+	//                   AutoComplete		                        //
+	//==============================================================//
+	$app->post('/autocomplete', function(){
+		global $mysqli;
+		$term = trim(strip_tags($_GET['term']));//retrieve the search term that autocomplete sends
+
+		$qstring = "SELECT description as value,id FROM test WHERE description LIKE '%".$term."%'";
+		$result = mysql_query($qstring);//query the database for entries containing the term
+
+		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+		{
+				$row['value']=htmlentities(stripslashes($row['value']));
+				$row['id']=(int)$row['id'];
+				$row_set[] = $row;//build an array
+		}
+		echo json_encode($row_set);//format the array into json data
+	}
+	
+	
+	//==============================================================//
 	//                   filters (inst. dept.)                      //
 	//==============================================================//
+	function filterLyle(){//all OPs in Lyle
+			global $mysqli;
+			if ($mysqli->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			}
+			 
+			$s = "SELECT * 
+					FROM researchOP
+					WHERE inst_ID = 00";
+			if($mysqli->query($s) === TRUE) {
+				$result = $mysqli->query($s);
+			} else {
+				echo "Error creating database: " . $mysqli->error;
+			}
+			
+			echo sqltojsonarray($result);
+
 	function filterDedman(){//all OPs in Dedman
 			global $mysqli;
 			if ($mysqli->connect_error) {
@@ -444,7 +484,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCox(){//all OPs in Cox
@@ -462,7 +502,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMeadows(){//all OPs in Meadows
@@ -480,7 +520,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSimmons(){//all OPs in Simmons
@@ -498,7 +538,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAnthropolgy(){//all OPs in Anthropology
@@ -509,14 +549,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1000";
+					WHERE dept_ID = 03";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterBioScience(){//all OPs in BioScience
@@ -527,14 +567,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1001";
+					WHERE dept_ID = 08";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterChemistry(){//all OPs in Chemistry
@@ -545,14 +585,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1002";
+					WHERE dept_ID = 10";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEarthScience(){//all OPs in EarthScience
@@ -563,14 +603,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1003";
+					WHERE dept_ID = 18";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEconomics(){//all OPs in Economics
@@ -581,14 +621,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1004";
+					WHERE dept_ID = 19";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 	}
 		
 	function filterEnglish(){//all OPs in English
@@ -599,14 +639,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1005";
+					WHERE dept_ID = 21";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);;
 		}
 		
 	function filterHistory(){//all OPs in History
@@ -617,14 +657,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1006";
+					WHERE dept_ID = 25";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMath(){//all OPs in Math
@@ -635,14 +675,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1007";
+					WHERE dept_ID = 30";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPhilosophy(){//all OPs in Philosophy
@@ -653,14 +693,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1008";
+					WHERE dept_ID = 33";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPhysics(){//all OPs in Physics
@@ -671,14 +711,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1009";
+					WHERE dept_ID = 34";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPoliScience(){//all OPs in PoliScience
@@ -689,14 +729,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1010";
+					WHERE dept_ID = 35";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPsychology(){//all OPs in Psychology
@@ -707,14 +747,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1011";
+					WHERE dept_ID = 36";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterReligionScience(){//all OPs in ReligionScience
@@ -725,14 +765,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1012";
+					WHERE dept_ID = 38";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSociology(){//all OPs in Sociology
@@ -743,14 +783,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1013";
+					WHERE dept_ID = 41";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterStatScience(){//all OPs in StatScience
@@ -761,14 +801,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1014";
+					WHERE dept_ID = 42";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterWorldLang(){//all OPs in WorldLang
@@ -779,14 +819,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1015";
+					WHERE dept_ID = 46";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCivilEnviroEngin(){//all OPs in CivilEnviroEngin
@@ -797,14 +837,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1016";
+					WHERE dept_ID = 11";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCSCSE(){//all OPs in CSCSE
@@ -815,14 +855,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1017";
+					WHERE dept_ID = 13";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEE(){//all OPs in EE
@@ -833,14 +873,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1018";
+					WHERE dept_ID = 20";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterManageScience(){//all OPs in ManageScience
@@ -851,14 +891,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1019";
+					WHERE dept_ID = 28";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 
 	function filterMechEngin(){//all OPs in MechEngin
@@ -869,14 +909,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1020";
+					WHERE dept_ID = 31";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAccounting(){//all OPs in Accounting
@@ -887,14 +927,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1021";
+					WHERE dept_ID = 01";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterFinance(){//all OPs in Finance
@@ -905,14 +945,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1022";
+					WHERE dept_ID = 23";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMarketing(){//all OPs in Marketing
@@ -923,14 +963,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1023";
+					WHERE dept_ID = 29";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterManagement(){//all OPs in Management
@@ -941,14 +981,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1024";
+					WHERE dept_ID = 27";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterRealEstate(){//all OPs in RealEstate
@@ -959,14 +999,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1025";
+					WHERE dept_ID = 37";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterRiskManage(){//all OPs in RiskManage
@@ -977,14 +1017,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1026";
+					WHERE dept_ID = 39";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAdvertising(){//all OPs in Advertising
@@ -995,14 +1035,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1027";
+					WHERE dept_ID = 02";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArt(){//all OPs in Art
@@ -1013,14 +1053,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1028";
+					WHERE dept_ID = 05";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArtHistory(){//all OPs in ArtHistory
@@ -1031,14 +1071,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1029";
+					WHERE dept_ID = 06";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArtManage(){//all OPs in ArtManage
@@ -1049,14 +1089,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1030";
+					WHERE dept_ID = 07";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCommunication(){//all OPs in Communications
@@ -1067,14 +1107,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1031";
+					WHERE dept_ID = 12";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCreativeComp(){//all OPs in CreativeComp
@@ -1085,14 +1125,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1032";
+					WHERE dept_ID = 15";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterDance(){//all OPs in Dance
@@ -1103,14 +1143,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1033";
+					WHERE dept_ID = 16";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterFilmMediaArts(){//all OPs in FilmMedia
@@ -1121,14 +1161,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1034";
+					WHERE dept_ID = 22";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterJournalism(){//all OPs in Journalism
@@ -1139,14 +1179,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1035";
+					WHERE dept_ID = 26";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMusic(){//all OPs in Music
@@ -1157,14 +1197,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1036";
+					WHERE dept_ID = 32";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterTheatre(){//all OPs in Theatre
@@ -1175,14 +1215,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1037";
+					WHERE dept_ID = 44";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
@@ -1193,14 +1233,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1038";
+					WHERE dept_ID = 04";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCounseling(){//all OPs in Counseling
@@ -1211,14 +1251,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1039";
+					WHERE dept_ID = 14";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterDisputeResolution(){//all OPs in DisputeResolution
@@ -1229,14 +1269,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1040";
+					WHERE dept_ID = 17";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterHigherEd(){//all OPs in HigherEd
@@ -1247,14 +1287,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1041";
+					WHERE dept_ID = 23";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSportsManage(){//all OPs in SportsManage
@@ -1265,14 +1305,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1042";
+					WHERE dept_ID = 40";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterTeacherEd(){//all OPs in TeacherEd
@@ -1283,14 +1323,14 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1043";
+					WHERE dept_ID = 43";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
 		}
 		
 	function filterWellness(){//all OPs in Wellness
@@ -1301,15 +1341,34 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 1044";
+					WHERE dept_ID = 45";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			echo sqltojsonarray($result);
+	}
+	
+	function sqltojsonarray($result){
+		global $mysqli;
+		$count = 0;
+		while ($rows = mysqli_fetch_row($result))
+		{
+			if($count < 5)
+			{
+				$array[] = $rows
+			}
+			else
+			{
+				break;
+			}
+			$count = $count + 1;
+		}
+		return json_encode($array)
 	}
 	
 	$app->run();
+	
 ?>
