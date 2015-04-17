@@ -357,6 +357,22 @@ body {
   text-align: center;
 }
 
+#titlePage #description {
+  float: center;
+  max-width: 25%;
+  display: block;
+  position: absolute;
+  margin-left: 38%;
+  background-color: rgb(140, 130, 121);
+  border-radius: 25px;
+  opacity: 0.9;
+  margin-top: 12.5%;
+
+}
+#clickMe {
+  font-weight: bold;
+}
+
 /*Login Button stuff*/
 
 .container {width: 10em; margin: 0 auto; overflow: hidden;}
