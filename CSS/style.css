@@ -77,6 +77,7 @@ body {
 #cssmenu.align-right ul ul {
   text-align: right;
 }
+
 #cssmenu > ul > li > div,
 #cssmenu > ul > li > a {
   padding: 20px;
@@ -100,11 +101,13 @@ body {
 #cssmenu > ul > li.has-sub > div,
 #cssmenu > ul > li.has-sub > a {
   padding-right: 25px;
+  vertical-align: center;
   z-index: 1;
 }
 #cssmenu > ul > li.has-sub > div::after, 
 #cssmenu > ul > li.has-sub > a::after {
   position: absolute;
+  vertical-align: center;
   top: 21px;
   right: 10px;
   width: 4px;
@@ -342,6 +345,16 @@ body {
   #cssmenu .submenu-button.submenu-opened:after {
     display: none;
   }
+}
+#cssmenu .home {
+  float: left;
+}
+#cssmenu .userlinks {
+  float: right;
+}
+
+#titlePage {
+  text-align: center;
 }
 
 /*Login Button stuff*/
