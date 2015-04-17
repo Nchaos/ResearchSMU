@@ -73,14 +73,23 @@ function tabInstitutionHandler() {
 		data: searchString
 	});
 	
-	
+	//window.location.href
 }
 });
 
 
-
-
-
+$(document).ready(function() {
+function autocomplete() {
+		
+	$("#searchField").autocomplete({
+	source: "api/index.php/autocomplete",
+	minLength: 2,//search after two characters
+	select: function(event,ui){
+	    //do something
+	    }
+	});
+}
+});
 
 
 
