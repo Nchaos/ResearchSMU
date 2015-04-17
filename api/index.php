@@ -281,7 +281,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		echo json_encode($result);
 	}
 	
 	//==============================================================//
@@ -308,7 +308,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return json_encode($result);
+		echo json_encode($result);
 	}
 	
 	//==============================================================//
@@ -328,9 +328,9 @@
 			$searchres = $search -> fetch();
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed: ";
+			echo "Search failed: ";
 		}
-		return json_encode($searchres);
+		echo json_encode($searchres);
 	};
 	
 	
@@ -359,7 +359,7 @@
 		}
 		$conn->close();
 		
-		return json_encode($result);
+		echo json_encode($result);
 	}
 	
 	
@@ -415,17 +415,39 @@
 		$search = $_POST['search'];
 
 		try {
-			$sql = "SELECT * FROM ResearchOp WHERE name like ?";
+			$sql = "SELECT * FROM ResearchOp WHERE dept_ID like ?";
 			$stmt = $mysqli -> prepare($sql);
 			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			return json_encode($search_test);
+			$count = 0;
+			
+			echo sqltojsonarray($array);
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed";
+			echo "Search failed";
 		}	 
 	});
+	
+	//==============================================================//
+	//                   AutoComplete		                        //
+	//==============================================================//
+	$app->post('/autocomplete', function(){
+		global $mysqli;
+		$term = trim(strip_tags($_GET['term']));//retrieve the search term that autocomplete sends
+
+		$qstring = "SELECT description as value,id FROM test WHERE description LIKE '%".$term."%'";
+		$result = mysql_query($qstring);//query the database for entries containing the term
+
+		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+		{
+				$row['value']=htmlentities(stripslashes($row['value']));
+				$row['id']=(int)$row['id'];
+				$row_set[] = $row;//build an array
+		}
+		echo json_encode($row_set);//format the array into json data
+	}
+	
 	
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
@@ -445,7 +467,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 
 	function filterDedman(){//all OPs in Dedman
 			global $mysqli;
@@ -462,7 +484,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCox(){//all OPs in Cox
@@ -480,7 +502,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMeadows(){//all OPs in Meadows
@@ -498,7 +520,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSimmons(){//all OPs in Simmons
@@ -516,7 +538,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAnthropolgy(){//all OPs in Anthropology
@@ -534,7 +556,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterBioScience(){//all OPs in BioScience
@@ -552,7 +574,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterChemistry(){//all OPs in Chemistry
@@ -570,7 +592,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEarthScience(){//all OPs in EarthScience
@@ -588,7 +610,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEconomics(){//all OPs in Economics
@@ -606,7 +628,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 	}
 		
 	function filterEnglish(){//all OPs in English
@@ -624,7 +646,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);;
 		}
 		
 	function filterHistory(){//all OPs in History
@@ -642,7 +664,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMath(){//all OPs in Math
@@ -660,7 +682,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPhilosophy(){//all OPs in Philosophy
@@ -678,7 +700,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPhysics(){//all OPs in Physics
@@ -696,7 +718,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPoliScience(){//all OPs in PoliScience
@@ -714,7 +736,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterPsychology(){//all OPs in Psychology
@@ -732,7 +754,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterReligionScience(){//all OPs in ReligionScience
@@ -750,7 +772,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSociology(){//all OPs in Sociology
@@ -768,7 +790,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterStatScience(){//all OPs in StatScience
@@ -786,7 +808,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterWorldLang(){//all OPs in WorldLang
@@ -804,7 +826,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCivilEnviroEngin(){//all OPs in CivilEnviroEngin
@@ -822,7 +844,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCSCSE(){//all OPs in CSCSE
@@ -840,7 +862,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterEE(){//all OPs in EE
@@ -858,7 +880,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterManageScience(){//all OPs in ManageScience
@@ -876,7 +898,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 
 	function filterMechEngin(){//all OPs in MechEngin
@@ -894,7 +916,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_connect($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAccounting(){//all OPs in Accounting
@@ -912,7 +934,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterFinance(){//all OPs in Finance
@@ -930,7 +952,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMarketing(){//all OPs in Marketing
@@ -948,7 +970,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterManagement(){//all OPs in Management
@@ -966,7 +988,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterRealEstate(){//all OPs in RealEstate
@@ -984,7 +1006,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterRiskManage(){//all OPs in RiskManage
@@ -1002,7 +1024,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterAdvertising(){//all OPs in Advertising
@@ -1020,7 +1042,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArt(){//all OPs in Art
@@ -1038,7 +1060,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArtHistory(){//all OPs in ArtHistory
@@ -1056,7 +1078,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterArtManage(){//all OPs in ArtManage
@@ -1074,7 +1096,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCommunication(){//all OPs in Communications
@@ -1092,7 +1114,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCreativeComp(){//all OPs in CreativeComp
@@ -1110,7 +1132,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterDance(){//all OPs in Dance
@@ -1128,7 +1150,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterFilmMediaArts(){//all OPs in FilmMedia
@@ -1146,7 +1168,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterJournalism(){//all OPs in Journalism
@@ -1164,7 +1186,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterMusic(){//all OPs in Music
@@ -1182,7 +1204,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterTheatre(){//all OPs in Theatre
@@ -1200,7 +1222,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
@@ -1218,7 +1240,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterCounseling(){//all OPs in Counseling
@@ -1236,7 +1258,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterDisputeResolution(){//all OPs in DisputeResolution
@@ -1254,7 +1276,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterHigherEd(){//all OPs in HigherEd
@@ -1272,7 +1294,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterSportsManage(){//all OPs in SportsManage
@@ -1290,7 +1312,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterTeacherEd(){//all OPs in TeacherEd
@@ -1308,7 +1330,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
 		}
 		
 	function filterWellness(){//all OPs in Wellness
@@ -1326,8 +1348,27 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return json_encode($result);
+			echo sqltojsonarray($result);
+	}
+	
+	function sqltojsonarray($result){
+		global $mysqli;
+		$count = 0;
+		while ($rows = mysqli_fetch_row($result))
+		{
+			if($count < 5)
+			{
+				$array[] = $rows
+			}
+			else
+			{
+				break;
+			}
+			$count = $count + 1;
+		}
+		return json_encode($array)
 	}
 	
 	$app->run();
+	
 ?>
