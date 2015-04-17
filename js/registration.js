@@ -34,27 +34,49 @@ function checkForm(event){
 		$("#lName").focus();
 		return false;
 	}
-	if(!validateEmail(document.getElementsByName("Email")[0].value)){
+	if(!(validateEmail(document.getElementsByName("Email")[0].value))){
 		alert("Error: Email not valid");
 		$("#Email").focus();
 		return false;
 	}
-	if(re.test(!validateEmail(document.getElementsByName("Email")[0].value))){
+	if(!(re.test(validateEmail(document.getElementsByName("Email")[0].value)))){
 		alert("Error: Email not valid");
 		$("#Email").focus();
 		return false;
 	}
-	if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
-		/*if(!checkPassword($("#password").val())) {
-		alert("The password you have entered is not valid!");
-		form.password.focus();
-		return false;*/
-		console.log("Fix password check...");
-	} else {
-		alert("Error: Please check that you've entered and confirmed your password!");
-		$("#pwd").focus();
-		return false;
-	}
+
+	///////////////////////////////////////////////////////////
+	////////////		Password Validation 		///////////
+	///////////////////////////////////////////////////////////
+    if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
+      if(document.getElementsByName("password")[0].value.length < 8) {
+        alert("Error: Password must contain at least eight characters!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[0-9]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one number (0-9)!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[a-z]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one lowercase letter (a-z)!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[A-Z]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one uppercase letter (A-Z)!");
+        $("pwd").focus();
+        return false;
+      }
+    } else {
+      alert("Error: Please check that you've entered and confirmed your password!");
+      $("pwd").focus();
+      return false;
+    }
 	
 	
 	var check = "";
@@ -240,8 +262,9 @@ function checkForm(event){
 
 function validateEmail(email) { 
   
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     return re.test(email);
 }
+
 
 
