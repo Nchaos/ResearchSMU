@@ -46,10 +46,10 @@ function getFormValues(oForm, skip_elements) {
 $(document).ready(function() {
 
 function tabDeptHandler() {
-	
-	var filter = {"department" : document.getElementByName("#Dept")[0].value};
+    var deptValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
+	var filter = {"department" : deptValue};
 	var searchString = JSON.stringify(filter);
-	
+	     
 	$.ajax({
 		type: "POST",
 		url: "api/index.php/filterDepartment",
@@ -57,13 +57,13 @@ function tabDeptHandler() {
 		data: searchString
 	});
 	
-	
+	window.location.href = "search.html";
 }
 
 
 function tabInstitutionHandler() {
-	
-	var filter = {"institution" : document.getElementByName("#Inst")[0].value};
+	var instValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
+	var filter = {"institution" : instValue};
 	var searchString = JSON.stringify(filter);
 	
 	$.ajax({
@@ -73,7 +73,7 @@ function tabInstitutionHandler() {
 		data: searchString
 	});
 	
-	//window.location.href
+	window.location.href = "search.html";
 }
 });
 
