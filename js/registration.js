@@ -34,6 +34,16 @@ function checkForm(event){
 		$("#lName").focus();
 		return false;
 	}
+	if(!validateEmail(document.getElementsByName("Email")[0].value)){
+		alert("Error: Email not valid");
+		$("#Email").focus();
+		return false;
+	}
+	if(re.test(!validateEmail(document.getElementsByName("Email")[0].value))){
+		alert("Error: Email not valid");
+		$("#Email").focus();
+		return false;
+	}
 	if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
 		/*if(!checkPassword($("#password").val())) {
 		alert("The password you have entered is not valid!");
@@ -226,6 +236,12 @@ function checkForm(event){
 	});*/
 	
 	return false;
+}
+
+function validateEmail(email) { 
+  
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 }
 
 

@@ -21,15 +21,28 @@ function Login(event){
 		return false;
 	}
 
-	if(document.getElementsByName("password")[0].value == "") {
-		alert("Error: Enter your password!");
-		$("#email").focus();
+	if(!validateEmail(document.getElementsByName("Email")[0].value)){
+		alert("Error: Email not valid");
+		$("#Email").focus();
 		return false;
 	}
 
+	if(re.test(!validateEmail(document.getElementsByName("Email")[0].value))){
+		alert("Error: Email not valid");
+		$("#Email").focus();
+		return false;
+	}
+	
+	if(document.getElementsByName("password")[0].value == "") {
+		alert("Error: Enter your password!");
+		$("#password").focus();
+		return false;
+	}
+
+	re = /^\w+$/;
 	if(!re.test(document.getElementsByName("password")[0].value)) {
 		alert("Error: Enter your password!");
-		$("#email").focus();
+		$("#password").focus();
 		return false;
 	}		
 
@@ -63,6 +76,12 @@ function Login(event){
 	});
 
 	return false;
+}
+
+function validateEmail(email) { 
+  
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 }
 
 	////////////////////////////////////////////////////////
