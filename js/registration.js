@@ -39,6 +39,11 @@ function checkForm(event){
 		$("#Email").focus();
 		return false;
 	}
+	if(re.test(!validateEmail(document.getElementsByName("Email")[0].value))){
+		alert("Error: Email not valid");
+		$("#Email").focus();
+		return false;
+	}
 	if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
 		/*if(!checkPassword($("#password").val())) {
 		alert("The password you have entered is not valid!");
