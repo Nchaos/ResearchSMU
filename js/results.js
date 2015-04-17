@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 function tabDeptHandler() {
 	
-	var filter = {"department" : document.getElementByName("#department")[0].value};
+	var filter = {"department" : document.getElementByName("#Dept")[0].value};
 	var searchString = JSON.stringify(filter);
 	
 	$.ajax({
@@ -63,7 +63,7 @@ function tabDeptHandler() {
 
 function tabInstitutionHandler() {
 	
-	var filter = {"institution" : document.getElementByName("#institution")[0].value};
+	var filter = {"institution" : document.getElementByName("#Inst")[0].value};
 	var searchString = JSON.stringify(filter);
 	
 	$.ajax({
