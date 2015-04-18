@@ -348,6 +348,7 @@ body {
 }
 #cssmenu .home {
   float: left;
+  vertical-align: center;
 }
 #cssmenu .userlinks {
   float: right;
