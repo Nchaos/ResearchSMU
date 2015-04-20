@@ -200,8 +200,15 @@ function checkForm(event){
 				grad = 1;
 			} else if(radios[i].value == "Undergrad"){
 				check = "Student";
-			} else {
+			} else if(radios[i].value =="Faculty"){
 				check = "Faculty";
+			}
+			else {
+			// Error for no Dept
+				alert("Error: Select whether you are a student or faculty");
+				$("#undergrad").focus();
+				return false;
+	}	
 			}
 			break;
 		}
