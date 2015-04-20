@@ -437,22 +437,22 @@ fieldset {
   border:none; 
 }
 
-form.signin .textbox label { 
+form.loginUser .textbox label { 
   display:block; 
   padding-bottom:7px; 
 }
 
-form.signin .textbox span { 
+form.loginUser .textbox span { 
   display:block;
 }
 
-form.signin p, form.signin span { 
+form.loginUser p, form.loginUser span { 
   color:#999; 
   font-size:11px; 
   line-height:18px;
 } 
 
-form.signin .textbox input { 
+form.loginUser .textbox input { 
   background:#666666; 
   border-bottom:1px solid #333;
   border-left:1px solid #000;
@@ -467,8 +467,8 @@ form.signin .textbox input {
   width:200px;
 }
 
-form.signin input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
-form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
+form.loginUser input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
+form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
 
 .button { 
   background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);

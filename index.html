@@ -10,6 +10,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
     <script type ="text/javascript" src="js/results.js"></script>
 </head>
 
@@ -91,7 +92,7 @@
 
 	<div id="login-box" class="login-popup">
         <a href="#" class="close"><img src="img/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
-          	<form method="post" class="loginUser" action="api/index.php/login">
+          	<form method="post" class="loginUser" action="index.html">
                 <fieldset class="textbox">
             	<label class="username">
                 	<span>Email</span>
@@ -102,12 +103,7 @@
                 	<input id="password" name="password" type="password" placeholder="Password">
                 </label>
                 
-                <button class="submit button" type="button" value="signin">Sign in</button>
-                
-                <p>
-                <a class="forgot" href="#">Forgot your password?</a>
-                </p>
-                
+                <button class="submit button" id="signin" type="button" value="signin">Sign in</button>
                 </fieldset>
           	</form>
 	</div>

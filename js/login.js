@@ -9,27 +9,27 @@ function Login(event){
 	/////////// 		Check form 			////////////////
 	////////////////////////////////////////////////////////
 	if(document.getElementsByName("email")[0].value == "") {
-		alert("Error: Enter your email address!");
+		alert("Error: Enter your email address! 1");
 		$("#email").focus();
 		return false;
 	}
 
 	re = /^\w+$/;
-	if(!re.test(document.getElementsByName("email")[0].value)) {
-		alert("Error: Enter your email address!");
+	if(re.test(document.getElementsByName("email")[0].value)) {
+		alert("Error: Enter your email address! 2");
 		$("#email").focus();
 		return false;
 	}
 
-	if(!validateEmail(document.getElementsByName("Email")[0].value)){
-		alert("Error: Email not valid");
-		$("#Email").focus();
+	if(!validateEmail(document.getElementsByName("email")[0].value)){
+		alert("Error: Email not valid 1");
+		$("eEmail").focus();
 		return false;
 	}
 
-	if(re.test(!validateEmail(document.getElementsByName("Email")[0].value))){
-		alert("Error: Email not valid");
-		$("#Email").focus();
+	if(!re.test(validateEmail(document.getElementsByName("email")[0].value))){
+		alert("Error: Email not valid 2");
+		$("#email").focus();
 		return false;
 	}
 	
@@ -51,7 +51,7 @@ function Login(event){
 	////////////////////////////////////////////////////////
 	var dataString = 
 	{
-	  "email": document.getElementsByName("Email")[0].value,
+	  "email": document.getElementsByName("email")[0].value,
 	  "password": document.getElementsByName("password")[0].value,
 	};
 
