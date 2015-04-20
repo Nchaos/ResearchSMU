@@ -231,7 +231,7 @@ function checkForm(event){
 	  "email": document.getElementsByName("Email")[0].value,
 	  "password": document.getElementsByName("password")[0].value,
 	  "check": check,
-	  "deptId": document.getElementsByName("major")[0].value,
+	  "deptId": deptId,
 	  "grad": grad,
 	  "instId": instId
 	};
