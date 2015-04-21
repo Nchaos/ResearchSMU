@@ -22,7 +22,7 @@
 			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 			$stmt = $mysqli -> prepare($sql);
 			$userId = '';
-			$stmt -> bind_param('i', $email);
+			$stmt -> bind_param('s', $email);
 			$stmt -> execute();
 			$stmt -> bind_result($userId);
 			$username_test = $stmt -> fetch();
