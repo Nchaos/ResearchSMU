@@ -14,9 +14,9 @@
 		global $mysqli, $debug;
 		$postId = $_POST['researchOpId'];
 		
-		if($debug) echo "Posting to LinkedIn...\n";
+		if($debug) echo "Posting to LinkedIn... ".$postId."\n";
 
-		header('x-li-format: json');
+		//header('x-li-format: json');
 		
 		$apiKey = $_POST['api_key'];
 		$secretKey = $_POST['secret_key'];
@@ -29,7 +29,9 @@
 		$stmt->fetch();
 		$stmt->close();
 		
-		if(!($active)){
+		echo $active;
+		
+		if($active){
 			//Prepare authentication
 			$linkedIn = new Happyr\LinkedIn\LinkedIn($apiKey, $secretKey);
 			
@@ -83,14 +85,11 @@
 		} else {
 			//Post is not active, so don't post it
 			die(json_encode(array('Status' => 'Failed',
-				'ERROR' => 'Post is not active, can\'t ')));
+				'ERROR' => 'Post is not active, can\'t fetch data.')));
 		}
 		
 	});
 	
 	
-	
-	
-
 	$app->run();
 ?>
