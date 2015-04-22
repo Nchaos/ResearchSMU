@@ -370,6 +370,12 @@ body {
     display: none;
   }
 }
+#cssmenu li.home a {
+  font-size: 20pt;
+  text-align: center;
+  vertical-align: center;
+  text-transform: none;
+}
 #cssmenu .home {
   float: left;
   vertical-align: center;
@@ -378,11 +384,14 @@ body {
   float: right;
 }
 
-#titlePage {
-  text-align: center;
-}
 
-#titlePage #description {
+#description {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-color: #0095cd;
+  padding: 5px;
+  border width: 1px;
+  text-align: center;
   float: center;
   max-width: 25%;
   display: block;
@@ -391,7 +400,7 @@ body {
   background-color: rgb(140, 130, 121);
   border-radius: 25px;
   opacity: 0.9;
-  margin-top: 12.5%;
+/*  margin-top: 12.5%;*/
 
 }
 #clickMe {

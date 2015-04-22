@@ -173,7 +173,8 @@
 #filters > ul > li.active {
   border-bottom: none;
 }
-#filters > ul > li.active > a {
+/* Default Green */
+/*#filters > ul > li.active > a {
   background: #97be10;
   background: -moz-linear-gradient(#97be10 0%, #79980d 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #97be10), color-stop(100%, #79980d));
@@ -182,7 +183,40 @@
   color: #fff;
   text-shadow: 0 1px 1px #000;
   border: 1px solid #79980d;
+}*/
+
+/* Red bottom, blue top */
+/*#filters > ul > li.active > a {
+  background: #354CA1;
+  background: -moz-linear-gradient(#354CA1 0%, #CC0000 100%);
+  background: -webkit-linear-gradient(#354CA1 0%, #CC0000 100%);
+  background: linear-gradient(#354CA1 0%, #CC0000 100%);
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+  border: 1px solid #CC0000;
+}*/
+
+/* Blue bottom, red top */
+#filters > ul > li.active > a {
+  background: #CC0000;
+  background: -moz-linear-gradient(#CC0000 0%, #354CA1 100%);
+  background: -webkit-linear-gradient(#CC0000 0%, #354CA1 100%);
+  background: linear-gradient(#CC0000 0%, #354CA1 100%);
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+  border: 1px solid #354CA1;
 }
+
+/* Red */ 
+/*#filters > ul > li.active > a {
+  background: #CC0000;
+  background: -moz-linear-gradient(#CC0000 0%, #CC0000 100%);
+  background: -webkit-linear-gradient(#CC0000 0%, #CC0000 100%);
+  background: linear-gradient(#CC0000 0%, #CC0000 100%);
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+  border: 1px solid #CC0000;
+}*/
 #filters > ul > li.active > a span {
   border: 1px solid #97be10;
 }
