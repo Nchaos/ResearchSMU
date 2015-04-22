@@ -85,7 +85,7 @@ function checkForm(event){
 	  "check": check,
 	  "deptId": document.getElementsByName("major")[0].value,
 	  "grad": grad,
-	  "instId": "1"
+	  "instId": "01"
 	};
 	
 	console.log(dataString);

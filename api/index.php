@@ -1,8 +1,8 @@
 <?php
-	header('Content-Type: application/json');
+	//header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
-	$app = new Slim\Slim();
+	$app = new \Slim\Slim();
 	
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	if($mysqli->connect_errno)
@@ -10,15 +10,19 @@
 	//==============================================================//
 	//							Login								//
 	//==============================================================//
+	
+	//Need to add a flag that indicates if a user is student or faculty
+
+	
 	$app->post('/loginUser', function(){
+	  global $mysqli, $debug;
 		if ($debug) echo "Logging in...\n";
 		session_start();
-		global $mysqli;
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		try {
 			//Try to find the email in 'Users' table:
-			if ($debug) echo "Looking for email in User's table\n";
+			if ($debug) echo "Looking for email in User's table.\n";
 			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 			$stmt = $mysqli -> prepare($sql);
 			$userId = '';
@@ -26,6 +30,7 @@
 			$stmt -> execute();
 			$stmt -> bind_result($userId);
 			$username_test = $stmt -> fetch();
+			$stmt->close();
 			
 			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 			if(($username_test === NULL)) {
@@ -35,7 +40,6 @@
 			else{
 				if ($debug) echo "Found user, checking if active...\n";
 				//email was successfully found in the 'Users' table
-				$stmt->close();
 				
 				//Fetch the status of activation for a user:
 				$sql = "SELECT active FROM Users WHERE user_ID='$userId'";
@@ -69,6 +73,7 @@
 						$components = "SELECT * FROM Users WHERE user_ID='$userId'";
 						$returnValue = $mysqli -> query($components);
 						$iteration = $returnValue -> fetch_assoc();
+						$components->close();
 						
 						$_SESSION['userId'] = $userId;
 						$_SESSION['firstName'] = $iteration['fName'];
@@ -196,7 +201,7 @@
 	
 	$app->post('/createAccount', function(){
 		global $mysqli, $debug;
-		if ($debug) echo "Creating account";
+		if ($debug) echo "Creating account.\n";
 		$check = $_POST['check'];
 		$firstName = $_POST['firstName'];
 		$lastName = $_POST['lastName'];
@@ -205,49 +210,81 @@
 		$userId = '';
 		$date = date("Y-m-d");
 		
-		if ($debug) echo "Received parameters";
+		if ($debug) echo "Received parameters, making sure they're not empty...\n";
 		
 		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
 		else{
-			if ($debug) echo "Checking user doesn't already exist...\n";
-			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
+			if ($debug) echo "Checking user doesn't already exist... ";
+			$dupCheck = $mysqli->query("SELECT * FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
-			if(!($checkResults === NULL))
+			if(!($checkResults == NULL))
 				die(json_encode(array('ERROR' => 'User already exists')));
 			else{
-				if ($debug) echo "Creating new user...\n";
+				$dupCheck->close();
+				
+				if ($debug) echo "User does not already exist!\n";
 				
 				//Create encrypted hash from password:
-				if ($debug) echo "Hashing password...\n";
+				if ($debug) echo "Hashing password... ";
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-				if($debug) echo "Hashed password, now creating user\n";
-				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
-	
-				if ($debug) echo "User created, now fetching id\n";
-				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
-				$res = $selectUserId->fetch_assoc();
-				$userId = $res['user_ID'];
-				echo "$userId\n";
-				if ($debug) echo "Got id, now inserting password\n";
-				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
+				if($debug) echo "Hashed password, now creating user.\n";
 				
-				if ($debug) echo "User is a... ";
-				if($check === "Student"){
-					if ($debug) echo "student\n";
-					$instId = $_POST['instId'];
-					$major = $_POST['deptId'];
-					$grad = $_POST['grad'];
-					$insertStudent = $mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES ('$userId', '$instId', '$major', '$grad')");
+				//$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
+				$query = "INSERT INTO Users (user_ID, fName, lName, email, dateCreated, userType) VALUES(NULL, ?, ?, ?, ?, ?)";
+				$insertUser = $mysqli->prepare($query);
+				$insertUser->bind_param('sssss', $firstName, $lastName, $email, $date, $check);
+				
+				if($insertUser->execute()){
+					$userId = $mysqli->insert_id;
+					$insertUser->close();
+					
+					if($debug) echo "User ID: " . $userId . "\n";
+					
+					//if ($debug) echo "User created, now fetching id\n";
+					
+					/*$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+					$res = $selectUserId->fetch_assoc();
+					$userId = $res['user_ID'];
+					echo "$userId\n";
+					$selectUserId->close();*/
+					
+					//if ($debug) echo "Got id, now inserting password\n";
+					
+					if($debug) echo "Inserting password.\n";
+					$mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
+					
+					if ($debug) echo "User is... ";
+					if($check === "Student"){
+						if ($debug) echo "student\n";
+						$instId = $_POST['instId'];
+						$major = $_POST['deptId'];
+						$grad = $_POST['grad'];
+						//$mysqli->query("INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES('$userId', '$instId', '$major', '$grad')");
+						$query = "INSERT INTO Student (user_ID, inst_ID, dept_ID, graduateStudent) VALUES(?, ?, ?, ?)";
+						$insertStudent = $mysqli->prepare($query);
+						$insertStudent->bind_param('isss', $userId, $instId, $major, $grad);
+						
+						if(!($insertStudent->execute())){
+							die(json_encode(array('Status' => 'Failure',
+								'ERROR' => $mysqli->errno . ':'. $mysqli->error
+						)));
+						}
+					}
+					elseif($check === "Faculty"){
+						if ($debug) echo "faculty\n";
+						$instId = $_POST['instId'];
+						$deptId = $_POST['deptId'];
+						$mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+					}
+					else
+						die(json_encode(array('ERROR' => 'Is user student or faculty?')));
+				} else {
+					die(json_encode(array('Status' => 'Failure',
+						'ERROR' => $mysqli->errno .':'. $mysqli->error
+					)));
 				}
-				elseif($check === "Faculty"){
-					if ($debug) echo "faculty\n";
-					$instId = $_POST['instId'];
-					$deptId = $_POST['deptId'];
-					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
-				}
-				else
-					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
+				
 				
 			}
 		}
@@ -281,7 +318,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		//return $result;
 	}
 	
 	//==============================================================//
@@ -308,7 +345,7 @@
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
-		return $result;
+		//return $result;
 	}
 	
 	//==============================================================//
@@ -328,9 +365,9 @@
 			$searchres = $search -> fetch();
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed: ";
+			//return "Search failed: ";
 		}
-		return $searchres;
+		//return $searchres;
 	};
 	
 	
@@ -359,7 +396,7 @@
 		}
 		$conn->close();
 		
-		return $result;
+		//return $result;
 	}
 	
 	
@@ -368,12 +405,11 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
+		global $mysqli, $debug;
 		if ($debug) echo "Creating research opportunity...\n";
-		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
-		$deptId = $_SESSION['deptId'];
-		$check = $_POST['check'];
+		$deptId = $_POST['deptId'];
 		$name = $_POST['name'];
 		$description = $_POST['desc'];
 		$dateStart = $_POST['dateStart'];
@@ -385,21 +421,24 @@
 		$undergraduate = $_POST['undergraduate'];
 		$todayDate = date("Y-m-d");
 		
+		if($debug) echo "Recieved paramaters, checking if empty...\n";
+		
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-			if ($debug) echo "Checking for duplicate entry...\n";
+			if ($debug) echo "Checking for duplicate entry... ";
 			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
+			$deupCheck->close();
 			
 			if(!($checkResults === NULL))
 				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
 			else{
-				if ($debug) echo "Creating unique entry\n";
-				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
+				if ($debug) echo "None found! Creating entry.\n";
+				$mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$dateStart', '$dateEnd', 
+					VALUES ('$userId', '$instId', '$deptId', '$todayDate', '$name', '$description', '$dateStart', '$dateEnd', 
 					'$numPositions', '$paid', '$workStudy', '$graduate', '$undergraduate')");
 				die(json_encode(array('Status' => 'Success')));
 			}
@@ -420,10 +459,10 @@
 			$stmt -> bind_param('s', $search);
 			$stmt -> execute();
 			$search_test = $stmt -> fetch();
-			return $search_test;
+			//return $search_test;
 			$stmt -> close();
 		}catch(exception $e){
-			return "Search failed";
+			//return "Search failed";
 		}	 
 	});
 	
@@ -445,7 +484,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCox(){//all OPs in Cox
@@ -463,7 +502,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterMeadows(){//all OPs in Meadows
@@ -481,7 +520,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterSimmons(){//all OPs in Simmons
@@ -499,7 +538,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterAnthropolgy(){//all OPs in Anthropology
@@ -517,7 +556,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterBioScience(){//all OPs in BioScience
@@ -535,7 +574,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterChemistry(){//all OPs in Chemistry
@@ -553,7 +592,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterEarthScience(){//all OPs in EarthScience
@@ -571,7 +610,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterEconomics(){//all OPs in Economics
@@ -589,7 +628,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 	}
 		
 	function filterEnglish(){//all OPs in English
@@ -607,7 +646,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterHistory(){//all OPs in History
@@ -625,7 +664,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterMath(){//all OPs in Math
@@ -643,7 +682,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterPhilosophy(){//all OPs in Philosophy
@@ -661,7 +700,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterPhysics(){//all OPs in Physics
@@ -679,7 +718,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterPoliScience(){//all OPs in PoliScience
@@ -697,7 +736,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterPsychology(){//all OPs in Psychology
@@ -715,7 +754,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterReligionScience(){//all OPs in ReligionScience
@@ -733,7 +772,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterSociology(){//all OPs in Sociology
@@ -751,7 +790,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterStatScience(){//all OPs in StatScience
@@ -769,7 +808,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterWorldLang(){//all OPs in WorldLang
@@ -787,7 +826,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCivilEnviroEngin(){//all OPs in CivilEnviroEngin
@@ -805,7 +844,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCSCSE(){//all OPs in CSCSE
@@ -823,7 +862,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterEE(){//all OPs in EE
@@ -841,7 +880,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterManageScience(){//all OPs in ManageScience
@@ -859,7 +898,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 
 	function filterMechEngin(){//all OPs in MechEngin
@@ -877,7 +916,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterAccounting(){//all OPs in Accounting
@@ -895,7 +934,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterFinance(){//all OPs in Finance
@@ -913,7 +952,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterMarketing(){//all OPs in Marketing
@@ -931,7 +970,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterManagement(){//all OPs in Management
@@ -949,7 +988,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterRealEstate(){//all OPs in RealEstate
@@ -967,7 +1006,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterRiskManage(){//all OPs in RiskManage
@@ -985,7 +1024,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterAdvertising(){//all OPs in Advertising
@@ -1003,7 +1042,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterArt(){//all OPs in Art
@@ -1021,7 +1060,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterArtHistory(){//all OPs in ArtHistory
@@ -1039,7 +1078,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterArtManage(){//all OPs in ArtManage
@@ -1057,7 +1096,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCommunication(){//all OPs in Communications
@@ -1075,7 +1114,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCreativeComp(){//all OPs in CreativeComp
@@ -1093,7 +1132,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterDance(){//all OPs in Dance
@@ -1111,7 +1150,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterFilmMediaArts(){//all OPs in FilmMedia
@@ -1129,7 +1168,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterJournalism(){//all OPs in Journalism
@@ -1147,7 +1186,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterMusic(){//all OPs in Music
@@ -1165,7 +1204,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterTheatre(){//all OPs in Theatre
@@ -1183,7 +1222,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 	}
 		
 	function filterAppliedPhys(){//all OPs in AppliedPhys
@@ -1201,7 +1240,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterCounseling(){//all OPs in Counseling
@@ -1219,7 +1258,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterDisputeResolution(){//all OPs in DisputeResolution
@@ -1237,7 +1276,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterHigherEd(){//all OPs in HigherEd
@@ -1255,7 +1294,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterSportsManage(){//all OPs in SportsManage
@@ -1273,7 +1312,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterTeacherEd(){//all OPs in TeacherEd
@@ -1291,7 +1330,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 		}
 		
 	function filterWellness(){//all OPs in Wellness
@@ -1309,7 +1348,7 @@
 				echo "Error creating database: " . $mysqli->error;
 			}
 			
-			return $result;
+			//return $result;
 	}
 	
 	$app->run();

@@ -18,7 +18,8 @@
 
 		header('x-li-format: json');
 		
-		$postUrl = "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=AQW9dItCSzDAJ2AXC9q0t-tE1W0bIk7hNdNyYdAVccv-jiDMlYxaFQ4-1pxOSYji8UKd8oUB459apIJ8pZhf0G7Xc_65wWIMoIaF8hJ4fy_si5qfLJzrI6sAEtTn67gF0GhBvllKk-avH8wqjcin1_fIp_rF8rzuHWUI1Gk86a0-6nwIQY8&format=json";
+		$apiKey = $_POST['api_key'];
+		$secretKey = $_POST['secret_key'];
 		
 		//Check if post is active:
 		$sql = "SELECT active FROM ResearchOp WHERE researchOp_ID='$postId'";
@@ -29,37 +30,56 @@
 		$stmt->close();
 		
 		if(!($active)){
-			$postDept;
-			$postName;
-			$postDescription;
+			//Prepare authentication
+			$linkedIn = new Happyr\LinkedIn\LinkedIn($apiKey, $secretKey);
 			
-			$sql = "SELECT dept_ID, name, description FROM ResearchOp WHERE researchOp_ID='$postId'";
-			$stmt = $mysqli->prepare($sql);
-			$stmt->execute();
-			$stmt->bind_result($postDept, $postName, $postDescription);
-			$stmt->fetch();
-			$stmt->close();
-			
-			//Prepare data for LinkedIn post
-			$postComment = "New Research Opportunity in " . $postDept . "!";
-			$postTitle = "http://52.11.153.243/research-opporunity/" . $userId;
-			$postDescription = (strlen($postDescription) > 256) ? substr($postDescription, 0, 253).'...' : $postDescription;
-			
-			$postData = json_encode(array('comment' => $postComment,
-				'content' => array(
-					'title' => $postTitle,
-					'description' => $postDescription
-				),
-				'submitted-url' => $postTitle,
-				'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400',
-				'visibility' => array(
-					'code' => 'anyone'
-				)
-			));
-			
-			//Post data to LinkedIn
-			
-			
+			if($linkedIn->isAuthenticated()){			
+				//Get data from database
+				$postDept;
+				$postName;
+				$postDescription;
+				
+				$sql = "SELECT dept_ID, name, description FROM ResearchOp WHERE researchOp_ID='$postId'";
+				$stmt = $mysqli->prepare($sql);
+				$stmt->execute();
+				$stmt->bind_result($postDept, $postName, $postDescription);
+				$stmt->fetch();
+				$stmt->close();
+				
+				//Prepare data for LinkedIn post
+				$postComment = "New Research Opportunity in " . $postDept . "!";
+				$postTitle = "http://52.11.153.243/research-opporunity/" . $userId;
+				$postDescription = (strlen($postDescription) > 256) ? substr($postDescription, 0, 253).'...' : $postDescription;
+				
+				$postData = json_encode(array('comment' => $postComment,
+					'content' => array(
+						'title' => $postTitle,
+						'description' => $postDescription
+					),
+					'submitted-url' => $postTitle,
+					'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400',
+					'visibility' => array(
+						'code' => 'anyone'
+					)
+				));
+				$urlData = array(
+					'Content-Type' => 'application/json',
+					'x-li-format' => 'json'
+				);
+				
+				
+				//Post data to LinkedIn
+				$result = $linkedIn->$api('v1/people/~/shares?format=json', $urlData, 'POST', $postData);
+				
+				echo $result;
+				
+			} elseif($linkedIn->hasError()){
+				die(json_encode(array('Status' => 'Failure',
+					'ERROR' => 'User cancelled the login')));
+			} else {
+				die(json_encode(array('Status' => 'Failure',
+					'Error' => 'Could not be authenticated...')));
+			}
 		} else {
 			//Post is not active, so don't post it
 			die(json_encode(array('Status' => 'Failed',
