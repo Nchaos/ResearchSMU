@@ -158,6 +158,10 @@ body {
 }
 #cssmenu ul li:hover > ul > li {
   height: 32px;
+/*  margin-bottom: 3px;*/
+}
+#cssmenu ul .lyle:hover >ul >li {
+  height: 35px;
 }
 #cssmenu ul ul li div, 
 #cssmenu ul ul li a {
@@ -173,6 +177,26 @@ body {
   -o-transition: color .2s ease;
   transition: color .2s ease;
 }
+#cssmenu ul .dedman li div, 
+#cssmenu ul .dedman li a {
+  width: 216px;
+  }
+#cssmenu ul .lyle li div, 
+#cssmenu ul .lyle li a {
+  width: 149px;
+  }
+#cssmenu ul .cox li div, 
+#cssmenu ul .cox li a {
+  width: 128px;
+  }
+#cssmenu ul .meadows li div, 
+#cssmenu ul .meadows li a {
+  width: 166px;
+  }
+#cssmenu ul .simmons li div, 
+#cssmenu ul .simmons li a {
+  width: 159px;
+  }
 #cssmenu ul ul li:hover > div,
 #cssmenu ul ul li:hover > a,
 #cssmenu ul ul li div:hover,
