@@ -446,13 +446,13 @@
 				$row_set[] = $row;//build an array
 		}
 		echo json_encode($row_set);//format the array into json data
-	}
+	});
 	
 	
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
 	//==============================================================//
-	function filterLyle(){//all OPs in Lyle
+	function filterLyle(){ //all OPs in Lyle
 			global $mysqli;
 			if ($mysqli->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
@@ -468,6 +468,7 @@
 			}
 			
 			echo sqltojsonarray($result);
+	}
 
 	function filterDedman(){//all OPs in Dedman
 			global $mysqli;
