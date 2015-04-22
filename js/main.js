@@ -234,3 +234,8 @@ $(document).ready(function() {
 
 });  
 
+// Initially Hide Logout button
+
+ // document.getElementsByClassName("userlinks")[].display="none";
+
+
