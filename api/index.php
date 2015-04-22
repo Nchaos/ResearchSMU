@@ -1369,6 +1369,54 @@
 		return json_encode($array)
 	}
 	
-	$app->run();
+	//==============================================================//
+	//                   add resume     	                        //
+	//==============================================================//
 	
+	function resumeAdd($form_data){
+		global $mysqli;
+		$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));  
+		$result=MYSQL_QUERY("INSERT INTO uploads (description, data,filename,filesize,filetype) ". 
+		"VALUES('$form_description','$data','$form_data_name','$form_data_size','$form_data_type')");  
+		$id= mysql_insert_id();  
+		echo "<p>File ID: <b>$id</b><br>";  
+		echo "<p>File Name: <b>$form_data_name</b><br>";  
+		echo "<p>File Size: <b>$form_data_size</b><br>";  
+		echo "<p>File Type: <b>$form_data_type</b><p>";  
+		echo "To upload another file <a href=http://www.yoursite.com/yourpage.html> Click Here</a>";
+	}
+
+	//==============================================================//
+	//                   access resume   	                        //
+	//==============================================================//	
+		
+	function accessResume($ID){
+		$query = "SELECT data,filetype FROM uploads where id = $id"; 
+		if($mysqli->query($query) === TRUE) {
+				$result = $mysqli->query($query);
+			} else {
+				echo "Error creating database: " . $mysqli->error;
+			}		  
+		$data = MYSQL_RESULT($result,0,"data");  
+		$type = MYSQL_RESULT($result,0,"filetype");  
+		Header( "Content-type: $type");  
+		echo $data;
+	}
+	
+	//==============================================================//
+	//                   delete resume   	                        //
+	//==============================================================//
+	
+	function deleteResume(){
+		$query = "DELETE FROM uploads where id=$id";  
+		if($mysqli->query($query) === TRUE) {
+				$delete = $mysqli->query($s);
+			} else {
+				echo "Error creating database: " . $mysqli->error;
+			}
+		print "File ID $id has been removed from the database"; 
+	}
+	
+		
+	$app->run();
 ?>
