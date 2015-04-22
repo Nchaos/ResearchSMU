@@ -212,7 +212,6 @@ function checkForm(event){
 			}
 			break;
 		}
-	}
 	
 	
 	/*if(document.getElementsByName("studentOrFaculty")[0].value == "Grad"){
