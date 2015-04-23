@@ -305,7 +305,9 @@ table.dataTable td {
  * Control feature layout
  */
 .dataTables_wrapper {
+/*  background-color: cyan;*/
   position: relative;
+/*  margin-left: 20%; */
   clear: both;
   *zoom: 1;
   zoom: 1;
