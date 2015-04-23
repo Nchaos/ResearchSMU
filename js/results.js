@@ -1,7 +1,7 @@
-$(document).ready(function() {
+// $(document).ready(function() {
     
 
-});
+// });
 
 
 function getCheckedBoxes(checkboxName) {
@@ -84,6 +84,17 @@ function tabInstitutionHandler() {
 }
 });
 
+$(document).ready(function() {
+    $('#resultsTable').dataTable( {
+        "ajaxSource": "api/datatables.php",
+        "columns": [
+            { "data": "rName" },
+            { "data": "fName" },
+            { "data": "dName" },
+            { "data": "iName" }
+        ]
+    } );
+} );
 
 $(document).ready(function() {
 function autocomplete() {
@@ -103,10 +114,7 @@ function filter(filter) {
     window.alert("It Works!!!!!!! Filter: "+filter)
 }
 
-$(document).ready(function() {
-    $('#resultsTable').dataTable( {
-        "processing": true,
-        "serverSide": true,
-        "ajax": "api/datatables.php"
-    } );
+
+$(document).ready( function () {
+    $('#dtTest').DataTable();
 } );
