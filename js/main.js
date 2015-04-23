@@ -1,3 +1,16 @@
+  // Check browser support
+if (typeof(Storage) != "undefined") {
+    $(document).ready(function() {
+      $('.logout').css('display','none');
+    });
+} else {
+    $(document).ready(function() {
+      $('.login').css('display','none');
+      $('.register').hide();
+    });
+}
+
+
 $(document).ready(function() {
 
 	// Check all Departments functions
@@ -236,6 +249,10 @@ $(document).ready(function() {
 
 // Initially Hide Logout button
 
- // document.getElementsByClassName("userlinks")[].display="none";
+    // $(document).ready(function() {
+      
+    //   $('.logout').css('display','none');
+
+    // });
 
 

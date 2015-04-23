@@ -383,6 +383,9 @@ body {
 #cssmenu .userlinks {
   float: right;
 }
+/*#cssmenu .userlinks .logout{
+  display: none;
+}*/
 
 
 #description {
@@ -523,5 +526,6 @@ form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2p
 }
 
 .button:hover { background:#ddd; }
+
 
 
