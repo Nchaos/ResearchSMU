@@ -75,8 +75,9 @@
 		$postId = $_POST['researchOpId'];
 		
 		if($debug) echo "Posting to LinkedIn... ".$postId."\n";
+
+		//header('x-li-format: json');
 		
-		$token
 		
 		//Check if post is active:
 		$sql = "SELECT active FROM ResearchOp WHERE researchOp_ID='$postId'";
@@ -90,7 +91,7 @@
 		
 		if($active){
 			//Prepare authentication
-			
+						
 			//Get data from database
 			$postDept;
 			$postName;
