@@ -2,7 +2,7 @@ USE 'DBGUI';
 
 INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email) VALUES
 
-	(000, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu"),
+	(013, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu"),
 	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu"),
 	(002, TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu"),
 	(003, TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu"),
@@ -47,17 +47,17 @@ INSERT INTO Student(user_ID, inst_ID, dept_ID, resume, graduateStudent, loginCou
 
 INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 
-	(000, 999, 600, 3),
+	(013, 999, 600, 3),
 	(001, 999, 601, 2),
 	(002, 999, 604, 4);
 
 INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, numPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
 
-	(100, 000, 999, 600, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you don't have to talk to real people!", '2015-01-15', 12, true, false, true, false),
-	(101, 001, 999, 601, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, true,  false, false, true),
-	(102, 002, 999, 602, TRUE, '2014-11-24', "Future of Art", "Art didn't used to suck, maybe it won't suck in the future?", '2015-06-02', 1, false,  false, false, true),
-	(103, 000, 999, 603, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
-	(104, 002, 999, 604, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let's watch what they do.", '2015-12-12', 3, true, true, true, true);	
+	(100, 013, 999, 600, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you do not have to talk to real people!", '2015-01-15', 12, true, false, true, false),
+	(101, 002, 999, 601, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, true,  false, false, true),
+	(102, 001, 999, 602, TRUE, '2014-11-24', "Future of Art", "Art did not used to suck, maybe it will not suck in the future?", '2015-06-02', 1, false,  false, false, true),
+	(103, 001, 999, 603, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
+	(104, 002, 999, 604, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
 	
 INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
 	(102, 009, "no?", '2015-12-14 00:00:00'),
@@ -65,7 +65,7 @@ INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
 	(104, 011, "MMM WATCHU SAAAAAAAAY", '2015-12-13 06:21:30');
 
 INSERT INTO Password(user_ID, password) VALUES
-	(000, "ImCookingNoodles"),
+	(013, "ImCookingNoodles"),
 	(001, "CreamOfTheCrop"),
 	(002, "OhYeahBrother"),
 	(003, "password1"),
