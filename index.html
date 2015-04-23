@@ -9,9 +9,7 @@
     <link rel="stylesheet" type="text/css" media = "screen" href="CSS/style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-    <script src="js/main.js"></script>
-    <script src="js/login.js"></script>
-    <script type ="text/javascript" src="js/results.js"></script>
+
 </head>
 
 <body>
@@ -84,8 +82,8 @@
                   <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="46">Wellness</a>
               </ul>
          </li>
-         <li class="userlinks"><a href="registration.html">Register</a></li>
-         <li class="userlinks"><a href="#login-box" class="login-window">Login</a></li>
+         <li class="userlinks"><a href="registration.html" class="register">Register</a></li>
+         <li class="userlinks"><a href="#login-box" class="login-window login">Login</a></li>
          <li class="userlinks"><a href="#signout" class="logout">Logout</a></li>
       </ul>
       </div>
@@ -115,7 +113,12 @@
       <p id="clickMe"> Click on a school or department to get searching! </p>
     </div>
 
+    <div id="results">
+    </div>
 
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+    <script type ="text/javascript" src="js/results.js"></script>
 
 </body>
 </html>
