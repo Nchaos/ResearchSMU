@@ -103,7 +103,10 @@ function filter(filter) {
     window.alert("It Works!!!!!!! Filter: "+filter)
 }
 
-
-$(document).ready( function () {
-    $('#dtTest').DataTable();
+$(document).ready(function() {
+    $('#resultsTable').dataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "api/datatables.php"
+    } );
 } );
