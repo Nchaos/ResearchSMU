@@ -1,8 +1,7 @@
-$(document).ready(function() {
+// $(document).ready(function() {
     
 
-});
-
+// });
 
 function getCheckedBoxes(checkboxName) {
 	var checkboxes = document.querySelectorAll('input[class="' + checkboxName + '"]:checked'), values = [];
