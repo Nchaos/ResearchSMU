@@ -77,6 +77,7 @@ body {
 #cssmenu.align-right ul ul {
   text-align: right;
 }
+
 #cssmenu > ul > li > div,
 #cssmenu > ul > li > a {
   padding: 20px;
@@ -100,11 +101,13 @@ body {
 #cssmenu > ul > li.has-sub > div,
 #cssmenu > ul > li.has-sub > a {
   padding-right: 25px;
+  vertical-align: center;
   z-index: 1;
 }
 #cssmenu > ul > li.has-sub > div::after, 
 #cssmenu > ul > li.has-sub > a::after {
   position: absolute;
+  vertical-align: center;
   top: 21px;
   right: 10px;
   width: 4px;
@@ -155,6 +158,10 @@ body {
 }
 #cssmenu ul li:hover > ul > li {
   height: 32px;
+/*  margin-bottom: 3px;*/
+}
+#cssmenu ul .lyle:hover >ul >li {
+  height: 35px;
 }
 #cssmenu ul ul li div, 
 #cssmenu ul ul li a {
@@ -170,6 +177,26 @@ body {
   -o-transition: color .2s ease;
   transition: color .2s ease;
 }
+#cssmenu ul .dedman li div, 
+#cssmenu ul .dedman li a {
+  width: 216px;
+  }
+#cssmenu ul .lyle li div, 
+#cssmenu ul .lyle li a {
+  width: 149px;
+  }
+#cssmenu ul .cox li div, 
+#cssmenu ul .cox li a {
+  width: 128px;
+  }
+#cssmenu ul .meadows li div, 
+#cssmenu ul .meadows li a {
+  width: 166px;
+  }
+#cssmenu ul .simmons li div, 
+#cssmenu ul .simmons li a {
+  width: 159px;
+  }
 #cssmenu ul ul li:hover > div,
 #cssmenu ul ul li:hover > a,
 #cssmenu ul ul li div:hover,
@@ -343,6 +370,42 @@ body {
     display: none;
   }
 }
+#cssmenu li.home a {
+  font-size: 20pt;
+  text-align: center;
+  vertical-align: center;
+  text-transform: none;
+}
+#cssmenu .home {
+  float: left;
+  vertical-align: center;
+}
+#cssmenu .userlinks {
+  float: right;
+}
+
+
+#description {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-color: #0095cd;
+  padding: 5px;
+  border width: 1px;
+  text-align: center;
+  float: center;
+  max-width: 25%;
+  display: block;
+  position: absolute;
+  margin-left: 38%;
+  background-color: rgb(140, 130, 121);
+  border-radius: 25px;
+  opacity: 0.9;
+/*  margin-top: 12.5%;*/
+
+}
+#clickMe {
+  font-weight: bold;
+}
 
 /*Login Button stuff*/
 
@@ -407,22 +470,22 @@ fieldset {
   border:none; 
 }
 
-form.signin .textbox label { 
+form.loginUser .textbox label { 
   display:block; 
   padding-bottom:7px; 
 }
 
-form.signin .textbox span { 
+form.loginUser .textbox span { 
   display:block;
 }
 
-form.signin p, form.signin span { 
+form.loginUser p, form.loginUser span { 
   color:#999; 
   font-size:11px; 
   line-height:18px;
 } 
 
-form.signin .textbox input { 
+form.loginUser .textbox input { 
   background:#666666; 
   border-bottom:1px solid #333;
   border-left:1px solid #000;
@@ -437,8 +500,8 @@ form.signin .textbox input {
   width:200px;
 }
 
-form.signin input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
-form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
+form.loginUser input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
+form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
 
 .button { 
   background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);

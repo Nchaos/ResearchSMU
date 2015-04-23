@@ -171,9 +171,9 @@ if (foundActive === false) {
   activeElement = $("#cssmenu > ul > li").first();
 }
 
-defaultWidth = lineWidth = activeElement.width();
+//defaultWidth = lineWidth = activeElement.width();
 
-// defaultPosition = linePosition = activeElement.position().left;
+//defaultPosition = linePosition = activeElement.position().left;
 
 menuLine.css("width", lineWidth);
 menuLine.css("left", linePosition);
@@ -233,4 +233,9 @@ $(document).ready(function() {
   });
 
 });  
+
+// Initially Hide Logout button
+
+ // document.getElementsByClassName("userlinks")[].display="none";
+
 

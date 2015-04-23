@@ -10,81 +10,83 @@
       <script type="text/javascript" src="js/main.js"></script>
       <script type ="text/javascript" src="js/results.js"></script>
       <script src="js/sidemenufilters.js"></script>
+      <script src="js/filter.js"></script>
+      <script src="js/login.js"></script>
 
 </head>
 <body>
 
       <div id="cssmenu">
       <ul>
-         <li><a href="index.html">Home</a></li>
-         <li><a href="javascript:tabInstitutionHandler();" data-name="Inst" data-value="01">Dedman College of <br>Humanitiies and Sciences</a>
+         <li class="home"><a href="index.html">ResearchSMU</a></li>
+         <li class="dedman"><a href="#" onclick="tabInstitutionHandler();returnfalse" data-name="Inst" data-value="01">Dedman College of <br>Humanitiies and Sciences</a>
               <ul>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="03">Anthropology</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="08">Biological Sciences</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="10">Chemistry</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="18">Earth Sciences</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="19">Economics</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="21">English</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="25">History</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="30">Mathematics</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="33">Philosophy</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="34">Physics</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="35">Political Sciences</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="36">Psychology</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="38">Religious Studies</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="41">Sociology</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="42">Statisitical Sciences</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="46">World Language</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="03">Anthropology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="08">Biological Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="10">Chemistry</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="18">Earth Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="19">Economics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="21">English</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="25">History</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="30">Mathematics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="33">Philosophy</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="34">Physics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="35">Political Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="36">Psychology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="38">Religious Studies</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="41">Sociology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="42">Statisitical Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="46">World Language</a>
               </ul>
          </li>
-              <li><a href="javascript:tabInstitutionHandler();" data-name="Inst" data-value="00">Lyle School <br>of Engineering</a>
+              <li class="lyle"><a href="#" onclick="tabInstitutionHandler();returnfalse" data-name="Inst" data-value="00">Lyle School <br>of Engineering</a>
               <ul>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="11">Civil &amp; Environmental Engineering</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="13">Computer Science &amp; Engineering</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="20">Electrical Engineering</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="28">Management Science</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="31">Mechanical Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="11">Civil &amp; Environmental Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="13">Computer Science &amp; Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="20">Electrical Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="28">Management Science</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="31">Mechanical Engineering</a>
               </ul>
          </li>
-              <li><a href="javascript:tabInstitutionHandler();" data-name="Inst" data-value="02">Cox School <br>of Business</a>
+              <li class="cox"><a href="#" onclick="tabInstitutionHandler();returnfalse" data-name="Inst" data-value="02">Cox School <br>of Business</a>
               <ul>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="01">Accounting</a>>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="23">Finance</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="29">Marketing</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="27">Management</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="37">Real Estate</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="39">Risk Management &amp; Insurance</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="01">Accounting</a>>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="23">Finance</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="29">Marketing</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="27">Management</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="37">Real Estate</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="39">Risk Management &amp; Insurance</a>
               </ul>
          </li>
-              <li><a href="javascript:tabInstitutionHandler();" data-name="Inst" data-data-value="03">Meadows School <br>of the Arts</a>
+              <li class="meadows"><a href="#" onclick="tabInstitutionHandler();returnfalse" data-name="Inst" data-data-value="03">Meadows School <br>of the Arts</a>
               <ul>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="02">Advertising</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="05">Art</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="06">Art History</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="07">Arts Mangagement</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="12">Communication Studies</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="15">Creative Computation</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="16">Dance</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="22">Film and Media Arts</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="26">Journalism</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="32">Music</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="44">Theatre</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="02">Advertising</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="05">Art</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="06">Art History</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="07">Arts Mangagement</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="12">Communication Studies</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="15">Creative Computation</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="16">Dance</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="22">Film and Media Arts</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="26">Journalism</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="32">Music</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="44">Theatre</a>
               </ul>
          </li>
-              <li><a href="javascript:tabInstitutionHandler();" data-name="Inst" data-value="04">Simmons School <br>of Education</a>
+              <li class="simmons"><a href="#" onclick="tabInstitutionHandler();returnfalse" data-name="Inst" data-value="04">Simmons School <br>of Education</a>
               <ul>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="04">Applied Phsiology</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="14">Counseling</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="17">Dispute Resolution</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="24">Higher Education</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="40">Sports Management</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="43">Teacher Education</a>
-                  <li class="has-sub"><a href="javascript:tabDeptHandler();" data-name="Dept" data-value="46">Wellness</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="04">Applied Phsiology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="14">Counseling</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="17">Dispute Resolution</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="24">Higher Education</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="40">Sports Management</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="43">Teacher Education</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler();return false;" data-name="Dept" data-value="46">Wellness</a>
               </ul>
          </li>
-         <li><a href="registration.html">Register</a></li>
-         <li><a href="#login-box" class="login-window">Login</a></li>
-         <li><a href="#signout" class="logout">Logout</a></li>
+         <li class="userlinks"><a href="registration.html">Register</a></li>
+         <li class="userlinks"><a href="#login-box" class="login-window">Login</a></li>
+         <li class="userlinks"><a href="#signout" class="logout">Logout</a></li>
       </ul>
       </div>
 
@@ -112,9 +114,9 @@
       </div>
 
 
-
       <div id='filters'>
           <ul>
+              <li><input type="button" class="filter" value="Filter Search" onClick="filter(filter)"></li>
               <li class='sidebar-nav'><a href='#'><span>Dedman</span></a>
               <ul>
                   <li><input class="Dept" type="checkbox" name="Dedman" value="Anthropology">Antropology</li>
@@ -190,13 +192,12 @@
 
 	<!-- HTML for SEARCH BAR -->
 	<div id="tfheader">
-		<form id="tfnewsearch" method="get" action="#">
+		<form id="tfnewsearch" method="get" action="autocomplete();">
 		        <input type="text" class="tftextinput" name="q" size="100" maxlength="120"><input type="submit" id="search" class="tfbutton">
 		</form>
 	<div class="tfclear"></div>
       </div>
 	
-      <div id="content"> </div>
 
 
       <table id="dtTest" class="display" cellspacing="0" width="100%">

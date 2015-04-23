@@ -22,7 +22,7 @@
 			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
 			$stmt = $mysqli -> prepare($sql);
 			$userId = '';
-			$stmt -> bind_param('i', $email);
+			$stmt -> bind_param('s', $email);
 			$stmt -> execute();
 			$stmt -> bind_result($userId);
 			$username_test = $stmt -> fetch();
@@ -432,21 +432,50 @@
 	//==============================================================//
 	//                   AutoComplete		                        //
 	//==============================================================//
+		//==============================================================//
+	//                      Autocomplete  		                    //
+	//==============================================================//
 	$app->post('/autocomplete', function(){
 		global $mysqli;
+		
 		$term = trim(strip_tags($_GET['term']));//retrieve the search term that autocomplete sends
 
-		$qstring = "SELECT description as value,id FROM test WHERE description LIKE '%".$term."%'";
+		$qstring = "SELECT fName FROM Users WHERE fName LIKE '%".$term."%' and userType = 'faculty'";
 		$result = mysql_query($qstring);//query the database for entries containing the term
 
 		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
 		{
-				$row['value']=htmlentities(stripslashes($row['value']));
-				$row['id']=(int)$row['id'];
+				$row['fName']=htmlentities(stripslashes($row['fName']));
 				$row_set[] = $row;//build an array
 		}
-		echo json_encode($row_set);//format the array into json data
-	}
+
+		$qstring = "SELECT lName FROM Users WHERE lName LIKE '%".$term."%' and userType = 'faculty'";
+		$result = mysql_query($qstring);//query the database for entries containing the term
+		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+		{
+				$row['lName']=htmlentities(stripslashes($row['fName']));
+				$row_set[] = $row;//build an array
+		}
+
+		$qstring = "SELECT name FROM Institution WHERE name LIKE '%".$term."%'";
+		$result = mysql_query($qstring);//query the database for entries containing the term
+		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+		{
+				$row['name']=htmlentities(stripslashes($row['name']));
+				$row_set[] = $row;//build an array
+		}
+
+		$qstring = "SELECT name FROM Department WHERE name LIKE '%".$term."%'";
+		$result = mysql_query($qstring);//query the database for entries containing the term
+		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+		{
+				$row['name']=htmlentities(stripslashes($row['name']));
+				$row_set[] = $row;//build an array
+		}
+		$output = array_slice($row_set, 0, 10);
+		
+		echo json_encode($output);//format the array into json data
+	});
 	
 	
 	//==============================================================//

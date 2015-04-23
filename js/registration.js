@@ -200,12 +200,18 @@ function checkForm(event){
 				grad = 1;
 			} else if(radios[i].value == "Undergrad"){
 				check = "Student";
-			} else {
+			} else if(radios[i].value =="Faculty"){
 				check = "Faculty";
+			}
+			else {
+			// Error for no Dept
+				alert("Error: Select whether you are a student or faculty");
+				$("#undergrad").focus();
+				return false;
+	}	
 			}
 			break;
 		}
-	}
 	
 	
 	/*if(document.getElementsByName("studentOrFaculty")[0].value == "Grad"){
@@ -224,7 +230,7 @@ function checkForm(event){
 	  "email": document.getElementsByName("Email")[0].value,
 	  "password": document.getElementsByName("password")[0].value,
 	  "check": check,
-	  "deptId": document.getElementsByName("major")[0].value,
+	  "deptId": deptId,
 	  "grad": grad,
 	  "instId": instId
 	};
