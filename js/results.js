@@ -4,6 +4,15 @@ $(document).ready(function() {
 });
 
 
+function getCheckedBoxes(checkboxName) {
+	var checkboxes = document.querySelectorAll('input[class="' + checkboxName + '"]:checked'), values = [];
+	Array.prototype.forEach.call(checkboxes, function(el)	{
+		values.push(el.value);
+	});
+	return values;
+}
+
+
 var CheckboxHandler = new Object();
 
 
@@ -26,7 +35,6 @@ function getFormValues(oForm, skip_elements) {
 	
 	switch(field_type) {
 		case "checkbox":
-			
 			element_value = CheckboxHandler.isChecked(elements[i]);
 			data.push(element_name + ': ' + element_value);
 			break;
@@ -39,7 +47,6 @@ function getFormValues(oForm, skip_elements) {
   var rData = JSON.strigify($);
   return data; 
 }
-
 
 
 
@@ -89,23 +96,4 @@ function autocomplete() {
 	    }
 	});
 }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});	
