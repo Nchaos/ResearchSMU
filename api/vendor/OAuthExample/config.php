@@ -9,8 +9,8 @@
  *
  */
 
-define ('LINKEDIN_API_KEY_PUBLIC', '78byrh87ljeuap');
-define ('LINKEDIN_API_KEY_PRIVATE', 'smOpm0SlHgstRvMa');
+define ('LINKEDIN_API_KEY_PUBLIC', '');
+define ('LINKEDIN_API_KEY_PRIVATE', '');
 
 if (LINKEDIN_API_KEY_PUBLIC === '')
     die('You need to edit config.php to add your own API keys before you can use this example');
