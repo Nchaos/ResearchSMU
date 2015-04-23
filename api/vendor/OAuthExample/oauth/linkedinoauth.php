@@ -17,7 +17,7 @@ class LinkedInOAuth {
     private $last_api_call;
 
     // The base of the LinkedIn OAuth URLs
-    public $LINKEDIN_API_ROOT = 'https://api.linkedin.com/';
+    public $LINKEDIN_API_ROOT = 'https://www.linkedin.com/';
 
     public $request_options = array(
     );
