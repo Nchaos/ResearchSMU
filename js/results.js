@@ -84,6 +84,23 @@ function tabInstitutionHandler() {
 }
 });
 
+$(document).ready(function() {
+    $('#resultsTable').dataTable( {
+        "ajaxSource": "api/index.php/createResearchOpportunity",
+        "columns": [
+            { "data": "name" },
+            { "data": "instId" },
+            { "data": "dateStart" },
+            { "data": "dateEnd" },
+            { "data": "numPositions" },
+            { "data": "deptId" },
+            { "data": "paid" },
+            { "data": "workStudy" },
+            { "data": "graduate" },
+            { "data": "undergraduate" }
+        ]
+    } );
+} );
 
 $(document).ready(function() {
 function autocomplete() {
