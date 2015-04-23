@@ -3,6 +3,7 @@
 
 // });
 
+
 function getCheckedBoxes(checkboxName) {
 	var checkboxes = document.querySelectorAll('input[class="' + checkboxName + '"]:checked'), values = [];
 	Array.prototype.forEach.call(checkboxes, function(el)	{
@@ -102,11 +103,7 @@ function filter(filter) {
     window.alert("It Works!!!!!!! Filter: "+filter)
 }
 
-$(document).ready(function() {
-    $('#resultsTable').dataTable( {
-        "processing": true,
-        "serverSide": true,
-        "ajax": "api/datatables.php"
-    } );
-} );
 
+$(document).ready( function () {
+    $('#dtTest').DataTable();
+} );
