@@ -36,8 +36,76 @@ function getFormValues(oForm, skip_elements) {
 	}
         }
   }	
-  var rData = JSON.strigify($)
+  var rData = JSON.strigify($);
   return data; 
 }
+
+
+
+
+$(document).ready(function() {
+
+function tabDeptHandler() {
+    var deptValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
+	var filter = {"department" : deptValue};
+	var searchString = JSON.stringify(filter);
+	     
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/filterDepartment",
+		datatype:"json",
+		data: searchString
+	});
+	
+	window.location.href = "search.html";
+}
+
+
+function tabInstitutionHandler() {
+	var instValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
+	var filter = {"institution" : instValue};
+	var searchString = JSON.stringify(filter);
+	
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/filterSchool",
+		datatype:"json",
+		data: searchString
+	});
+	
+	window.location.href = "search.html";
+}
+});
+
+
+$(document).ready(function() {
+function autocomplete() {
+		
+	$("#searchField").autocomplete({
+	source: "api/index.php/autocomplete",
+	minLength: 2,//search after two characters
+	select: function(event,ui){
+	    //do something
+	    }
+	});
+}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
