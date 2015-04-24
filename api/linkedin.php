@@ -14,12 +14,15 @@
 	||						Authenticate						||
 	\\==========================================================*/
 	$app->get('/linkedinAuth', function(){
-		$provider = new league\OAuth2\Client\Provider\LinkedIn([
-			'clientId'		=> '78byrh87ljeuap',
-			'clientSecret'	=> 'smOpm0SlHgstRvMa',
-			'redirectUri'	=> 'http://52.11.138.85/api/vendor/League/OAuth2/Client/Provider/LinkedIn.php',
-			'scopes'		=> ['w_share', 'r_basicprofile']
+		echo "Fuck\n";
+		$provider = new League\OAuth2\Client\Provider\LinkedIn([
+			'clientId' => '78byrh87ljeuap',
+			'clientSecret' => 'smOpm0SlHgstRvMa',
+			'redirectUri' => 'http://127.0.0.1/api/vendor/League/OAuth2/Client/Provider/LinkedIn.php',
+			'scopes' => ['w_share'],
 		]);
+		
+		echo "Fuck 2: electric boogaloo\n";
 		
 		if (!isset($_GET['code'])) {
 
@@ -141,6 +144,6 @@
 	
 	
 	
-
+	$app->run();
 
 ?>

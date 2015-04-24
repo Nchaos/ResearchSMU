@@ -8,9 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'Slim' => array($vendorDir . '/slim/slim'),
-    'OAuth\\Unit' => array($vendorDir . '/lusitanian/oauth/tests'),
-    'OAuth' => array($vendorDir . '/lusitanian/oauth/src'),
-    'Happyr\\LinkedIn\\' => array($vendorDir . '/happyr/linkedin-api-client/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
 );

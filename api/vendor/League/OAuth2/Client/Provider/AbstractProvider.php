@@ -50,6 +50,8 @@ abstract class AbstractProvider implements ProviderInterface
 
     public function __construct($options = [])
     {
+		echo "Shit\n";
+		
         foreach ($options as $option => $value) {
             if (property_exists($this, $option)) {
                 $this->{$option} = $value;
