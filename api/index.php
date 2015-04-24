@@ -1396,7 +1396,7 @@
 		{
 			if($count < 5)
 			{
-				$array[] = $rows
+				$array[] = $rows;
 			}
 			else
 			{
@@ -1404,7 +1404,7 @@
 			}
 			$count = $count + 1;
 		}
-		return json_encode($array)
+		return json_encode($array);
 	}
 	
 	//==============================================================//

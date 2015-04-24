@@ -195,7 +195,7 @@ function checkForm(event){
 	//Check for grad, undergrad or faculty 
 	for (var i = 0, length = radios.length; i < length; i++){
 		if(radios[i].checked){
-			if(radios[i].checked == "Grad"){
+			if(radios[i].value == "Grad"){
 				check = "Student";
 				grad = 1;
 			} else if(radios[i].value == "Undergrad"){
@@ -208,10 +208,10 @@ function checkForm(event){
 				alert("Error: Select whether you are a student or faculty");
 				$("#undergrad").focus();
 				return false;
-	}	
 			}
-			break;
+			break;	
 		}
+	}
 	
 	
 	/*if(document.getElementsByName("studentOrFaculty")[0].value == "Grad"){
@@ -241,18 +241,18 @@ function checkForm(event){
 	$.ajax({
 		type: "POST",
 		url: "api/index.php/createAccount",
-		datatype:"json",
-		data: dataString,
-		/*success: function(result) {
-			var json = JSON.parse(result);
-			if(json === null){
-				window.alert("Failure");
-				return false;
-			}
-			else {
-				alert("success!");
-			}
-		}*/
+		dataType: "json",
+		data: JSON.stringify(dataString)
+		// success: function(result) {
+		// 	var json = JSON.parse(result);
+		// 	if(json === null){
+		// 		window.alert("Failure");
+		// 		return false;
+		// 	}
+		// 	else {
+		// 		alert("success!");
+		// 	}
+		// }
 	});
 	
 	/*request.done(function (response, textStatus, jqXHR){
