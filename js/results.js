@@ -86,6 +86,59 @@ function tabInstitutionHandler() {
 }
 });
 
+// $(document).ready(function() {
+//     $('#resultsTable').dataTable( {
+//         "ajaxSource": "api/datatables.php",
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+//     } );
+// } );
+
+
+
+$(document).ready(function() {
+    $('#resultsTable').dataTable( {
+        "ajaxSource": "ajaxtest/data.txt",
+        // "columns": [
+        //     { "data": "rName" },
+        //     { "data": "fName" },
+        //     { "data": "dName" },
+        //     { "data": "iName" }
+        // ]
+    } );
+} );
+
+
+
+//uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
+
+
+// $(document).ready(function() {
+// 	var dataTest = {
+// 	    'institution' : "Lyle",
+// 	    'department' : "CSE"
+// 		};
+// 	$('#resultsTable').dataTable( {
+// 		"ajaxSource": $.ajax({
+// 		    type: 'POST',
+// 		    url: 'api/datatables.php',
+// 		    data: JSON.stringify(dataTest), 
+// 		    datatype: "json",
+// 		}),
+
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+// 	});
+// });
+
 
 //try this out. comment out and uncomment others if it doesnt work, which it probably wont
 
@@ -109,32 +162,6 @@ function tabInstitutionHandler() {
 //         ]
 // 	});
 // });
-	
-
-//uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
-
-
-$(document).ready(function() {
-	var dataTest = {
-	    'institution' : "Lyle",
-	    'department' : "CSE"
-		};
-	$('#resultsTable').dataTable( {
-		"ajax": $.ajax({
-		    type: 'POST',
-		    url: 'api/datatables.php',
-		    data: JSON.stringify(dataTest), 
-		    datatype: "json",
-		}),
-
-        "columns": [
-            { "data": "rName" },
-            { "data": "fName" },
-            { "data": "dName" },
-            { "data": "iName" }
-        ]
-	});
-});
 
 
 //uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
