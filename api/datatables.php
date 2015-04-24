@@ -2,8 +2,8 @@
 
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	// Arguments
-	$institution = $_POST['institution'];
-	$department = $_POST['department'];
+	$institution = json_decode($_POST['institution']);
+	$department = json_decode($_POST['department']);
 	
 	// TABLE MAGIC TIME, Create temp table
 	$sql = "CREATE TEMPORARY TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), fName VARCHAR(45), lName VARCHAR(45), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
