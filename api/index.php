@@ -476,7 +476,16 @@
 		
 		echo json_encode($output);//format the array into json data
 	});
+	//==============================================================//
+	//			Collect Information for Application Page			//
+	//==============================================================//
 	
+	$app->get('/appInfo', function(){
+			
+		$info = array('title' => 'Some Title', 'positionCount' => '3', 'startDate' => 'Yesterday', 'professor' => 'Mr. FuckNo', 'desc' => 'Yada Yada!!!');
+		echo json_encode($info);
+		 
+	});
 	
 	//==============================================================//
 	//                   filters (inst. dept.)                      //
