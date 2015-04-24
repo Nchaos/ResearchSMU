@@ -24,3 +24,47 @@ $("#edit").click(function() {
     dept.innerHTML = "Department: <br><input type='text' name='dept'>";
     document.getElementById(dept).appendChild(dept);
 });
+
+function uploadResume(){
+	var form = document.getElementById('uploadForm');
+	var file = document.getElementById('file-select');
+	var button = document.getElementById('upload');
+	
+	form.onsubmit = function(event){
+		event.preventDefault();
+		
+		//Update Button
+		button.innerHTML = 'Browsing...';
+		
+		//code here
+		var files = file.files;
+		var formData = new FormData();
+		
+		for (var i = 0; i < files.length; i++) {
+			  var file = files[i];
+			
+			  // Check the file type. pdf.* mat be wrong
+			  if (!file.type.match('pdf.*')) {
+			    console.log("Warning, I think you picked the wrong file type!!");
+			    continue;
+			  }
+			
+			  // Add the file to the request.
+			  formData.append('resume[]', file, file.name);
+		}
+		
+		
+		var request = new XMLHttpRequest();
+		request.open('POST', 'api/index.php/uploadFunction', true);
+		
+		request.onload = function() {
+			if (request.status === 200)
+				button.innerHTML = 'Uploaded';
+			else
+				console.log('An error occured in request');
+		};
+		
+		request.send(formData);
+	};
+}
+

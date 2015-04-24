@@ -73,10 +73,16 @@
 	        									<input type="text" class="form-control" id="lname" placeholder="Enter last name">
 	      									</div>
 	      									
+	      									<label class="control-label col-sm-2" for="pwd">Resume:</label>
+	      									<form id="uploadForm">
+		      									<div class="col-sm-10">          
+		        									<input type="file" class="form-control" id="file-select" name="resume[]" placeholder="PDF File only">
+		        								</div>
+	      									</form>
 	    								</div>
 	    								<div class="form-group">        
 	      									<div class="col-sm-offset-2 col-sm-10">
-	        									<button type="submit" class="btn btn-default">Submit</button>
+	        									<button type="submit" id="upload" class="btn btn-default">Submit</button>
 	      									</div>
 	    								</div>
 	              					</form>
