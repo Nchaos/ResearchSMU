@@ -86,47 +86,74 @@ function tabInstitutionHandler() {
 }
 });
 
+// $(document).ready(function() {
+//     $('#resultsTable').dataTable( {
+//         "ajaxSource": "api/datatables.php",
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+//     } );
+// } );
 
-//try this out. comment out and uncomment others if it doesnt work, which it probably wont
+
 
 $(document).ready(function() {
-	var dataTest = {
-	    'institution' : "Lyle"
-	    'department' : "CSE"
-		};
-	$('#resultsTable').dataTable( {
-		$.ajax({
-		    type: 'POST',
-		    url: 'api/datatables.php',
-		    data: JSON.stringify(dataTest), 
-		    datatype: "json",
-		});
-        "columns": [
-            { "data": "rName" },
-            { "data": "fName" },
-            { "data": "dName" },
-            { "data": "iName" }
-        ]
-	});
-});
-	
+    $('#resultsTable').dataTable( {
+        "ajaxSource": "ajaxtest/data.txt",
+        // "columns": [
+        //     { "data": "rName" },
+        //     { "data": "fName" },
+        //     { "data": "dName" },
+        //     { "data": "iName" }
+        // ]
+    } );
+} );
+
+
 
 //uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
 
 
 // $(document).ready(function() {
 // 	var dataTest = {
-// 	    'institution' : "Lyle"
+// 	    'institution' : "Lyle",
 // 	    'department' : "CSE"
 // 		};
 // 	$('#resultsTable').dataTable( {
-// 		"ajax": $.ajax({
+// 		"ajaxSource": $.ajax({
 // 		    type: 'POST',
 // 		    url: 'api/datatables.php',
 // 		    data: JSON.stringify(dataTest), 
 // 		    datatype: "json",
-// 		});,
+// 		}),
 
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+// 	});
+// });
+
+
+//try this out. comment out and uncomment others if it doesnt work, which it probably wont
+
+// $(document).ready(function() {
+// 	var dataTest = {
+// 	    'institution' : "Lyle",
+// 	    'department' : "CSE"
+// 		};
+// 	$('#resultsTable').dataTable( {
+// 		$.ajax({
+// 		    type: 'POST',
+// 		    url: 'api/datatables.php',
+// 		    data: JSON.stringify(dataTest), 
+// 		    datatype: "json",
+// 		});
 //         "columns": [
 //             { "data": "rName" },
 //             { "data": "fName" },
@@ -141,7 +168,7 @@ $(document).ready(function() {
 
 // $(document).ready(function() {					//dont think this is working.
 // 	var dataTest = {
-// 	    'institution' : "Lyle"
+// 	    'institution' : "Lyle",
 // 	    'department' : "CSE"
 // 		};
 //     $('#resultsTable').dataTable( {
@@ -178,6 +205,6 @@ function filter(filter) {
 }
 
 
-$(document).ready( function () {
-    $('#dtTest').DataTable();
-} );
+// $(document).ready( function () {
+//     $('#resultsTable').DataTable();
+// } );
