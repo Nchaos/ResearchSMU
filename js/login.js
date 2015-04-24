@@ -60,7 +60,7 @@ function Login(event){
 	// AJAX code to submit form.
 	$.ajax({
 		type: "POST",
-		url: "api/index.php/loginUser",
+		url: "api/index.php/login",		//changed to login from loginUser
 		datatype:"json",
 		data: dataString,
 		/*success: function(result) {
