@@ -1422,7 +1422,6 @@
 		echo "<p>File Name: <b>$form_data_name</b><br>";  
 		echo "<p>File Size: <b>$form_data_size</b><br>";  
 		echo "<p>File Type: <b>$form_data_type</b><p>";  
-		echo "To upload another file <a href=http://www.yoursite.com/yourpage.html> Click Here</a>";
 	}
 
 	//==============================================================//
@@ -1430,7 +1429,7 @@
 	//==============================================================//	
 		
 	function accessResume($ID){
-		$query = "SELECT data,filetype FROM uploads where id = $id"; 
+		$query = "SELECT data, filetype FROM uploads where id = $id"; 
 		if($mysqli->query($query) === TRUE) {
 				$result = $mysqli->query($query);
 			} else {
