@@ -2,11 +2,11 @@
 
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	// Arguments
-	// $institution = json_decode($_POST['institution']);
-	// $department = json_decode($_POST['department']);
+	$institution = json_decode($_POST['institution']);
+	$department = json_decode($_POST['department']);
 
-	$institution = "Lyle";
-	$department = "CSE";
+	// $institution = "Lyle";
+	// $department = "CSE";
 	
 	// TABLE MAGIC TIME, Create temp table
 	$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), fName VARCHAR(45), lName VARCHAR(45), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
@@ -25,7 +25,7 @@
 	$table = 'TEMP';
 	 
 	// Table's primary key
-	$primaryKey = 'rName';
+	$primaryKey = 'ResearchOp_ID';
 	 
 	// Array of database columns which should be read and sent back to DataTables.
 	// The `db` parameter represents the column name in the database, while the `dt`
@@ -33,14 +33,14 @@
 	// indexes
 	$columns = array(
 		//array( 'db' => 'ResearchOp_ID',		'dt' => 0 ),
-		array( 'db' => 'rName',    			'dt' => 0 ),
-		array( 'db' => 'fName',    			'dt' => 1 ),
+		array( 'db' => 'rName',    			'dt' => rName ),
+		array( 'db' => 'fName',    			'dt' => fName ),
 		// array( 'db' => 'lName',    			'dt' => 2 ),
 		//array( 'db' => 'startDate',			'dt' => 4 ), 
 		//array( 'db' => 'endDate',  			'dt' => 5 ),
 		//array( 'db' => 'numPositions',    	'dt' => 6 ),
-		array( 'db' => 'dName',    			'dt' => 2 ),
-		array( 'db' => 'iName',    			'dt' => 3 ),
+		array( 'db' => 'dName',    			'dt' => dName ),
+		array( 'db' => 'iName',    			'dt' => iName ),
 		//array( 'db' => 'paid',				'dt' => 9 ), 
 		//array( 'db' => 'workStudy',  		'dt' => 10 ),
 		//array( 'db' => 'acceptsUndergrad',	'dt' => 11 ), 
@@ -67,10 +67,10 @@
 		SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
 	);
 	
-	$sql2 = "Drop TABLE TEMP";
-	$stmt2 = $mysqli -> prepare($sql2);
-	$stmt2 -> bind_param('ss', $institution, $department);
-	$stmt2 -> execute();
-	$stmt2 -> close();
+	// $sql2 = "Drop TABLE TEMP";
+	// $stmt2 = $mysqli -> prepare($sql2);
+	// $stmt2 -> bind_param('ss', $institution, $department);
+	// $stmt2 -> execute();
+	// $stmt2 -> close();
 	
 ?>
