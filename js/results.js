@@ -81,18 +81,24 @@ function tabInstitutionHandler() {
 	});
 	
 	window.location.href = "search.html";
+
+
 }
 });
 
 $(document).ready(function() {
     $('#resultsTable').dataTable( {
-        "ajax": "api/datatables.php",
-        // "columns": [
-        //     { "data": "rName" },
-        //     { "data": "fName" },
-        //     { "data": "dName" },
-        //     { "data": "iName" }
-        // ]
+        "ajax": {
+        	"url":"api/datatables.php",
+        	type: "POST"
+        	data: {field1:"Lyle",field2:"CSE"}
+        },
+        "columns": [
+            { "data": "rName" },
+            { "data": "fName" },
+            { "data": "dName" },
+            { "data": "iName" }
+        ]
     } );
 } );
 
