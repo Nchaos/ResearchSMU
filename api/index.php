@@ -506,6 +506,7 @@
 			}
 			
 			echo sqltojsonarray($result);
+	}
 
 	function filterDedman(){//all OPs in Dedman
 			global $mysqli;
