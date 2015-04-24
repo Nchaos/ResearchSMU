@@ -86,13 +86,13 @@ function tabInstitutionHandler() {
 
 $(document).ready(function() {
     $('#resultsTable').dataTable( {
-        "ajaxSource": "api/datatables.php",
-        "columns": [
-            { "data": "rName" },
-            { "data": "fName" },
-            { "data": "dName" },
-            { "data": "iName" }
-        ]
+        "ajax": "api/datatables.php",
+        // "columns": [
+        //     { "data": "rName" },
+        //     { "data": "fName" },
+        //     { "data": "dName" },
+        //     { "data": "iName" }
+        // ]
     } );
 } );
 
