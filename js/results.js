@@ -86,26 +86,78 @@ function tabInstitutionHandler() {
 }
 });
 
-$(document).ready(function() {
-    $('#resultsTable').dataTable( {
-    	"processing": true,
-        "serverSide": true,
-        "ajax":{
-        	url: "api/datatables.php",
-        	type: "POST"
-        	// data: {
-        	// 	"institution": "Lyle",
-        	// 	"department": "CSE"
-        	// }
-        },
-        "columns": [
-            { "data": "rName" },
-            { "data": "fName" },
-            { "data": "dName" },
-            { "data": "iName" }
-        ]
-    } );
-} );
+
+//try this out. comment out and uncomment others if it doesnt work, which it probably wont
+
+// $(document).ready(function() {
+// 	var dataTest = {
+// 	    'institution' : "Lyle"
+// 	    'department' : "CSE"
+// 		};
+// 	$('#resultsTable').dataTable( {
+// 		$.ajax({
+// 		    type: 'POST',
+// 		    url: 'api/datatables.php',
+// 		    data: JSON.stringify(dataTest), 
+// 		    datatype: "json",
+// 		});
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+// 	});
+// });
+	
+
+//uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
+
+
+// $(document).ready(function() {
+// 	var dataTest = {
+// 	    'institution' : "Lyle"
+// 	    'department' : "CSE"
+// 		};
+// 	$('#resultsTable').dataTable( {
+// 		"ajax": $.ajax({
+// 		    type: 'POST',
+// 		    url: 'api/datatables.php',
+// 		    data: JSON.stringify(dataTest), 
+// 		    datatype: "json",
+// 		});,
+
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+// 	});
+// });
+
+
+//uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
+
+// $(document).ready(function() {					//dont think this is working.
+// 	var dataTest = {
+// 	    'institution' : "Lyle"
+// 	    'department' : "CSE"
+// 		};
+//     $('#resultsTable').dataTable( {
+//         "ajax": {
+//         	url:"api/datatables.php",
+//         	type: "POST"
+//         	data: JSON.stringify(dataTest)
+//         },
+//         "columns": [
+//             { "data": "rName" },
+//             { "data": "fName" },
+//             { "data": "dName" },
+//             { "data": "iName" }
+//         ]
+//     } );
+// } );
 
 $(document).ready(function() {
 function autocomplete() {
