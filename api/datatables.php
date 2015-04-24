@@ -1,5 +1,6 @@
 <?php
 
+	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	// Arguments
 	$institution = $_POST['institution'];
 	$department = $_POST['department'];
@@ -14,7 +15,7 @@
 	$sql1 = "Insert into TEMP Select ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.name = (?) AND Department.name = (?)";
 
 	$stmt1 = $mysqli -> prepare($sql1);
-	$stmt1 -> bind_param('s', $institution, $department);
+	$stmt1 -> bind_param('ss', $institution, $department);
 	$stmt1 -> execute();
 	$stmt1 -> close();
 	
@@ -31,12 +32,12 @@
 		//array( 'db' => 'ResearchOp_ID',		'dt' => 0 ),
 		array( 'db' => 'rName',    			'dt' => 1 ),
 		array( 'db' => 'fName',    			'dt' => 2 ),
-		array( 'db' => 'lName',    			'dt' => 3 ),
+		// array( 'db' => 'lName',    			'dt' => 2 ),
 		//array( 'db' => 'startDate',			'dt' => 4 ), 
 		//array( 'db' => 'endDate',  			'dt' => 5 ),
 		//array( 'db' => 'numPositions',    	'dt' => 6 ),
-		array( 'db' => 'dName',    			'dt' => 7 ),
-		array( 'db' => 'iName',    			'dt' => 8 ),
+		array( 'db' => 'dName',    			'dt' => 3 ),
+		array( 'db' => 'iName',    			'dt' => 4 ),
 		//array( 'db' => 'paid',				'dt' => 9 ), 
 		//array( 'db' => 'workStudy',  		'dt' => 10 ),
 		//array( 'db' => 'acceptsUndergrad',	'dt' => 11 ), 
@@ -65,7 +66,7 @@
 	
 	$sql2 = "Drop TABLE TEMP";
 	$stmt2 = $mysqli -> prepare($sql2);
-	$stmt2 -> bind_param('s', $institution, $department);
+	$stmt2 -> bind_param('ss', $institution, $department);
 	$stmt2 -> execute();
 	$stmt2 -> close();
 	
