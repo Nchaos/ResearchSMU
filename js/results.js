@@ -88,10 +88,15 @@ function tabInstitutionHandler() {
 
 $(document).ready(function() {
     $('#resultsTable').dataTable( {
-        "ajax": {
-        	"url":"api/datatables.php",
+    	"processing": true,
+        "serverSide": true,
+        "ajax":{
+        	url: "api/datatables.php",
         	type: "POST"
-        	data: {field1:"Lyle",field2:"CSE"}
+        	// data: {
+        	// 	"institution": "Lyle",
+        	// 	"department": "CSE"
+        	// }
         },
         "columns": [
             { "data": "rName" },
