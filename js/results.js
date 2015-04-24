@@ -91,7 +91,7 @@ function tabInstitutionHandler() {
 
 // $(document).ready(function() {
 // 	var dataTest = {
-// 	    'institution' : "Lyle"
+// 	    'institution' : "Lyle",
 // 	    'department' : "CSE"
 // 		};
 // 	$('#resultsTable').dataTable( {
@@ -114,34 +114,34 @@ function tabInstitutionHandler() {
 //uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
 
 
-// $(document).ready(function() {
-// 	var dataTest = {
-// 	    'institution' : "Lyle"
-// 	    'department' : "CSE"
-// 		};
-// 	$('#resultsTable').dataTable( {
-// 		"ajax": $.ajax({
-// 		    type: 'POST',
-// 		    url: 'api/datatables.php',
-// 		    data: JSON.stringify(dataTest), 
-// 		    datatype: "json",
-// 		});,
+$(document).ready(function() {
+	var dataTest = {
+	    'institution' : "Lyle",
+	    'department' : "CSE"
+		};
+	$('#resultsTable').dataTable( {
+		"ajax": $.ajax({
+		    type: 'POST',
+		    url: 'api/datatables.php',
+		    data: JSON.stringify(dataTest), 
+		    datatype: "json",
+		}),
 
-//         "columns": [
-//             { "data": "rName" },
-//             { "data": "fName" },
-//             { "data": "dName" },
-//             { "data": "iName" }
-//         ]
-// 	});
-// });
+        "columns": [
+            { "data": "rName" },
+            { "data": "fName" },
+            { "data": "dName" },
+            { "data": "iName" }
+        ]
+	});
+});
 
 
 //uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
 
 // $(document).ready(function() {					//dont think this is working.
 // 	var dataTest = {
-// 	    'institution' : "Lyle"
+// 	    'institution' : "Lyle",
 // 	    'department' : "CSE"
 // 		};
 //     $('#resultsTable').dataTable( {
@@ -178,6 +178,6 @@ function filter(filter) {
 }
 
 
-$(document).ready( function () {
-    $('#dtTest').DataTable();
-} );
+// $(document).ready( function () {
+//     $('#resultsTable').DataTable();
+// } );
