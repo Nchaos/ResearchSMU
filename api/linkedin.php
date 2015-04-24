@@ -18,7 +18,7 @@
 		$provider = new League\OAuth2\Client\Provider\LinkedIn([
 			'clientId' => '78byrh87ljeuap',
 			'clientSecret' => 'smOpm0SlHgstRvMa',
-			'redirectUri' => 'http://127.0.0.1/api/vendor/League/OAuth2/Client/Provider/LinkedIn.php',
+			'redirectUri' => 'http://52.11.138.85/api/vendor/League/OAuth2/Client/Provider/LinkedIn.php',
 			'scopes' => ['w_share'],
 		]);
 		
