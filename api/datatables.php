@@ -1,5 +1,5 @@
 <?php
-
+	$debug = True;
 	$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 	
 	// Arguments
@@ -7,19 +7,21 @@
 	{
 		$institution = json_decode($_POST['institution']);
 	} else {
+		if($debug) echo "Institution = %";
 		$institution = "%";
 	}
 	if(isset($_POST['department']))
 	{
 		$department = json_decode($_POST['department']);
 	} else {
+		if($debug) echo "Department = %";
 		$department = "%";
 	}
 
 	// $institution = "Lyle";
 	// $department = "CSE";
 	
-	// TABLE MAGIC TIME, Create temp table
+	// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 	$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
 	$stmt0 = $mysqli -> prepare($sqldrop);
 	$stmt0 -> execute();
@@ -48,19 +50,19 @@
 	// parameter represents the DataTables column identifier. In this case simple
 	// indexes
 	$columns = array(
-		//array( 'db' => 'ResearchOp_ID',		'dt' => 0 ),
-		array( 'db' => 'rName',    			'dt' => rName ),
-		array( 'db' => 'fName',    			'dt' => fName ),
-		// array( 'db' => 'lName',    			'dt' => 2 ),
-		//array( 'db' => 'startDate',			'dt' => 4 ), 
-		//array( 'db' => 'endDate',  			'dt' => 5 ),
-		//array( 'db' => 'numPositions',    	'dt' => 6 ),
-		array( 'db' => 'dName',    			'dt' => dName ),
-		array( 'db' => 'iName',    			'dt' => iName ),
-		//array( 'db' => 'paid',				'dt' => 9 ), 
-		//array( 'db' => 'workStudy',  		'dt' => 10 ),
-		//array( 'db' => 'acceptsUndergrad',	'dt' => 11 ), 
-		//array( 'db' => 'acceptsGrad',  		'dt' => 12 ),
+		//array( 'db' => 'ResearchOp_ID',		'dt' => ResearchOp_ID ),
+		array( 'db' => 'rName',    				'dt' => rName ),
+		array( 'db' => 'fName',    				'dt' => fName ),
+		// array( 'db' => 'lName',    			'dt' => lName ),
+		//array( 'db' => 'startDate',			'dt' => startDate ), 
+		//array( 'db' => 'endDate',  			'dt' => endDate ),
+		//array( 'db' => 'numPositions',    	'dt' => numPositions ),
+		array( 'db' => 'dName',    				'dt' => dName ),
+		array( 'db' => 'iName',    				'dt' => iName ),
+		//array( 'db' => 'paid',				'dt' => paid ), 
+		//array( 'db' => 'workStudy',  			'dt' => workStudy ),
+		//array( 'db' => 'acceptsUndergrad',	'dt' => acceptsUndergrad ), 
+		//array( 'db' => 'acceptsGrad',  		'dt' => acceptsGrad ),
 	);
 	 
 	// SQL server connection information
@@ -83,10 +85,12 @@
 		SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
 	);
 	
-	// $sql2 = "Drop TABLE TEMP";
-	// $stmt2 = $mysqli -> prepare($sql2);
-	// $stmt2 -> bind_param('ss', $institution, $department);
-	// $stmt2 -> execute();
-	// $stmt2 -> close();
-	
+	if(!$debug)
+	{
+		$sql2 = "Drop TABLE TEMP";
+		$stmt2 = $mysqli -> prepare($sql2);
+		$stmt2 -> bind_param('ss', $institution, $department);
+		$stmt2 -> execute();
+		$stmt2 -> close();
+	}
 ?>
