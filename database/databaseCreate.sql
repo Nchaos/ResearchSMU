@@ -243,6 +243,20 @@ CREATE TABLE IF NOT EXISTS `DBGUI`.`Password` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `DBGUI`.`Uploads`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `DBGUI`.`Uploads` ;
+
+CREATE TABLE IF NOT EXISTS `DBGUI`.`Uploads` (
+	id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	description CHAR(50), 
+	form_Data LONGBLOB, 
+	filename CHAR(50), 
+	filesize CHAR(50), 
+	filetype CHAR(50) )
+ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
