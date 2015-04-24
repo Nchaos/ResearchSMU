@@ -111,11 +111,11 @@ function checkForm(event){
 	else if (deptId == "10") // Chemistry 
 		instId = "01";
 	else if (deptId == "11") // Civil & Environmental Engineering
-		instId = "00";
+		instId = "05";
 	else if (deptId == "12") // Communication Studies
 		instId = "03";
 	else if (deptId == "13") // Computer Science & Engineering
-		instId = "00";
+		instId = "05";
 	else if (deptId == "14") // Counseling
 		instId = "04";
 	else if (deptId == "15") // Creative Computing 
@@ -129,7 +129,7 @@ function checkForm(event){
 	else if (deptId == "19") // Economics
 		instId = "01";
 	else if (deptId == "20") // Electrical Engineering
-		instId = "00";
+		instId = "05";
 	else if (deptId == "21") // English 
 		instId = "01";
 	else if (deptId == "22") // Film and Media Arts
@@ -145,13 +145,13 @@ function checkForm(event){
 	else if (deptId == "27") // Management 
 		instId = "02"
 	else if (deptId == "28") // Management Science
-		instId = "00";
+		instId = "05";
 	else if (deptId == "29") // Marketing 
 		instId = "02";
 	else if (deptId == "30") // Mathematics
 		instId = "01";
 	else if (deptId == "31") // Mechanical Engineering 
-		instId = "00";
+		instId = "05";
 	else if (deptId == "32") // Music
 		instId = "03";
 	else if (deptId == "33") // Phiolosophy 
