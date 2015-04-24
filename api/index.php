@@ -498,7 +498,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE inst_ID = 00";
+					WHERE inst_ID = 05";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {
