@@ -88,6 +88,8 @@ function tabInstitutionHandler() {
 
 // $(document).ready(function() {
 //     $('#resultsTable').dataTable( {
+//     	"processing": true,
+//      	"serverSide": true,
 //         "ajaxSource": "api/datatables.php",
 //         "columns": [
 //             { "data": "rName" },
@@ -100,18 +102,42 @@ function tabInstitutionHandler() {
 
 
 
-$(document).ready(function() {
-    $('#resultsTable').dataTable( {
-        "ajaxSource": "ajaxtest/data.txt",
-        // "columns": [
-        //     { "data": "rName" },
-        //     { "data": "fName" },
-        //     { "data": "dName" },
-        //     { "data": "iName" }
-        // ]
-    } );
-} );
+// $(document).ready(function() {
+//     $('#resultsTable').dataTable( {
+//         "ajaxSource": "ajaxtest/data.txt",
+//         // "columns": [
+//         //     { "data": "rName" },
+//         //     { "data": "fName" },
+//         //     { "data": "dName" },
+//         //     { "data": "iName" }
+//         // ]
+//     } );
+// } );
 
+
+$(document).ready(function() {
+	var dataTest = {
+	    'institution' : "Lyle",
+	    'department' : "CSE"
+		};
+	$('#resultsTable').dataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax":{
+		    type: 'POST',
+		    url: 'api/datatables.php',
+		    data: JSON.stringify(dataTest), 
+		    datatype: "json",
+		},
+
+        "columns": [
+            { "data": "rName" },
+            { "data": "fName" },
+            { "data": "dName" },
+            { "data": "iName" }
+        ]
+	});
+});
 
 
 //uncomment to check if it works. probably doesnt. comment out other two methods if you try this one
