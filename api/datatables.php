@@ -3,36 +3,36 @@
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
-	
-	$app->post('datatables',function(){
-		$debug = True;
+
+
+	$app->post('/datatable',function(){
 		$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
-		
-		Arguments
-		if(isset($_POST['institution']))
-		{
-			$institution = $_POST['institution'];
-		} else {
-			if($debug) echo "Institution = %";
-			$institution = "%";
-		}
-		if(isset($_POST['department']))
-		{
-			$department = $_POST['department'];
-		} else {
-			if($debug) echo "Department = %";
-			$department = "%";
-		}
+
+		//Arguments
+		// if(isset($_POST['institution']))
+		// {
+		// 	$institution = $_POST['institution'];
+		// } else {
+		// 	if($debug) echo "Institution = %";
+		// 	$institution = "%";
+		// }
+		// if(isset($_POST['department']))
+		// {
+		// 	$department = $_POST['department'];
+		// } else {
+		// 	if($debug) echo "Department = %";
+		// 	$department = "%";
+		// }
 
 		//$institution = $_POST['institution'];
 		//$department = $_POST['department'];
 
+		$institution = "Lyle";
+		$department = "CSE";
+		
 		echo $institution;
 		echo $department;
 
-		// $institution = "Lyle";
-		// $department = "CSE";
-		
 		// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
 		$stmt0 = $mysqli -> prepare($sqldrop);
@@ -61,16 +61,18 @@
 		// The `db` parameter represents the column name in the database, while the `dt`
 		// parameter represents the DataTables column identifier. In this case simple
 		// indexes
+
+
 		$columns = array(
 			//array( 'db' => 'ResearchOp_ID',		'dt' => ResearchOp_ID ),
-			array( 'db' => 'rName',    				'dt' => rName ),
-			array( 'db' => 'fName',    				'dt' => fName ),
+			array( 'db' => 'rName',    				'dt' => "rName" ),
+			array( 'db' => 'fName',    				'dt' => "fName" ),
 			// array( 'db' => 'lName',    			'dt' => lName ),
 			//array( 'db' => 'startDate',			'dt' => startDate ), 
 			//array( 'db' => 'endDate',  			'dt' => endDate ),
 			//array( 'db' => 'numPositions',    	'dt' => numPositions ),
-			array( 'db' => 'dName',    				'dt' => dName ),
-			array( 'db' => 'iName',    				'dt' => iName ),
+			array( 'db' => 'dName',    				'dt' => "dName" ),
+			array( 'db' => 'iName',    				'dt' => "iName" )
 			//array( 'db' => 'paid',				'dt' => paid ), 
 			//array( 'db' => 'workStudy',  			'dt' => workStudy ),
 			//array( 'db' => 'acceptsUndergrad',	'dt' => acceptsUndergrad ), 
@@ -93,17 +95,37 @@
 		 
 		require( 'ssp.class.php' );
 		 
-		echo json_encode(
-			SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
-		);
+		//echo json_encode($columns);
+
+		$result = SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns );
+	
+		//echo var_dump($result);
+
+		/*$rname1 = $result -> "rName";
+	 	$fname1 = $result -> "fName";
+	 	$dname1 = $result ->
+	 	$iname1 = 
+		*/
+
+		//$array = {"fName": $name};
+		//json_encode($array);
 		
-		if(!$debug)
-		{
-			$sql2 = "Drop TABLE TEMP";
-			$stmt2 = $mysqli -> prepare($sql2);
-			$stmt2 -> bind_param('ss', $institution, $department);
-			$stmt2 -> execute();
-			$stmt2 -> close();
-		}
+
+
+		// json_encode($result);
+		// echo var_dump($result);
+		 $fuckjson =  json_encode(
+		 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
+		 );
+		echo $fuckjson;
+		// if(!$debug)
+		// {
+		// 	$sql2 = "Drop TABLE TEMP";
+		// 	$stmt2 = $mysqli -> prepare($sql2);
+		// 	$stmt2 -> bind_param('ss', $institution, $department);
+		// 	$stmt2 -> execute();
+		// 	$stmt2 -> close();
+		// }
 	});
+	$app-> run();
 ?>

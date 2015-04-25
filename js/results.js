@@ -117,15 +117,15 @@ function tabInstitutionHandler() {
 
 $(document).ready(function() {
 	var dataTest = {
-	    'institution' : "Lyle",
-	    'department' : "CSE"
+	    institution : "Lyle",
+	    department : "CSE"
 		};
 	$('#resultsTable').dataTable( {
 		"processing": true,
 		"serverSide": true,
 		"ajax":{
 		    type: 'POST',
-		    url: 'api/datatables.php',
+		    url: 'api/datatables.php/datatable',
 		    data: JSON.stringify(dataTest), 
 		    datatype: "json",
 		},

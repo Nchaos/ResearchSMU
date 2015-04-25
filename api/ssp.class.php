@@ -252,6 +252,7 @@ class SSP {
 		$bindings = array();
 		$db = self::db( $conn );
 		$localWhereResult = array();
+		$db->query("SET NAMES 'utf8'");
 		$localWhereAll = array();
 		$whereAllSql = '';
 		// Build the SQL query string from the request
@@ -328,6 +329,7 @@ class SSP {
 				"The error reported by the server was: ".$e->getMessage()
 			);
 		}
+		$db->query("SET NAMES 'utf8'");
 		return $db;
 	}
 	/**
