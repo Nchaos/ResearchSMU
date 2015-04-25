@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
 collectInfo();
-
+applyToPosition();
 });
 
 
@@ -23,14 +23,15 @@ function collectInfo() {
 	
 	//alert(jsonValue);
 	
-	
-	
-	
-	
-	
 }
 
-
+function applyToPosition(){
+	
+	$("#send-apply").click(function(){
+		//Do Code Here When Logic Is Decided
+		alert("You Have Applied!!!");
+	});
+}
 
 
 
