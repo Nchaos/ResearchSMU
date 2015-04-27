@@ -30,9 +30,6 @@
 		// $institution = "Lyle";
 		// $department = "CSE";
 		
-		// echo $institution;
-		// echo $department;
-
 		// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
 		$stmt0 = $mysqli -> prepare($sqldrop);
@@ -99,22 +96,7 @@
 
 		$result = SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns );
 	
-		//echo var_dump($result);
-
-		/*$rname1 = $result -> "rName";
-	 	$fname1 = $result -> "fName";
-	 	$dname1 = $result ->
-	 	$iname1 = 
-		*/
-
-		//$array = {"fName": $name};
-		//json_encode($array);
-		
-
-
-		// json_encode($result);
-		// echo var_dump($result);
-		 $fuckjson =  json_encode(
+		$fuckjson =  json_encode(
 		 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
 		 );
 		echo $fuckjson;
