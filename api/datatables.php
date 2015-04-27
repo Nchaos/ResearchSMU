@@ -24,14 +24,14 @@
 		// 	$department = "%";
 		// }
 
-		//$institution = $_POST['institution'];
-		//$department = $_POST['department'];
+		$institution = $_POST['institution'];
+		$department = $_POST['department'];
 
-		$institution = "Lyle";
-		$department = "CSE";
+		// $institution = "Lyle";
+		// $department = "CSE";
 		
-		echo $institution;
-		echo $department;
+		// echo $institution;
+		// echo $department;
 
 		// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
