@@ -50,7 +50,7 @@ function getFormValues(oForm, skip_elements) {
 
 
 
-$(document).ready(function() {
+
 
 function tabDeptHandler() {
     var deptValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
@@ -84,7 +84,6 @@ function tabInstitutionHandler() {
 
 
 }
-});
 
 // $(document).ready(function() {
 //     $('#resultsTable').dataTable( {
