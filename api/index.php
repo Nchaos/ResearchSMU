@@ -1461,7 +1461,7 @@
 	//==============================================================//
 		
 	
-	function login()
+	$app->post('/login', function()
 	{
 		global $mysqli;
 		//-----------Getting User ID--------------//
