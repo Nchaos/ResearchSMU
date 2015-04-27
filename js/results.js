@@ -126,7 +126,7 @@ $(document).ready(function() {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables.php/datatable',
-		    data: JSON.stringify(dataTest), 
+		    data: dataTest, 
 		    datatype: "json",
 		},
 
