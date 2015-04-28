@@ -259,7 +259,7 @@
 	//==============================================================//
 	//                      Filter Institution                      //
 	//==============================================================//
-	function filterSchool(){//$dept_ID, $inst_ID
+	$app->post('/filterSchool', function(){//$dept_ID, $inst_ID
 		$institution = $_POST['searchString'];
 		global $mysqli;
 		if ($mysqli->connect_error) {
@@ -281,12 +281,12 @@
 		}
 		
 		echo json_encode($result);
-	}
+	});
 	
 	//==============================================================//
 	//                      Filter Department                       //
 	//==============================================================//
-	function filterDepartment(){//$dept_ID, $inst_ID
+	$app->post('/filterDepartment', function(){//$dept_ID, $inst_ID
 		$department = $_POST['searchString'];
 		global $mysqli;
 		if ($mysqli->connect_error) {
@@ -308,7 +308,7 @@
 		}
 		
 		echo json_encode($result);
-	}
+	});
 	
 	//==============================================================//
 	//                      Filter Faculty                          //
@@ -330,7 +330,7 @@
 			echo "Search failed: ";
 		}
 		echo json_encode($searchres);
-	};
+	}
 	
 	
 	//==============================================================//
