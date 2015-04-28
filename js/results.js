@@ -52,8 +52,8 @@ function getFormValues(oForm, skip_elements) {
 function tabDeptHandlerSearch(num) {
 	
   	var deptValue = num;
-  	var filter = {"department" : deptValue};
-  	var searchString = JSON.stringify(filter);
+  	var searchString = {"department" : deptValue};
+  	// var searchString = JSON.stringify(filter);
        // console.log(deptValue);
        // console.log(searchString);
   
@@ -73,8 +73,8 @@ function tabDeptHandlerSearch(num) {
 function tabInstitutionHandlerSearch(num) {
   
   	var instValue = num; 
-  	var filter = {"institution" : instValue};
-  	var searchString = JSON.stringify(filter);
+  	var searchString = {"institution" : instValue};
+  	// var searchString = JSON.stringify(filter);
 
        // console.log(instValue);
        // console.log(searchString);
