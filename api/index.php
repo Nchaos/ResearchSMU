@@ -1,5 +1,4 @@
 <?php
-	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -250,8 +249,9 @@
 					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
 				
 			}
+			}
 		echo json_encode(array('SUCCESS' => 'Created user!'));
-		#if ($debug) echo "Created User!";
+		//if ($debug) echo "Created User!";
 	});
 	
 	
@@ -1460,7 +1460,7 @@
 	//==============================================================//
 		
 	
-	$app->post('/login', function()
+	$app->post('/login', function());
 	{
 		global $mysqli;
 		//-----------Getting User ID--------------//
@@ -1470,10 +1470,10 @@
 		$res = $mysqli->query($query);
 		$actual_result = $res->fetch_assoc();
 		if(($actual_result === NULL))
-			{
+		{
 				//-------Email not found-------//
 				die(json_encode(array('ERROR' => 'Could not find user')));
-			}
+		}
 		else
 		{
 			$user = $actual_result["user_ID"];
@@ -1483,17 +1483,17 @@
 			$second_res = $mysqli->query($second_query);
 			$second_actual_result = $second_res->fetch_assoc();
 			if($actual_result === NULL)
-				{
+			{
 					//-------Password not found---------//
 					die(json_encode(array('ERROR' => 'Password could not be found')));
-				}
+			}
 			else
-				{
+			{
 					$password_result = $second_actual_result["password"];
 					//----------Obtained Password paired with USer ID--------------//
 					//----------Verify Password with hash--------------------------//
 					if(password_verify($password_User_Entered,$password_result))
-						{
+					{
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = 'user'";
 						$returnValue = $mysqli -> query($components);
@@ -1505,13 +1505,13 @@
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
 						//---------Obtained User Data-------------//
-						}
+					}
 					else
-						{
+					{
 							//--------Wrong password Entered---------//
 							die(json_encode(array('ERROR' => 'User could not be validated')));
-						}
-				}
+					}
+			}
 		}
 	}
 		
