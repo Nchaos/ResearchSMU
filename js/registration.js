@@ -242,7 +242,7 @@ function checkForm(event){
 		type: "POST",
 		url: "api/index.php/createAccount",
 		dataType: "json",
-		data: JSON.stringify(dataString)
+		data: dataString
 		// success: function(result) {
 		// 	var json = JSON.parse(result);
 		// 	if(json === null){

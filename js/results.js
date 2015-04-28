@@ -49,6 +49,50 @@ function getFormValues(oForm, skip_elements) {
 }
 
 
+function tabDeptHandlerSearch(num) {
+	
+  	var deptValue = num;
+  	var searchString = {"department" : deptValue};
+  	// var searchString = JSON.stringify(filter);
+       // console.log(deptValue);
+       // console.log(searchString);
+  
+  	$.ajax({
+    	type: "POST",
+    	url: "api/index.php/filterDepartment",
+    	success: null,
+    	datatype:"json",
+    	data: searchString
+  	});
+  
+
+  //window.location.href = "search.html";
+}
+
+
+function tabInstitutionHandlerSearch(num) {
+  
+  	var instValue = num; 
+  	var searchString = {"institution" : instValue};
+  	// var searchString = JSON.stringify(filter);
+
+       // console.log(instValue);
+       // console.log(searchString);
+
+  	$.ajax({
+    	type: "POST",
+    	url: "api/index.php/filterSchool",
+    	success: null,
+    	datatype:"json",
+    	data: searchString
+  	});
+  	
+  //window.location.href = "search.html";
+
+
+}
+
+
 $(document).ready(function() {
 	var dataTest = {
 	    institution : "Lyle",

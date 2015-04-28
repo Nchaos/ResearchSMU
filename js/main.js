@@ -248,35 +248,50 @@ $(document).ready(function() {
 });  
 
 
-function tabDeptHandler() {
-    var deptValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
-  var filter = {"department" : deptValue};
-  var searchString = JSON.stringify(filter);
-       
-  $.ajax({
-    type: "POST",
-    url: "api/index.php/filterDepartment",
-    datatype:"json",
-    data: searchString
-  });
+function tabDeptHandler(num) {
   
-  window.location.href = "search.html";
+    var deptValue = num;
+    var filter = {"department" : deptValue};
+    var searchString = JSON.stringify(filter);
+       // console.log(deptValue);
+       // console.log(searchString);
+  
+    $.ajax({
+      type: "POST",
+      url: "api/index.php/filterDepartment",
+      datatype:"json",
+      data: searchString
+    });
+
+    if(window.location.href != "search.html"){
+      window.location.href = "search.html";
+    }
+  
+  // window.location.href = "search.html";
 }
 
 
-function tabInstitutionHandler() {
-  var instValue = document.getElementsByTagName("a")[0].getAttribute("data-value");
-  var filter = {"institution" : instValue};
-  var searchString = JSON.stringify(filter);
+function tabInstitutionHandler(num) {
   
-  $.ajax({
-    type: "POST",
-    url: "api/index.php/filterSchool",
-    datatype:"json",
-    data: searchString
-  });
+    var instValue = num; 
+    var filter = {"institution" : instValue};
+    var searchString = JSON.stringify(filter);
+
+       // console.log(instValue);
+       // console.log(searchString);
+
+    $.ajax({
+      type: "POST",
+      url: "api/index.php/filterSchool",
+      datatype:"json",
+      data: searchString
+    });
+
+    if(window.location.href != "search.html"){
+      window.location.href = "search.html";
+    }
   
-  window.location.href = "search.html";
+  // window.location.href = "search.html";
 
 
 }
