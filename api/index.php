@@ -1,5 +1,4 @@
 <?php
-	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -250,8 +249,9 @@
 					die(json_encode(array('ERROR' => 'Is user student or faculty?')));
 				
 			}
+			}
 		echo json_encode(array('SUCCESS' => 'Created user!'));
-		#if ($debug) echo "Created User!";
+		//if ($debug) echo "Created User!";
 	});
 	
 	
