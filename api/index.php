@@ -1461,7 +1461,7 @@
 	//trevor messed up the syntax and wasted 40 mintues of my time
 	//its k tho. i still love you bud
 	
-	$app->post('/login', function()){
+	$app->post('/login', function(){
 		global $mysqli;
 		//-----------Getting User ID--------------//
 		$email_User_Entered = $_POST['email'];
@@ -1513,7 +1513,7 @@
 					}
 			}
 		}
-	}
+	});
 		
 	$app->run();
 ?>

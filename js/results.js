@@ -60,6 +60,7 @@ function tabDeptHandlerSearch(num) {
   	$.ajax({
     	type: "POST",
     	url: "api/index.php/filterDepartment",
+    	success: null,
     	datatype:"json",
     	data: searchString
   	});
@@ -81,6 +82,7 @@ function tabInstitutionHandlerSearch(num) {
   	$.ajax({
     	type: "POST",
     	url: "api/index.php/filterSchool",
+    	success: null,
     	datatype:"json",
     	data: searchString
   	});
