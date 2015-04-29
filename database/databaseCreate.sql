@@ -336,7 +336,7 @@ INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 	(004, 004, "Applied Physiology"),
 	(014, 004, "Counseling"),
 	(017, 004, "Dispute Resolution"),
-	(023, 004, "Higher Education"),
+	(024, 004, "Higher Education"),
 	(040, 004, "Sports Management"),
 	(043, 004, "Teacher Education"),
 	(045, 004, "Wellness");
