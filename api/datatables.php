@@ -9,30 +9,27 @@
 		$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 
 		//Arguments
-		// if(isset($_POST['institution']))
-		// {
-		// 	$institution = $_POST['institution'];
-		// } else {
-		// 	if($debug) echo "Institution = %";
-		// 	$institution = "%";
-		// }
-		// if(isset($_POST['department']))
-		// {
-		// 	$department = $_POST['department'];
-		// } else {
-		// 	if($debug) echo "Department = %";
-		// 	$department = "%";
-		// }
+		if(isset($_POST['institution']))
+		{
+			$institution = $_POST['institution'];
+		} else {
+		 	if($debug) echo "Institution = %";
+			$institution = "%";
+		}
+		if(isset($_POST['department']))
+		{
+			$department = $_POST['department'];
+		} else {
+		 	if($debug) echo "Department = %";
+			$department = "%";
+		}
 
-		$institution = $_POST['institution'];
-		$department = $_POST['department'];
+		//$institution = $_POST['institution'];
+		//$department = $_POST['department'];
 
 		// $institution = "Lyle";
 		// $department = "CSE";
 		
-		// echo $institution;
-		// echo $department;
-
 		// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
 		$stmt0 = $mysqli -> prepare($sqldrop);
@@ -45,7 +42,7 @@
 		$stmt -> close();
 		
 		// Insert required info into temporary table
-		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.name LIKE (?) AND Department.name LIKE (?)";
+		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE (?) AND Department.dept_ID LIKE (?)";
 
 		$stmt1 = $mysqli -> prepare($sql1);
 		$stmt1 -> bind_param('ss', $institution, $department);
@@ -99,22 +96,7 @@
 
 		$result = SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns );
 	
-		//echo var_dump($result);
-
-		/*$rname1 = $result -> "rName";
-	 	$fname1 = $result -> "fName";
-	 	$dname1 = $result ->
-	 	$iname1 = 
-		*/
-
-		//$array = {"fName": $name};
-		//json_encode($array);
-		
-
-
-		// json_encode($result);
-		// echo var_dump($result);
-		 $fuckjson =  json_encode(
+		$fuckjson =  json_encode(
 		 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
 		 );
 		echo $fuckjson;
