@@ -49,8 +49,9 @@ function getFormValues(oForm, skip_elements) {
 }
 
 
-function tabDeptHandlerSearch(num) {
+function tabDeptHandler(num) {
 	
+
   	var deptValue = num;
   	var searchString = {"department" : deptValue};
   	// var searchString = JSON.stringify(filter);
@@ -65,6 +66,10 @@ function tabDeptHandlerSearch(num) {
    //  	data: searchString
   	// });
 
+	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
+    	table = $('#resultsTable').DataTable();
+    	table.destroy();
+	}
 
   	$('#resultsTable').dataTable( {
 		"processing": true,
@@ -89,7 +94,7 @@ function tabDeptHandlerSearch(num) {
 }
 
 
-function tabInstitutionHandlerSearch(num) {
+function tabInstitutionHandler(num) {
   
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
@@ -105,6 +110,11 @@ function tabInstitutionHandlerSearch(num) {
    //  	datatype:"json",
    //  	data: searchString
   	// });
+
+	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
+    	table = $('#resultsTable').DataTable();
+    	table.destroy();
+	}
 
    	$('#resultsTable').dataTable( {
 		"processing": true,
@@ -174,7 +184,3 @@ function filter(filter) {
     window.alert("It Works!!!!!!! Filter: "+filter)
 }
 
-
-// $(document).ready( function () {
-//     $('#resultsTable').DataTable();
-// } );
