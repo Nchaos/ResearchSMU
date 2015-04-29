@@ -1,6 +1,6 @@
 <?php
 	header('Content-Type: application/json');
-	$debug = true;
+	$debug = false;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
 
@@ -13,14 +13,14 @@
 		{
 			$institution = $_POST['institution'];
 		} else {
-		 	if($debug) echo "Institution = %";
+		 	//if($debug) echo "Institution = %";
 			$institution = "%";
 		}
 		if(isset($_POST['department']))
 		{
 			$department = $_POST['department'];
 		} else {
-		 	if($debug) echo "Department = %";
+		 	//if($debug) echo "Department = %";
 			$department = "%";
 		}
 
