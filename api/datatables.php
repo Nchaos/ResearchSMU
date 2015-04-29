@@ -9,6 +9,13 @@
 		$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 
 		//Arguments
+		if(isset($_POST['department']))
+		{
+			$department = $_POST['department'];
+		} else {
+		 	//if($debug) echo "Department = %";
+			$department = "%";
+		}
 		if(isset($_POST['institution']))
 		{
 			$institution = $_POST['institution'];
