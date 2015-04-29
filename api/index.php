@@ -1,5 +1,4 @@
 <?php
-	header('Content-Type: application/json');
 	$debug = true;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
@@ -252,7 +251,7 @@
 			}
 			}
 		echo json_encode(array('SUCCESS' => 'Created user!'));
-		#if ($debug) echo "Created User!";
+		//if ($debug) echo "Created User!";
 	});
 	
 	
@@ -260,56 +259,56 @@
 	//==============================================================//
 	//                      Filter Institution                      //
 	//==============================================================//
-	function filterSchool(){//$dept_ID, $inst_ID
-		$institution = $_POST['searchString'];
+	$app->post('/filterSchool', function(){//$dept_ID, $inst_ID
+		$inst_ID = $_POST['institution'];
 		global $mysqli;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		$sql = "SELECT inst_ID FROM institution WHERE name = $institution";
-		if($mysqli->query($sql) === TRUE) {
-			$inst_ID = $mysqli->query($sql);
-		} else {
-			echo "Error creating database: " . $mysqli->error;
-		} 
+		// $sql = "SELECT inst_ID FROM Institution WHERE name = $institution";
+		// if($mysqli->query($sql) === TRUE) {
+		// 	$inst_ID = $mysqli->query($sql);
+		// } else {
+		// 	echo "Error creating database: " . $mysqli->error;
+		// } 
 		$s = "SELECT * 
-				FROM researchOP
-				WHERE inst_ID = $inst_ID";
-		if($mysqli->query($s) === TRUE) {
+				FROM ResearchOp
+				WHERE inst_ID = '$inst_ID'";
+		if($mysqli->query($s) == TRUE) {
 			$result = $mysqli->query($s);
 		} else {
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
 		echo json_encode($result);
-	}
+	});
 	
 	//==============================================================//
 	//                      Filter Department                       //
 	//==============================================================//
-	function filterDepartment(){//$dept_ID, $inst_ID
-		$department = $_POST['searchString'];
+	$app->post('/filterDepartment', function(){//$dept_ID, $inst_ID
+		$dept_ID = $_POST['department'];
 		global $mysqli;
 		if ($mysqli->connect_error) {
 			die("Connection failed: " . $mysqli->connect_error);
 		}
-		$sql = "SELECT dept_ID FROM department WHERE name = $department";
-		if($mysqli->query($sql) === TRUE) {
-			$dept_ID = $mysqli->query($sql);
-		} else {
-			echo "Error creating database: " . $mysqli->error;
-		} 
+		// $sql = "SELECT dept_ID FROM Department WHERE name = $department";
+		// if($mysqli->query($sql) === TRUE) {
+		// 	$dept_ID = $mysqli->query($sql);
+		// } else {
+		// 	echo "Error creating database: " . $mysqli->error;
+		// } 
 		$s = "SELECT * 
-				FROM researchOP
-				WHERE dept_ID = $dept_ID";
-		if($mysqli->query($s) === TRUE) {
+				FROM ResearchOp
+				WHERE dept_ID = '$dept_ID'";
+		if($mysqli->query($s) == TRUE) {
 			$result = $mysqli->query($s);
 		} else {
 			echo "Error creating database: " . $mysqli->error;
 		}
 		
 		echo json_encode($result);
-	}
+	});
 	
 	//==============================================================//
 	//                      Filter Faculty                          //
@@ -331,7 +330,7 @@
 			echo "Search failed: ";
 		}
 		echo json_encode($searchres);
-	};
+	}
 	
 	
 	//==============================================================//
@@ -432,7 +431,7 @@
 	//==============================================================//
 	//                   AutoComplete		                        //
 	//==============================================================//
-		//==============================================================//
+	//==============================================================//
 	//                      Autocomplete  		                    //
 	//==============================================================//
 	$app->post('/autocomplete', function(){
@@ -1459,10 +1458,10 @@
 	//==============================================================//
 	//                		   login  		   	                    //
 	//==============================================================//
-		
+	//trevor messed up the syntax and wasted 40 mintues of my time
+	//its k tho. i still love you bud
 	
-	$app->post('/login', function()
-	{
+	$app->post('/login', function(){
 		global $mysqli;
 		//-----------Getting User ID--------------//
 		$email_User_Entered = $_POST['email'];
@@ -1471,10 +1470,10 @@
 		$res = $mysqli->query($query);
 		$actual_result = $res->fetch_assoc();
 		if(($actual_result === NULL))
-			{
+		{
 				//-------Email not found-------//
 				die(json_encode(array('ERROR' => 'Could not find user')));
-			}
+		}
 		else
 		{
 			$user = $actual_result["user_ID"];
@@ -1484,17 +1483,17 @@
 			$second_res = $mysqli->query($second_query);
 			$second_actual_result = $second_res->fetch_assoc();
 			if($actual_result === NULL)
-				{
+			{
 					//-------Password not found---------//
 					die(json_encode(array('ERROR' => 'Password could not be found')));
-				}
+			}
 			else
-				{
+			{
 					$password_result = $second_actual_result["password"];
 					//----------Obtained Password paired with USer ID--------------//
 					//----------Verify Password with hash--------------------------//
 					if(password_verify($password_User_Entered,$password_result))
-						{
+					{
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = 'user'";
 						$returnValue = $mysqli -> query($components);
@@ -1506,15 +1505,15 @@
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
 						//---------Obtained User Data-------------//
-						}
+					}
 					else
-						{
+					{
 							//--------Wrong password Entered---------//
 							die(json_encode(array('ERROR' => 'User could not be validated')));
-						}
-				}
+					}
+			}
 		}
-	}
+	});
 		
 	$app->run();
 ?>
