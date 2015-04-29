@@ -279,7 +279,6 @@
 		} else {
 			echo "Error creating database: " . $mysqli->error;
 		}
-		
 		echo json_encode($result);
 	});
 	
