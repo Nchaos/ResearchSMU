@@ -1,20 +1,19 @@
 USE 'DBGUI';
 
-INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email) VALUES
+INSERT INTO Users( active, dateCreated, fname, lname, email) VALUES
 
-	(000, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu"),
-	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu"),
-	(002, TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu"),
-	(003, TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu"),
-	(004, TRUE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu"),
-	(005, TRUE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu"),
-	(006, TRUE, '2013-09-19', "Barack", "Obama", "obama@smu.edu"),
-	(007, TRUE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu"),
-	(008, TRUE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu"),
-	(009, TRUE, '2012-12-22', "John", "Dorian", "dorian@smu.edu"),
-	(010, TRUE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu"),
-	(011, TRUE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu"),
-	(012, TRUE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu");
+	( TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu"),
+	( TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu"),
+	( TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu"),
+	( TRUE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu"),
+	( TRUE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu"),
+	( TRUE, '2013-09-19', "Barack", "Obama", "obama@smu.edu"),
+	( TRUE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu"),
+	( TRUE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu"),
+	( TRUE, '2012-12-22', "John", "Dorian", "dorian@smu.edu"),
+	( TRUE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu"),
+	( TRUE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu"),
+	( TRUE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu");
 	
 INSERT INTO Admin(user_ID) VALUES
 
@@ -47,7 +46,6 @@ INSERT INTO Student(user_ID, inst_ID, dept_ID, resume, graduateStudent, loginCou
 
 INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 
-	(000, 999, 600, 3),
 	(001, 999, 601, 2),
 	(002, 999, 604, 4);
 
@@ -65,7 +63,6 @@ INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
 	(104, 011, "MMM WATCHU SAAAAAAAAY", '2015-12-13 06:21:30');
 
 INSERT INTO Password(user_ID, password) VALUES
-	(000, "ImCookingNoodles"),
 	(001, "CreamOfTheCrop"),
 	(002, "OhYeahBrother"),
 	(003, "password1"),

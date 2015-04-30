@@ -15,8 +15,8 @@
 	\\==========================================================*/
 	function authenticate(){
 		$provider = new League\OAuth2\Client\Provider\LinkedIn([
-			'clientId' => '',
-			'clientSecret' => '',
+			'clientId' => '78byrh87ljeuap',
+			'clientSecret' => 'smOpm0SlHgstRvMa',
 			'redirectUri' => 'http://192.168.10.10/api/linkedin.php/linkedinSession',
 			//'scopes' => ['w_share']
 		]);
@@ -68,7 +68,7 @@
 		
 		$token = NULL;
 		
-		if((isset($_SESSION['accessToken']))){
+		if(/*(isset($_SESSION['accessToken']))*/true){
 			session_start();
 			$token = authenticate();
 			
@@ -91,10 +91,11 @@
 				)));
 			}
 			
+			$_SESSION['accessToken'] = $accessToken;
+			$_SESSION['expires'] = $expires;
+			
 			$insert->close();
 			
-			
-				
 		} else {
 
 			$sql = "SELECT TOP 1 accessToken, expires FROM LinkedIn ";
@@ -106,8 +107,6 @@
 			}
 		}
 		
-
-		
 		//echo $token->expires;
 	});
 	
@@ -116,12 +115,12 @@
 	/*==========================================================\\
 	||							Post							||
 	\\==========================================================*/
-	$app->post('/linkedinPost', function() {
+	$app->get('/linkedinPost', function() {
 		global $mysqli, $debug;
 		
 		$accessToken = $_SESSION['accessToken'];
 		
-		$postId = $_POST['researchOpId'];
+		$postId = 1;//$_POST['researchOpId'];
 		
 		if($debug) echo "Posting to LinkedIn... ".$postId."\n";
 
@@ -176,9 +175,43 @@
 			
 			
 			//Post data to LinkedIn
-			$result = $linkedIn->$api('v1/people/~/shares?format=json', $urlData, 'POST', $postData);
+			//$result = $linkedIn->$api('v1/people/~/shares?format=json', $urlData, 'POST', $postData);
+			$curl = curl_init();
+			$curl_setopt_array($curl, array(
+				CURLOPT_URL => 'https://api.linkedin.com/v1/people/~/shares?format=json',
+				CURLOPT_POST => 1,
+				CURLOPT_RETURNTRANSFER => 1,
+				CURLOPT_HTTPHEADER => array(
+				'x-li-format' => 'json',
+				'Authorization' => 'Bearer '.$accessToken
+				),
+				CURLOPT_POSTFIELDS => array(
+				'comment' => $postComment,
+				'content' => array(
+					'title' => $postTitle,
+					'description' => $postDescription
+				),
+				'submitted-url' => $postTitle,
+				'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400',
+				'visibility' => array(
+					'code' => 'anyone'
+				)))
+			);
+			
+			//curl -v -X POST -d '{"comment": "Test Research OP", "content": {"title": "Testing From Curl!", "description": "Just testing if I can make posts from Curl...", "submitted-url": "http://52.11.153.243", "submitted-imate-url": "https://avatars0.githubusercontent.com/u/6441254?v=3&s=400"}, "visibility": {"code": "anyone"}}' -H "x-li-format: json" -H "Authorization: Bearer 75628ae2-0ccc-4e6c-ba7d-e4a35f0c170b" https://api.linkedin.com/v1/people/~/shares?format=json
+			
+			$response = curl_exec($curl);
+			curl_close($curl);
 			
 			echo $result;
+			
+			if(!($result)){
+				die(json_encode(array('Status' => 'Failure',
+					'ERROR' => 'Shit\'s fucked'
+				)));
+			} else {
+				echo "Shit worked\n";
+			}
 				
 			
 		} else {
