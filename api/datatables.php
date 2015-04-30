@@ -42,7 +42,7 @@
 		$stmt -> close();
 		
 		// Insert required info into temporary table
-		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE (?) AND Department.dept_ID LIKE (?)";
+		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE ? AND Department.dept_ID LIKE ?";
 
 		$stmt1 = $mysqli -> prepare($sql1);
 		$stmt1 -> bind_param('ss', $institution, $department);
