@@ -1324,7 +1324,7 @@
 			 
 			$s = "SELECT * 
 					FROM researchOP
-					WHERE dept_ID = 23";
+					WHERE dept_ID = 24";
 			if($mysqli->query($s) === TRUE) {
 				$result = $mysqli->query($s);
 			} else {

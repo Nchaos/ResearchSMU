@@ -49,7 +49,7 @@
 		$stmt -> close();
 		
 		// Insert required info into temporary table
-		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE (?) AND Department.dept_ID LIKE (?)";
+		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE ? AND Department.dept_ID LIKE ?";
 
 		$stmt1 = $mysqli -> prepare($sql1);
 		$stmt1 -> bind_param('ss', $institution, $department);
@@ -101,20 +101,17 @@
 		 
 		//echo json_encode($columns);
 
-		$result = SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns );
+		//$result = SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns );
 	
-		$fuckjson =  json_encode(
+		$result =  json_encode(
 		 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
 		 );
-		echo $fuckjson;
-		// if(!$debug)
-		// {
-		// 	$sql2 = "Drop TABLE TEMP";
-		// 	$stmt2 = $mysqli -> prepare($sql2);
-		// 	$stmt2 -> bind_param('ss', $institution, $department);
-		// 	$stmt2 -> execute();
-		// 	$stmt2 -> close();
-		// }
+		echo $result;
+	
+		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
+		$stmt0 = $mysqli -> prepare($sqldrop);
+		$stmt0 -> execute();
+		$stmt0 -> close();
 	});
 	$app-> run();
 ?>
