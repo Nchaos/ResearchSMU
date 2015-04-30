@@ -289,7 +289,7 @@
 			}
 		}
 		echo json_encode(array('SUCCESS' => 'Created user!'));
-		#if ($debug) echo "Created User!";
+		//if ($debug) echo "Created User!";
 	});
 	
 	

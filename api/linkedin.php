@@ -13,17 +13,14 @@
 	/*==========================================================\\
 	||						Authenticate						||
 	\\==========================================================*/
-	$app->get('/linkedinAuth', function(){
-		echo "Fuck\n";
+	function authenticate(){
 		$provider = new League\OAuth2\Client\Provider\LinkedIn([
-			'clientId' => '78byrh87ljeuap',
-			'clientSecret' => 'smOpm0SlHgstRvMa',
-			'redirectUri' => 'http://52.11.138.85/api/vendor/League/OAuth2/Client/Provider/LinkedIn.php',
-			'scopes' => ['w_share'],
+			'clientId' => '',
+			'clientSecret' => '',
+			'redirectUri' => 'http://192.168.10.10/api/linkedin.php/linkedinSession',
+			//'scopes' => ['w_share']
 		]);
-		
-		echo "Fuck 2: electric boogaloo\n";
-		
+				
 		if (!isset($_GET['code'])) {
 
 			// If we don't have an authorization code then get one
@@ -32,49 +29,98 @@
 			header('Location: '.$authUrl);
 			exit;
 
-			// Check given state against previously stored one to mitigate CSRF attack
+		// Check given state against previously stored one to mitigate CSRF attack
 		} elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
 
 			unset($_SESSION['oauth2state']);
 			exit('Invalid state');
 
 		} else {
+
 			// Try to get an access token (using the authorization code grant)
 			$token = $provider->getAccessToken('authorization_code', [
 				'code' => $_GET['code']
 			]);
 
-			// Optional: Now you have a token you can look up a users profile data
-			try {
-				// We got an access token, let's now get the user's details
-				$userDetails = $provider->getUserDetails($token);
-
-				// Use these details to create a new profile
-				printf('Hello %s!', $userDetails->firstName);
-
-			} catch (Exception $e) {
-				// Failed to get user details
-				exit('Oh dear...');
-			}
-
 			// Use this to interact with an API on the users behalf
-			echo $token->accessToken;
+			//echo $token->accessToken;
 
 			// Use this to get a new access token if the old one expires
 			//echo $token->refreshToken;
 
 			// Number of seconds until the access token will expire, and need refreshing
 			//echo $token->expires;
+			
+			return $token;
 		}
+		
+		
+			
+		//return $token;
+	}
+	
+	
+	/*==========================================\\
+	||				Check Session				||
+	\\==========================================*/
+	$app->get('/linkedinSession', function(){
+		global $mysqli, $debug;
+		
+		$token = NULL;
+		
+		if((isset($_SESSION['accessToken']))){
+			session_start();
+			$token = authenticate();
+			
+			$accessToken = $token->accessToken;
+			$expires = $token->expires;
+			
+			$expiresDate = date("Y-m-d H:i:s", time() + $expires);			
+			
+			echo $accessToken."<br>";
+			echo $expires."<br>";
+			echo $expiresDate;
+			
+			$sql = "INSERT INTO Token (accessToken, expires) VALUES (?, ?)";
+			$insert = $mysqli->prepare($sql);
+			$insert->bind_param('ss', $accessToken, $expiresDate);
+			
+			if(!($insert->execute())){
+				die(json_encode(array('Status' => 'Failure',
+					'ERROR' => $mysqli->errno.':'.$mysqli->errno
+				)));
+			}
+			
+			$insert->close();
+			
+			
+				
+		} else {
+
+			$sql = "SELECT TOP 1 accessToken, expires FROM LinkedIn ";
+			
+			if($result = $mysqli->query($sql)){
+				$row = $result->fetch_now();
+				$_SESSION['accessToken'] = $row['accessToken'];
+				$_SESSION['expires'] = $row['expires'];
+			}
+		}
+		
+
+		
+		//echo $token->expires;
 	});
 	
-	
+		
 	
 	/*==========================================================\\
 	||							Post							||
 	\\==========================================================*/
 	$app->post('/linkedinPost', function() {
 		global $mysqli, $debug;
+		
+		$accessToken = $_SESSION['accessToken'];
+		
 		$postId = $_POST['researchOpId'];
 		
 		if($debug) echo "Posting to LinkedIn... ".$postId."\n";
@@ -109,7 +155,7 @@
 			
 			//Prepare data for LinkedIn post
 			$postComment = "New Research Opportunity in " . $postDept . "!";
-			$postTitle = "http://52.11.153.243/research-opporunity/" . $userId;
+			$postTitle = "http://52.11.153.243/research-opporunity/" . $postId;
 			$postDescription = (strlen($postDescription) > 256) ? substr($postDescription, 0, 253).'...' : $postDescription;
 			
 			$postData = json_encode(array('comment' => $postComment,
@@ -125,7 +171,7 @@
 			));
 			$urlData = array(
 				'x-li-format' => 'json',
-				'Authorization' => 'Bearer'.$token
+				'Authorization' => 'Bearer'.$accessToken
 			);
 			
 			
