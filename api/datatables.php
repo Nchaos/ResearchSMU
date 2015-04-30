@@ -9,9 +9,18 @@
 		$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 
 		//Arguments
+		if(isset($_POST['department']))
+		{
+			$department = $_POST['department'];
+			$department = ltrim($department, '0');
+		} else {
+		 	//if($debug) echo "Department = %";
+			$department = "%";
+		}
 		if(isset($_POST['institution']))
 		{
 			$institution = $_POST['institution'];
+			$institution = ltrim($institution, '0');
 		} else {
 		 	//if($debug) echo "Institution = %";
 			$institution = "%";
@@ -23,6 +32,9 @@
 		 	//if($debug) echo "Department = %";
 			$department = "%";
 		}
+
+		// echo $department;
+		// echo $institution;
 
 		//$institution = $_POST['institution'];
 		//$department = $_POST['department'];
@@ -42,7 +54,31 @@
 		$stmt -> close();
 		
 		// Insert required info into temporary table
-		$sql1 = "INSERT into TEMP SELECT ResearchOp.ResearchOp_ID, ResearchOp.name, Users.fName, Users.lName, ResearchOp.startDate, ResearchOp.endDate, ResearchOp.numPositions, Department.name, Institution.name, ResearchOp.paid, ResearchOp.workStudy, ResearchOp.acceptsUndergrad, ResearchOp.acceptsGrad from ResearchOp, Department, Users, Institution WHERE Department.dept_ID = ResearchOp.dept_ID AND ResearchOp.user_ID = Users.user_ID AND ResearchOp.inst_ID = Institution.inst_ID AND Institution.inst_ID LIKE ? AND Department.dept_ID LIKE ?";
+		$sql1 = "INSERT into TEMP SELECT 
+					ResearchOp.ResearchOp_ID, 
+					ResearchOp.name, 
+					Users.fName, 
+					Users.lName, 
+					ResearchOp.startDate, 
+					ResearchOp.endDate, 
+					ResearchOp.numPositions, 
+					Department.name, 
+					Institution.name, 
+					ResearchOp.paid, 
+					ResearchOp.workStudy, 
+					ResearchOp.acceptsUndergrad, 
+					ResearchOp.acceptsGrad 
+				from 
+					ResearchOp, 
+					Department, 
+					Users, 
+					Institution 
+				WHERE 
+					Department.dept_ID = ResearchOp.dept_ID 
+				AND ResearchOp.user_ID = Users.user_ID 
+				AND ResearchOp.inst_ID = Institution.inst_ID 
+				AND Institution.inst_ID LIKE (?) 
+				AND Department.dept_ID LIKE (?)";
 
 		$stmt1 = $mysqli -> prepare($sql1);
 		$stmt1 -> bind_param('ss', $institution, $department);
@@ -101,10 +137,10 @@
 		 );
 		echo $result;
 	
-		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
-		$stmt0 = $mysqli -> prepare($sqldrop);
-		$stmt0 -> execute();
-		$stmt0 -> close();
+		// $sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
+		// $stmt0 = $mysqli -> prepare($sqldrop);
+		// $stmt0 -> execute();
+		// $stmt0 -> close();
 	});
 	$app-> run();
 ?>
