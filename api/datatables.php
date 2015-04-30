@@ -48,7 +48,7 @@
 		$stmt0 -> execute();
 		$stmt0 -> close();
 		
-		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), fName VARCHAR(45), lName VARCHAR(45), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
+		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> execute();
 		$stmt -> close();
@@ -57,8 +57,7 @@
 		$sql1 = "INSERT into TEMP SELECT 
 					ResearchOp.ResearchOp_ID, 
 					ResearchOp.name, 
-					Users.fName, 
-					Users.lName, 
+					Concat(Users.fName, ' ', Users.lName), 
 					ResearchOp.startDate, 
 					ResearchOp.endDate, 
 					ResearchOp.numPositions, 
@@ -99,8 +98,8 @@
 		$columns = array(
 			//array( 'db' => 'ResearchOp_ID',		'dt' => ResearchOp_ID ),
 			array( 'db' => 'rName',    				'dt' => "rName" ),
-			array( 'db' => 'fName',    				'dt' => "fName" ),
-			// array( 'db' => 'lName',    			'dt' => lName ),
+			array( 'db' => 'name',    				'dt' => "fName" ),
+			//array( 'db' => 'lName',    				'dt' => "fName" ),
 			//array( 'db' => 'startDate',			'dt' => startDate ), 
 			//array( 'db' => 'endDate',  			'dt' => endDate ),
 			//array( 'db' => 'numPositions',    	'dt' => numPositions ),
