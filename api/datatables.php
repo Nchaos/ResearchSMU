@@ -25,13 +25,13 @@
 		 	//if($debug) echo "Institution = %";
 			$institution = "%";
 		}
-		if(isset($_POST['department']))
-		{
-			$department = $_POST['department'];
-		} else {
-		 	//if($debug) echo "Department = %";
-			$department = "%";
-		}
+		// if(isset($_POST['department']))
+		// {
+		// 	$department = $_POST['department'];
+		// } else {
+		//  	//if($debug) echo "Department = %";
+		// 	$department = "%";
+		// }
 
 		// echo $department;
 		// echo $institution;
