@@ -60,19 +60,30 @@ function Login(event){
 	// AJAX code to submit form.
 	$.ajax({
 		type: "POST",
-		url: "api/index.php/login",		//changed to login from loginUser
+		url: "api/index.php/login",		
 		datatype:"json",
 		data: dataString,
-		/*success: function(result) {
-			var json = JSON.parse(result);
-			if(json === null){
-				window.alert("Failure");
-				return false;
-			}
-			else {
-				alert("success!");
-			}
-		}*/
+		success: function(data) {
+			console.log("SUCCESS!!!!!!!!!!!!!");
+			//window.location.href = "index.html";
+		  
+		  var value = JSON.parse(data);
+		  var success = value['success'];
+		  console.log(value);
+          if(success == false){
+        	var error = value['message'];
+            alert(error); // just in case somebody to click on share witout writing anything :
+		  }
+
+          if(success == true) {
+				   $('#login-box , .login-popup').fadeOut(300 , function() {
+				   $('#login-box').remove();  
+                 });// end fadeOut function()
+		    //setTimeout("location.href = 'index.php/logout';",1000);  
+		    console.log("Href here");
+		    window.location.href = "index.html";                             
+          }
+		}
 	});
 
 	return false;

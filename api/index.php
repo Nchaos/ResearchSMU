@@ -1531,7 +1531,7 @@
 		if(($actual_result === NULL))
 		{
 				//-------Email not found-------//
-				die(json_encode(array('ERROR' => 'Could not find user')));
+				echo json_encode(array("success"=>'false','message' => 'Could not find user'));
 		}
 		else
 		{
@@ -1544,7 +1544,7 @@
 			if($actual_result === NULL)
 			{
 					//-------Password not found---------//
-					die(json_encode(array('ERROR' => 'Password could not be found')));
+					echo json_encode(array("success"=>'false','message' => 'Password could not be found'));
 			}
 			else
 			{
@@ -1563,12 +1563,13 @@
 						$_SESSION['lastName'] = $iteration['lName'];
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
+						echo json_encode(array("success"=>'true'));
 						//---------Obtained User Data-------------//
 					}
 					else
 					{
 							//--------Wrong password Entered---------//
-							die(json_encode(array('ERROR' => 'User could not be validated')));
+							echo json_encode(array("success"=>'false','message' => 'User could not be validated'));
 					}
 			}
 		}
