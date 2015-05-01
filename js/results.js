@@ -50,27 +50,37 @@ function getFormValues(oForm, skip_elements) {
 
 
 function format ( d ) {
-    return 'Full name: '+d.rName+' '+d.fName+'<br>'+
-        'Salary: '+d.salary+'<br>'+
+	console.log(d);
+    return 'Full name: '+d.rName+' '+d.dName+'<br>'+
+        'Salary: '+d.pName+'<br>'+
         'The child row can contain any data you wish, including links, images, inner tables etc.';
 }
+
+// function format ( d ) {
+//     // `d` is the original data object for the row
+//     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+//         '<tr>'+
+//             '<td>Full name:</td>'+
+//             '<td>'+d.rName+'</td>'+
+//         '</tr>'+
+//         '<tr>'+
+//             '<td>Extension number:</td>'+
+//             '<td>'+d.dName+'</td>'+
+//         '</tr>'+
+//         '<tr>'+
+//             '<td>Extra info:</td>'+
+//             '<td>And any further details here (images etc)...</td>'+
+//         '</tr>'+
+//     '</table>';
+// }
+
+
 
 function tabDeptHandler(num) {
 	
 
   	var deptValue = num;
   	var searchString = {"department" : deptValue};
-  	// var searchString = JSON.stringify(filter);
-       // console.log(deptValue);
-       // console.log(searchString);
-  
-  	// $.ajax({
-   //  	type: "POST",
-   //  	url: "api/index.php/filterDepartment",
-   //  	success: null,
-   //  	datatype:"json",
-   //  	data: searchString
-  	// });
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
@@ -95,7 +105,7 @@ function tabDeptHandler(num) {
                 "defaultContent": ''
             },
             { "data": "rName" },
-            { "data": "fName" },
+            { "data": "pName" },
             { "data": "dName" },
             { "data": "iName" }
         ],
@@ -120,19 +130,13 @@ function tabDeptHandler(num) {
         else {
             tr.addClass( 'details' );
             row.child( format( row.data() ) ).show();
- 
+ 			
+
             // Add to the 'open' array
             if ( idx === -1 ) {
                 detailRows.push( tr.attr('id') );
             }
         }
-    } );
- 
-    // On each draw, loop over the `detailRows` array and show any child rows
-    dt.on( 'draw', function () {
-        $.each( detailRows, function ( i, id ) {
-            $('#'+id+' td.details-control').trigger( 'click' );
-        } );
     } );
   
 
@@ -144,22 +148,10 @@ function tabInstitutionHandler(num) {
   
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
-  	// var searchString = JSON.stringify(filter);
-
-       // console.log(instValue);
-       // console.log(searchString);
-
-  	// $.ajax({
-   //  	type: "POST",
-   //  	url: "api/index.php/filterSchool",
-   //  	success: null,
-   //  	datatype:"json",
-   //  	data: searchString
-  	// });
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
-    	table.destroy();
+		table.destroy();
 	}
 
    	var dt = $('#resultsTable').DataTable( {
@@ -180,20 +172,26 @@ function tabInstitutionHandler(num) {
                 "defaultContent": ''
             },
             { "data": "rName" },
-            { "data": "fName" },
+            { "data": "pName" },
             { "data": "dName" },
             { "data": "iName" }
         ],
             "order": [[1, 'asc']]
 	});
 
+
     // Array to track the ids of the details displayed rows
+	
 	var detailRows = [];
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
+        console.log(tr);
         var row = dt.row( tr );
+        console.log(row);
         var idx = $.inArray( tr.attr('id'), detailRows );
+
+        console.log(row.data().rName);
  
         if ( row.child.isShown() ) {
             tr.removeClass( 'details' );
@@ -211,45 +209,13 @@ function tabInstitutionHandler(num) {
                 detailRows.push( tr.attr('id') );
             }
         }
-    } );
- 
-    // On each draw, loop over the `detailRows` array and show any child rows
-    dt.on( 'draw', function () {
-        $.each( detailRows, function ( i, id ) {
-            $('#'+id+' td.details-control').trigger( 'click' );
-        } );
+
     } );
   	
   //window.location.href = "search.html";
 
 
 }
-
-
-// $(document).ready(function() {
-// 	// var dataTest = {
-// 	//     institution : "Lyle",
-// 	//     department : "CSE"
-// 	// 	};
-// 	$('#resultsTable').dataTable( {
-// 		"processing": true,
-// 		"serverSide": true,
-// 		"ajax":{
-// 		    type: 'POST',
-// 		    url: 'api/datatables.php/datatable',
-// 		    data: dataTest, 
-// 		    datatype: "json",
-// 		},
-
-//         "columns": [
-//             { "data": "rName" },
-//             { "data": "fName" },
-//             { "data": "dName" },
-//             { "data": "iName" }
-//         ]
-// 	});
-// });
-
 
 
 $(document).ready(function() {
