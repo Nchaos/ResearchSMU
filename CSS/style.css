@@ -535,7 +535,8 @@ td.details-control {
     background: url('../img/details_open.png') no-repeat center center;
     cursor: pointer;
 }
-tr.shown td.details-control {
-    background: url('../resources/details_close.png') no-repeat center center;
+
+tr.details td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
 }
 
