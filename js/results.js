@@ -83,6 +83,7 @@ function tabDeptHandler(num) {
   	var searchString = {"department" : deptValue};
 
   	$("#filtersbox").css("visibility", 'visible');
+  	$("#description").css("display", 'none');
   	$("#resultsTable").css("display", 'inline-table');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
@@ -153,6 +154,7 @@ function tabInstitutionHandler(num) {
   	var searchString = {"institution" : instValue};
 
   	$("#filtersbox").css("visibility", 'visible');
+  	$("#description").css("display", 'none');
   	$("#resultsTable").css("display", 'inline-table');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
