@@ -192,12 +192,12 @@ function tabInstitutionHandler(num) {
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
-        console.log(tr);
+        //console.log(tr);
         var row = dt.row( tr );
-        console.log(row);
+        //console.log(row);
         var idx = $.inArray( tr.attr('id'), detailRows );
 
-        console.log(row.data().rName);
+        //console.log(row.data().rName);
  
         if ( row.child.isShown() ) {
             tr.removeClass( 'details' );
