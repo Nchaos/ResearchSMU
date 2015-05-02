@@ -5,10 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" media = "screen" href="CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" media = "screen" href="CSS/style.css">
+    <link rel="stylesheet" type="text/css" media = "screen" href="CSS/filters.css">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+      <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="DataTables-1.10.6/media/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
 
 </head>
 
@@ -113,11 +121,119 @@
       <p id="clickMe"> Click on a school or department to get searching! </p>
     </div>
 
-    <div id="results">
+        <div id='filtersbox'>
+          <ul>
+              <li><input type="button" class="filter" value="Filter Search" onClick="filter(filter)"></li>
+              <li class='sidebar-nav'><a href='#'><span>Dedman</span></a>
+              <ul>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Anthropology">Antropology</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Biologicial Sciences">Biological Sciences </li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Chemistry">Chemistry</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Earth Sciences">Earth Sciences</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Economics">Economics</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="English">English</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="History">History</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Mathematics">Mathematics</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Philosophy">Philosophy</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Physics">Physics</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Political Science">Political Science</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Psychology">Psychology</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Religious Studies">Religious Studies</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Sociology">Sociology</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="Statisical Sciences">Statisical Sciences</li>
+                  <li><input class="Dept" type="checkbox" name="Dedman" value="World Language">World Language</li>
+                  <li><input class="Dept" type="checkbox" name="AllDedman" value="All Dedman Departments">All Dedman Departments</li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Lyle</span></a>
+              <ul>
+                  <li><input class="Dept" type="checkbox" name="Lyle" value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</li>
+                  <li><input class="Dept" type="checkbox" name="Lyle" value="Electrical Engineering">Electrical Engineering</li>
+                  <li><input class="Dept" type="checkbox" name="Lyle" value="Mechanical Engineering">Mechanical Engineering</li>
+                  <li><input class="Dept" type="checkbox" name="Lyle" value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</li>
+                  <li><input class="Dept" type="checkbox" name="AllLyle" value="All Lyle Departments">All Lyle Departments</li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Cox</span></a>
+              <ul>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Accounting">Accounting</li>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Finance">Finance</li>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Marketing">Marketing</li>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Management">Management</li>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Real Estate">Real Estate</li>
+                  <li><input class="Dept" type="checkbox" name="Cox" value="Risk Management &amp; Insuarance">Risk Management &amp; Insuarance</li>
+                  <li><input class="Dept" type="checkbox" name="AllCox" value="All Cox Departments">All Cox Departments</li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Meadows</span></a>
+              <ul>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Advertising">Advertising</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Art">Art</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Art History">Art History</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Arts Management">Arts Management</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Communication Studies">Communication Studies</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Creative Computation">Creative Computation</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Dance">Dance</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Film and Media Arts">Film and Media Arts</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Journalism">Journalism</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Music">Music</li>
+                  <li><input class="Dept" type="checkbox" name="Meadows" value="Theatre">Theatre</li>
+                  <li><input class="Dept" type="checkbox" name="AllMeadows" value="All Meadows Departments">All Meadows Departments</li>
+              </ul>
+              </li>
+              <li class='sidebar-nav'><a href='#'><span>Simmons</span></a>
+              <ul>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Sports Management">Sports Management</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Applied Phsiology">Applied Phsiology</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Wellness">Wellness</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Counseling">Counseling</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Dispute Resolution">Dispute Resolution</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Teacher Education">Teacher Education</li>
+                  <li><input class="Dept" type="checkbox" name="Simmons" value="Higher Education">Higher Education</li>
+                  <li><input class="Dept" type="checkbox" name="AllSimmons" value="All Simmons Departments">All Simmons Departments</li>
+              </ul>
+              </li>
+          </ul>
+      </div>
+
+          <div id="results">
+        <!-- Post Results of search here -->
+        <table id="resultsTable" class="display" cellspacing="0" width="100%">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Professor</th>
+                  <th>Department</th>
+                  <th>School</th>
+              </tr>
+          </thead>
+
+          <tbody>
+<!--             
+                  <th>First ResearchOP</th>
+                  <th>Mark Fontenot</th>
+                  <th>Computer Science and Engineering</th>
+                  <th>Lyle</th>
+ -->
+          </tbody>
+          <tfoot>
+              <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Professor</th>
+                  <th>Department</th>
+                  <th>School</th>
+              </tr>
+          </tfoot>
+ 
+        </table>
     </div>
 
     <script src="js/main.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/sidemenufilters.js"></script>
+    <script src="js/results.js"></script>
 
 </body>
 </html>

@@ -82,6 +82,9 @@ function tabDeptHandler(num) {
   	var deptValue = num;
   	var searchString = {"department" : deptValue};
 
+  	$("#filtersbox").css("visibility", 'visible');
+  	$("#results").css("display", 'inline');
+
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
     	table.destroy();
@@ -148,6 +151,9 @@ function tabInstitutionHandler(num) {
   
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
+
+  	$("#filtersbox").css("visibility", 'visible');
+  	$("#results").css("display", 'inline');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
