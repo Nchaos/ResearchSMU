@@ -1,7 +1,7 @@
 ( function( $ ) {
 $( document ).ready(function() {
-$('#filters > ul > li > a').click(function() {
-  $('#filters li').removeClass('active');
+$('#filtersbox > ul > li > a').click(function() {
+  $('#filtersbox li').removeClass('active');
   $(this).closest('li').addClass('active');	
   var checkElement = $(this).next();
   if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
@@ -9,7 +9,7 @@ $('#filters > ul > li > a').click(function() {
     checkElement.slideUp('normal');
   }
   if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-    $('#filters ul ul:visible').slideUp('normal');
+    $('#filtersbox ul ul:visible').slideUp('normal');
     checkElement.slideDown('normal');
   }
   if($(this).closest('li').find('ul').children().length == 0) {

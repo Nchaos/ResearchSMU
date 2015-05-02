@@ -25,13 +25,13 @@
 		 	//if($debug) echo "Institution = %";
 			$institution = "%";
 		}
-		if(isset($_POST['department']))
-		{
-			$department = $_POST['department'];
-		} else {
-		 	//if($debug) echo "Department = %";
-			$department = "%";
-		}
+		// if(isset($_POST['department']))
+		// {
+		// 	$department = $_POST['department'];
+		// } else {
+		//  	//if($debug) echo "Department = %";
+		// 	$department = "%";
+		// }
 
 		// echo $department;
 		// echo $institution;
@@ -98,7 +98,7 @@
 		$columns = array(
 			//array( 'db' => 'ResearchOp_ID',		'dt' => ResearchOp_ID ),
 			array( 'db' => 'rName',    				'dt' => "rName" ),
-			array( 'db' => 'name',    				'dt' => "fName" ),
+			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),
 			//array( 'db' => 'startDate',			'dt' => startDate ), 
 			//array( 'db' => 'endDate',  			'dt' => endDate ),
@@ -107,8 +107,8 @@
 			array( 'db' => 'iName',    				'dt' => "iName" )
 			//array( 'db' => 'paid',				'dt' => paid ), 
 			//array( 'db' => 'workStudy',  			'dt' => workStudy ),
-			//array( 'db' => 'acceptsUndergrad',	'dt' => acceptsUndergrad ), 
-			//array( 'db' => 'acceptsGrad',  		'dt' => acceptsGrad ),
+			//array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad")          ), 
+			//array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
 		);
 		 
 		// SQL server connection information

@@ -49,29 +49,48 @@ function getFormValues(oForm, skip_elements) {
 }
 
 
+function format ( d ) {
+	console.log(d);
+    return 'Full name: '+d.rName+' '+d.dName+'<br>'+
+        'Salary: '+d.pName+'<br>'+
+        'The child row can contain any data you wish, including links, images, inner tables etc.';
+}
+
+// function format ( d ) {
+//     // `d` is the original data object for the row
+//     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+//         '<tr>'+
+//             '<td>Full name:</td>'+
+//             '<td>'+d.rName+'</td>'+
+//         '</tr>'+
+//         '<tr>'+
+//             '<td>Extension number:</td>'+
+//             '<td>'+d.dName+'</td>'+
+//         '</tr>'+
+//         '<tr>'+
+//             '<td>Extra info:</td>'+
+//             '<td>And any further details here (images etc)...</td>'+
+//         '</tr>'+
+//     '</table>';
+// }
+
+
+
 function tabDeptHandler(num) {
 	
 
   	var deptValue = num;
   	var searchString = {"department" : deptValue};
-  	// var searchString = JSON.stringify(filter);
-       // console.log(deptValue);
-       // console.log(searchString);
-  
-  	// $.ajax({
-   //  	type: "POST",
-   //  	url: "api/index.php/filterDepartment",
-   //  	success: null,
-   //  	datatype:"json",
-   //  	data: searchString
-  	// });
+
+  	$("#filtersbox").css("visibility", 'visible');
+  	$("#results").css("display", 'inline');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
     	table.destroy();
 	}
 
-  	$('#resultsTable').dataTable( {
+  	var dt = $('#resultsTable').DataTable( {
 		"processing": true,
 		"serverSide": true,
 		"ajax":{
@@ -82,12 +101,46 @@ function tabDeptHandler(num) {
 		},
 
         "columns": [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { "data": "rName" },
-            { "data": "fName" },
+            { "data": "pName" },
             { "data": "dName" },
             { "data": "iName" }
-        ]
+        ],
+        	"order": [[1, 'asc']]
 	});
+
+    // Array to track the ids of the details displayed rows
+    var detailRows = [];
+ 
+    $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = dt.row( tr );
+        var idx = $.inArray( tr.attr('id'), detailRows );
+ 
+        if ( row.child.isShown() ) {
+            tr.removeClass( 'details' );
+            row.child.hide();
+ 
+            // Remove from the 'open' array
+            detailRows.splice( idx, 1 );
+        }
+        else {
+            tr.addClass( 'details' );
+            row.child( format( row.data() ) ).show();
+ 			
+
+            // Add to the 'open' array
+            if ( idx === -1 ) {
+                detailRows.push( tr.attr('id') );
+            }
+        }
+    } );
   
 
   //window.location.href = "search.html";
@@ -98,25 +151,16 @@ function tabInstitutionHandler(num) {
   
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
-  	// var searchString = JSON.stringify(filter);
 
-       // console.log(instValue);
-       // console.log(searchString);
-
-  	// $.ajax({
-   //  	type: "POST",
-   //  	url: "api/index.php/filterSchool",
-   //  	success: null,
-   //  	datatype:"json",
-   //  	data: searchString
-  	// });
+  	$("#filtersbox").css("visibility", 'visible');
+  	$("#results").css("display", 'inline');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
     	table = $('#resultsTable').DataTable();
-    	table.destroy();
+		table.destroy();
 	}
 
-   	$('#resultsTable').dataTable( {
+   	var dt = $('#resultsTable').DataTable( {
 		"processing": true,
 		"serverSide": true,
 		"ajax":{
@@ -127,43 +171,57 @@ function tabInstitutionHandler(num) {
 		},
 
         "columns": [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { "data": "rName" },
-            { "data": "fName" },
+            { "data": "pName" },
             { "data": "dName" },
             { "data": "iName" }
-        ]
+        ],
+            "order": [[1, 'asc']]
 	});
+
+
+    // Array to track the ids of the details displayed rows
+	
+	var detailRows = [];
+ 
+    $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
+        var tr = $(this).closest('tr');
+        console.log(tr);
+        var row = dt.row( tr );
+        console.log(row);
+        var idx = $.inArray( tr.attr('id'), detailRows );
+
+        console.log(row.data().rName);
+ 
+        if ( row.child.isShown() ) {
+            tr.removeClass( 'details' );
+            row.child.hide();
+ 
+            // Remove from the 'open' array
+            detailRows.splice( idx, 1 );
+        }
+        else {
+            tr.addClass( 'details' );
+            row.child( format( row.data() ) ).show();
+ 
+            // Add to the 'open' array
+            if ( idx === -1 ) {
+                detailRows.push( tr.attr('id') );
+            }
+        }
+
+    } );
   	
   //window.location.href = "search.html";
 
 
 }
-
-
-// $(document).ready(function() {
-// 	// var dataTest = {
-// 	//     institution : "Lyle",
-// 	//     department : "CSE"
-// 	// 	};
-// 	$('#resultsTable').dataTable( {
-// 		"processing": true,
-// 		"serverSide": true,
-// 		"ajax":{
-// 		    type: 'POST',
-// 		    url: 'api/datatables.php/datatable',
-// 		    data: dataTest, 
-// 		    datatype: "json",
-// 		},
-
-//         "columns": [
-//             { "data": "rName" },
-//             { "data": "fName" },
-//             { "data": "dName" },
-//             { "data": "iName" }
-//         ]
-// 	});
-// });
-
 
 
 $(document).ready(function() {
