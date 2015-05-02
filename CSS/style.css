@@ -527,7 +527,7 @@ form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2p
 
 .button:hover { background:#ddd; }
 
-#results{
+#resultsTable{
   display: none;
 }
 

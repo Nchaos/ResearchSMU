@@ -244,3 +244,10 @@
 #filtersbox ul ul a:hover {
   color: #79980d;
 }
+#resultsTable_wrapper{
+  display: inline-block;
+  background-color: rgba(176, 190, 217, 0.3);
+  margin-left: 3%;
+  width: 70%;
+  overflow: hidden;
+}
