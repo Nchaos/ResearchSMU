@@ -61,19 +61,50 @@ function getFormValues(oForm, skip_elements) {
 /* Formatting function for row details - modify as you need */
 function format ( d ) {
     // `d` is the original data object for the row
+    myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "my button";
     return '<div class="slider">'+
         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
             '<tr>'+
-                '<td>Full name:</td>'+
+                '<td>Title:</td>'+
                 '<td>'+d.rName+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Extension number:</td>'+
-                '<td>'+d.pName+'</td>'+
+                '<td>Professor:</td>'+
+                '<td>'+null+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Extra info:</td>'+
+                '<td>Start Date:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>End Date:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Paid:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Work Study:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Accepts Undergrad:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Accepts Grad:</td>'+
+                '<td>'+null+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Description:</td>'+
                 '<td>And any further details here (images etc)...</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Apply</td>'+
+                '<td>' +myButton+ '</td>'+
             '</tr>'+
         '</table>'+
     '</div>';
