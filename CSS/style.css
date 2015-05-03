@@ -541,3 +541,11 @@ tr.details td.details-control {
     background: url('../img/details_close.png') no-repeat center center;
 }
 
+div.slider {
+  display:none;
+}
+
+table.dataTable tbody td.no-padding {
+    padding: 0;
+}
+

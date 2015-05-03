@@ -49,35 +49,39 @@ function getFormValues(oForm, skip_elements) {
 }
 
 
-function format ( d ) {
-	console.log(d);
-    return 'Full name: '+d.rName+' '+d.dName+'<br>'+
-        'Salary: '+d.pName+'<br>'+
-        'The child row can contain any data you wish, including links, images, inner tables etc.';
-}
-
 // function format ( d ) {
-//     // `d` is the original data object for the row
-//     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-//         '<tr>'+
-//             '<td>Full name:</td>'+
-//             '<td>'+d.rName+'</td>'+
-//         '</tr>'+
-//         '<tr>'+
-//             '<td>Extension number:</td>'+
-//             '<td>'+d.dName+'</td>'+
-//         '</tr>'+
-//         '<tr>'+
-//             '<td>Extra info:</td>'+
-//             '<td>And any further details here (images etc)...</td>'+
-//         '</tr>'+
-//     '</table>';
+// 	console.log(d);
+//     return 'Title: '+d.rName+'<br>'+
+//         'Professor: '+d.pName+'<br>'+
+//         'Department: '+d.dName+'<br>'+ 
+//         'School: '+d.iName+'<br>'+
+//         'The child row can contain any data you wish, including links, images, inner tables etc.';
 // }
+
+/* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<div class="slider">'+
+        '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+                '<td>Full name:</td>'+
+                '<td>'+d.rName+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Extension number:</td>'+
+                '<td>'+d.pName+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Extra info:</td>'+
+                '<td>And any further details here (images etc)...</td>'+
+            '</tr>'+
+        '</table>'+
+    '</div>';
+}
 
 
 
 function tabDeptHandler(num) {
-	
 
   	var deptValue = num;
   	var searchString = {"department" : deptValue};
@@ -87,8 +91,8 @@ function tabDeptHandler(num) {
   	$("#resultsTable").css("display", 'inline-table');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
-    	table = $('#resultsTable').DataTable();
-    	table.destroy();
+    	var dt = $('#resultsTable').DataTable();
+    	dt.destroy();
 	}
 
   	var dt = $('#resultsTable').DataTable( {
@@ -115,36 +119,23 @@ function tabDeptHandler(num) {
         ],
         	"order": [[1, 'asc']]
 	});
-
-    // Array to track the ids of the details displayed rows
-    var detailRows = [];
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = dt.row( tr );
-        var idx = $.inArray( tr.attr('id'), detailRows );
  
         if ( row.child.isShown() ) {
-            tr.removeClass( 'details' );
-            row.child.hide();
- 
-            // Remove from the 'open' array
-            detailRows.splice( idx, 1 );
+        	row.child.hide();
+            tr.removeClass( 'shown' );
         }
         else {
-            tr.addClass( 'details' );
-            row.child( format( row.data() ) ).show();
- 			
+        	row.child( format( row.data() ), 'no-padding' ).show();
+            tr.addClass( 'shown' );
 
-            // Add to the 'open' array
-            if ( idx === -1 ) {
-                detailRows.push( tr.attr('id') );
-            }
         }
     } );
   
 
-  //window.location.href = "search.html";
 }
 
 
@@ -158,8 +149,8 @@ function tabInstitutionHandler(num) {
   	$("#resultsTable").css("display", 'inline-table');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
-    	table = $('#resultsTable').DataTable();
-		table.destroy();
+    	var dt = $('#resultsTable').DataTable();
+		dt.destroy();
 	}
 
    	var dt = $('#resultsTable').DataTable( {
@@ -187,41 +178,27 @@ function tabInstitutionHandler(num) {
             "order": [[1, 'asc']]
 	});
 
-
-    // Array to track the ids of the details displayed rows
-	
-	var detailRows = [];
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
         //console.log(tr);
         var row = dt.row( tr );
         //console.log(row);
-        var idx = $.inArray( tr.attr('id'), detailRows );
-
-        //console.log(row.data().rName);
+		//console.log(row.data().rName);
  
         if ( row.child.isShown() ) {
-            tr.removeClass( 'details' );
-            row.child.hide();
- 
-            // Remove from the 'open' array
-            detailRows.splice( idx, 1 );
+			$('div.slider', row.child()).slideUp( function () {
+    		row.child.hide();
+    		tr.removeClass('shown');
+			} );
         }
         else {
-            tr.addClass( 'details' );
-            row.child( format( row.data() ) ).show();
- 
-            // Add to the 'open' array
-            if ( idx === -1 ) {
-                detailRows.push( tr.attr('id') );
-            }
+            row.child( format( row.data() ), 'no-padding' ).show();
+            tr.addClass( 'shown' );
+			$('div.slider', row.child()).slideDown();
         }
 
     } );
-  	
-  //window.location.href = "search.html";
-
 
 }
 
