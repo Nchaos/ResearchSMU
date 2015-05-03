@@ -382,10 +382,13 @@ body {
 }
 #cssmenu .userlinks {
   float: right;
+  background-color: rgb(204,0,0);
 }
-/*#cssmenu .userlinks .logout{
-  display: none;
-}*/
+#cssmenu .userlinks .logout, .login-window{
+  background-color: rgb(53, 76, 161);
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 /*Login Button stuff*/
 
@@ -537,7 +540,7 @@ td.details-control {
     cursor: pointer;
 }
 
-tr.details td.details-control {
+tr.shown td.details-control {
     background: url('../img/details_close.png') no-repeat center center;
 }
 

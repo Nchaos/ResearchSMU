@@ -119,12 +119,33 @@ h2 {
     background-color: #EBEBEB;
     border-color: #ADADAD;
 }
+#form input[type="button"] {
+    background: #FFF;
+    border: 1px solid #CCC;
+    padding: 10px 25px 10px 25px;
+    color: #333;
+    border-radius: 4px;
+}
+#form input[type="button"]:hover {
+    color: #333;
+    background-color: #EBEBEB;
+    border-color: #ADADAD;
+}
+
 
 input[type=submit] {
 	width: 10em;
 	text-align: center;
 	margin-top: .5em;
-	display: block;
-	float: center;
+	display: inline-block;
 }
+
+input[type=button] {
+    width: 10em;
+    text-align: center;
+    margin-top: .5em;
+    display: inline-block;
+    float: right;
+}
+
 

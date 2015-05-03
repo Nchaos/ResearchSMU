@@ -272,5 +272,9 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function cancelClick() {
+	window.location.href = "index.html"
+}
+
 
 
