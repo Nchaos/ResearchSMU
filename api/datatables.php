@@ -48,7 +48,10 @@
 		$stmt0 -> execute();
 		$stmt0 -> close();
 		
-		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
+		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), 
+		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, 
+		workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL, description MEDIUMTEXT)";
+		
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> execute();
 		$stmt -> close();
@@ -66,7 +69,8 @@
 					ResearchOp.paid, 
 					ResearchOp.workStudy, 
 					ResearchOp.acceptsUndergrad, 
-					ResearchOp.acceptsGrad 
+					ResearchOp.acceptsGrad, 
+					ResearchOp.description
 				from 
 					ResearchOp, 
 					Department, 
@@ -100,15 +104,16 @@
 			array( 'db' => 'rName',    				'dt' => "rName" ),
 			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),
-			//array( 'db' => 'startDate',			'dt' => startDate ), 
-			//array( 'db' => 'endDate',  			'dt' => endDate ),
-			//array( 'db' => 'numPositions',    	'dt' => numPositions ),
+			//array( 'db' => 'startDate',				'dt' => "startDate" ), 
+			//array( 'db' => 'endDate',  				'dt' => "endDate" ),
+			array( 'db' => 'numPositions',    		'dt' => "numPositions" ),
 			array( 'db' => 'dName',    				'dt' => "dName" ),
-			array( 'db' => 'iName',    				'dt' => "iName" )
-			//array( 'db' => 'paid',				'dt' => paid ), 
-			//array( 'db' => 'workStudy',  			'dt' => workStudy ),
-			//array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad")          ), 
+			array( 'db' => 'iName',    				'dt' => "iName" ),
+			//array( 'db' => 'paid',					'dt' => "paid" ), 
+			//array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
+			//array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
 			//array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
+			//array( 'db' => 'description',			'dt' => "description" )
 		);
 		 
 		// SQL server connection information
