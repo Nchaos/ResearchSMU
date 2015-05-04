@@ -8,75 +8,120 @@
 	</head>
 
 	<body>
-
-
 		<div id="form">
-			<form id="user_form" onsubmit="checkOPForm(this);" action="/api/index.php" method="post">
-      <h2>Create a new Research Opportunity</h2><br>
-			<h1>Title:</h1><input type="text" name="name" placeholder="Title" required><br>
-      <h1>Start Date:</h1> <input type="date" name="startDate"><br><br>
-      <h1>End Date:</h1> <input type="date" name="endDate"><br><br>
-			<h1>Number of Positions:</h1><input type="number" name="numOfPos" min='1' max='25'><br>
-			<input type="checkbox" name="paid" value="Paid">Paid
-			<input type="checkbox" name="workStudy" value="Work Study">Work Study
-      <input type="checkbox" name="undergraduate" value="undergraduate">Undergraduate
-      <input type="checkbox" name="graduate" value="graduate">Graduate<br><br><br>
+			<form id="user_form" action="newROP.html" method="post">
+				<h2>Create a new Research Opportunity</h2><br>
+				<h1>Title:</h1><input type="text" name="name" placeholder="Title" required/><br>
+				<h1>Start Date:</h1><input type="date" name="startDate"/><br><br>
+				<h1>End Date:</h1> <input type="date" name="endDate"/><br><br>
+				<h1>Number of Positions:</h1><input type="number" name="numOfPos" min='1' max='25'/><br>
+				<input type="checkbox" name="paid" value="Paid"/>Paid
+				<input type="checkbox" name="workStudy" value="Work Study"/>Work Study
+				<input type="checkbox" name="undergraduate" value="undergraduate"/>Undergraduate
+				<input type="checkbox" name="graduate" value="graduate"/>Graduate<br><br><br>
+
+				<!--label for="Department"></label-->
+				<!--select id="Department" name="deptId" required>
+					<option selected disabled hidden label='Department'></option>
+					<option value="Accounting">Accounting</option>
+					<option value="Advertising">Advertising</option>
+					<option value="Anthropology">Anthropology</option>
+					<option value="Applied Physiology">Applied Physiology</option>
+					<option value="Art">Art</option>
+					<option value="Art History">Art History</option>
+					<option value="Art Management">Art Management</option>
+					<option value="Biological Sciences">Biological Sciences</option>
+					<option value="Business">Business</option>
+					<option value="Chemistry">Chemistry</option>
+					<option value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
+					<option value="Communication Studies">Communication Studies</option>
+					<option value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
+					<option value="Creative Computing">Creative Computing</option>
+					<option value="Dance">Dance</option>
+					<option value="Dispute Resolution">Dispute Resolution</option>
+					<option value="Earth Sciences">Earth Sciences</option>
+					<option value="Economics">Economics</option>
+					<option value="Electrical Engineering">Electrical Engineering</option>
+					<option value="English">English</option>
+					<option value="Film and Media Arts">Film and Media Arts</option>
+					<option value="Finance">Finance</option>
+					<option value="Higher Education">Higher Eduction</option>
+					<option value="History">History</option>
+					<option value="Journalism">Journalism</option>
+					<option value="Management Science">Management Science</option>
+					<option value="Marketing">Marketing</option>
+					<option value="Mathematics">Mathematics</option>
+					<option value="Mechanical Engineering">Mechanical Engineering</option>
+					<option value="Music">Music</option>
+					<option value="Philosophy">Philosophy</option>
+					<option value="Physics">Physics</option>
+					<option value="Political Science">Political Science</option>
+					<option value="Psychology">Psychology</option>
+					<option value="Real Estate">Real Estate</option>
+					<option value="Religious Studies">Religious Studies</option>
+					<option value="Risk Management and Insurance">Risk Management and Insurance</option>
+					<option value="Sports Management">Sports Management</option>
+					<option value="Sociology">Sociology</option>
+					<option value="Statistical Sciences">Statistical Sciences</option>
+					<option value="Teacher Education">Teacher Education</option>
+					<option value="Theatre">Theatre</option>
+					<option value="Wellness">Wellness</option>
+					<option value="World Language">World Language</option>
+				</select-->
+				
+				<select id="Department" name="major" required>
+					<option selected disabled hidden label='Department'></option>
+					<option value="01">Accounting</option>
+					<option value="02">Advertising</option>
+					<option value="03">Anthropology</option>
+					<option value="04">Applied Physiology</option>
+					<option value="05">Art</option>
+					<option value="06">Art History</option>
+					<option value="07">Art Management</option>
+					<option value="08">Biological Sciences</option>
+					<option value="08">Business</option>
+					<option value="09">Chemistry</option>
+					<option value="10">Civil &amp; Environmental Engineering</option>
+					<option value="11">Communication Studies</option>
+					<option value="12">Computer Science &amp; Engineering</option>
+					<option value="13">Creative Computing</option>
+					<option value="14">Dance</option>
+					<option value="15">Dispute Resolution</option>
+					<option value="16">Earth Sciences</option>
+					<option value="17">Economics</option>
+					<option value="18">Electrical Engineering</option>
+					<option value="19">English</option>
+					<option value="20">Film and Media Arts</option>
+					<option value="21">Finance</option>
+					<option value="22">Higher Eduction</option>
+					<option value="23">History</option>
+					<option value="24">Journalism</option>
+					<option value="25">Management Science</option>
+					<option value="26">Marketing</option>
+					<option value="27">Mathematics</option>
+					<option value="28">Mechanical Engineering</option>
+					<option value="29">Music</option>
+					<option value="30">Philosophy</option>
+					<option value="31">Physics</option>
+					<option value="32">Political Science</option>
+					<option value="33">Psychology</option>
+					<option value="34">Real Estate</option>
+					<option value="35">Religious Studies</option>
+					<option value="36">Risk Management and Insurance</option>
+					<option value="37">Sports Management</option>
+					<option value="38">Sociology</option>
+					<option value="39">Statisical Sciences</option>
+					<option value="40">Teacher Education</option>
+					<option value="41">Theatre</option>
+					<option value="42">Wellness</option>
+					<option value="43">World Language</option>
+				</select>
+
+				<h1>Description:</h1>
+				<textarea name="description" cols="25" rows="5"></textarea><br>
+
+				<input type="submit" form="user_form"/>
 			</form>
-
-			<label for="Department"></label>
-      <select name="Department" form="user_form" id="Department">
-				<option selected disabled hidden label='Department'></option>
- 				<option label="Accounting">Accounting</option>
-  			<option label="Advertising">Advertising</option>
- 				<option label="Anthropology">Anthropology</option>
-  			<option label="Applied Physiology">Applied Physiology</option>
-  			<option label="Art">Art</option>
-  			<option label="Art History">Art History</option>
-  			<option label="Art Management">Art Management</option>
-  			<option label="Biologicial Sciences">Biological Sciences</option>
-  			<option label="Business">Business</option>
-  			<option label="Chemistry">Chemistry</option>
-  			<option label="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
-  			<option label="Communication Studies">Communication Studies</option>
-  			<option label="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
-  			<option label="Creative Computing">Creative Computing</option>
-				<option label="Dance">Dance</option>
-  			<option label="Dispute Resolution">Dispute Resolution</option>
-  			<option label="Earth Sciences">Earth Sciences</option>
-  			<option label="Economics">Economics</option>
-				<option label="Electrical Engineering">Electrical Engineering</option>
-				<option label="English">English</option>
-  			<option label="Film and Media Arts">Film and Media Arts</option>
-  			<option label="Finance">Finance</option>
-  			<option label="Higher Education">Higher Eduction</option>
-  			<option label="History">History</option>
-  			<option label="Journalism">Journalism</option>
-  			<option label="Management Science">Management Science</option>
-				<option label="Marketing">Marketing</option>
-  			<option label="Mathematics">Mathematics</option>
-  			<option label="Mechanical Engineering">Mechanical Engineering</option>
-  			<option label="Music">Music</option>
-				<option label="Philosophy">Philosophy</option>
-				<option label="Physics">Physics</option>
-  			<option label="Political Science">Political Science</option>
-  			<option label="Psychology">Psychology</option>
-  			<option label="Real Estate">Real Estate</option>
-  			<option label="Religious Studies">Religious Studies</option>
-  			<option label="Risk Management and Insurance">Risk Management and Insurance</option>
-  			<option label="Sports Management">Sports Management</option>
-  			<option label="Sociology">Sociology</option>
-  			<option label="Statisical Sciences">Statisical Sciences</option>
-  			<option label="Teacher Education">Teacher Education</option>
-  			<option label="Theatre">Theatre</option>
-  			<option label="Wellness">Wellness</option>
-  			<option label="World Lanuage">World Language</option>
-
-			</select>
-
-      <h1>Description:</h1><textarea name="Description" cols="25" rows="5">
-      </textarea><br>
-
-			<input type="submit" form="user_form"> 
 		</div>
 
 	</body>
