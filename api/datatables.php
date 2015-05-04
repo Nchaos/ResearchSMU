@@ -48,9 +48,11 @@
 		$stmt0 -> execute();
 		$stmt0 -> close();
 		
-		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), 
-		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName VARCHAR(45), paid VARCHAR(10), 
-		workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), description MEDIUMTEXT)";
+		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), 
+					name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, 
+					dName VARCHAR(45), iName VARCHAR(45), 
+					paid VARCHAR(10), workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), 
+					description MEDIUMTEXT)";
 		
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> execute();
@@ -72,10 +74,9 @@
 					(CASE WHEN ResearchOp.acceptsGrad= 1 THEN 'Yes' ELSE 'No' END) as gval, 
 					ResearchOp.description
 				from 
-					ResearchOp, 
-					Department, 
-					Users, 
-					Institution 
+					ResearchOp join Department on ResearchOp.Dept_ID = Department.Dept_ID 
+					join Users on ResearchOp.user_ID = Users.user_ID 
+					join Institution on ResearchOp.inst_ID = Institution.inst_ID
 				WHERE 
 					Department.dept_ID = ResearchOp.dept_ID 
 				AND ResearchOp.user_ID = Users.user_ID 
