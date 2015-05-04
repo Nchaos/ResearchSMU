@@ -1535,7 +1535,7 @@
 		}
 		else
 		{
-			$user = $actual_result['user_ID'];
+			$userId = $actual_result['user_ID'];
 			//----------Obtained User ID--------------//
 			//----------Getting Password paired with User ID--------------//
 			$second_query = "SELECT password FROM Password WHERE user_ID = '$user'";
