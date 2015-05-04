@@ -1549,10 +1549,12 @@
 			else
 			{
 					$password_result = $second_actual_result["password"];
+					$hash_password = password_hash($password_User_Entered, PASSWORD_BCRYPT);
 					//----------Obtained Password paired with USer ID--------------//
 					//----------Verify Password with hash--------------------------//
-					if(password_verify($password_User_Entered,$password_result))
+					if($hash_password == $password_result)
 					{
+						echo "Successful Password Verification";
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = 'user'";
 						$returnValue = $mysqli -> query($components);
