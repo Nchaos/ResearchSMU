@@ -10,6 +10,7 @@ body {
 #cssmenu ul,
 #cssmenu ul li,
 #cssmenu ul li a,
+#cssmenu ul li div,
 #cssmenu #menu-button {
   margin: 0;
   padding: 0;
@@ -18,6 +19,7 @@ body {
   line-height: 1;
   display: block;
   position: relative;
+  z-index: 1;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -75,6 +77,8 @@ body {
 #cssmenu.align-right ul ul {
   text-align: right;
 }
+
+#cssmenu > ul > li > div,
 #cssmenu > ul > li > a {
   padding: 20px;
   font-size: 12px;
@@ -87,15 +91,23 @@ body {
   -o-transition: color .2s ease;
   transition: color .2s ease;
 }
+#cssmenu > ul > li:hover > div,
 #cssmenu > ul > li:hover > a,
+#cssmenu > ul > li.active > div, 
 #cssmenu > ul > li.active > a {
   color: #009ae1;
 }
+
+#cssmenu > ul > li.has-sub > div,
 #cssmenu > ul > li.has-sub > a {
   padding-right: 25px;
+  vertical-align: center;
+  z-index: 1;
 }
+#cssmenu > ul > li.has-sub > div::after, 
 #cssmenu > ul > li.has-sub > a::after {
   position: absolute;
+  vertical-align: center;
   top: 21px;
   right: 10px;
   width: 4px;
@@ -114,6 +126,7 @@ body {
   -o-transition: border-color 0.2s ease;
   transition: border-color 0.2s ease;
 }
+#cssmenu > ul > li.has-sub:hover > div::after, 
 #cssmenu > ul > li.has-sub:hover > a::after {
   border-color: #009ae1;
 }
@@ -145,7 +158,12 @@ body {
 }
 #cssmenu ul li:hover > ul > li {
   height: 32px;
+/*  margin-bottom: 3px;*/
 }
+#cssmenu ul .lyle:hover >ul >li {
+  height: 35px;
+}
+#cssmenu ul ul li div, 
 #cssmenu ul ul li a {
   padding: 10px 20px;
   width: 160px;
@@ -159,10 +177,34 @@ body {
   -o-transition: color .2s ease;
   transition: color .2s ease;
 }
+#cssmenu ul .dedman li div, 
+#cssmenu ul .dedman li a {
+  width: 216px;
+  }
+#cssmenu ul .lyle li div, 
+#cssmenu ul .lyle li a {
+  width: 149px;
+  }
+#cssmenu ul .cox li div, 
+#cssmenu ul .cox li a {
+  width: 128px;
+  }
+#cssmenu ul .meadows li div, 
+#cssmenu ul .meadows li a {
+  width: 166px;
+  }
+#cssmenu ul .simmons li div, 
+#cssmenu ul .simmons li a {
+  width: 159px;
+  }
+#cssmenu ul ul li:hover > div,
 #cssmenu ul ul li:hover > a,
+#cssmenu ul ul li div:hover,
 #cssmenu ul ul li a:hover {
   color: #ffffff;
 }
+
+#cssmenu ul ul li.has-sub > div::after,
 #cssmenu ul ul li.has-sub > a::after {
   position: absolute;
   top: 13px;
@@ -183,6 +225,7 @@ body {
   -o-transition: border-color 0.2s ease;
   transition: border-color 0.2s ease;
 }
+#cssmenu.align-right ul ul li.has-sub > div::after,
 #cssmenu.align-right ul ul li.has-sub > a::after {
   right: auto;
   left: 10px;
@@ -191,6 +234,7 @@ body {
   border-top: 1px solid #dddddd;
   border-left: 1px solid #dddddd;
 }
+#cssmenu ul ul li.has-sub:hover > div::after,
 #cssmenu ul ul li.has-sub:hover > a::after {
   border-color: #ffffff;
 }
@@ -213,7 +257,10 @@ body {
     height: auto;
     border-top: 1px solid rgba(120, 120, 120, 0.15);
   }
+
+  #cssmenu ul li div,
   #cssmenu ul li a,
+  #cssmenu ul ul li div,
   #cssmenu ul ul li a {
     width: 100%;
   }
@@ -223,17 +270,21 @@ body {
     float: none;
     display: block;
   }
+  #cssmenu ul ul li div, 
   #cssmenu ul ul li a {
     padding: 20px 20px 20px 30px;
     font-size: 12px;
     color: #000000;
     background: none;
   }
+  #cssmenu ul ul li:hover > div,
   #cssmenu ul ul li:hover > a,
-  #cssmenu ul ul li a:hover {
+  #cssmenu ul ul li a:hover, 
+  #cssmenu ul ul li div:hover {
     color: #000000;
   }
-  #cssmenu ul ul ul li a {
+  #cssmenu ul ul ul li a,
+  #cssmenu ul ul ul li div {
     padding-left: 40px;
   }
   #cssmenu ul ul,
@@ -245,7 +296,9 @@ body {
     margin: 0;
   }
   #cssmenu > ul > li.has-sub > a::after,
-  #cssmenu ul ul li.has-sub > a::after {
+  #cssmenu > ul > li.has-sub > div::after,
+  #cssmenu ul ul li.has-sub > a::after,
+  #cssmenu ul ul li.has-sub > div::after {
     display: none;
   }
   #menu-line {
@@ -317,6 +370,45 @@ body {
     display: none;
   }
 }
+#cssmenu li.home a {
+  font-size: 20pt;
+  text-align: center;
+  vertical-align: center;
+  text-transform: none;
+}
+#cssmenu .home {
+  float: left;
+  vertical-align: center;
+}
+#cssmenu .userlinks {
+  float: right;
+}
+/*#cssmenu .userlinks .logout{
+  display: none;
+}*/
+
+
+#description {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-color: #0095cd;
+  padding: 5px;
+  border width: 1px;
+  text-align: center;
+  float: center;
+  max-width: 25%;
+  display: block;
+  position: absolute;
+  margin-left: 38%;
+  background-color: rgb(140, 130, 121);
+  border-radius: 25px;
+  opacity: 0.9;
+/*  margin-top: 12.5%;*/
+
+}
+#clickMe {
+  font-weight: bold;
+}
 
 /*Login Button stuff*/
 
@@ -381,22 +473,22 @@ fieldset {
   border:none; 
 }
 
-form.signin .textbox label { 
+form.loginUser .textbox label { 
   display:block; 
   padding-bottom:7px; 
 }
 
-form.signin .textbox span { 
+form.loginUser .textbox span { 
   display:block;
 }
 
-form.signin p, form.signin span { 
+form.loginUser p, form.loginUser span { 
   color:#999; 
   font-size:11px; 
   line-height:18px;
 } 
 
-form.signin .textbox input { 
+form.loginUser .textbox input { 
   background:#666666; 
   border-bottom:1px solid #333;
   border-left:1px solid #000;
@@ -411,8 +503,8 @@ form.signin .textbox input {
   width:200px;
 }
 
-form.signin input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
-form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
+form.loginUser input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
+form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
 
 .button { 
   background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);
@@ -434,5 +526,6 @@ form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #
 }
 
 .button:hover { background:#ddd; }
+
 
 
