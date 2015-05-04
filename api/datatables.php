@@ -25,13 +25,13 @@
 		 	//if($debug) echo "Institution = %";
 			$institution = "%";
 		}
-		if(isset($_POST['department']))
-		{
-			$department = $_POST['department'];
-		} else {
-		 	//if($debug) echo "Department = %";
-			$department = "%";
-		}
+		// if(isset($_POST['department']))
+		// {
+		// 	$department = $_POST['department'];
+		// } else {
+		//  	//if($debug) echo "Department = %";
+		// 	$department = "%";
+		// }
 
 		// echo $department;
 		// echo $institution;
@@ -48,7 +48,12 @@
 		$stmt0 -> execute();
 		$stmt0 -> close();
 		
-		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL)";
+		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), 
+					name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, 
+					dName VARCHAR(45), iName VARCHAR(45), 
+					paid VARCHAR(10), workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), 
+					description MEDIUMTEXT)";
+		
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> execute();
 		$stmt -> close();
@@ -63,15 +68,15 @@
 					ResearchOp.numPositions, 
 					Department.name, 
 					Institution.name, 
-					ResearchOp.paid, 
-					ResearchOp.workStudy, 
-					ResearchOp.acceptsUndergrad, 
-					ResearchOp.acceptsGrad 
+					(CASE WHEN ResearchOp.paid = 1 THEN 'Yes' ELSE 'No' END) as paidval, 
+					(CASE WHEN ResearchOp.workStudy = 1 THEN 'Yes' ELSE 'No' END) as wsval,
+					(CASE WHEN ResearchOp.acceptsUndergrad= 1 THEN 'Yes' ELSE 'No' END) as ugval, 
+					(CASE WHEN ResearchOp.acceptsGrad= 1 THEN 'Yes' ELSE 'No' END) as gval, 
+					ResearchOp.description
 				from 
-					ResearchOp, 
-					Department, 
-					Users, 
-					Institution 
+					ResearchOp join Department on ResearchOp.Dept_ID = Department.Dept_ID 
+					join Users on ResearchOp.user_ID = Users.user_ID 
+					join Institution on ResearchOp.inst_ID = Institution.inst_ID
 				WHERE 
 					Department.dept_ID = ResearchOp.dept_ID 
 				AND ResearchOp.user_ID = Users.user_ID 
@@ -98,17 +103,18 @@
 		$columns = array(
 			//array( 'db' => 'ResearchOp_ID',		'dt' => ResearchOp_ID ),
 			array( 'db' => 'rName',    				'dt' => "rName" ),
-			array( 'db' => 'name',    				'dt' => "fName" ),
+			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),
-			//array( 'db' => 'startDate',			'dt' => startDate ), 
-			//array( 'db' => 'endDate',  			'dt' => endDate ),
-			//array( 'db' => 'numPositions',    	'dt' => numPositions ),
+			array( 'db' => 'startDate',				'dt' => "startDate" ), 
+			array( 'db' => 'endDate',  				'dt' => "endDate" ),
+			array( 'db' => 'numPositions',    		'dt' => "numPositions" ),
 			array( 'db' => 'dName',    				'dt' => "dName" ),
-			array( 'db' => 'iName',    				'dt' => "iName" )
-			//array( 'db' => 'paid',				'dt' => paid ), 
-			//array( 'db' => 'workStudy',  			'dt' => workStudy ),
-			//array( 'db' => 'acceptsUndergrad',	'dt' => acceptsUndergrad ), 
-			//array( 'db' => 'acceptsGrad',  		'dt' => acceptsGrad ),
+			array( 'db' => 'iName',    				'dt' => "iName" ),
+			array( 'db' => 'paid',					'dt' => "paid" ), 
+			array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
+			array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
+			array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
+			array( 'db' => 'description',			'dt' => "description" )
 		);
 		 
 		// SQL server connection information

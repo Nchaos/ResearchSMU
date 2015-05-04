@@ -382,32 +382,12 @@ body {
 }
 #cssmenu .userlinks {
   float: right;
+  background-color: rgb(204,0,0);
 }
-/*#cssmenu .userlinks .logout{
-  display: none;
-}*/
-
-
-#description {
-  border-top-style: solid;
-  border-bottom-style: solid;
-  border-color: #0095cd;
-  padding: 5px;
-  border width: 1px;
-  text-align: center;
-  float: center;
-  max-width: 25%;
-  display: block;
-  position: absolute;
-  margin-left: 38%;
-  background-color: rgb(140, 130, 121);
-  border-radius: 25px;
-  opacity: 0.9;
-/*  margin-top: 12.5%;*/
-
-}
-#clickMe {
-  font-weight: bold;
+#cssmenu .userlinks .logout, .login-window{
+  background-color: rgb(53, 76, 161);
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 /*Login Button stuff*/
@@ -440,7 +420,6 @@ body {
   display: none;
   background: #000; 
   position: fixed; left: 0; top: 0; 
-  z-index: 10;
   width: 100%; height: 100%;
   opacity: 0.8;
   z-index: 999;
@@ -463,6 +442,31 @@ body {
     -moz-border-radius: 3px; /* Firefox */
     -webkit-border-radius: 3px; /* Safari, Chrome */
 }
+
+#description {
+  padding: 5px;
+  border width: 1px;
+  text-align: center;
+  float: center;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 25%;
+  position: relative;
+  background-color: rgb(140, 130, 121);
+  border-radius: 25px;
+  opacity: 0.9;
+  margin-top: .5%;
+
+}
+
+#clickMe {
+  font-weight: bold;
+}
+
+/*#description p {
+  display: block;
+  font-size: 15px;
+}*/
 
 img.btn_close {
   float: right; 
@@ -527,5 +531,24 @@ form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2p
 
 .button:hover { background:#ddd; }
 
+#resultsTable{
+  display: none;
+}
 
+td.details-control {
+    background: url('../img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
+}
+
+div.slider {
+  display:none;
+}
+
+table.dataTable tbody td.no-padding {
+    padding: 0;
+}
 

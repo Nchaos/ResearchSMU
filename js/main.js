@@ -209,6 +209,7 @@ function() {
 });
 })(jQuery);
 
+
 // Login JS stuff
 
 $(document).ready(function() {
@@ -247,54 +248,6 @@ $(document).ready(function() {
 
 });  
 
-
-function tabDeptHandler(num) {
-  
-    var deptValue = num;
-    var filter = {"department" : deptValue};
-    var searchString = JSON.stringify(filter);
-       // console.log(deptValue);
-       // console.log(searchString);
-  
-    $.ajax({
-      type: "POST",
-      url: "api/index.php/filterDepartment",
-      datatype:"json",
-      data: searchString
-    });
-
-    if(window.location.href != "search.html"){
-      window.location.href = "search.html";
-    }
-  
-  // window.location.href = "search.html";
-}
-
-
-function tabInstitutionHandler(num) {
-  
-    var instValue = num; 
-    var filter = {"institution" : instValue};
-    var searchString = JSON.stringify(filter);
-
-       // console.log(instValue);
-       // console.log(searchString);
-
-    $.ajax({
-      type: "POST",
-      url: "api/index.php/filterSchool",
-      datatype:"json",
-      data: searchString
-    });
-
-    if(window.location.href != "search.html"){
-      window.location.href = "search.html";
-    }
-  
-  // window.location.href = "search.html";
-
-
-}
 
 // Initially Hide Logout button
 
