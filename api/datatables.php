@@ -76,13 +76,13 @@
 				from 
 					ResearchOp join Department on ResearchOp.Dept_ID = Department.Dept_ID 
 					join Users on ResearchOp.user_ID = Users.user_ID 
-					join Institution on ResearchOp.inst_ID = Institution.inst_ID
-				WHERE 
+					join Institution on ResearchOp.inst_ID = Institution.inst_ID";
+				/*WHERE 
 					Department.dept_ID = ResearchOp.dept_ID 
 				AND ResearchOp.user_ID = Users.user_ID 
 				AND ResearchOp.inst_ID = Institution.inst_ID 
 				AND Institution.inst_ID LIKE (?) 
-				AND Department.dept_ID LIKE (?)";
+				AND Department.dept_ID LIKE (?)";*/
 
 		$stmt1 = $mysqli -> prepare($sql1);
 		$stmt1 -> bind_param('ss', $institution, $department);
