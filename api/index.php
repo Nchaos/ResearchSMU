@@ -219,7 +219,7 @@
 				
 				//Create encrypted hash from password:
 				if ($debug) echo "Hashing password...\n";
-				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+				$hashedPassword = password_hash($password, PASSWORD_DEFAULT, array(salt=>10));
 				if($debug) echo "Hashed password, now creating user\n";
 				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
 	
@@ -1549,7 +1549,7 @@
 			else
 			{
 					$password_result = $second_actual_result['password'];
-					$hash_password = password_hash($password_User_Entered, PASSWORD_DEFAULT);
+					$hash_password = password_hash($password_User_Entered, PASSWORD_DEFAULT, array(salt=>10));
 					//----------Obtained Password paired with USer ID--------------//
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
