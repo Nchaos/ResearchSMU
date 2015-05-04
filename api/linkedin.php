@@ -18,7 +18,7 @@
 			'clientId' => '',
 			'clientSecret' => '',
 			'redirectUri' => 'http://192.168.10.10/api/linkedin.php/linkedinSession',
-			'scopes' => ['w_share']
+			//'scopes' => ['w_share']
 		]);
 				
 		if (!isset($_GET['code'])) {
@@ -85,30 +85,26 @@
 			$insert = $mysqli->prepare($sql);
 			$insert->bind_param('ss', $accessToken, $expiresDate);
 			
-			$_SESSION['expires'] = $expiresDate;
-
-			
 			if(!($insert->execute())){
 				die(json_encode(array('Status' => 'Failure',
 					'ERROR' => $mysqli->errno.':'.$mysqli->errno
 				)));
 			}
 			
-			$_SESSION['accessToken'] = $token->accessToken;
+			$_SESSION['accessToken'] = $accessToken;
+			$_SESSION['expires'] = $expires;
 			
 			$insert->close();
 			
 		} else {
 
-			//$sql = "SELECT TOP 1 accessToken, expires FROM LinkedIn ";
-			$sql = "SELECT * FROM LinkedIn ORDER BY token_id DESC LIMIT 1";
+			$sql = "SELECT TOP 1 accessToken, expires FROM LinkedIn ";
 			
 			if($result = $mysqli->query($sql)){
 				$row = $result->fetch_now();
 				$_SESSION['accessToken'] = $row['accessToken'];
 				$_SESSION['expires'] = $row['expires'];
 			}
-			$result->close();
 		}
 		
 		//echo $token->expires;
@@ -121,13 +117,15 @@
 	\\==========================================================*/
 	$app->get('/linkedinPost', function() {
 		global $mysqli, $debug;
-		session_start();
 		
 		$accessToken = $_SESSION['accessToken'];
 		
-		$postId = 2;//$_POST['researchOpId'];
+		$postId = 1;//$_POST['researchOpId'];
 		
-		if($debug) echo "Posting to LinkedIn... ".$postId."<br>";		
+		if($debug) echo "Posting to LinkedIn... ".$postId."\n";
+
+		//header('x-li-format: json');
+		
 		
 		//Check if post is active:
 		$sql = "SELECT active FROM ResearchOp WHERE researchOp_ID='$postId'";
@@ -137,82 +135,83 @@
 		$stmt->fetch();
 		$stmt->close();
 		
-		echo $active . '<br>';
+		echo $active;
 		
 		if($active){
 			//Prepare authentication
 						
 			//Get data from database
-			/*$postDept;
+			$postDept;
 			$postName;
-			$postDescription;*/
+			$postDescription;
 			
 			$sql = "SELECT dept_ID, name, description FROM ResearchOp WHERE researchOp_ID='$postId'";
 			$stmt = $mysqli->prepare($sql);
 			$stmt->execute();
-			$stmt->bind_result($postDept, $postTitle, $postDescription);
+			$stmt->bind_result($postDept, $postName, $postDescription);
 			$stmt->fetch();
 			$stmt->close();
 			
 			//Prepare data for LinkedIn post
-			$postComment = 'New Research Opportunity in ' . $postDept . '!';
-			$postUrl = 'http://52.11.153.243/research-opporunity/' . $postId;
+			$postComment = "New Research Opportunity in " . $postDept . "!";
+			$postTitle = "http://52.11.153.243/research-opporunity/" . $postId;
 			$postDescription = (strlen($postDescription) > 256) ? substr($postDescription, 0, 253).'...' : $postDescription;
 			
-			$postData = json_encode(array(
-				'comment' => $postComment,
+			$postData = json_encode(array('comment' => $postComment,
 				'content' => array(
 					'title' => $postTitle,
-					'description' => $postDescription,
-					'submitted-url' => $postUrl,
-					'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400'
+					'description' => $postDescription
 				),
+				'submitted-url' => $postTitle,
+				'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400',
 				'visibility' => array(
 					'code' => 'anyone'
 				)
 			));
 			$urlData = array(
-				'Content-Type: application/json',
-				'x-li-format: json'
+				'x-li-format' => 'json',
+				'Authorization' => 'Bearer'.$accessToken
 			);
 			
-			$param = array('oauth2_access_token' => $accessToken);
-			$url = 'https://api.linkedin.com/v1/people/~/shares?format=json&' . http_build_query($param);
-						
+			
 			//Post data to LinkedIn
 			//$result = $linkedIn->$api('v1/people/~/shares?format=json', $urlData, 'POST', $postData);
 			$curl = curl_init();
-			/*curl_setopt_array($curl, array(
-				CURLOPT_URL => $url,
+			$curl_setopt_array($curl, array(
+				CURLOPT_URL => 'https://api.linkedin.com/v1/people/~/shares?format=json',
 				CURLOPT_POST => 1,
 				CURLOPT_RETURNTRANSFER => 1,
-				//CURLOPT_FAILONERROR => 1,
-				CURLOPT_HTTPHEADER => $urlData,
-				CURLOPT_POSTFIELDS => $body,
-				CURLOPT_SSL_VERIFYPEER => 0
-			));*/
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_POST, 1);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_HTTPHEADER, $urlData);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-			curl_setopt($curl, CURLOPT_VERBOSE, 1);
-			
+				CURLOPT_HTTPHEADER => array(
+				'x-li-format' => 'json',
+				'Authorization' => 'Bearer '.$accessToken
+				),
+				CURLOPT_POSTFIELDS => array(
+				'comment' => $postComment,
+				'content' => array(
+					'title' => $postTitle,
+					'description' => $postDescription
+				),
+				'submitted-url' => $postTitle,
+				'submitted-image-url' => 'https://avatars0.githubusercontent.com/u/6441254?v=3&s=400',
+				'visibility' => array(
+					'code' => 'anyone'
+				)))
+			);
 			
 			//curl -v -X POST -d '{"comment": "Test Research OP", "content": {"title": "Testing From Curl!", "description": "Just testing if I can make posts from Curl...", "submitted-url": "http://52.11.153.243", "submitted-imate-url": "https://avatars0.githubusercontent.com/u/6441254?v=3&s=400"}, "visibility": {"code": "anyone"}}' -H "x-li-format: json" -H "Authorization: Bearer 75628ae2-0ccc-4e6c-ba7d-e4a35f0c170b" https://api.linkedin.com/v1/people/~/shares?format=json
 			
 			$response = curl_exec($curl);
-			$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			curl_close($curl);
 			
-			if($httpStatus == '201'){
-				echo date('g:i') . ' Posted to LinkedIn <br>';
-			} else {
-				echo date('g:i') . ' <b>LinkedIn error: ' . $httpStatus . '</b><br>';
-				print $response . '<br><br>';
-			}
+			echo $result;
 			
-			echo urldecode($postData);
+			if(!($result)){
+				die(json_encode(array('Status' => 'Failure',
+					'ERROR' => 'Shit\'s fucked'
+				)));
+			} else {
+				echo "Shit worked\n";
+			}
 				
 			
 		} else {
