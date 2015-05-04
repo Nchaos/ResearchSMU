@@ -15,8 +15,8 @@
 	\\==========================================================*/
 	function authenticate(){
 		$provider = new League\OAuth2\Client\Provider\LinkedIn([
-			'clientId' => '78byrh87ljeuap',
-			'clientSecret' => 'smOpm0SlHgstRvMa',
+			'clientId' => '',
+			'clientSecret' => '',
 			'redirectUri' => 'http://192.168.10.10/api/linkedin.php/linkedinSession',
 			'scopes' => ['w_share']
 		]);
