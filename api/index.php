@@ -1550,7 +1550,7 @@
 			{
 					$password_result = $second_actual_result['password'];
 					$hash_password = password_hash($password_User_Entered, PASSWORD_DEFAULT, array(salt=>10));
-					//----------Obtained Password paired with USer ID--------------//
+					//----------Obtained Password paired with User ID--------------//
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
 					{
@@ -1565,7 +1565,6 @@
 						$_SESSION['lastName'] = $iteration['lName'];
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
-						echo json_encode(array("success"=>'true'));
 						//---------Obtained User Data-------------//
 					}
 					else
