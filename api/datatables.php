@@ -49,7 +49,7 @@
 		$stmt0 -> close();
 		
 		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), 
-		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName VARCHAR(45), VARCHAR(10), 
+		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName VARCHAR(45), paid VARCHAR(10), 
 		workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), description MEDIUMTEXT)";
 		
 		$stmt = $mysqli -> prepare($sql);
