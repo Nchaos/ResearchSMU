@@ -61,9 +61,9 @@ function getFormValues(oForm, skip_elements) {
 /* Formatting function for row details - modify as you need */
 function format ( d ) {
     // `d` is the original data object for the row
-    myButton = document.createElement("input");
-	myButton.type = "button";
-	myButton.value = "my button";
+    var btn = document.createElement("BUTTON");
+	btn.type = "button";
+	btn.value = "my button";
     return '<div class="slider">'+
         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
             '<tr>'+
@@ -104,7 +104,7 @@ function format ( d ) {
             '</tr>'+
             '<tr>'+
                 '<td>Apply</td>'+
-                '<td>' +myButton+ '</td>'+
+                '<td>' +btn+ '</td>'+
             '</tr>'+
         '</table>'+
     '</div>';
