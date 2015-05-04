@@ -1535,7 +1535,7 @@
 		}
 		else
 		{
-			$userId = $actual_result['user_ID'];
+			$user = $actual_result['user_ID'];
 			//----------Obtained User ID--------------//
 			//----------Getting Password paired with User ID--------------//
 			$second_query = "SELECT password FROM Password WHERE user_ID = '$user'";
@@ -1556,11 +1556,11 @@
 					{
 						echo json_encode(array("success"=>'true','message' => 'User validated'));
 						//--------Getting User data--------------//
-						$components = "Select * FROM Users WHERE user_ID = 'user'";
+						$components = "Select * FROM Users WHERE user_ID = '$user'";
 						$returnValue = $mysqli -> query($components);
 						$iteration = $returnValue -> fetch_assoc();
 						
-						$_SESSION['userId'] = $userId;
+						$_SESSION['userId'] = $user;
 						$_SESSION['firstName'] = $iteration['fName'];
 						$_SESSION['lastName'] = $iteration['lName'];
 						$_SESSION['email'] = $iteration['email'];
