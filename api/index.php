@@ -1519,9 +1519,10 @@
 	//                		   login  		   	                    //
 	//==============================================================//
 
-	session_start();
+	
 	$app->post('/login', function(){
 		global $mysqli;
+		session_start();
 		//-----------Getting User ID--------------//
 		$email_User_Entered = $_POST['email'];
 		$password_User_Entered = $_POST['password'];
