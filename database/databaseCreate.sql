@@ -232,7 +232,7 @@ DROP TABLE IF EXISTS `DBGUI`.`Password` ;
 
 CREATE TABLE IF NOT EXISTS `DBGUI`.`Password` (
   `user_ID` INT NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
   INDEX `fk_Password_Users1_idx` (`user_ID` ASC),
   PRIMARY KEY (`user_ID`, `password`),
   CONSTRAINT `fk_Password_Users1`
