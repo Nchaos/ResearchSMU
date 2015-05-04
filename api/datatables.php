@@ -104,16 +104,16 @@
 			array( 'db' => 'rName',    				'dt' => "rName" ),
 			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),
-			//array( 'db' => 'startDate',				'dt' => "startDate" ), 
-			//array( 'db' => 'endDate',  				'dt' => "endDate" ),
+			array( 'db' => 'startDate',				'dt' => "startDate" ), 
+			array( 'db' => 'endDate',  				'dt' => "endDate" ),
 			array( 'db' => 'numPositions',    		'dt' => "numPositions" ),
 			array( 'db' => 'dName',    				'dt' => "dName" ),
 			array( 'db' => 'iName',    				'dt' => "iName" ),
-			//array( 'db' => 'paid',					'dt' => "paid" ), 
-			//array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
-			//array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
-			//array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
-			//array( 'db' => 'description',			'dt' => "description" )
+			array( 'db' => 'paid',					'dt' => "paid" ), 
+			array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
+			array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
+			array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
+			array( 'db' => 'description',			'dt' => "description" )
 		);
 		 
 		// SQL server connection information
