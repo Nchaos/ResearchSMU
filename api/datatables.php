@@ -66,10 +66,10 @@
 					ResearchOp.numPositions, 
 					Department.name, 
 					Institution.name, 
-					ResearchOp.paid, 
-					ResearchOp.workStudy, 
-					ResearchOp.acceptsUndergrad, 
-					ResearchOp.acceptsGrad, 
+					(CASE WHEN ResearchOp.paid = 1 THEN 'Yes' ELSE 'No' END) as paidval, 
+					(CASE WHEN ResearchOp.workStudy = 1 THEN 'Yes' ELSE 'No' END) as wsval,
+					(CASE WHEN ResearchOp.acceptsUndergrad= 1 THEN 'Yes' ELSE 'No' END) as ugval, 
+					(CASE WHEN ResearchOp.acceptsGrad= 1 THEN 'Yes' ELSE 'No' END) as gval, 
 					ResearchOp.description
 				from 
 					ResearchOp, 
