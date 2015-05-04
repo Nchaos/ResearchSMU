@@ -61,9 +61,15 @@ function getFormValues(oForm, skip_elements) {
 /* Formatting function for row details - modify as you need */
 function format ( d ) {
     // `d` is the original data object for the row
-    var btn = document.createElement("BUTTON");
-	btn.type = "button";
-	btn.value = "my button";
+    //console.log(d);
+ 	//    var btn = document.createElement("BUTTON");
+	// btn.type = "button";
+	// btn.value = "my button";
+	// console.log(btn);
+	// console.log("---");
+	// console.log(btn.innerHTML);
+	// console.log("---")
+	//console.log(btn.HTML)
     return '<div class="slider">'+
         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
             '<tr>'+
@@ -72,45 +78,53 @@ function format ( d ) {
             '</tr>'+
             '<tr>'+
                 '<td>Professor:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.pName+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Number of Positions:</td>'+
+                '<td>'+d.numPositions+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Start Date:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.startDate+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>End Date:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.endDate+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Paid:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.paid+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Work Study:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.workStudy+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Accepts Undergrad:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.acceptsUndergrad+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Accepts Grad:</td>'+
-                '<td>'+null+'</td>'+
+                '<td>'+d.acceptsGrad+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>Description:</td>'+
-                '<td>And any further details here (images etc)...</td>'+
+                '<td>'+d.description+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Apply</td>'+
-                '<td>' +btn+ '</td>'+
+                '<td></td>'+
+                '<td><button>Apply</button></td>'+
             '</tr>'+
         '</table>'+
     '</div>';
 }
 
 
+function deptReloadData (num){
+	var deptId = num;
+	return {"department": deptId };
+}
 
 function tabDeptHandler(num) {
 
@@ -132,7 +146,7 @@ function tabDeptHandler(num) {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables.php/datatable',
-		    data: searchString, 
+		    data: deptReloadData(deptValue), //searchString, 
 		    datatype: "json",
 		},
 
@@ -155,23 +169,30 @@ function tabDeptHandler(num) {
         var tr = $(this).closest('tr');
         var row = dt.row( tr );
  
+
         if ( row.child.isShown() ) {
-        	row.child.hide();
-            tr.removeClass( 'shown' );
+			$('div.slider', row.child()).slideUp( function () {
+    		row.child.hide();
+    		tr.removeClass('shown');
+			} );
         }
         else {
-        	row.child( format( row.data() ), 'no-padding' ).show();
+            row.child( format( row.data() ), 'no-padding' ).show();
             tr.addClass( 'shown' );
-
+			$('div.slider', row.child()).slideDown();
         }
     } );
   
 
 }
 
+function instReloadData (num){
+	var instId = num;
+	return {"institution": instId };
+}
 
 function tabInstitutionHandler(num) {
-  
+  	console.log("Inst handler: " + num);
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
 
@@ -180,7 +201,7 @@ function tabInstitutionHandler(num) {
   	$("#resultsTable").css("display", 'inline-table');
 
 	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
-    	var dt = $('#resultsTable').DataTable();
+   	 var dt = $('#resultsTable').DataTable();
 		dt.destroy();
 	}
 
@@ -190,7 +211,7 @@ function tabInstitutionHandler(num) {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables.php/datatable',
-		    data: searchString, 
+		    data: instReloadData(instValue),//searchString, 
 		    datatype: "json",
 		},
 
@@ -209,12 +230,16 @@ function tabInstitutionHandler(num) {
             "order": [[1, 'asc']]
 	});
 
+   	// window.copyDt = dt;
+   	// console.log(window.copyDt);
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
+        //window.tr = tr;
         //console.log(tr);
         var row = dt.row( tr );
-        //console.log(row);
+        //window.row = row;
+        // console.log(row);
 		//console.log(row.data().rName);
  
         if ( row.child.isShown() ) {
