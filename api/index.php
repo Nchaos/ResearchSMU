@@ -1571,7 +1571,7 @@
 					else
 					{
 							//--------Wrong password Entered---------//
-							echo json_encode(array("success"=>'false','message' => 'User could not be validated'));
+							echo json_encode(array("success"=>'false','message' => $hash_password));
 					}
 			}
 		}
