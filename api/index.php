@@ -1550,13 +1550,8 @@
 			else
 			{
 					$password_result = $second_actual_result['password'];
-<<<<<<< HEAD
-					$hash_password = password_hash($password_User_Entered, PASSWORD_DEFAULT, array(salt=>10));
-					//----------Obtained Password paired with User ID--------------//
-=======
-					$hash_password = password_hash($password_User_Entered, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+					$sh_password = password_hash($password_User_Entered, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
 					//----------Obtained Password paired with USer ID--------------//
->>>>>>> 751a6ce073c6961c22834bdfe3aafeb0819a6bdc
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
 					{
