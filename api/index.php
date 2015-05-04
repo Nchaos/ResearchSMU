@@ -1554,7 +1554,7 @@
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
 					{
-						echo "Successful Password Verification";
+						echo json_encode(array("success"=>'true','message' => 'User validated'));
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = 'user'";
 						$returnValue = $mysqli -> query($components);
