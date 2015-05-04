@@ -1556,11 +1556,11 @@
 					{
 						echo json_encode(array("success"=>'true','message' => 'User validated'));
 						//--------Getting User data--------------//
-						$components = "Select * FROM Users WHERE user_ID = 'user'";
+						$components = "Select * FROM Users WHERE user_ID = '$user'";
 						$returnValue = $mysqli -> query($components);
 						$iteration = $returnValue -> fetch_assoc();
 						
-						$_SESSION['userId'] = $userId;
+						$_SESSION['userId'] = $user;
 						$_SESSION['firstName'] = $iteration['fName'];
 						$_SESSION['lastName'] = $iteration['lName'];
 						$_SESSION['email'] = $iteration['email'];

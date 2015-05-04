@@ -49,8 +49,8 @@
 		$stmt0 -> close();
 		
 		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), name VARCHAR(90), 
-		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName varchar(45), paid BOOL, 
-		workStudy BOOL, acceptsUndergrad BOOL, acceptsGrad BOOL, description MEDIUMTEXT)";
+		startDate DATE, endDate DATE, numPositions INT, dName VARCHAR(45), iName VARCHAR(45), VARCHAR(10), 
+		workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), description MEDIUMTEXT)";
 		
 		$stmt = $mysqli -> prepare($sql);
 		$stmt -> execute();
@@ -66,10 +66,10 @@
 					ResearchOp.numPositions, 
 					Department.name, 
 					Institution.name, 
-					ResearchOp.paid, 
-					ResearchOp.workStudy, 
-					ResearchOp.acceptsUndergrad, 
-					ResearchOp.acceptsGrad, 
+					(CASE WHEN ResearchOp.paid = 1 THEN 'Yes' ELSE 'No' END) as paidval, 
+					(CASE WHEN ResearchOp.workStudy = 1 THEN 'Yes' ELSE 'No' END) as wsval,
+					(CASE WHEN ResearchOp.acceptsUndergrad= 1 THEN 'Yes' ELSE 'No' END) as ugval, 
+					(CASE WHEN ResearchOp.acceptsGrad= 1 THEN 'Yes' ELSE 'No' END) as gval, 
 					ResearchOp.description
 				from 
 					ResearchOp, 
