@@ -221,7 +221,7 @@
 				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
 				if($debug) echo "Hashed password, now creating user\n";
-				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
+				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated, userType) VALUES ('$firstName', '$lastName', '$email', '$date', '$check')");
 	
 				if ($debug) echo "User created, now fetching id\n";
 				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
