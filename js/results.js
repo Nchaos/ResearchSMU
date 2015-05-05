@@ -212,14 +212,13 @@ function tabInstitutionHandler(num) {
 
 function filter() {
 	getCheckedBoxes();
-	console.log(CheckboxHandler);
+	//console.log(CheckboxHandler);
     //window.alert("It Works!!!!!!! Filter: " + CheckboxHandler);
   	var searchString = CheckboxHandler.dept;
-  	console.log(searchString);
+  	//console.log(searchString);
 
-  	//$("#filtersbox").css("visibility", 'visible');
-  	//$("#description").css("display", 'none');
-  	//$("#resultsTable").css("display", 'inline-table');
+  	searchString = JSON.stringify(searchString);
+  	//console.log(searchString);
 
   	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
    	 var dt = $('#resultsTable').DataTable();
@@ -232,7 +231,7 @@ function filter() {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables2.php/datatable',
-		    data: searchString, 
+		    data: CheckboxHandler, 
 		    datatype: "json",
 		},
 

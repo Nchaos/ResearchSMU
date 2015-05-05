@@ -16,11 +16,39 @@
 			{
 				$value = ltrim($value, '0');
 			}
-			
-		} else 
-		{
+			//$department = ltrim($department, '0');
+		} else {
+		 	//if($debug) echo "Department = %";
 			$department = "%";
 		}
+		if(isset($_POST['institution']))
+		{
+			$institution = $_POST['institution'];
+			foreach ($institution as &$value) 
+			{
+				$value = ltrim($value, '0');
+			}
+			//$institution = ltrim($institution, '0');
+		} else {
+		 	//if($debug) echo "Institution = %";
+			$institution = "%";
+		}
+		// if(isset($_POST['department']))
+		// {
+		// 	$department = $_POST['department'];
+		// } else {
+		//  	//if($debug) echo "Department = %";
+		// 	$department = "%";
+		// }
+
+		// echo $department;
+		// echo $institution;
+
+		//$institution = $_POST['institution'];
+		//$department = $_POST['department'];
+
+		// $institution = "Lyle";
+		// $department = "CSE";
 		
 		// TABLE MAGIC TIME, Create temp table, Drop if it already exists
 		$sqldrop = "DROP TABLE IF EXISTS `DBGUI`.`TEMP` ";
@@ -57,13 +85,14 @@
 					ResearchOp join Department on ResearchOp.Dept_ID = Department.Dept_ID 
 					join Users on ResearchOp.user_ID = Users.user_ID 
 					join Institution on ResearchOp.inst_ID = Institution.inst_ID
-				WHERE ";
+				WHERE
+					Institution.inst_ID LIKE (?)";
 		$i = 0;
 		foreach($department as &$value)
 		{
 			if ($i == 0)
 			{
-				$sql1 .= " Department.dept_ID LIKE " . $value;
+				$sql1 .= " AND Department.dept_ID LIKE " . $value;
 			} else
 			{
 				$sql1 .= " OR Department.dept_ID LIKE " . $value; 
