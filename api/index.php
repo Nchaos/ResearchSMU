@@ -1532,7 +1532,7 @@
 		if(($actual_result === NULL))
 		{
 				//-------Email not found-------//
-				echo json_encode(array("success"=>'false','message' => 'Could not find user'));
+				echo json_encode(array("success"=> false ,'message' => 'Could not find user'));
 		}
 		else
 		{
@@ -1545,7 +1545,7 @@
 			if($actual_result === NULL)
 			{
 					//-------Password not found---------//
-					echo json_encode(array("success"=>'false','message' => 'Password could not be found'));
+					echo json_encode(array("success"=> false ,'message' => 'Password could not be found'));
 			}
 			else
 			{
@@ -1555,7 +1555,8 @@
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
 					{
-						echo json_encode(array("success"=>'true','message' => 'User validated'));
+						
+						
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = '$user'";
 						$returnValue = $mysqli -> query($components);
@@ -1567,11 +1568,13 @@
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
 						//---------Obtained User Data-------------//
+						echo json_encode(array("success"=> true ,'message' => 'User validated'));
+						
 					}
 					else
 					{
 							//--------Wrong password Entered---------//
-							echo json_encode(array("success"=>'false','message' => $hash_password));
+							echo json_encode(array("success"=> false ,'message' => $hash_password));
 					}
 			}
 		}
