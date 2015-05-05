@@ -110,11 +110,12 @@ function format ( d ) {
             '</tr>'+
             '<tr>'+
                 '<td>Description:</td>'+
-                '<td>'+d.description+'</td>'+
+                '<td>'+d.descript+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td></td>'+
-                '<td><button>Apply</button></td>'+
+                //<td><button type="button" class="btn btn-primary">Primary</button></td>
+                '<td><button type="button" class="btn btn-primary">Apply</button></td>'+
             '</tr>'+
         '</table>'+
     '</div>';
@@ -192,7 +193,7 @@ function instReloadData (num){
 }
 
 function tabInstitutionHandler(num) {
-  	console.log("Inst handler: " + num);
+  	//console.log("Inst handler: " + num);
   	var instValue = num; 
   	var searchString = {"institution" : instValue};
 

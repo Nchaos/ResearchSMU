@@ -114,7 +114,7 @@
 			array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
 			array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
 			array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
-			array( 'db' => 'description',			'dt' => "description" )
+			array( 'db' => 'description',			'dt' => "descript" )
 		);
 		 
 		// SQL server connection information
