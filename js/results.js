@@ -210,24 +210,46 @@ function tabInstitutionHandler(num) {
 }
 
 
-$(document).ready(function() {
-function autocomplete() {
-		
-	$("#searchField").autocomplete({
-	source: "api/index.php/autocomplete",
-	minLength: 2,//search after two characters
-	select: function(event,ui){
-	    //do something
-	    }
-	});
-}
-});	
-
-
 function filter() {
 	getCheckedBoxes();
 	console.log(CheckboxHandler);
     //window.alert("It Works!!!!!!! Filter: " + CheckboxHandler);
+  	var searchString = CheckboxHandler.dept;
+  	console.log(searchString);
+
+  	//$("#filtersbox").css("visibility", 'visible');
+  	//$("#description").css("display", 'none');
+  	//$("#resultsTable").css("display", 'inline-table');
+
+  	if ( $.fn.dataTable.isDataTable( '#resultsTable' ) ) {
+   	 var dt = $('#resultsTable').DataTable();
+		dt.destroy();
+	}
+
+	var dt = $('#resultsTable').DataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax":{
+		    type: 'POST',
+		    url: 'api/datatables2.php/datatable',
+		    data: searchString, 
+		    datatype: "json",
+		},
+
+        "columns": [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "rName" },
+            { "data": "pName" },
+            { "data": "dName" },
+            { "data": "iName" }
+        ],
+            "order": [[1, 'asc']]
+	});
 }
 
 
@@ -290,4 +312,17 @@ function getCheckedBoxes() {
 //   var rData = JSON.strigify($);
 //   return data; 
 // }
+
+$(document).ready(function() {
+function autocomplete() {
+		
+	$("#searchField").autocomplete({
+	source: "api/index.php/autocomplete",
+	minLength: 2,//search after two characters
+	select: function(event,ui){
+	    //do something
+	    }
+	});
+}
+});	
 

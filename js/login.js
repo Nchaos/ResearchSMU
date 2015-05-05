@@ -69,19 +69,20 @@ function Login(event){
 		  
 		  var value = JSON.parse(data);
 		  var success = value['success'];
-		  console.log(value);
+		  console.log(success);
           if(success == false){
+          	console.log("Succes is reading fail?");
         	var error = value['message'];
             alert(error); // just in case somebody to click on share witout writing anything :
 		  }
-
+			console.log("Between if blocks");
           if(success == true) {
 				   $('#login-box , .login-popup').fadeOut(300 , function() {
 				   $('#login-box').remove();  
                  });// end fadeOut function()
 		    //setTimeout("location.href = 'index.php/logout';",1000);  
 		    console.log("Href here");
-		    window.location.href = "index.html";                             
+		    //window.location.href = "index.html";                             
           }
 		}
 	});
