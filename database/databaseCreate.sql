@@ -364,13 +364,13 @@ INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 	(001, 005, 020, 2),
 	(002, 005, 027, 4);
 
-INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, numPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
+INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
 
-	(100, 013, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you do not have to talk to real people!", '2015-01-15', 12, true, false, true, false),
-	(101, 002, 005, 020, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, true,  false, false, true),
-	(102, 001, 005, 031, TRUE, '2014-11-24', "Future of Art", "Art did not used to suck, maybe it will not suck in the future?", '2015-06-02', 1, false,  false, false, true),
-	(103, 001, 005, 028, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
-	(104, 002, 005, 027, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
+	(100, 013, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you do not have to talk to real people!", '2015-01-15', '2015-01-16', 12, true, false, true, false),
+	(101, 002, 005, 020, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', '2100-05-15', 5, true,  false, false, true),
+	(102, 001, 005, 031, TRUE, '2014-11-24', "Future of Art", "Art did not used to suck, maybe it will not suck in the future?", '2015-06-02', '2017-06-25', 1, false,  false, false, true),
+	(103, 001, 005, 028, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', '2018-12-12', 5, false, true, false, false),
+	(104, 002, 005, 027, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', '2016-12-13', 3, true, true, true, true);	
 	
 INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
 	(102, 009, "no?", '2015-12-14 00:00:00'),
