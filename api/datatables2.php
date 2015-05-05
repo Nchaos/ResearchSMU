@@ -61,21 +61,24 @@
 		$i = 0;
 		foreach($department as &$value)
 		{
-			if ($i == 0)
+			if ($value != null)
 			{
-				$sql1 .= " Department.dept_ID LIKE " . $value;
-			} else
-			{
-				$sql1 .= " OR Department.dept_ID LIKE " . $value; 
+				if ($i == 0)
+				{
+					$sql1 .= " Department.dept_ID LIKE " . $value;
+				} else
+				{
+					$sql1 .= " OR Department.dept_ID LIKE " . $value; 
+				}
+				$i++;
 			}
-			$i++;
 		}			
 			
 					/*AND Institution.inst_ID LIKE (?) 
 					AND Department.dept_ID LIKE (?);*/
 
 		$stmt1 = $mysqli -> prepare($sql1);
-		$stmt1 -> bind_param('s', $institution);
+		//$stmt1 -> bind_param('s', $institution);
 		$stmt1 -> execute();
 		$stmt1 -> close();
 		
