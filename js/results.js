@@ -115,7 +115,7 @@ function format ( d ) {
             '<tr>'+
                 '<td></td>'+
                 //<td><button type="button" class="btn btn-primary">Primary</button></td>
-                '<td><button>Apply</button></td>'+
+                '<td><button type="button" class="btn btn-primary">Apply</button></td>'+
             '</tr>'+
         '</table>'+
     '</div>';
