@@ -9,9 +9,9 @@
 		$mysqli = new mysqli("localhost", "root", "toor", "DBGUI");
 
 		//Arguments
-		if(isset($_POST['department']))
+		if(isset($_POST['dept']))
 		{
-			$department = $_POST['department'];
+			$department = $_POST['dept'];
 			foreach ($department as &$value) 
 			{
 				$value = ltrim($value, '0');
@@ -102,7 +102,11 @@
 				$i++;
 			}
 		}			
-			
+		if ($i == 0)
+		{
+			$sql1 .= " Department.dept_ID LIKE '%'";
+		}
+		
 					/*AND Institution.inst_ID LIKE (?) 
 					AND Department.dept_ID LIKE (?);*/
 
