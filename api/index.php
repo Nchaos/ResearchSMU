@@ -1602,7 +1602,7 @@
 	});
 	
 	$app->post('/newpassword', function(){
-		global mysqli;
+		global $mysqli;
 		session_start();
 		//change pwd, dept, major, institution
 		//check if logged in
@@ -1618,8 +1618,11 @@
 			$stmt -> execute();
 			$stmt -> close();
 		}
-		else echo "YOU CANNOT CHANGE YOUR PASSWORD";
-	}	
+		else
+		{
+			echo "YOU CANNOT CHANGE YOUR PASSWORD";
+		}
+	});	
 	
 	$app->post('/IDONTLIKESHITANDIDONTGOOUTSIDE', function()
 	{
@@ -1634,7 +1637,7 @@
 		$password = $res->fetch_assoc();
 		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
 		echo json_encode($info);
-	}
+	});
 	
 	$app->run();
 ?>
