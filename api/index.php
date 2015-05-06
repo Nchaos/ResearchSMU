@@ -1658,7 +1658,7 @@
 		session_start();
 		$userid = $_SESSION['userId'];
 		//change pwd, dept, major, institution
-		if(isset($_POST['department']
+		if(isset($_POST['department']))
 		{
 			$dept = $_POST['department'];
 			$sqlget = 'SELECT dept_ID from Department where name = (?)';
@@ -1674,15 +1674,15 @@
 			$stmt -> execute();
 			$stmt -> close();
 		}
-		if(isset($_POST['institution']
+		if(isset($_POST['institution']))
 		{
 			//change institution
 		}
-		if(isset($_POST['department']
+		if(isset($_POST['department']))
 		{
 			//change dept
 		}
-		if(isset($_POST['gradstatus']
+		if(isset($_POST['gradstatus']))
 		{
 			//change gradstatus
 		}
