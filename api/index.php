@@ -1638,6 +1638,41 @@
 		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
 		echo json_encode($info);
 	});
+
+	$app->post('/changeinfo', function(){
+		global $mysqli;
+		session_start();
+		$userid = $_SESSION['userId'];
+		//change pwd, dept, major, institution
+		if(isset($_POST['department']
+		{
+			$dept = $_POST['department'];
+			$sqlget = 'SELECT dept_ID from Department where name = (?)';
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('s', $dept);
+			$stmt -> execute();
+			$stmt -> bind_result($deptId);
+			$stmt -> close();
+			
+			$sql = 'UPDATE Student SET dept_ID = (?) WHERE user_ID = (?)';
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('ss', $deptId, $userid);
+			$stmt -> execute();
+			$stmt -> close();
+		}
+		if(isset($_POST['institution']
+		{
+			//change institution
+		}
+		if(isset($_POST['department']
+		{
+			//change dept
+		}
+		if(isset($_POST['gradstatus']
+		{
+			//change gradstatus
+		}
+	});
 	
 	$app->run();
 ?>
