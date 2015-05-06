@@ -1,9 +1,34 @@
-$("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("active");
+
+
+$(document).ready(function(){
+	$("#edit").click(editInfo);
+	$(window).load(userInfo);
+	
+	
+	
+	$("#menu-toggle").click(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").toggleClass("active");
+	});
 });
 
-$("#edit").click(function() {
+function userInfo(){
+	
+	
+	console.log("userInfo");
+	
+	document.getElementById("info").innerHTML = "Insert Info";
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+function editInfo() {
 	var fname = document.createElement('div');
     fname.innerHTML = "First Name: <br><input type='text' name='fname'>";
     document.getElementById(fname).appendChild(fname);
@@ -23,7 +48,7 @@ $("#edit").click(function() {
     var dept = document.createElement('div');
     dept.innerHTML = "Department: <br><input type='text' name='dept'>";
     document.getElementById(dept).appendChild(dept);
-});
+}
 
 function uploadResume(){
 	var form = document.getElementById('uploadForm');
@@ -67,4 +92,35 @@ function uploadResume(){
 		request.send(formData);
 	};
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
