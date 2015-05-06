@@ -55,7 +55,6 @@ function Login(event){
 	  "password": document.getElementsByName("password")[0].value,
 	};
 
-	console.log(dataString);
 
 	// AJAX code to submit form.
 	$.ajax({
@@ -64,25 +63,23 @@ function Login(event){
 		datatype:"json",
 		data: dataString,
 		success: function(data) {
-			console.log("SUCCESS!!!!!!!!!!!!!");
-			//window.location.href = "index.html";
-		  
 		  var value = JSON.parse(data);
 		  var success = value['success'];
-		  console.log(success);
           if(success == false){
           	console.log("Succes is reading fail?");
         	var error = value['message'];
             alert(error); // just in case somebody to click on share witout writing anything :
 		  }
-			console.log("Between if blocks");
           if(success == true) {
 				   $('#login-box , .login-popup').fadeOut(300 , function() {
 				   $('#login-box').remove();  
                  });// end fadeOut function()
-		    //setTimeout("location.href = 'index.php/logout';",1000);  
-		    console.log("Href here");
-		    //window.location.href = "index.html";                             
+                 
+            $('#mask').remove();
+            $(".login-window").css("display", 'none');
+  			$(".logout").css("display", 'inline-block');
+  			
+		    setTimeout("location.href = 'api/index.php/logout';",1000);                          
           }
 		}
 	});
