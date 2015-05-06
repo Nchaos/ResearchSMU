@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	$("#signin").click(Login);
+	$(".logout").click(logout);
 });
 
 function Login(event){
@@ -79,7 +80,7 @@ function Login(event){
             $(".login-window").css("display", 'none');
   			$(".logout").css("display", 'inline-block');
   			
-		    setTimeout("location.href = 'api/index.php/logout';",1000);                          
+		    //setTimeout("location.href = 'api/index.php/logout';",1000);                          
           }
 		}
 	});
@@ -108,6 +109,7 @@ function logout(event){
 	$.ajax({
 		type: "POST",
 		url: "api/index.php/logout",
+		success: function(){window.location.href = 'index.html';}
 	});
 }
 
