@@ -221,7 +221,7 @@
 				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
 				if($debug) echo "Hashed password, now creating user\n";
-				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated) VALUES ('$firstName', '$lastName', '$email', '$date')");
+				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated, userType) VALUES ('$firstName', '$lastName', '$email', '$date', '$check')");
 	
 				if ($debug) echo "User created, now fetching id\n";
 				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
@@ -1532,7 +1532,7 @@
 		if(($actual_result === NULL))
 		{
 				//-------Email not found-------//
-				echo json_encode(array("success"=>'false','message' => 'Could not find user'));
+				echo json_encode(array("success"=> false ,'message' => 'Could not find user'));
 		}
 		else
 		{
@@ -1545,7 +1545,7 @@
 			if($actual_result === NULL)
 			{
 					//-------Password not found---------//
-					echo json_encode(array("success"=>'false','message' => 'Password could not be found'));
+					echo json_encode(array("success"=> false ,'message' => 'Password could not be found'));
 			}
 			else
 			{
@@ -1555,7 +1555,8 @@
 					//----------Verify Password with hash--------------------------//
 					if($hash_password == $password_result)
 					{
-						echo json_encode(array("success"=>'true','message' => 'User validated'));
+						
+						
 						//--------Getting User data--------------//
 						$components = "Select * FROM Users WHERE user_ID = '$user'";
 						$returnValue = $mysqli -> query($components);
@@ -1567,11 +1568,13 @@
 						$_SESSION['email'] = $iteration['email'];
 						$_SESSION['userType'] = $iteration['userType'];
 						//---------Obtained User Data-------------//
+						echo json_encode(array("success"=> true ,'message' => 'User validated'));
+						
 					}
 					else
 					{
 							//--------Wrong password Entered---------//
-							echo json_encode(array("success"=>'false','message' => $hash_password));
+							echo json_encode(array("success"=> false ,'message' => $hash_password));
 					}
 			}
 		}

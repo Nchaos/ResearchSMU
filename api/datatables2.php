@@ -16,9 +16,9 @@
 			{
 				$value = ltrim($value, '0');
 			}
-			
-		} else 
-		{
+			//$department = ltrim($department, '0');
+		} else {
+		 	//if($debug) echo "Department = %";
 			$department = "%";
 		}
 		
@@ -75,7 +75,7 @@
 		}			
 		if ($i == 0)
 		{
-			$sql1 .= " Department.dept_ID LIKE '%'";
+			$sql1 .= " Department.dept_ID LIKE %";
 		}
 		
 					/*AND Institution.inst_ID LIKE (?) 
