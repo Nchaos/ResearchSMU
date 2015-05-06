@@ -78,7 +78,7 @@
 					join Users on ResearchOp.user_ID = Users.user_ID 
 					join Institution on ResearchOp.inst_ID = Institution.inst_ID
 				WHERE 
-					AND Institution.inst_ID LIKE (?) 
+					Institution.inst_ID LIKE (?) 
 					AND Department.dept_ID LIKE (?)";
 
 		$stmt1 = $mysqli -> prepare($sql1);
