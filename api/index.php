@@ -1658,22 +1658,19 @@
 		session_start();
 		$userid = $_SESSION['userId'];
 		//change pwd, dept, major, institution
-		if(isset($_POST['department']
+		if(isset($_POST['department']))
 		{
 			$dept = $_POST['department'];
 			
 			$sql = "UPDATE Student SET dept_ID = (Select dept_ID from Department where name = '$dept')";
 			$stmt = $mysqli -> query($sql);
 		}
-		if(isset($_POST['institution']
+		if(isset($_POST['institution']))
 		{
 			//change institution
-			$inst = $_POST['institution'];
-			
-			$sql = "UPDATE Student SET inst_ID = (Select inst_ID from Institution where name = '$inst')";
-			$stmt = $mysqli -> query($sql);
+
 		}
-		if(isset($_POST['gradstatus']
+		if(isset($_POST['gradstatus']))
 		{
 			//change gradstatus
 			$grad = $_POST['gradstatus'];
