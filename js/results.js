@@ -115,6 +115,7 @@ function tabDeptHandler(num) {
         ],
         	"order": [[1, 'asc']]
 	});
+    console.log(deptReloadData(deptValue));
  
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
