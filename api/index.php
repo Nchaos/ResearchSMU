@@ -1620,5 +1620,21 @@
 		}
 		else echo "YOU CANNOT CHANGE YOUR PASSWORD";
 	}	
+	
+	$app->post('/IDONTLIKESHITANDIDONTGOOUTSIDE', function()
+	{
+		session_start();
+		$userId = $_SESSION['userId'] ;
+		$firstName = $_SESSION['firstName'];
+		$lastName = $_SESSION['lastName'];
+		$email = $_SESSION['email'];
+		$userType = $_SESSION['userType'];
+		$query = "SELECT password FROM Password WHERE user_ID = '$userId'";
+		$res = $mysqli->query($query);
+		$password = $res->fetch_assoc();
+		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
+		echo json_encode($info);
+	}
+	
 	$app->run();
 ?>
