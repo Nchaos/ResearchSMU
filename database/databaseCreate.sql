@@ -389,15 +389,15 @@ INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 	(043, 004, "Teacher Education"),
 	(045, 004, "Wellness");
 	
-INSERT INTO Student(user_ID, inst_ID, dept_ID, resume, graduateStudent, loginCount) VALUES
+INSERT INTO Student(user_ID, inst_ID, dept_ID, graduateStudent, loginCount) VALUES
 
-	(003, 005, 013, "dont got one", FALSE, 3),
-	(004, 002, 001, "https:lol.com", FALSE, 2),
-	(005, 001, 030, "yes", FALSE, 5),
-	(009, 005, 013, "holy dookies", FALSE, 6),
-	(010, 005, 013, "UUUUUHHHH", FALSE, 4),
-	(011, 005, 013, "no", TRUE, 1),
-	(012, 005, 013, "hue", TRUE, 2);
+	(003, 005, 013, FALSE, 3),
+	(004, 002, 001, FALSE, 2),
+	(005, 001, 030, FALSE, 5),
+	(009, 005, 013, FALSE, 6),
+	(010, 005, 013, FALSE, 4),
+	(011, 005, 013, TRUE, 1),
+	(012, 005, 013, TRUE, 2);
 
 INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 
