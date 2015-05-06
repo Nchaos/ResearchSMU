@@ -1667,12 +1667,14 @@
 		}
 		if(isset($_POST['institution']))
 		{
-			//change institution
+			$inst = $_POST['institution'];
+			
+			$sql = "UPDATE Student SET inst_ID = (Select inst_ID from Institution where name = '$inst')";
+			$stmt = $mysqli -> query($sql);
 
 		}
 		if(isset($_POST['gradstatus']))
 		{
-			//change gradstatus
 			$grad = $_POST['gradstatus'];
 			
 			$sql = "UPDATE Student SET graduateStudent = '$grad')";
