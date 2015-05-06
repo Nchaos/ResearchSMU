@@ -1661,30 +1661,24 @@
 		if(isset($_POST['department']))
 		{
 			$dept = $_POST['department'];
-			$sqlget = 'SELECT dept_ID from Department where name = (?)';
-			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('s', $dept);
-			$stmt -> execute();
-			$stmt -> bind_result($deptId);
-			$stmt -> close();
 			
-			$sql = 'UPDATE Student SET dept_ID = (?) WHERE user_ID = (?)';
-			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('ss', $deptId, $userid);
-			$stmt -> execute();
-			$stmt -> close();
+			$sql = "UPDATE Student SET dept_ID = (Select dept_ID from Department where name = '$dept')";
+			$stmt = $mysqli -> query($sql);
 		}
 		if(isset($_POST['institution']))
 		{
-			//change institution
-		}
-		if(isset($_POST['department']))
-		{
-			//change dept
+			$inst = $_POST['institution'];
+			
+			$sql = "UPDATE Student SET inst_ID = (Select inst_ID from Institution where name = '$inst')";
+			$stmt = $mysqli -> query($sql);
+
 		}
 		if(isset($_POST['gradstatus']))
 		{
-			//change gradstatus
+			$grad = $_POST['gradstatus'];
+			
+			$sql = "UPDATE Student SET graduateStudent = '$grad')";
+			$stmt = $mysqli -> query($sql);
 		}
 	});
 	
