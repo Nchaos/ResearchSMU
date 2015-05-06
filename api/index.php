@@ -1682,5 +1682,18 @@
 		}
 	});
 	
+	
+	
+	/*
+	||					Check Session
+	*/
+	$app->get('/sessionStatus', function() {
+		if(session_status() !== PHP_SESSION_ACTIVE)
+			return true;
+		else
+			return false;
+	});
+	
+	
 	$app->run();
 ?>
