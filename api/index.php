@@ -1600,6 +1600,25 @@
 		// Finally, destroy the session.
 		session_destroy();
 	});
-		
+	
+	$app->post('/newpassword', function(){
+		global mysqli;
+		session_start();
+		//change pwd, dept, major, institution
+		//check if logged in
+		if(isset($_SESSION['userId']))
+		{		
+			$userId = $_SESSION['userId'];
+			$ptemp = $_POST['password'];
+			$hashedPassword = password_hash($ptemp, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+			
+			$sql = 'UPDATE Password SET password = (?) WHERE user_ID = (?)';
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('ss', $hashedPassword, $userId);
+			$stmt -> execute();
+			$stmt -> close();
+		}
+		else echo "YOU CANNOT CHANGE YOUR PASSWORD";
+	}	
 	$app->run();
 ?>
