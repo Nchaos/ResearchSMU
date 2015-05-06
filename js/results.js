@@ -230,7 +230,7 @@ function filter() {
 		"serverSide": true,
 		"ajax":{
 		    type: 'POST',
-		    url: 'api/datatables2.php/datatable',
+		    url: 'api/filtertables.php/datatable',
 		    data: CheckboxHandler, 
 		    datatype: "json",
 		},
