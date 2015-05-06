@@ -1579,6 +1579,46 @@
 			}
 		}
 	});
-		
+	
+	$app->post('/logout', function(){
+		// Initialize the session.
+		// If you are using session_name("something"), don't forget it now!
+		session_start();
+
+		// Unset all of the session variables.
+		$_SESSION = array();	
+
+		// If it's desired to kill the session, also delete the session cookie.
+		// Note: This will destroy the session, and not just the session data!
+		if (ini_get('session.use_cookies')) {
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 42000,
+			$params['path'], $params['domain'],
+			$params['secure'], $params['httponly']);
+		}
+
+		// Finally, destroy the session.
+		session_destroy();
+	});
+	
+	$app->post('/newpassword', function(){
+		global mysqli;
+		session_start();
+		//change pwd, dept, major, institution
+		//check if logged in
+		if(isset($_SESSION['userId']))
+		{		
+			$userId = $_SESSION['userId'];
+			$ptemp = $_POST['password'];
+			$hashedPassword = password_hash($ptemp, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+			
+			$sql = 'UPDATE Password SET password = (?) WHERE user_ID = (?)';
+			$stmt = $mysqli -> prepare($sql);
+			$stmt -> bind_param('ss', $hashedPassword, $userId);
+			$stmt -> execute();
+			$stmt -> close();
+		}
+		else echo "YOU CANNOT CHANGE YOUR PASSWORD";
+	}	
 	$app->run();
 ?>
