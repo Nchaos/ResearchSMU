@@ -1702,10 +1702,10 @@
 	//==============================================================//
 	//                		   Apply		  	                    //
 	//==============================================================//	
-	$app->get('/apply', function() {
+	$app->post('/apply', function() {
 		global $mysqli;
 		session_start();
-		$user = $_POST['userID'];
+		$user = $_SESSION['userId'];
 		$op = $_POST['opID'];
 		$date = date("Y-m-d");
 		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
