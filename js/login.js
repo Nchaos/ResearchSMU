@@ -77,8 +77,11 @@ function Login(event){
                  });// end fadeOut function()
                  
             $('#mask').remove();
+			//This needs to be replaced with a function that checks if there is a session 
             $(".login-window").css("display", 'none');
   			$(".logout").css("display", 'inline-block');
+  			$(".register-window").css("display", 'none');
+  			$(".user-window").css("display", 'inline-block');
   			
 		    //setTimeout("location.href = 'api/index.php/logout';",1000);                          
           }
@@ -109,7 +112,14 @@ function logout(event){
 	$.ajax({
 		type: "POST",
 		url: "api/index.php/logout",
-		success: function(){window.location.href = 'index.html';}
+		success: function(){
+			window.location.href = 'index.html';
+			//This needs to be replaced with a function that checks if there is a session 
+			// $(".login-window").css("display", 'inline-block');
+  	// 		$(".logout").css("display", 'none');
+  	// 		$(".register-window").css("display", 'inline-block');
+  	//	    $(".user-window").css("display", 'none');
+		}
 	});
 }
 

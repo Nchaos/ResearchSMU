@@ -382,12 +382,10 @@ body {
 }
 #cssmenu .userlinks {
   float: right;
-  background-color: rgb(204,0,0);
+/*  background-color: rgb(204,0,0);*/
 }
 #cssmenu .userlinks .logout, .login-window{
-  background-color: rgb(53, 76, 161);
-  margin-top: auto;
-  margin-bottom: auto;
+/*  background-color: rgb(53, 76, 161);*/
 }
 
 /*Login Button stuff*/

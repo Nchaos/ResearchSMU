@@ -389,15 +389,15 @@ INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 	(043, 004, "Teacher Education"),
 	(045, 004, "Wellness");
 	
-INSERT INTO Student(user_ID, inst_ID, dept_ID, graduateStudent, loginCount) VALUES
+-- INSERT INTO Student(user_ID, inst_ID, dept_ID, graduateStudent, loginCount) VALUES
 
-	(003, 005, 013, FALSE, 3),
-	(004, 002, 001, FALSE, 2),
-	(005, 001, 030, FALSE, 5),
-	(009, 005, 013, FALSE, 6),
-	(010, 005, 013, FALSE, 4),
-	(011, 005, 013, TRUE, 1),
-	(012, 005, 013, TRUE, 2);
+-- 	(003, 005, 013, FALSE, 3),
+-- 	(004, 002, 001, FALSE, 2),
+-- 	(005, 001, 030, FALSE, 5),
+-- 	(009, 005, 013, FALSE, 6),
+-- 	(010, 005, 013, FALSE, 4),
+-- 	(011, 005, 013, TRUE, 1),
+-- 	(012, 005, 013, TRUE, 2);
 
 INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 
@@ -413,22 +413,23 @@ INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCre
 	(103, 001, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
 	(104, 002, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
 	
-INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
-	(102, 009, "no?", '2015-12-14 00:00:00'),
-	(103, 010, "yes please.", '2015-12-15 05:24:23'),
-	(104, 011, "MMM WATCHU SAAAAAAAAY", '2015-12-13 06:21:30');
+-- INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
+-- 	(102, 009, "no?", '2015-12-14 00:00:00'),
+-- 	(103, 010, "yes please.", '2015-12-15 05:24:23'),
+-- 	(104, 011, "MMM WATCHU SAAAAAAAAY", '2015-12-13 06:21:30');
 
 INSERT INTO Password(user_ID, password) VALUES
 	(013, "ImCookingNoodles"),
 	(001, "CreamOfTheCrop"),
-	(002, "OhYeahBrother"),
-	(003, "password1"),
-	(004, "password2"),
-	(005, "password3"),
-	(006, "MyCountry"),
-	(007, "NucularWar"),
-	(008, "WhoIsMonica"),
-	(009, "EEEEEEEAGLE"),
-	(010, "Bajingo"),
-	(011, "SurgeryR00lz"),
-	(012, "CRaaaAaAAzy");
+	(002, "OhYeahBrother");
+	-- (003, "password1"),
+	-- (004, "password2"),
+	-- (005, "password3"),
+	-- (006, "MyCountry"),
+	-- (007, "NucularWar"),
+	-- (008, "WhoIsMonica"),
+	-- (009, "EEEEEEEAGLE"),
+	-- (010, "Bajingo"),
+	-- (011, "SurgeryR00lz"),
+	-- (012, "CRaaaAaAAzy");
+

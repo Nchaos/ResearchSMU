@@ -262,7 +262,8 @@ function checkForm(event){
 	request.fail(function(jqXHR, textStatus, errorThrown){
 		console.error("The following error occurred: " + textStatus, errorThrown);
 	});*/
-	
+	alert('You have successfully created an Account');
+	window.location.href ="index.html";
 	return false;
 }
 
@@ -273,7 +274,7 @@ function validateEmail(email) {
 }
 
 function cancelClick() {
-	window.location.href = "index.html"
+	window.location.href = "index.html";
 }
 
 
