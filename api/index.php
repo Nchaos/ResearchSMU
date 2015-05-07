@@ -1590,6 +1590,7 @@
 
 		// Unset all of the session variables.
 		$_SESSION = array();	
+		
 
 		// If it's desired to kill the session, also delete the session cookie.
 		// Note: This will destroy the session, and not just the session data!
@@ -1637,7 +1638,7 @@
 	{
 		global $mysqli;
 		session_start();
-		$userId = $_SESSION['userId'] ;
+		$userId = $_SESSION['userId'];
 		$firstName = $_SESSION['firstName'];
 		$lastName = $_SESSION['lastName'];
 		$email = $_SESSION['email'];
@@ -1690,12 +1691,15 @@
 	$app->get('/sessionStatus', function() {
 		
 		session_start();
-		if (session_status() === PHP_SESSION_NONE) 
+		
+		if(empty($_SESSION['test']))
 		{
-			echo FALSE;
-		}
-		else
 			echo TRUE;
+			session_destroy();
+		}
+		else	
+			echo FALSE;
+			
 	});
 	
 	
@@ -1706,11 +1710,11 @@
 		global $mysqli;
 		session_start();
 		$user = $_SESSION['userId'];
-		echo $user
+		echo $user;
 		$op = $_POST['opID'];
-		echo $op
+		echo $op;
 		$date = date("Y-m-d");
-		echo $date
+		echo $date;
 		$sql = "Insert into Applicants(researchOp_ID, user_ID, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
 		$success = $mysqli -> query($sql);		
 	});
