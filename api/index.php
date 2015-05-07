@@ -1691,9 +1691,9 @@
 		session_start();
 	
 		if(session_status() === PHP_SESSION_ACTIVE)
-			return json_encode(true);
+			echo json_encode(true);
 		else
-			return json_encode(false);
+			echo json_encode(false);
 	});
 	
 	
@@ -1702,10 +1702,10 @@
 	//==============================================================//
 	//                		   Apply		  	                    //
 	//==============================================================//	
-	$app->get('/apply', function() {
+	$app->post('/apply', function() {
 		global $mysqli;
 		session_start();
-		$user = $_POST['userID'];
+		$user = $_SESSION['userId'];
 		$op = $_POST['opID'];
 		$date = date("Y-m-d");
 		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
