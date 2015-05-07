@@ -1688,14 +1688,12 @@
 	//                		   Check Session  	                    //
 	//==============================================================//	
 	$app->get('/sessionStatus', function() {
-		if(session_status() === PHP_SESSION_NONE)
-			return FALSE;
-		else
-			return TRUE;
+		
+		if(!isset($_SESSION))
+			echo json_encode("no sessions allowed");
+			
 	});
 	
-	
-	$app->run();
 	
 	//==============================================================//
 	//                		   Apply		  	                    //
@@ -1709,4 +1707,6 @@
 		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
 		$success = $mysqli -> query($sql);		
 	});
+	
+	$app->run();
 ?>
