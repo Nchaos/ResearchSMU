@@ -216,6 +216,8 @@ function tabInstitutionHandler(num) {
 }
 
 
+
+
 function filter() {
 	getCheckedBoxes();
 	//console.log(CheckboxHandler);
@@ -255,6 +257,37 @@ function filter() {
         ],
             "order": [[1, 'asc']]
 	});
+
+
+    window.copyDt = dt;
+    console.log(window.copyDt);
+    $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
+        var tr = $(this).closest('tr');
+        //window.tr = tr;
+        console.log(tr);
+        var row = window.copyDt.row(tr);
+        //var row = dt.row( tr );
+        //window.row = row;
+        console.log(row);
+        //console.log(row.data().rName);
+
+        console.log("Row is...");
+
+        if ( row.child.isShown() ) {
+            console.log("Hiding");
+            $('div.slider', row.child()).slideUp( function () {
+            row.child.hide();
+            tr.removeClass('shown');
+            } );
+        }
+        else {
+            console.log("Showing")
+            row.child( format( row.data() ), 'no-padding' ).show();
+            tr.addClass( 'shown' );
+            $('div.slider', row.child()).slideDown();
+        }
+
+    } );
 }
 
 
