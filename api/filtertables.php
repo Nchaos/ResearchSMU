@@ -98,7 +98,7 @@
 
 
 		$columns = array(
-			array( 'db' => 'ResearchOp_ID',		'dt' => 'ResearchOp_ID' ),
+			array( 'db' => 'ResearchOp_ID',			'dt' => 'ResearchOp_ID' ),
 			array( 'db' => 'rName',    				'dt' => "rName" ),
 			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),

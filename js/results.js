@@ -314,13 +314,16 @@ function getCheckedBoxes() {
 // Function for applying to a Research Op
 function apply(researchOp){
     console.log(researchOp);
+    var applyData = {"opID" : researchOp};
+    console.log(applyData);
     $.ajax({
         type: "POST",
         url: "api/index.php/apply",
         datatype: JSON,
-        data: researchOp,
+        data: applyData,
         success: function(){
-            window.location.href = 'index.html';
+            alert('You have applied!');
+            //window.location.href = 'index.html';
 
         }
     });
