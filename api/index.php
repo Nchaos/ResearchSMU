@@ -1689,9 +1689,13 @@
 	//==============================================================//	
 	$app->get('/sessionStatus', function() {
 		
-		if(!isset($_SESSION))
-			echo json_encode("no sessions allowed");
-			
+		session_start();
+		if (session_status() == PHP_SESSION_NONE) 
+		{
+			echo FALSE;
+		}
+		else
+			echo TRUE;
 	});
 	
 	
