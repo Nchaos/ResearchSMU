@@ -1684,14 +1684,16 @@
 	
 	
 	
-	/*
-	||					Check Session
-	*/
+	//==============================================================//
+	//                		   Check Session  	                    //
+	//==============================================================//	
 	$app->get('/sessionStatus', function() {
-		if(session_status() !== PHP_SESSION_ACTIVE)
+	
+		return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+		/*if(session_status() !== PHP_SESSION_ACTIVE)
 			return true;
 		else
-			return false;
+			return false;*/
 	});
 	
 	
