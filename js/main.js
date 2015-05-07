@@ -260,6 +260,7 @@ function checkSession() {
     $(".login-window").css("display", 'inline-block');
     $(".logout").css("display", 'none');
     $(".register-window").css("display", 'inline-block');
+    $(".user-window").css("display", 'none');
   }
   else if (session == true){
     console.log("logged in");
@@ -267,6 +268,7 @@ function checkSession() {
     $(".login-window").css("display", 'none');
     $(".logout").css("display", 'inline-block');
     $(".register-window").css("display", 'none');
+    $(".user-window").css("display", 'inline-block');
   }
   else{
     console.log("Not logged in");
@@ -274,6 +276,7 @@ function checkSession() {
     $(".login-window").css("display", 'inline-block');
     $(".logout").css("display", 'none');
     $(".register-window").css("display", 'inline-block');
+    $(".user-window").css("display", 'none');
   }
   return false;
 }

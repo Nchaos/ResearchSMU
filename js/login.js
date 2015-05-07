@@ -81,6 +81,7 @@ function Login(event){
             $(".login-window").css("display", 'none');
   			$(".logout").css("display", 'inline-block');
   			$(".register-window").css("display", 'none');
+  			$(".user-window").css("display", 'inline-block');
   			
 		    //setTimeout("location.href = 'api/index.php/logout';",1000);                          
           }
@@ -117,6 +118,7 @@ function logout(event){
 			// $(".login-window").css("display", 'inline-block');
   	// 		$(".logout").css("display", 'none');
   	// 		$(".register-window").css("display", 'inline-block');
+  	//	    $(".user-window").css("display", 'none');
 		}
 	});
 }
