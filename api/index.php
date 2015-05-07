@@ -1710,11 +1710,11 @@
 		global $mysqli;
 		session_start();
 		$user = $_SESSION['userId'];
-		echo $user
+		echo $user;
 		$op = $_POST['opID'];
-		echo $op
+		echo $op;
 		$date = date("Y-m-d");
-		echo $date
+		echo $date;
 		$sql = "Insert into Applicants(researchOp_ID, user_ID, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
 		$success = $mysqli -> query($sql);		
 	});
