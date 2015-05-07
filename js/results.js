@@ -138,10 +138,10 @@ function tabDeptHandler(num) {
 
 }
 
-function instReloadData (num){
-	var instId = num;
-	return {"institution": instId };
-}
+// function instReloadData (num){
+// 	var instId = num;
+// 	return {"institution": instId };
+// }
 
 function tabInstitutionHandler(num) {
   	//console.log("Inst handler: " + num);
@@ -163,7 +163,7 @@ function tabInstitutionHandler(num) {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables.php/datatable',
-		    data: instReloadData(instValue),//searchString, 
+		    data: searchString, 
 		    datatype: "json",
 		},
 
@@ -182,25 +182,30 @@ function tabInstitutionHandler(num) {
             "order": [[1, 'asc']]
 	});
 
-   	// window.copyDt = dt;
-   	// console.log(window.copyDt);
- 
+   	 window.copyDt = dt;
+   	 console.log(window.copyDt);
+     //   var tr = $(this).closest('tr');
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
         //window.tr = tr;
-        //console.log(tr);
-        var row = dt.row( tr );
+        console.log(tr);
+        var row = window.copyDt.row(tr);
+        //var row = dt.row( tr );
         //window.row = row;
-        // console.log(row);
+        console.log(row);
 		//console.log(row.data().rName);
- 
+
+        console.log("Row is...");
+
         if ( row.child.isShown() ) {
+            console.log("Hiding");
 			$('div.slider', row.child()).slideUp( function () {
     		row.child.hide();
     		tr.removeClass('shown');
 			} );
         }
         else {
+            console.log("Showing")
             row.child( format( row.data() ), 'no-padding' ).show();
             tr.addClass( 'shown' );
 			$('div.slider', row.child()).slideDown();
