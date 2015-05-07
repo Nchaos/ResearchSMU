@@ -65,7 +65,7 @@ function format ( d ) {
             '<tr>'+
                 '<td></td>'+
                 //<td><button type="button" class="btn btn-primary">Primary</button></td>
-                '<td><button type="button" class="btn btn-primary">Apply</button></td>'+
+                '<td><button type="button" class="btn btn-primary" onClick="apply('+d.ResearchOp_ID+');">Apply</button></td>'+
             '</tr>'+
         '</table>'+
     '</div>';
@@ -312,7 +312,21 @@ function getCheckedBoxes() {
 }
 
 // Function for applying to a Research Op
+function apply(researchOp){
+    console.log(researchOp);
+    $.ajax({
+        type: "POST",
+        url: "api/index.php/apply",
+        datatype: JSON,
+        data: researchOp,
+        success: function(){
+            window.location.href = 'index.html';
 
+        }
+    });
+
+
+}
 
 $(document).ready(function() {
 function autocomplete() {

@@ -1695,7 +1695,6 @@
 	});
 	
 	
-	$app->run();
 	
 	//==============================================================//
 	//                		   Apply		  	                    //
@@ -1709,4 +1708,6 @@
 		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
 		$success = $mysqli -> query($sql);		
 	});
+
+	$app->run();
 ?>
