@@ -1698,4 +1698,17 @@
 	
 	
 	$app->run();
+	
+	//==============================================================//
+	//                		   Apply		  	                    //
+	//==============================================================//	
+	$app->get('/apply', function() {
+		global $mysqli;
+		session_start();
+		$user = $_POST['userID'];
+		$op = $_POST['opID'];
+		$date = date("Y-m-d");
+		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
+		$success = $mysqli -> query($sql);		
+	});
 ?>
