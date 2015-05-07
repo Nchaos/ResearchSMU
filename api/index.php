@@ -1696,10 +1696,12 @@
 		if(isset($_SESSION['userId']))
 		{
 			echo TRUE;
+		}
+		else
+		{
+			echo FALSE;
 			session_destroy();
 		}
-		else	
-			echo FALSE;
 	});
 	
 	
