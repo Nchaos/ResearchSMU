@@ -1688,12 +1688,12 @@
 	//                		   Check Session  	                    //
 	//==============================================================//	
 	$app->get('/sessionStatus', function() {
+		session_start();
 	
-		return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
-		/*if(session_status() !== PHP_SESSION_ACTIVE)
+		if(session_status() === PHP_SESSION_ACTIVE)
 			return true;
 		else
-			return false;*/
+			return false;
 	});
 	
 	
