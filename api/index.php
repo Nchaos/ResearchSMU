@@ -1690,7 +1690,7 @@
 	$app->get('/sessionStatus', function() {
 		
 		session_start();
-		if (session_status() == PHP_SESSION_NONE) 
+		if (session_status() === PHP_SESSION_NONE) 
 		{
 			echo FALSE;
 		}
