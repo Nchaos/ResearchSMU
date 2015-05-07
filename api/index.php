@@ -1691,9 +1691,9 @@
 		session_start();
 	
 		if(session_status() === PHP_SESSION_ACTIVE)
-			echo true;
+			return json_encode(true);
 		else
-			echo false;
+			return json_encode(false);
 	});
 	
 	
