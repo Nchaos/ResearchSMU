@@ -1688,12 +1688,11 @@
 	//                		   Check Session  	                    //
 	//==============================================================//	
 	$app->get('/sessionStatus', function() {
-		if(session_status() === PHP_SESSION_NONE)
-			return FALSE;
-		else
-			return TRUE;
+		
+		if(!isset($_SESSION))
+			echo json_encode("no sessions allowed");
+			
 	});
-	
 	
 	
 	//==============================================================//
