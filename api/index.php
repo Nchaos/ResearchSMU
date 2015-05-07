@@ -1692,16 +1692,19 @@
 		
 		//session_start();
 		session_start();
+		$answer = false;
 		
 		if(isset($_SESSION['userId']))
 		{
-			echo TRUE;
+			$answer = true;
 		}
 		else
 		{
-			echo FALSE;
+			$answer = false;
 			session_destroy();
 		}
+		echo $answer;
+		return json_encode($answer);
 	});
 	
 	
@@ -1711,10 +1714,14 @@
 	$app->post('/apply', function() {
 		global $mysqli;
 		session_start();
-		//$user = $_SESSION['userId'];
+		$user = $_SESSION['userId'];
+		echo $user;
 		$op = $_POST['opID'];
+		echo $op;
 		$date = date("Y-m-d");
+		echo $date;
 		$sql = "Insert into Applicants(researchOp_ID, user_ID, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
+		//echo $sql;
 		$success = $mysqli -> query($sql);		
 	});
 

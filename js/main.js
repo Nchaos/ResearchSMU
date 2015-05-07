@@ -250,36 +250,39 @@ $(document).ready(function() {
 
 function checkSession() {
     // AJAX code to submit form.
-  var session = $.ajax({
+  $.ajax({
     type: "GET",
-    url: "api/index.php/sessionStatus"  
+    url: "api/index.php/sessionStatus" ,
+    success: function(data){
+      //console.log(data);
+      if(data == false){
+        console.log("logged out");
+        //alert("logged out");
+        $(".login-window").css("display", 'inline-block');
+        $(".logout").css("display", 'none');
+        $(".register-window").css("display", 'inline-block');
+        $(".user-window").css("display", 'none');
+      }
+      else if (data == true){
+        //console.log("logged in");
+        //alert("logged in");
+        $(".login-window").css("display", 'none');
+        $(".logout").css("display", 'inline-block');
+        $(".register-window").css("display", 'none');
+        $(".user-window").css("display", 'inline-block');
+      }
+      else{
+        //if no response php/ajax error 
+        console.log("no response");
+        //alert("not logged in");
+        $(".login-window").css("display", 'inline-block');
+        $(".logout").css("display", 'inline-block');
+        $(".register-window").css("display", 'inline-block');
+        $(".user-window").css("display", 'inline-block');
+      }
+    }  
   });
   //var session;
-  console.log(session);
-  if(session == false){
-    console.log("logged out");
-    alert("logged out");
-    $(".login-window").css("display", 'inline-block');
-    $(".logout").css("display", 'none');
-    $(".register-window").css("display", 'inline-block');
-    $(".user-window").css("display", 'none');
-  }
-  else if (session == true){
-    console.log("logged in");
-    alert("logged in");
-    $(".login-window").css("display", 'none');
-    $(".logout").css("display", 'inline-block');
-    $(".register-window").css("display", 'none');
-    $(".user-window").css("display", 'inline-block');
-  }
-  else{
-    console.log("no response");
-    //alert("not logged in");
-    $(".login-window").css("display", 'inline-block');
-    $(".logout").css("display", 'inline-block');
-    $(".register-window").css("display", 'inline-block');
-    $(".user-window").css("display", 'inline-block');
-  }
   return false;
 }
 window.onload = checkSession;
