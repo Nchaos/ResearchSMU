@@ -1,15 +1,14 @@
   // Check browser support
-if (typeof(Storage) != "undefined") {
-    $(document).ready(function() {
-      $('.logout').css('display','none');
-    });
-} else {
-    $(document).ready(function() {
-      $('.login').css('display','none');
-      $('.register').hide();
-    });
-}
-
+// if (typeof(Storage) != "undefined") {
+//     $(document).ready(function() {
+//       $('.logout').css('display','none');
+//     });
+// } else {
+//     $(document).ready(function() {
+//       $('.login').css('display','none');
+//       $('.register').hide();
+//     });
+// }
 
 $(document).ready(function() {
 
@@ -249,12 +248,33 @@ $(document).ready(function() {
 });  
 
 
-// Initially Hide Logout button
-
-    // $(document).ready(function() {
-      
-    //   $('.logout').css('display','none');
-
-    // });
-
-
+function checkSession() {
+    // AJAX code to submit form.
+  var session = $.ajax({
+    type: "GET",
+    url: "api/index.php/sessionStatus"  
+  });
+  if(session == false){
+    console.log("logged out");
+    alert("logged out");
+    $(".login-window").css("display", 'inline-block');
+    $(".logout").css("display", 'none');
+    $(".register-window").css("display", 'inline-block');
+  }
+  else if (session == true){
+    console.log("logged in");
+    alert("logged in");
+    $(".login-window").css("display", 'none');
+    $(".logout").css("display", 'inline-block');
+    $(".register-window").css("display", 'none');
+  }
+  else{
+    console.log("Not logged in");
+    //alert("not logged in");
+    $(".login-window").css("display", 'inline-block');
+    $(".logout").css("display", 'none');
+    $(".register-window").css("display", 'inline-block');
+  }
+  return false;
+}
+window.onload = checkSession;
