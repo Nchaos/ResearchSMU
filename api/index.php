@@ -1691,9 +1691,9 @@
 		session_start();
 	
 		if(session_status() === PHP_SESSION_ACTIVE)
-			return true;
+			echo true;
 		else
-			return false;
+			echo false;
 	});
 	
 	
