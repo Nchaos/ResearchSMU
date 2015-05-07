@@ -1692,14 +1692,13 @@
 		
 		session_start();
 		
-		if(empty($_SESSION['test']))
+		if(isset($_SESSION['userId']))
 		{
 			echo TRUE;
 			session_destroy();
 		}
 		else	
 			echo FALSE;
-			
 	});
 	
 	
