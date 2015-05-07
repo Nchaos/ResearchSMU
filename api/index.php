@@ -1692,16 +1692,19 @@
 		
 		//session_start();
 		session_start();
+		$answer = false;
 		
 		if(isset($_SESSION['userId']))
 		{
-			echo TRUE;
+			$answer = true;
 		}
 		else
 		{
-			echo FALSE;
+			$answer = false;
 			session_destroy();
 		}
+		echo $answer;
+		return json_encode($answer);
 	});
 	
 	
