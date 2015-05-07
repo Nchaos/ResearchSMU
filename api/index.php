@@ -1690,6 +1690,7 @@
 	//==============================================================//	
 	$app->get('/sessionStatus', function() {
 		
+		//session_start();
 		session_start();
 		
 		if(empty($_SESSION['test']))
@@ -1709,16 +1710,12 @@
 	$app->post('/apply', function() {
 		global $mysqli;
 		session_start();
-		$user = $_SESSION['userId'];
-		//echo $user;
+		//$user = $_SESSION['userId'];
 		$op = $_POST['opID'];
-		//echo $op;
 		$date = date("Y-m-d");
-		//echo $date;
 		$sql = "Insert into Applicants(researchOp_ID, user_ID, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
-		echo $sql;
 		$success = $mysqli -> query($sql);		
 	});
-	
+
 	$app->run();
 ?>
