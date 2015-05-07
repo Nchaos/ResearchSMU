@@ -1708,7 +1708,7 @@
 		$user = $_SESSION['userId'];
 		$op = $_POST['opID'];
 		$date = date("Y-m-d");
-		$sql = "Insert into Applicants values ('$user', '$op', 'Pending', '$date')";
+		$sql = "Insert into Applicants(researchOp_ID, user_Id, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
 		$success = $mysqli -> query($sql);		
 	});
 	
