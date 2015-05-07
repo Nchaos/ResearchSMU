@@ -313,6 +313,7 @@ function getCheckedBoxes() {
 
 // Function for applying to a Research Op
 
+
 $(document).ready(function() {
 function autocomplete() {
 		

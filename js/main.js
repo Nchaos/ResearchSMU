@@ -254,6 +254,8 @@ function checkSession() {
     type: "GET",
     url: "api/index.php/sessionStatus"  
   });
+  //var session;
+  console.log(session);
   if(session == false){
     console.log("logged out");
     alert("logged out");
@@ -271,12 +273,12 @@ function checkSession() {
     $(".user-window").css("display", 'inline-block');
   }
   else{
-    console.log("Not logged in");
+    console.log("no response");
     //alert("not logged in");
     $(".login-window").css("display", 'inline-block');
-    $(".logout").css("display", 'none');
+    $(".logout").css("display", 'inline-block');
     $(".register-window").css("display", 'inline-block');
-    $(".user-window").css("display", 'none');
+    $(".user-window").css("display", 'inline-block');
   }
   return false;
 }
