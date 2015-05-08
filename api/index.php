@@ -1665,14 +1665,15 @@
 		$stmt = $mysqli->prepare($sql);
 		$stmt->bind_param('i', $userId);
 		$stmt->execute();
+		$result = $stmt->get_result();
 		
-		if($result = $stmt->fetch_assoc()) {
-			if($result['active'] == true){
+		if($row = $result->fetch_array()) {
+			if($row['active'] == true){
 				$json_array = array(
-					'firstName' => $result['fName'],
-					'lastName' => $result['lName'],
-					'email' => $result['email'],
-					'userType' => $result['userType']
+					'firstName' => $row['fName'],
+					'lastName' => $row['lName'],
+					'email' => $row['email'],
+					'userType' => $row['userType']
 				);
 				
 				echo json_encode(json_array);
