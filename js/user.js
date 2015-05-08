@@ -27,7 +27,7 @@ function userInfo(){
 			var email = data['email'];
 			var fname = data['firstName'];
 			var lname = data['lastName'];
-			var major = "CSE"; //value[''];
+			var major = data['studentType'];
 			var status = data['userType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
