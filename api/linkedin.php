@@ -37,7 +37,7 @@
 
 		} else {
 
-			// Try to get an access token (using the authorization code grant)
+			// Try to get an access token (using the authorization code grant)?
 			$token = $provider->getAccessToken('authorization_code', [
 				'code' => $_GET['code']
 			]);
