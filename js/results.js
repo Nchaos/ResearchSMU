@@ -325,6 +325,9 @@ function apply(researchOp){
             alert('You have applied!');
             //window.location.href = 'index.html';
 
+        },
+        error: function() {
+            alert("Internal Server Error: Log in as a student to Apply.")
         }
     });
 
