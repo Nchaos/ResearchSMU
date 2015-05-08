@@ -14,7 +14,7 @@ $(document).ready(function(){
 
 function userInfo(){
 	
-	
+	$("#submission").css("display", 'none');
 	console.log("userInfo");
 	
 
@@ -23,13 +23,12 @@ function userInfo(){
 		url: "api/index.php/userinfo",
 		dataType: "json",
 		success: function(data){
-			var value = JSON.parse(data);
-			console.log(value);
-			var email = value['email'];
-			var fname = value['firstname'];
-			var lname = value['lastname'];
+
+			var email = data['email'];
+			var fname = data['firstName'];
+			var lname = data['lastName'];
 			var major = "CSE"; //value[''];
-			var status = value['userType'];
+			var status = data['userType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
 			var html_string2 = "</td></tr><tr><td>Major: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr></table>";
@@ -45,6 +44,8 @@ function userInfo(){
 
 function editInfo() {
 	$("#info").css("display", 'none');
+	$("#edit").css("display", 'none');
+	$("#submission").css("display", 'inline-block');
 	
 	var fname = document.createElement('div');
     fname.innerHTML = "First Name: <br><input type='text' name='fname'>";
