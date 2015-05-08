@@ -1676,7 +1676,7 @@
 					'userType' => $row['userType']
 				);
 				
-				echo json_encode(json_array);
+				echo json_encode($json_array);
 			} else {
 				die(json_encode(array(
 					'success' => false,
