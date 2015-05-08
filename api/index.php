@@ -1808,8 +1808,23 @@
 			}
 	
 	});
+	
+	//==============================================================//
+	//                	deactivate user		  	                    //
+	//==============================================================//
+	
+	$app->post('/apply', function() {
+		global $mysqli;
+		session_start();
+		$date = date("Y-m-d");
+		$userId = $_SESSION['UserId'];
+		$sql = "UPDATE Users SET active = '0' WHERE user_ID = '$userId')";
+		$stmt = $mysqli -> query($sql);
+		$sql = "UPDATE Users SET dateDeactivated = '$date' WHERE user_ID = '$userId')";
+		$stmt2 = $mysqli -> query($sql);
+		
+		echo 'Account disabled';
+	});
 
-	
-	
 	$app->run();
 ?>
