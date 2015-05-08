@@ -48,24 +48,64 @@ function editInfo() {
 	$("#submission").css("display", 'inline-block');
 	
 	var fname = document.createElement('div');
-    fname.innerHTML = "First Name: <br><input type='text' name='fname'>";
+    fname.innerHTML = "First Name: <br><input type='text' id='first' name='fname'>";
     document.getElementById("newInfo").appendChild(fname);
     
     var lname = document.createElement('div');
-    lname.innerHTML = "Last Name: <br><input type='text' name='lname'>";
+    lname.innerHTML = "Last Name: <br><input type='text' id='last' name='lname'>";
     document.getElementById("newInfo").appendChild(lname);
     
     var pwd1 = document.createElement('div');
-    pwd1.innerHTML = "Password: <br><input type='text' name='pwd'>";
+    pwd1.innerHTML = "Password: <br><input type='password' id='pwd' name='pwd'>";
     document.getElementById("newInfo").appendChild(pwd1);
     
     var pwd2 = document.createElement('div');
-    pwd2.innerHTML = "Password Confirmation: <br><input type='text' name='confirm'>";
+    pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'>";
     document.getElementById("newInfo").appendChild(pwd2);
     
     var dept = document.createElement('div');
-    dept.innerHTML = "Department: <br><input type='text' name='dept'>";
+    dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
     document.getElementById("newInfo").appendChild(dept);
+    
+	var cancelButton = document.getElementById('submission'),clicked = false;
+	cancelButton.addEventListener('click', function() { 
+		clicked = !clicked; 
+		if(clicked){
+	    	var fnameValue = document.getElementById("first").value;
+	    	var lnameValue = document.getElementById("last").value;
+	    	var pwd1Value = document.getElementById("pwd").value;
+	    	var pwd2Value = document.getElementById("pwdCheck").value;
+	    	var majorValue = document.getElementById("major").value;
+	    	
+	    	var json_string = '{"fname":"'+fnameValue+'","lname":"'+lnameValue+'","password":"'+pwd1Value+'","confirm":"'+pwd2Value+'","major":"'+majorValue+'"}';
+	    	console.log(json_string);
+	    	
+	    	$.ajax({
+				type: "POST",
+				url: "api/index.php/changeinfo",		
+				datatype:"json",
+				data: json_string,
+				success: function() {
+				  	console.log("Success");   
+				}
+			});
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+    	}
+	});
+	
+    
+    
+    
+    
+    
+    
+    
 }
 
 function uploadResume(){
