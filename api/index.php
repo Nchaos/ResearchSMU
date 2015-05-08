@@ -1660,12 +1660,29 @@
 		echo json_encode($info);*/
 		
 		$userId = $_SESSION['userId'];
+		$check = $_SESSION['userType'];
+		
+		if($check == 'Student') {
+			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
+					FROM Student WHERE user_ID=?";
+			$stmt1 = $mysqli->prepare($sql1);
+			$stmt1->bind_param('i', $userId);
+			$stmt1->execute();
+			$result1 = $stmt1->get_result();
+		} elseif($check == 'Faculty') {
+			$result1 = 'Faculty';
+		}else
+		{
+			$result1 = 'Neither';
+		}	
 		
 		$sql = "SELECT * FROM Users WHERE user_ID=?";
 		$stmt = $mysqli->prepare($sql);
 		$stmt->bind_param('i', $userId);
 		$stmt->execute();
 		$result = $stmt->get_result();
+
+
 		
 		if($row = $result->fetch_array()) {
 			if($row['active'] == true){
@@ -1673,7 +1690,8 @@
 					'firstName' => $row['fName'],
 					'lastName' => $row['lName'],
 					'email' => $row['email'],
-					'userType' => $row['userType']
+					'userType' => $row['userType'],
+					'studentType' => $result1
 				);
 				
 				echo json_encode($json_array);
@@ -1765,6 +1783,48 @@
 		$sql = "Insert into Applicants(researchOp_ID, user_ID, status, dateSubmitted) values ('$op', '$user', 'Pending', '$date')";
 		//echo $sql;
 		$success = $mysqli -> query($sql);		
+	});
+	
+	//==============================================================//
+	//                	Update Password		  	                    //
+	//==============================================================//	
+	
+	$app->post('/updatePassword', function(){
+		global $mysqli;
+		session_start();
+		//-----------Getting User ID--------------//
+		$userID = $_SESSION['userId'];
+		//-----------Getting User Entered Old Password
+		$old_password = $_POST['oldpassword'];
+
+			//----------Getting Password paired with User ID--------------//
+			$password_query = "SELECT password FROM Password WHERE user_ID = '$userID'";
+			$query_res = $mysqli->query($password_query);
+			$database_password = $query_res->fetch_assoc();
+			if($database_password === NULL)
+			{
+					//-------Password not found---------//
+					echo json_encode(array("success"=> false ,'message' => 'Password could not be found'));
+			}
+			else
+			{
+					$password = $database_password['password'];
+					$hash_password = password_hash($old_password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+					//----------Obtained Password paired with USer ID--------------//
+					//----------Verify Password with hash--------------------------//
+					if($hash_password == $password)
+					{
+						$new_password = $_POST['password'];
+						$sql = "UPDATE Password SET password = '$new_password' WHERE user_ID = '$userID'";
+						$stmt = $mysqli -> query($sql);
+					}
+					else
+					{
+							//--------Wrong password Entered---------//
+							echo json_encode(array("success"=> false ,'message' => $hash_password));
+					}
+			}
+	
 	});
 
 	
