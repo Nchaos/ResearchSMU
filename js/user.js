@@ -31,9 +31,16 @@ function userInfo(){
 			var status = data['userType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
-			var html_string2 = "</td></tr><tr><td>Major: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr></table>";
-	
-			document.getElementById("info").innerHTML = html_string1 + html_string2;
+			var html_string2 = "</td></tr><tr><td>Major: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr id='student'><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr><tr id='staff'><td>Faculty: </td><td style='padding-left: 8em'>"+status;
+			var html_string3 = "</td></tr></table>";
+			
+			
+			document.getElementById("info").innerHTML = html_string1 + html_string2 + html_string3;
+			
+			if(status == "Student")
+					$("#staff").css("display", 'none');
+			if(status == "Faculty")
+					$("#student").css("display", 'none');
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
@@ -56,7 +63,7 @@ function editInfo() {
     document.getElementById("newInfo").appendChild(lname);
     
     var pwd1 = document.createElement('div');
-    pwd1.innerHTML = "Password: <br><input type='password' id='pwd' name='pwd'>";
+    pwd1.innerHTML = "Password: <br><input type='password' id='pwd' name='password'>";
     document.getElementById("newInfo").appendChild(pwd1);
     
     var pwd2 = document.createElement('div');
@@ -77,36 +84,66 @@ function editInfo() {
 	    	var pwd2Value = document.getElementById("pwdCheck").value;
 	    	var majorValue = document.getElementById("major").value;
 	    	
-	    	var json_string = '{"fname":"'+fnameValue+'","lname":"'+lnameValue+'","password":"'+pwd1Value+'","confirm":"'+pwd2Value+'","major":"'+majorValue+'"}';
-	    	console.log(json_string);
-	    	
-	    	$.ajax({
-				type: "POST",
-				url: "api/index.php/changeinfo",		
-				datatype:"json",
-				data: json_string,
-				success: function() {
-				  	console.log("Success");   
-				}
-			});
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
+	    	var pwdChecker = $("#submission").click(checkPassword);
+		    
+		    if(pwdChecker == true){
+		    	var json_string = '{"fname":"'+fnameValue+'","lname":"'+lnameValue+'","password":"'+pwd1Value+'","confirm":"'+pwd2Value+'","major":"'+majorValue+'"}';
+		    	console.log(json_string);
+		    	
+		    	$.ajax({
+					type: "POST",
+					url: "api/index.php/changeinfo",		
+					datatype:"json",
+					data: json_string,
+					success: function() {
+					  	windo.location.href = "user.html";   
+					}
+				});
+		   }
     	}
 	});
-	
-    
-    
-    
-    
-    
-    
-    
 }
+
+function checkPassword(event){
+	event.preventDefault();
+	
+	///////////////////////////////////////////////////////////
+	////////////		Password Validation 		///////////
+	///////////////////////////////////////////////////////////
+    if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("confirm")[0].value) {
+      if(document.getElementsByName("password")[0].value.length < 8) {
+        alert("Error: Password must contain at least eight characters!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[0-9]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one number (0-9)!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[a-z]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one lowercase letter (a-z)!");
+        $("pwd").focus();
+        return false;
+      }
+      re = /[A-Z]/;
+      if(!re.test(document.getElementsByName("password")[0].value)) {
+        alert("Error: password must contain at least one uppercase letter (A-Z)!");
+        $("pwd").focus();
+        return false;
+      }
+    } else {
+      alert("Error: Please check that you've entered and confirmed your password!");
+      $("pwd").focus();
+      return false;
+    }
+}	
+
+
+
+
 
 function uploadResume(){
 	var form = document.getElementById('uploadForm');
