@@ -37,10 +37,13 @@ function userInfo(){
 			
 			document.getElementById("info").innerHTML = html_string1 + html_string2 + html_string3;
 			
-			if(status == "Student")
+			if(status == "Student"){
 					$("#staff").css("display", 'none');
-			if(status == "Faculty")
+			}
+			if(status == "Faculty"){
 					$("#student").css("display", 'none');
+					$("#resume").css("display", 'none');
+			}
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
@@ -81,7 +84,6 @@ function editInfo() {
     var resume = document.createElement('div');
     resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
     document.getElementById("newInfo").appendChild(resume);
-    // <h1>Resume(optional): </h1><input type="file" name="resume"/><br>
     
 	var cancelButton = document.getElementById('submission').clicked = false;
 	cancelButton.addEventListener('click', function() { 
