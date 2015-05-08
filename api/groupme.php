@@ -62,7 +62,7 @@
 		global $mysqli, $debug;
 		$accessToken = '';
 		
-		$sql = "SELECT accessToken FROM Token WHERE token_ID='2'";
+		$sql = "SELECT accessToken FROM Token WHERE token_ID=2";
 		
 		
 		if($result = $mysqli->query($sql)){
@@ -95,6 +95,8 @@
 			$groupId = $response['id'];
 			
 			echo date('g:i') . ' Created new group: ' . $groupId . '<br>';
+			
+			return $groupId;
 		} else {
 			die(json_encode(array(
 				'success' => false,
@@ -111,6 +113,52 @@
 	function createBot($groupId, $name){
 		global $mysqli, $debug;
 		
+		$accessToken = '';
+		
+		$sql = "SELECT accessToken FROM Token WHERE token_ID='2'";
+		
+		
+		if($result = $mysqli->query($sql)){
+			$row = $result->fetch_now();
+			$accessToken = $row['accessToken'];
+		} else {
+			die(json_encode(array('success' => false,
+				'ERROR' => 'shits fucked... idk'
+			)));
+		}
+		
+		$curl = curl_init();
+		curl_setopt($curl, array(
+			CURLOPT_URL => 'https://api.groupme.com/v3/bots?token=' . $accessToken,
+			CURLOPT_POST => 1,
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_HTTPHEADER => array('Content-Type' => 'application/json'),
+			CURLOPT_POSTFIELDS => json_encode(array(
+				"bot" => array(
+					"name" => $name,
+					"group_id" => $groupId,
+					"callback_url" => "http://52.11.138.85/api/GroupMe.php/callback_url/" . $groupId
+				)
+			)),
+			//CURLOPT_VERBOSE => 1
+		));
+		
+		$response = json_decode(curl_exec($curl));
+		$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		if($httpStatus == '201'){
+			$bot_id = $response['bot_id'];
+			
+			echo date('g:i') . ' Created new bot: ' . $bot_id . '<br>';
+			
+			return $bot_id;
+		} else {
+			die(json_encode(array(
+				'success' => false,
+				'ERROR' => $httpStatus
+			)));
+		}
 	}
 	
 	
@@ -118,10 +166,51 @@
 	/*==================================================\\
 	||					Post Message					||
 	\\==================================================*/
-	function postMessage($botId, $message){
+	$app->post('/postMessage', function() {
 		global $mysqli, $debug;
 		
-	}
+		$botId = $_POST['bot_ID'];
+		
+		$accessToken = '';
+		
+		$sql = "SELECT accessToken FROM Token WHERE token_ID='2'";
+		
+		
+		if($result = $mysqli->query($sql)){
+			$row = $result->fetch_now();
+			$accessToken = $row['accessToken'];
+		} else {
+			die(json_encode(array('success' => false,
+				'ERROR' => 'shits fucked... idk'
+			)));
+		}
+		
+		$curl = curl_init();
+		curl_setopt($curl, array(
+			CURLOPT_URL => 'https://api.groupme.com/v3/bots/post',
+			CURLOPT_POST => 1,
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_HTTPHEADER => array('Content-Type' => 'application/json'),
+			CURLOPT_POSTFIELDS => json_encode(array(
+				"bot_id" => $botId,
+				"text" => $message
+			)),
+			//CURLOPT_VERBOSE => 1
+		));
+		
+		$response = json_decode(curl_exec($curl));
+		$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		if($httpStatus == '201'){			
+			echo date('g:i') . ' Posted Message';
+		} else {
+			die(json_encode(array(
+				'success' => false,
+				'ERROR' => $httpStatus
+			)));
+		}
+	});
 	
 	
 	
@@ -143,7 +232,7 @@
 		$sql = "SELECT * FROM Chat WHERE student_ID=? AND faculty_ID=?";
 		$check = $mysqli->prepare($sql);
 		$check->bind_param('ii', $studentId, $facultyId);
-		$check->exec();
+		$check->execute();
 		
 		if($result = $check->fetch_assoc()){
 			$rowN = $result->num_rows;
@@ -158,11 +247,58 @@
 				$result->free();
 				$check->close();
 				
+				$sql = "SELECT fName, lName FROM Users WHERE user_ID=?";
 				
+				$getName = $mysqli->bind_param('i', $facultyId);
+				$getName->execute();
+				$getName->bind_result($fName, $lName);
+				$getName->fetch();
+				
+				$facultyName = $fName . ' ' . $lName;
+				
+				$getName = $mysqli->bind_param('i', $studentId);
+				$getName->execute();
+				$getName->bind_result($fName, $lName);
+				$getName->fetch();
+				
+				$studentName = $fName . ' ' . $lName;
+				
+				
+				$name = "Chat between " . $facultyName . " and " . $studentName;
+				
+				//Create Group
+				$groupId = createGroup($name);
+				
+				//Create Student Bot
+				$studentBot = createBot($groupId, $studentName);
+				//Create Faculty Bot
+				$facultyBot = createBot($groupId, $facultyName);
+				
+				//Insert new Chat
+				$sql = "INSERT into Chat VALUES ('$studentId', '$facultyId', '$groupId', '$studentBot', '$facultyBot', '$timestamp')";
+				$mysqli->query($sql);
 				
 			} else {
 				//Fetch the chat information
-				$sql = "";
+				
+				$json_array = array();
+				
+				session_start();
+				
+				$check = $_SESSION['userType'];
+				if($check == 'Student'){
+					$json_array['studentBot'] = $result['student_BOT'];
+				} else if ($check == 'Faculty') {
+					$json_array['facultyBot'] = $result['faculty_BOT'];
+				} else {
+					die(json_encode(array(
+						'success' => false,
+						'ERROR' => 'User Type is not correct, Session is corrupted'
+					)));
+				}
+				
+				echo json_encode(json_array);
+				
 			}
 			
 			
@@ -182,7 +318,7 @@
 	/*==============================================\\
 	||					Callback					||
 	\\==============================================*/
-	$app->post('/callback', function() {
+	$app->post('/callback_url/:groupId', function($groupId) {
 		global $mysqli, $debug;
 		
 		
