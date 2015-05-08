@@ -1660,12 +1660,29 @@
 		echo json_encode($info);*/
 		
 		$userId = $_SESSION['userId'];
+		$check = $_SESSION['userType'];
+		
+		if($check == 'Student') {
+			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
+					FROM Student WHERE user_ID=?";
+			$stmt1 = $mysqli->prepare($sql1);
+			$stmt1->bind_param('i', $userId);
+			$stmt1->execute();
+			$result1 = $stmt1->get_result();
+		} elseif($check == 'Faculty') {
+			$result1 = 'Faculty';
+		}else
+		{
+			$result1 = 'Neither';
+		}	
 		
 		$sql = "SELECT * FROM Users WHERE user_ID=?";
 		$stmt = $mysqli->prepare($sql);
 		$stmt->bind_param('i', $userId);
 		$stmt->execute();
 		$result = $stmt->get_result();
+
+
 		
 		if($row = $result->fetch_array()) {
 			if($row['active'] == true){
@@ -1673,7 +1690,8 @@
 					'firstName' => $row['fName'],
 					'lastName' => $row['lName'],
 					'email' => $row['email'],
-					'userType' => $row['userType']
+					'userType' => $row['userType'],
+					'studentType' => $result1
 				);
 				
 				echo json_encode($json_array);
