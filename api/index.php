@@ -1684,7 +1684,7 @@
 
 
 		
-		if($row = $result->fetch_array()) {
+		if($row == $result->fetch_array()) {
 			if($row['active'] == true){
 				$json_array = array(
 					'firstName' => $row['fName'],
