@@ -1409,7 +1409,6 @@
 	//==============================================================//
 	//                   add resume     	                        //
 	//==============================================================//
-	
 	function resumeAdd($form_data){
 		global $mysqli;
 		$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));  
@@ -1422,10 +1421,11 @@
 		echo "<p>File Type: <b>$form_data_type</b><p>";  
 	}
 
+	
+	
 	//==============================================================//
 	//                   access resume   	                        //
 	//==============================================================//	
-		
 	function accessResume($ID){
 		$query = "SELECT data, filetype FROM uploads where id = $id"; 
 		if($mysqli->query($query) === TRUE) {
@@ -1439,10 +1439,11 @@
 		echo $data;
 	}
 	
+	
+	
 	//==============================================================//
 	//                   delete resume   	                        //
 	//==============================================================//
-	
 	function deleteResume(){
 		$query = "DELETE FROM uploads where id=$id";  
 		if($mysqli->query($query) === TRUE) {
@@ -1452,6 +1453,8 @@
 			}
 		print "File ID $id has been removed from the database"; 
 	}
+	
+	
 	
 	//Old Login, Do not use unless new breaks
 	/*
@@ -1515,11 +1518,11 @@
 		}
 	});*/
 	
+	
+	
 	//==============================================================//
 	//                		   login  		   	                    //
 	//==============================================================//
-
-	
 	$app->post('/login', function(){
 		global $mysqli;
 		session_start();
@@ -1580,6 +1583,8 @@
 		}
 	});
 
+	
+	
 	//==============================================================//
 	//                		   logout  		   	                    //
 	//==============================================================//	
@@ -1604,6 +1609,8 @@
 		// Finally, destroy the session.
 		session_destroy();
 	});
+	
+	
 	
 	//==============================================================//
 	//                		   New Password	   	                    //
@@ -1631,14 +1638,16 @@
 		}
 	});	
 	
+	
+	
 	//==============================================================//
 	//                		   Userinfo		   	                    //
 	//==============================================================//	
 	$app->post('/userinfo', function()
 	{
-		global $mysqli;
+		global $mysqli, $debug;
 		session_start();
-		$userId = $_SESSION['userId'];
+		/*$userId = $_SESSION['userId'];
 		$firstName = $_SESSION['firstName'];
 		$lastName = $_SESSION['lastName'];
 		$email = $_SESSION['email'];
@@ -1648,9 +1657,41 @@
 		
 		$password = $res->fetch_assoc();
 		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
-		echo json_encode($info);
+		echo json_encode($info);*/
+		
+		$userId = $_SESSION['userId'];
+		
+		$sql = "SELECT * FROM Users WHERE user_ID=?";
+		$stmt = $mysqli->prepare($sql);
+		$stmt->bind_param('i', $userId);
+		$stmt->execute();
+		
+		if($result = $stmt->fetch_assoc()) {
+			if($result['active'] == true){
+				$json_array = array(
+					'firstName' => $result['fName'],
+					'lastName' => $result['lName'],
+					'email' => $result['email'],
+					'userType' => $result['userType']
+				);
+				
+				echo json_encode(json_array);
+			} else {
+				die(json_encode(array(
+					'success' => false,
+					'ERROR' => 'User is inactive'
+				)));
+			}
+		} else {
+			die(json_encode(array(
+				'success' => false,
+				'ERROR' => 'Could not fetch user info'
+			)));
+		}
 	});
 
+	
+	
 	//==============================================================//
 	//                		   Change Info 	   	                    //
 	//==============================================================//	
@@ -1725,5 +1766,7 @@
 		$success = $mysqli -> query($sql);		
 	});
 
+	
+	
 	$app->run();
 ?>
