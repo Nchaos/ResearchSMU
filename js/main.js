@@ -256,7 +256,7 @@ function checkSession() {
     success: function(data){
       //console.log(data);
       if(data == false){
-        console.log("logged out");
+        //console.log("logged out");
         //alert("logged out");
         $(".login-window").css("display", 'inline-block');
         $(".logout").css("display", 'none');
