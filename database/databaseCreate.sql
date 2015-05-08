@@ -311,21 +311,21 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email) VALUES
+INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email, userType) VALUES
 
-	(013, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu"),
-	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu"),
-	(002, TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu"),
-	(003, TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu"),
-	(004, TRUE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu"),
-	(005, TRUE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu"),
-	(006, TRUE, '2013-09-19', "Barack", "Obama", "obama@smu.edu"),
-	(007, TRUE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu"),
-	(008, TRUE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu"),
-	(009, TRUE, '2012-12-22', "John", "Dorian", "dorian@smu.edu"),
-	(010, TRUE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu"),
-	(011, TRUE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu"),
-	(012, TRUE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu");
+	(013, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu", "Faculty"),
+	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu", "Faculty"),
+	(002, TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu","Faculty"),
+	(003, TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu","Faculty"),
+	(004, TRUE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu","Faculty"),
+	(005, TRUE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu","Faculty"),
+	(006, TRUE, '2013-09-19', "Barack", "Obama", "obama@smu.edu","Faculty"),
+	(007, TRUE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu","Faculty"),
+	(008, TRUE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu","Faculty"),
+	(009, TRUE, '2012-12-22', "John", "Dorian", "dorian@smu.edu","Faculty"),
+	(010, TRUE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu","Faculty"),
+	(011, TRUE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu","Faculty"),
+	(012, TRUE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu","Faculty");
 	
 INSERT INTO Admin(user_ID) VALUES
 
