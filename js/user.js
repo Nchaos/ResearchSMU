@@ -61,6 +61,10 @@ function editInfo() {
     var lname = document.createElement('div');
     lname.innerHTML = "Last Name: <br><input type='text' id='last' name='lname'>";
     document.getElementById("newInfo").appendChild(lname);
+
+    var oldpwd = document.createElement('div');
+    oldpwd.innerHTML = "Old Password: <br><input type='password' id='oldpwd' name='password'>";
+    document.getElementById("newInfo").appendChild(oldpwd);    
     
     var pwd1 = document.createElement('div');
     pwd1.innerHTML = "Password: <br><input type='password' id='pwd' name='password'>";
@@ -73,8 +77,13 @@ function editInfo() {
     var dept = document.createElement('div');
     dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
     document.getElementById("newInfo").appendChild(dept);
+
+    var resume = document.createElement('div');
+    resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
+    document.getElementById("newInfo").appendChild(resume);
+    // <h1>Resume(optional): </h1><input type="file" name="resume"/><br>
     
-	var cancelButton = document.getElementById('submission'),clicked = false;
+	var cancelButton = document.getElementById('submission').clicked = false;
 	cancelButton.addEventListener('click', function() { 
 		clicked = !clicked; 
 		if(clicked){
