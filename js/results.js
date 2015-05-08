@@ -3,23 +3,15 @@
 // 	console.log(d);
 //     return 'Title: '+d.rName+'<br>'+
 //         'Professor: '+d.pName+'<br>'+
-//         'Department: '+d.dName+'<br>'+ 
-//         'School: '+d.iName+'<br>'+
-//         'The child row can contain any data you wish, including links, images, inner tables etc.';
+//         'Number of Positions: ' +d.numPositions+'<br>'
+//         'Start Date: '+d.startDate+'<br>'+ 
+//         'End Date: '+d.endDate+'<br>'+
+//         '';
 // }
 
 /* Formatting function for row details - modify as you need */
 function format ( d ) {
     // `d` is the original data object for the row
-    //console.log(d);
- 	//    var btn = document.createElement("BUTTON");
-	// btn.type = "button";
-	// btn.value = "my button";
-	// console.log(btn);
-	// console.log("---");
-	// console.log(btn.innerHTML);
-	// console.log("---")
-	//console.log(btn.HTML)
     return '<div class="slider">'+
         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
             '<tr>'+
@@ -71,12 +63,6 @@ function format ( d ) {
     '</div>';
 }
 
-
-function deptReloadData (num){
-	var deptId = num;
-	return {"department": deptId };
-}
-
 function tabDeptHandler(num) {
 
   	var deptValue = num;
@@ -97,7 +83,7 @@ function tabDeptHandler(num) {
 		"ajax":{
 		    type: 'POST',
 		    url: 'api/datatables.php/datatable',
-		    data: deptReloadData(deptValue), //searchString, 
+		    data: searchString, 
 		    datatype: "json",
 		},
 
@@ -115,33 +101,12 @@ function tabDeptHandler(num) {
         ],
         	"order": [[1, 'asc']]
 	});
-    console.log(deptReloadData(deptValue));
- 
-    $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = dt.row( tr );
- 
 
-        if ( row.child.isShown() ) {
-			$('div.slider', row.child()).slideUp( function () {
-    		row.child.hide();
-    		tr.removeClass('shown');
-			} );
-        }
-        else {
-            row.child( format( row.data() ), 'no-padding' ).show();
-            tr.addClass( 'shown' );
-			$('div.slider', row.child()).slideDown();
-        }
-    } );
-  
+    window.copyDt = dt;
+    console.log(window.copyDt);
+
 
 }
-
-// function instReloadData (num){
-// 	var instId = num;
-// 	return {"institution": instId };
-// }
 
 function tabInstitutionHandler(num) {
   	//console.log("Inst handler: " + num);
@@ -184,36 +149,39 @@ function tabInstitutionHandler(num) {
 
    	 window.copyDt = dt;
    	 console.log(window.copyDt);
-     //   var tr = $(this).closest('tr');
+
+       //var tr = $(this).closest('tr');
+
+
+}
+
     $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
         //window.tr = tr;
-        console.log(tr);
+        //console.log(tr);
         var row = window.copyDt.row(tr);
         //var row = dt.row( tr );
         //window.row = row;
-        console.log(row);
-		//console.log(row.data().rName);
+        //console.log(row);
+        //console.log(row.data().rName);
 
-        console.log("Row is...");
+        //console.log("Row is...");
 
         if ( row.child.isShown() ) {
-            console.log("Hiding");
-			$('div.slider', row.child()).slideUp( function () {
-    		row.child.hide();
-    		tr.removeClass('shown');
-			} );
+            //console.log("Hiding");
+            $('div.slider', row.child()).slideUp( function () {
+            row.child.hide();
+            tr.removeClass('shown');
+            } );
         }
         else {
-            console.log("Showing")
+            //console.log("Showing")
             row.child( format( row.data() ), 'no-padding' ).show();
             tr.addClass( 'shown' );
-			$('div.slider', row.child()).slideDown();
+            $('div.slider', row.child()).slideDown();
         }
 
     } );
-
-}
 
 
 
@@ -261,33 +229,6 @@ function filter() {
 
     window.copyDt = dt;
     console.log(window.copyDt);
-    $('#resultsTable tbody').on( 'click', 'tr td.details-control', function () {
-        var tr = $(this).closest('tr');
-        //window.tr = tr;
-        console.log(tr);
-        var row = window.copyDt.row(tr);
-        //var row = dt.row( tr );
-        //window.row = row;
-        console.log(row);
-        //console.log(row.data().rName);
-
-        console.log("Row is...");
-
-        if ( row.child.isShown() ) {
-            console.log("Hiding");
-            $('div.slider', row.child()).slideUp( function () {
-            row.child.hide();
-            tr.removeClass('shown');
-            } );
-        }
-        else {
-            console.log("Showing")
-            row.child( format( row.data() ), 'no-padding' ).show();
-            tr.addClass( 'shown' );
-            $('div.slider', row.child()).slideDown();
-        }
-
-    } );
 }
 
 
