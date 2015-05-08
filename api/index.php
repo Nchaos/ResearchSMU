@@ -1766,6 +1766,48 @@
 		//echo $sql;
 		$success = $mysqli -> query($sql);		
 	});
+	
+	//==============================================================//
+	//                	Update Password		  	                    //
+	//==============================================================//	
+	
+	$app->post('/updatePassword', function(){
+		global $mysqli;
+		session_start();
+		//-----------Getting User ID--------------//
+		$userID = $_SESSION['userId'];
+		//-----------Getting User Entered Old Password
+		$old_password = $_POST['oldpassword'];
+
+			//----------Getting Password paired with User ID--------------//
+			$password_query = "SELECT password FROM Password WHERE user_ID = '$userID'";
+			$query_res = $mysqli->query($password_query);
+			$database_password = $query_res->fetch_assoc();
+			if($database_password === NULL)
+			{
+					//-------Password not found---------//
+					echo json_encode(array("success"=> false ,'message' => 'Password could not be found'));
+			}
+			else
+			{
+					$password = $database_password['password'];
+					$hash_password = password_hash($old_password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+					//----------Obtained Password paired with USer ID--------------//
+					//----------Verify Password with hash--------------------------//
+					if($hash_password == $password)
+					{
+						$new_password = $_POST['password'];
+						$sql = "UPDATE Password SET password = '$new_password' WHERE user_ID = '$userID'";
+						$stmt = $mysqli -> query($sql);
+					}
+					else
+					{
+							//--------Wrong password Entered---------//
+							echo json_encode(array("success"=> false ,'message' => $hash_password));
+					}
+			}
+	
+	});
 
 	
 	
