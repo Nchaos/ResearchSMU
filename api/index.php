@@ -402,11 +402,14 @@
 				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
 			else{
 				if ($debug) echo "Creating unique entry\n";
-				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
+				/*$insertROP = $mysqli->query(*/$sql1="INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
 					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
 					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')");
+				$stmt1 = $mysqli -> prepare($sql1);
+				$stmt1 -> execute();
+				$stmt1 -> close();
 				die(json_encode(array('Status' => 'Success')));
 			}
 		}
