@@ -287,6 +287,7 @@ function checkSession() {
 }
 window.onload = checkSession;
 
+//Create a new Research Opportunity 
 function newROP(form){
 
   var title = document.getElementsByName("name")[0].value;
@@ -318,15 +319,6 @@ function newROP(form){
 
 console.log(dataString);
 
-    // $name = $_POST['name'];
-    // $description = $_POST['desc'];
-    // $dateStart = $_POST['dateStart'];
-    // $dateEnd = $_POST['dateEnd'];
-    // $numPositions = $_POST['numPositions'];
-    // $paid = $_POST['paid'];
-    // $workStudy = $_POST['workStudy'];
-    // $graduate = $_POST['graduate'];
-    // $undergraduate = $_POST['undergraduate'];
 
   $.ajax({
     type: "POST",

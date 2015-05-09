@@ -20,6 +20,10 @@ $(document).ready(function(){
 	$("#newROP").click(function(){
 		window.location.replace("newROP.html");
 	});
+	$('#newROP').css("display", "none");
+	$("#home").click(function(){
+		window.location.replace("index.html");
+	});
 });
 
 function position(){

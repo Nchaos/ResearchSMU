@@ -1659,18 +1659,19 @@
 		$check = $_SESSION['userType'];
 		
 		if($check == 'Student') {
-			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
-					FROM Student WHERE user_ID=?";
-			$stmt1 = $mysqli->prepare($sql1);
-			$stmt1->bind_param('i', $userId);
-			$stmt1->execute();
-			$studentType = $stmt1->get_result();
+			// $sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
+			// 		FROM Student WHERE user_ID=?";
+			// $stmt1 = $mysqli->prepare($sql1);
+			// $stmt1->bind_param('i', $userId);
+			// $stmt1->execute();
+			// $studentType = $stmt1->get_result();
+			
 	
-			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
-			$stmt2 = $mysqli->prepare($sql2);
-			$stmt2->bind_param('i', $userId);
-			$stmt2->execute();
-			$department = $stmt2->get_result();
+			// $sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
+			// $stmt2 = $mysqli->prepare($sql2);
+			// $stmt2->bind_param('i', $userId);
+			// $stmt2->execute();
+			// $department = $stmt2->get_result();
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
