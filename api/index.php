@@ -405,8 +405,8 @@
 				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$dateStart', '$dateEnd', 
-					'$numPositions', '$paid', '$workStudy', '$graduate', '$undergraduate')");
+					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
+					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')");
 				die(json_encode(array('Status' => 'Success')));
 			}
 		}
