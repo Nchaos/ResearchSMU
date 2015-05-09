@@ -1666,7 +1666,7 @@
 			$stmt1->execute();
 			$studentType = $stmt1->get_result();
 	
-			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?)) as aggr";
+			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
 			$stmt2 = $mysqli->prepare($sql2);
 			$stmt2->bind_param('i', $userId);
 			$stmt2->execute();
@@ -1674,12 +1674,12 @@
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Faculty';
-			/*
-			$sql3 = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
-			$stmt3 = $mysqli->prepare($sql3);
-			$stmt3->bind_param('i', $userId);
-			$stmt3->execute();
-			$department = $stmt3->get_result();*/
+			
+			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->bind_param('i', $userId);
+			$stmt->execute();
+			$department = $stmt->get_result();
 		}else
 		{
 			$studentType = 'Neither';
