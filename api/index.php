@@ -1594,28 +1594,26 @@
 		$check = $_SESSION['userType'];
 		
 		if($check == 'Student') {
-			// $sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
-			// 		FROM Student WHERE user_ID=?";
-			// $stmt1 = $mysqli->prepare($sql1);
-			// $stmt1->bind_param('i', $userId);
-			// $stmt1->execute();
-			// $studentType = $stmt1->get_result();
+			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
+					FROM Student WHERE user_ID='$userId'";
+			$stmt1 = $mysqli->prepare($sql1);
+			$stmt1->execute();
+			$studentType = $stmt1->get_result();
 
 	
-			// $sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
-			// $stmt2 = $mysqli->prepare($sql2);
-			// $stmt2->bind_param('i', $userId);
-			// $stmt2->execute();
-			// $department = $stmt2->get_result();
+			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
+			$stmt2 = $mysqli->prepare($sql2);
+			$stmt2->execute();
+			$department = $stmt2->get_result();
+			
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
 
-			// $sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
-			// $stmt = $mysqli->prepare($sql);
-			// $stmt->bind_param('i', $userId);
-			// $stmt->execute();
-			// $department = $stmt->get_result();
+			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = '$userId')";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->execute();
+			$department = $stmt->get_result();
 		}else
 		{
 			$studentType = 'Neither';
@@ -1633,37 +1631,6 @@
 		echo json_encode($info);
 		return  json_encode($info);
 
-		// $sql = "SELECT * FROM Users WHERE user_ID=?";
-		// $stmt = $mysqli->prepare($sql);
-		// $stmt->bind_param('i', $userId);
-		// $stmt->execute();
-		// $result = $stmt->get_result();
-
-
-		
-		// if($row == $result->fetch_array()) {
-		// 	if($row['active'] == true){
-		// 		$json_array = array(
-		// 			'firstName' => $row['fName'],
-		// 			'lastName' => $row['lName'],
-		// 			'email' => $row['email'],
-		// 			'userType' => $row['userType'],
-		// 			'studentType' => $result1
-		// 		);
-				
-		// 		echo json_encode($json_array);
-		// 	} else {
-		// 		die(json_encode(array(
-		// 			'success' => false,
-		// 			'ERROR' => 'User is inactive'
-		// 		)));
-		// 	}
-		// } else {
-		// 	die(json_encode(array(
-		// 		'success' => false,
-		// 		'ERROR' => 'Could not fetch user info'
-		// 	)));
-		// }
 	});
 
 	
@@ -1784,7 +1751,18 @@
 	
 	});
 
-	
-	
+	//==============================================================//
+	//                	Change Lname		  	                    //
+	//==============================================================//	
+	$app->post('/changeLname', function(){
+		global $mysqli;
+		session_start();
+		
+		$lname = $_POST['lname'];
+		$userId = $_SESSION['userId'];
+		
+		$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
+		$stmt = $mysqli -> query($sql);
+	});
 	$app->run();
 ?>
