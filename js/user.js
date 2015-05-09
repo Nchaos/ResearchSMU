@@ -281,8 +281,26 @@ function editInfo() {
 }
 
 function updateDepartment(){
-	alert("department change!");
-}
+	//alert("department change!");
+	var deptValue = document.getElementById("department").value;
+	var json_dept = 
+	{
+		"department": deptValue
+	};
+	console.log(json_dept);
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/updateFirstName",		
+		datatype:"json",
+		data: json_dept,
+		success: function() {
+			alert('You have successfully updated your Major/Department!');
+			//Uncomment the line before when fully working
+		  	//window.location.href = "user.html";   
+		},
+		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
+		});
+ }
 
 function changefName(){
 	var fnameValue = document.getElementById("first").value;
