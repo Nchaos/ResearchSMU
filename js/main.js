@@ -288,18 +288,19 @@ function checkSession() {
 window.onload = checkSession;
 
 //Create a new Research Opportunity 
-function newROP(form){
+function newROP(){
 
   var title = document.getElementsByName("name")[0].value;
   var desc = document.getElementsByName("description")[0].value;
-  var dateStart = document.getElementsByName("startDate")[0].value;
-  var dateEnd = document.getElementsByName("endDate")[0].value;
-  var numPositions = document.getElementsByName("numOfPos")[0].value;
+  //var dateStart = document.getElementsByName("startDate")[0].value;
+  //var dateEnd = document.getElementsByName("endDate")[0].value;
+  //var numPositions = document.getElementsByName("numOfPos")[0].value;
   var paid = document.getElementsByName("paid")[0].checked;
   var workStudy = document.getElementsByName("workStudy")[0].checked;
   var graduate = document.getElementsByName("graduate")[0].checked;
   var undergrad = document.getElementsByName("undergraduate")[0].checked;
-
+  var deptId = document.getElementById("Department").value
+  //console.log(deptId);
 
   //console.log(numPositions);
 
@@ -307,14 +308,15 @@ function newROP(form){
     var dataString = 
   {
     "name": title,
-    "dateStart": dateStart,
-    "dateEnd": dateEnd,
-    "numPositions": numPositions,
-    "description": desc,
+    //"dateStart": dateStart,
+    //"dateEnd": dateEnd,
+    //"numPositions": numPositions,
+    "desc": desc,
     "paid": paid,
     "workStudy": workStudy,
     "graduate": graduate,
-    "undergraduate": undergrad
+    "undergraduate": undergrad,
+    "deptId": deptId
   };
 
 console.log(dataString);

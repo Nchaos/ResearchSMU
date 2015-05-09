@@ -367,16 +367,17 @@
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
 		//if ($debug) echo "Creating research opportunity...\n";
+		session_start();
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		//$instId = $_SESSION['instId'];
 		$deptId = $_POST['deptId'];
 		//$check = $_POST['check'];
 		$name = $_POST['name'];
-		$description = $_POST['desc'];
-		$dateStart = $_POST['dateStart'];
-		$dateEnd = $_POST['dateEnd'];
-		$numPositions = $_POST['numPositions'];
+		$desc = $_POST['desc'];
+		//$dateStart = $_POST['dateStart'];
+		//$dateEnd = $_POST['dateEnd'];
+		//$numPositions = $_POST['numPositions'];
 		$paid = $_POST['paid'];
 		$workStudy = $_POST['workStudy'];
 		$graduate = $_POST['graduate'];
@@ -390,28 +391,33 @@
 		$stmt->bind_result($instId);
 		$stmt->fetch();
 		$stmt->close();
+		//echo $deptId;
+		//echo $instId;
+
 		
-		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
+		if($name === "" /*||/* $dateStart === "" || $dateEnd === "" || $numPositions === ""*/)
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-			if ($debug) echo "Checking for duplicate entry...\n";
-			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
-			$checkResults = $dupCheck->fetch_assoc();
+			//if ($debug) echo "Checking for duplicate entry...\n";
+			//$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name'");
+			//$checkResults = $dupCheck->fetch_assoc();
 			
-			if(!($checkResults === NULL))
-				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
-			else{
-				if ($debug) echo "Creating unique entry\n";
-				/*$insertROP = $mysqli->query(*/$sql1="INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
-					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
+			// if(!($checkResults === NULL))
+			// 	die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
+			// else{
+				//if ($debug) echo "Creating unique entry\n";
+				//echo "hello";
+				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
+					name, description, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
+<<<<<<< HEAD
 					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
 					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
 				$stmt1 = $mysqli -> prepare($sql1);
 				$stmt1 -> execute();
 				$stmt1 -> close();
 				die(json_encode(array('Status' => 'Success')));
-			}
+			//}
 		}
 	});
 	
@@ -911,7 +917,7 @@
 	//==============================================================//
 	//                	applied find		  	                    //
 	//==============================================================//	
-	$app->post('/changeLname', function(){
+	$app->post('/appliedFind', function(){
 		global $mysqli;
 		session_start();
 		
@@ -920,16 +926,67 @@
 		
 		if($userType == 'Faculty')
 		{
-			$sql = "SELECT * FROM ResearchOp WHERE user_ID = '$userId'";
+			$sqlName = "SELECT name FROM ResearchOp WHERE user_ID = '$userId'";
+			$sqlProf = "SELECT fname, lname FROM Users WHERE user_ID = '$userId'";
 		}
 		else
 		{
-			$sql = "SELECT * FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			/*
+			$sqlName = "SELECT name FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtName = $mysqli -> query($sqlName);
+			$sqlProfFName = "SELECT fname FROM Users WHERE user_ID = '$userId'";
+			$stmtProfFName = $mysqli -> query($sqlProfFName);
+			$sqlProfLName = "SELECT lname FROM Users WHERE user_ID = '$userId'";
+			$stmtProfLName = $mysqli -> query($sqlProfLName);
+			$sqlDepts = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId'))";
+			$stmtDepts = $mysqli -> query($sqlDepts);
+			$sqlWage = "SELECT paid FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtWage = $mysqli -> query($sqlWage);
+			$sqlStatus = "SELECT numPositions FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtStatus = $mysqli -> query($sqlStatus);
+			$sqlCount = "SELECT COUNT(researchOp_ID) FROM Applicants WHERE user_id = '$userId'";
+			$stmtCount = $mysqli -> query($sqlCount);
+			$stmtProfName = $stmtProfFName . $stmtProfLName;
+			*/
+			
+			$list = array('titles' => array(
+					0 => "Biometrics Analyst",
+					1 => "Secretary",
+					2 => "Help Desk"
+				), 
+				'professors' => array(
+					0 => "Jennifer Dworak",
+					1 => "Martin Lawrence",
+					2 => "Lawrence Martins"
+				),
+				'depts' => array(
+					0 => "Computer Science",
+					1 => "Law",
+					2 => "Any"
+				), 
+				'wage' => array(
+					0 => "Work Study",
+					1 => "Paid",
+					2 => "Paid"
+				), 
+				'posStatus' => array(
+					0 => "Open",
+					1 => "Filled",
+					2 => "Open"
+				),
+				'count' => 3
+				);
+			
+			
+			
+			
+			
+			
+			//$return = array('titles' => array(0 => 'Biometrics Analyst'), 'professors' => array(0 => 'Jennifer Dworak'), 'depts' => 'Computer Science', 'wages' => 'Paid', 'posStatus' => 'Open', 'count' => '1');
+			
+
+			echo json_encode($list);
 		}
-		
-		$stmt = $mysqli -> query($sql);
-		
-		echo json_encode($stmt);
 	});
 
 	$app->run();
