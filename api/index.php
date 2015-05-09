@@ -1596,22 +1596,34 @@
 		if($check == 'Student') {
 			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
 					FROM Student WHERE user_ID='$userId'";
-			$stmt1 = $mysqli->prepare($sql1);
-			$stmt1->execute();
-			$studentType = $stmt1->get_result();
-
+			$stmt = $mysqli->prepare($sql1);
+			$stmt->execute();
+			$stmt->bind_result($studentType);
+			$stmt->fetch();
+			$stmt->close();
 	
-			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')");
-			$res = $selectName->fetch_assoc;
-			$department = $res['name'];
+			$sql = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($active);
+			$stmt->fetch();
+			$stmt->close();
+		
+			$department = $active;
 			
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
 
-			$query = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')";
-			$res = $mysqli->query($query);
-			$department = $res;
+			
+			$sql = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($active);
+			$stmt->fetch();
+			$stmt->close();
+		
+			$department = $active;
 		}else
 		{
 			$studentType = 'Neither';
@@ -1662,6 +1674,14 @@
 			
 			$sql = "UPDATE Student SET graduateStudent = '$grad')";
 			$stmt = $mysqli -> query($sql);
+		}
+		if(isset($_POST['lname']))
+		{
+			$lname = $_POST['lname'];
+			
+			$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userid'";
+			$stmt = $mysqli -> query($sql);
+
 		}
 	});
 	
