@@ -246,38 +246,38 @@ function editInfo() {
     resume.innerHTML = "<br>Upload a Resume: <br><input type='file' name='resume'/><br>";
     document.getElementById("newInfo").appendChild(resume);
     
-	// $('#submission').on('click', function(){
-	// 	//Change this to work with resume
+	 $('#submission').on('click', function(){
+	 	//Change this to work with resume
 
- //      	    var fnameValue = document.getElementById("first").value;
-	//     	var lnameValue = document.getElementById("last").value;
-	//     	var pwd1Value = document.getElementById("pwd").value;
-	//     	var pwd2Value = document.getElementById("pwdCheck").value;
-	//     	var majorValue = document.getElementById("department").value;
+       	    var fnameValue = document.getElementById("first").value;
+	     	var lnameValue = document.getElementById("last").value;
+	     	var pwd1Value = document.getElementById("pwd").value;
+	     	var pwd2Value = document.getElementById("pwdCheck").value;
+	     	var majorValue = document.getElementById("department").value;
 		    
 		    
-	// 	    var json_string = 
-	// 	    {
-	// 	    	"fname": fnameValue,
-	// 	    	"lname": lnameValue,
-	// 	    	"password": pwd1Value,
-	// 	    	"confirm": pwd2Value,
-	// 	    	"major": majorValue
-	// 		};
-	// 	    	console.log(json_string);
+	 	    var json_string = 
+	 	    {
+	 	    	"fName": fnameValue,
+	 	    	"lName": lnameValue,
+	 	    	"password": pwd1Value,
+	 	    	"confirm": pwd2Value,
+	 	    	"dept": majorValue
+	 		};
+	 	    	console.log(json_string);
 		    	
-	// 	    	$.ajax({
-	// 				type: "POST",
-	// 				url: "api/index.php/changeinfo",		
-	// 				datatype:"json",
-	// 				data: json_string,
-	// 				success: function() {
-	// 				  	window.location.href = "user.html";   
-	// 				}
-	// 			});
+	 	    	$.ajax({
+	 				type: "POST",
+	 				url: "api/index.php/changeinfo",		
+	 				datatype:"json",
+	 				data: json_string,
+	 				success: function() {
+	 				  	window.location.href = "user.html";   
+	 				}
+	 			});
     	
 
-	// })
+	 });
 }
 
 function updateDepartment(){
