@@ -3,8 +3,11 @@
 $(document).ready(function(){
 	$("#edit").click(editInfo);
 	$(window).load(userInfo);
-	
-	
+	$("#accountInfo").click(function(){
+		$("#newInfo").css("display", 'none');
+		userInfo();
+	});
+	$("#positions").click(position);
 	
 	$("#menu-toggle").click(function(e) {
 	        e.preventDefault();
@@ -12,11 +15,79 @@ $(document).ready(function(){
 	});
 });
 
+function position(){
+	$("#edit").css("display", 'none');
+	$("#info").css("display", 'none');
+	$("#submission").css("display", 'none');
+	$("#table").css("display", 'inline-block');
+	$('#newInfo').empty();
+	
+	var count = 3;
+	var titles = {title:"Title", professorName:"Faculty Member", dept:"Department", wageType:"Wage Type", status:"Status"};
+	var list = {titles:[
+			{0:"Biometrics Analyst"},
+			{1:"Secretary"},
+			{2:"Scape Goat"}
+		], 
+		professors:[
+			{0:"Jennifer Dworak"},
+			{1:"Martin Lawrence"},
+			{2:"Dexter"}
+		],
+		depts:[
+			{0:"Computer Science"},
+			{1:"Law"},
+			{2:"Murder"}
+		], 
+		wage:[
+			{0:"Paid"},
+			{1:"Paid"},
+			{2:"Work Study"}
+		], 
+		posStatus:[
+			{0:"Open"},
+			{1:"Filled"},
+			{2:"Open"}
+		]};
+	
+	
+	for(i = 0; i < count; i++){
+		var highSet = list["titles"];
+		var value = highSet[i];
+		var jobs = value[i];
+		
+		var highSet = list["professors"];
+		var value = highSet[i];
+		var names = value[i];
+		
+		var highSet = list["depts"];
+		var value = highSet[i];
+		var majors = value[i];
+		
+		var highSet = list["wage"];
+		var value = highSet[i];
+		var wages = value[i];
+		
+		var highSet = list["posStatus"];
+		var value = highSet[i];
+		var status = value[i];
+		
+		var table = document.createElement('div');
+	    var string1 = "<table id='table'><tr><td class='columns'>"+jobs+"</td><td class='columns'>"+names+"</td><td class='columns'>"+majors+"</td><td class='columns'>"+wages;
+	    var string2 = "</td><td class='columns'>"+status+"</td></tr></table>"
+	    table.innerHTML = string1 + string2;
+	    document.getElementById("table").appendChild(table);
+	
+	}
+	
+}
+
 function userInfo(){
 	
+	$("#edit").css("display", 'inline-block');
+	$("#info").css("display", 'inline-block');
 	$("#submission").css("display", 'none');
-	console.log("userInfo");
-	
+	$('#table').empty();
 
 	$.ajax({
 		type: "POST",
@@ -49,13 +120,15 @@ function userInfo(){
 		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
 	});
 	
-	console.log("Done");
 }
 
 function editInfo() {
 	$("#info").css("display", 'none');
 	$("#edit").css("display", 'none');
 	$("#submission").css("display", 'inline-block');
+	$("#newInfo").css("display", 'inline-block');
+	$('#table').empty();
+	$('#newInfo').empty();
 	
 	var fname = document.createElement('div');
     fname.innerHTML = "First Name: <br><input type='text' id='first' name='fname'>";
@@ -174,7 +247,7 @@ function editInfo() {
 					datatype:"json",
 					data: json_string,
 					success: function() {
-					  	windo.location.href = "user.html";   
+					  	window.location.href = "user.html";   
 					}
 				});
 		   }
