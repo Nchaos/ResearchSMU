@@ -1674,7 +1674,7 @@
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			
-			$sql3 = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?)) as aggr";
+			$sql3 = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
 			$stmt3 = $mysqli->prepare($sql3);
 			$stmt3->bind_param('i', $userId);
 			$stmt3->execute();
