@@ -9,7 +9,7 @@
 
 	<body>
 		<div id="form">
-			<form id="user_form" action="newROP.html" method="post">
+			<form id="user_form" action="index.html" method="post">
 				<h2>Create a new Research Opportunity</h2><br>
 				<h1>Title:</h1><input type="text" name="name" placeholder="Title" required/><br>
 				<h1>Start Date:</h1><input type="date" name="startDate"/><br><br>
@@ -121,6 +121,7 @@
 				<textarea name="description" cols="25" rows="5"></textarea><br>
 
 				<input type="submit" form="user_form"/>
+				<input id="Cancel" class="button" type="button" value="Cancel" onclick="return cancelClick()"/>
 			</form>
 		</div>
 

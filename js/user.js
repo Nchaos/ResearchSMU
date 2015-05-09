@@ -155,7 +155,7 @@ function editInfo() {
     document.getElementById("newInfo").appendChild(pwd1);
     
     var pwd2 = document.createElement('div');
-    pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'>";
+    pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'><br><br>";
     document.getElementById("newInfo").appendChild(pwd2);
     
     // var dept = document.createElement('div');
@@ -214,6 +214,7 @@ function editInfo() {
 
     var dept =document.createElement('select');
     dept.id ='deptment';
+    dept.label = "Department: ";
     document.getElementById('newInfo').appendChild(dept);
 
 
@@ -230,11 +231,11 @@ function editInfo() {
 	// document.getElementById("newInfo").appendChild(dept);
 
     var resume = document.createElement('div');
-    resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
+    resume.innerHTML = "<br>Upload a Resume: <br><input type='file' name='resume'/><br>";
     document.getElementById("newInfo").appendChild(resume);
     
-	var cancelButton = document.getElementById('submission').clicked = false;
-	cancelButton.addEventListener('click', function() { 
+	//var cancelButton = document.getElementById('submission').clicked = false;
+	$('#submission').on('click', function(){
 		clicked = !clicked; 
 		if(clicked){
 	    	var fnameValue = document.getElementById("first").value;
@@ -260,7 +261,35 @@ function editInfo() {
 				});
 		   }
     	}
-	});
+
+	})
+	//cancelButton.addEventListener('click', function() { 
+		// clicked = !clicked; 
+		// if(clicked){
+	 //    	var fnameValue = document.getElementById("first").value;
+	 //    	var lnameValue = document.getElementById("last").value;
+	 //    	var pwd1Value = document.getElementById("pwd").value;
+	 //    	var pwd2Value = document.getElementById("pwdCheck").value;
+	 //    	var majorValue = document.getElementById("major").value;
+	    	
+	 //    	var pwdChecker = $("#submission").click(checkPassword);
+		    
+		//     if(pwdChecker == true){
+		//     	var json_string = '{"fname":"'+fnameValue+'","lname":"'+lnameValue+'","password":"'+pwd1Value+'","confirm":"'+pwd2Value+'","major":"'+majorValue+'"}';
+		//     	console.log(json_string);
+		    	
+		//     	$.ajax({
+		// 			type: "POST",
+		// 			url: "api/index.php/changeinfo",		
+		// 			datatype:"json",
+		// 			data: json_string,
+		// 			success: function() {
+		// 			  	window.location.href = "user.html";   
+		// 			}
+		// 		});
+		//    }
+  //   	}
+	//});
 }
 
 function checkPassword(event){
