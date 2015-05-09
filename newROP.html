@@ -5,70 +5,50 @@
 	  <link rel="stylesheet" type="text/css" media = "screen" href="CSS/register.css">
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="js/registration.js"></script>
+    <script src="js/main.js"></script>
 	</head>
 
 	<body>
 		<div id="form">
-			<form id="user_form" action="newROP.html" method="post">
+			<form id="user_form">
 				<h2>Create a new Research Opportunity</h2><br>
 				<h1>Title:</h1><input type="text" name="name" placeholder="Title" required/><br>
 				<h1>Start Date:</h1><input type="date" name="startDate"/><br><br>
 				<h1>End Date:</h1> <input type="date" name="endDate"/><br><br>
-				<h1>Number of Positions:</h1><input type="number" name="numOfPos" min='1' max='25'/><br>
+				<h1>Number of Positions:</h1>
+				<select id="numOfPos" name="numOfPos" required>
+					<option selected disabled hidden label='Number of Positions'></option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+				 </select><br>
 				<input type="checkbox" name="paid" value="Paid"/>Paid
 				<input type="checkbox" name="workStudy" value="Work Study"/>Work Study
 				<input type="checkbox" name="undergraduate" value="undergraduate"/>Undergraduate
 				<input type="checkbox" name="graduate" value="graduate"/>Graduate<br><br><br>
-
-				<!--label for="Department"></label-->
-				<!--select id="Department" name="deptId" required>
-					<option selected disabled hidden label='Department'></option>
-					<option value="Accounting">Accounting</option>
-					<option value="Advertising">Advertising</option>
-					<option value="Anthropology">Anthropology</option>
-					<option value="Applied Physiology">Applied Physiology</option>
-					<option value="Art">Art</option>
-					<option value="Art History">Art History</option>
-					<option value="Art Management">Art Management</option>
-					<option value="Biological Sciences">Biological Sciences</option>
-					<option value="Business">Business</option>
-					<option value="Chemistry">Chemistry</option>
-					<option value="Civil &amp; Environmental Engineering">Civil &amp; Environmental Engineering</option>
-					<option value="Communication Studies">Communication Studies</option>
-					<option value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
-					<option value="Creative Computing">Creative Computing</option>
-					<option value="Dance">Dance</option>
-					<option value="Dispute Resolution">Dispute Resolution</option>
-					<option value="Earth Sciences">Earth Sciences</option>
-					<option value="Economics">Economics</option>
-					<option value="Electrical Engineering">Electrical Engineering</option>
-					<option value="English">English</option>
-					<option value="Film and Media Arts">Film and Media Arts</option>
-					<option value="Finance">Finance</option>
-					<option value="Higher Education">Higher Eduction</option>
-					<option value="History">History</option>
-					<option value="Journalism">Journalism</option>
-					<option value="Management Science">Management Science</option>
-					<option value="Marketing">Marketing</option>
-					<option value="Mathematics">Mathematics</option>
-					<option value="Mechanical Engineering">Mechanical Engineering</option>
-					<option value="Music">Music</option>
-					<option value="Philosophy">Philosophy</option>
-					<option value="Physics">Physics</option>
-					<option value="Political Science">Political Science</option>
-					<option value="Psychology">Psychology</option>
-					<option value="Real Estate">Real Estate</option>
-					<option value="Religious Studies">Religious Studies</option>
-					<option value="Risk Management and Insurance">Risk Management and Insurance</option>
-					<option value="Sports Management">Sports Management</option>
-					<option value="Sociology">Sociology</option>
-					<option value="Statistical Sciences">Statistical Sciences</option>
-					<option value="Teacher Education">Teacher Education</option>
-					<option value="Theatre">Theatre</option>
-					<option value="Wellness">Wellness</option>
-					<option value="World Language">World Language</option>
-				</select-->
-				
+				<h1>Department:</h1>
 				<select id="Department" name="major" required>
 					<option selected disabled hidden label='Department'></option>
 					<option value="01">Accounting</option>
@@ -120,7 +100,8 @@
 				<h1>Description:</h1>
 				<textarea name="description" cols="25" rows="5"></textarea><br>
 
-				<input type="submit" form="user_form"/>
+				<input type="submit" onclick="newROP(this);"/>
+				<input id="Cancel" class="button" type="button" value="Cancel" onclick="return cancelClick()"/>
 			</form>
 		</div>
 

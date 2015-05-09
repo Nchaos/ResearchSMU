@@ -366,12 +366,12 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
-		if ($debug) echo "Creating research opportunity...\n";
+		//if ($debug) echo "Creating research opportunity...\n";
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
 		$deptId = $_SESSION['deptId'];
-		$check = $_POST['check'];
+		//$check = $_POST['check'];
 		$name = $_POST['name'];
 		$description = $_POST['desc'];
 		$dateStart = $_POST['dateStart'];
@@ -1455,71 +1455,6 @@
 	}
 	
 	
-	
-	//Old Login, Do not use unless new breaks
-	/*
-	//==============================================================//
-	//                		   login  		   	                    //
-	//==============================================================//
-	//trevor messed up the syntax and wasted 40 mintues of my time
-	//its k tho. i still love you bud
-	
-	$app->post('/login', function(){
-		global $mysqli;
-		//-----------Getting User ID--------------//
-		$email_User_Entered = $_POST['email'];
-		$password_User_Entered = $_POST['password'];
-		$query = "SELECT user_ID FROM Users WHERE email= '$email_User_Entered'";
-		$res = $mysqli->query($query);
-		$actual_result = $res->fetch_assoc();
-		if(($actual_result === NULL))
-		{
-				//-------Email not found-------//
-				die(json_encode(array('ERROR' => 'Could not find user')));
-		}
-		else
-		{
-			$user = $actual_result["user_ID"];
-			//----------Obtained User ID--------------//
-			//----------Getting Password paired with User ID--------------//
-			$second_query = "SELECT password FROM Password WHERE user_ID = '$user'";
-			$second_res = $mysqli->query($second_query);
-			$second_actual_result = $second_res->fetch_assoc();
-			if($actual_result === NULL)
-			{
-					//-------Password not found---------//
-					die(json_encode(array('ERROR' => 'Password could not be found')));
-			}
-			else
-			{
-					$password_result = $second_actual_result["password"];
-					//----------Obtained Password paired with USer ID--------------//
-					//----------Verify Password with hash--------------------------//
-					if(password_verify($password_User_Entered,$password_result))
-					{
-						//--------Getting User data--------------//
-						$components = "Select * FROM Users WHERE user_ID = 'user'";
-						$returnValue = $mysqli -> query($components);
-						$iteration = $returnValue -> fetch_assoc();
-						
-						$_SESSION['userId'] = $userId;
-						$_SESSION['firstName'] = $iteration['fName'];
-						$_SESSION['lastName'] = $iteration['lName'];
-						$_SESSION['email'] = $iteration['email'];
-						$_SESSION['userType'] = $iteration['userType'];
-						//---------Obtained User Data-------------//
-					}
-					else
-					{
-							//--------Wrong password Entered---------//
-							die(json_encode(array('ERROR' => 'User could not be validated')));
-					}
-			}
-		}
-	});*/
-	
-	
-	
 	//==============================================================//
 	//                		   login  		   	                    //
 	//==============================================================//
@@ -1660,26 +1595,23 @@
 		
 		if($check == 'Student') {
 			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
-					FROM Student WHERE user_ID=?";
+					FROM Student WHERE user_ID='$userId'";
 			$stmt1 = $mysqli->prepare($sql1);
-			$stmt1->bind_param('i', $userId);
 			$stmt1->execute();
 			$studentType = $stmt1->get_result();
+
 	
-			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
-			$stmt2 = $mysqli->prepare($sql2);
-			$stmt2->bind_param('i', $userId);
-			$stmt2->execute();
-			$department = $stmt2->get_result();
+			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')");
+			$res = $selectName->fetch_assoc;
+			$department = $res['name'];
+			
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
-			$department = 'Faculty';
+			$department = 'Computer Science and Engineering';
 			
-			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
-			$stmt = $mysqli->prepare($sql);
-			$stmt->bind_param('i', $userId);
-			$stmt->execute();
-			$department = $stmt->get_result();
+			$query = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')";
+			$res = $mysqli->query($query);
+			$department = $res;
 		}else
 		{
 			$studentType = 'Neither';
@@ -1697,37 +1629,6 @@
 		echo json_encode($info);
 		return  json_encode($info);
 
-		// $sql = "SELECT * FROM Users WHERE user_ID=?";
-		// $stmt = $mysqli->prepare($sql);
-		// $stmt->bind_param('i', $userId);
-		// $stmt->execute();
-		// $result = $stmt->get_result();
-
-
-		
-		// if($row == $result->fetch_array()) {
-		// 	if($row['active'] == true){
-		// 		$json_array = array(
-		// 			'firstName' => $row['fName'],
-		// 			'lastName' => $row['lName'],
-		// 			'email' => $row['email'],
-		// 			'userType' => $row['userType'],
-		// 			'studentType' => $result1
-		// 		);
-				
-		// 		echo json_encode($json_array);
-		// 	} else {
-		// 		die(json_encode(array(
-		// 			'success' => false,
-		// 			'ERROR' => 'User is inactive'
-		// 		)));
-		// 	}
-		// } else {
-		// 	die(json_encode(array(
-		// 		'success' => false,
-		// 		'ERROR' => 'Could not fetch user info'
-		// 	)));
-		// }
 	});
 
 	
@@ -1847,6 +1748,7 @@
 			}
 	
 	});
+<<<<<<< HEAD
 	
 	//==============================================================//
 	//                	deactivate user		  	                    //
@@ -1865,5 +1767,21 @@
 		echo 'Account disabled';
 	});
 
+=======
+
+	//==============================================================//
+	//                	Change Lname		  	                    //
+	//==============================================================//	
+	$app->post('/changeLname', function(){
+		global $mysqli;
+		session_start();
+		
+		$lname = $_POST['lname'];
+		$userId = $_SESSION['userId'];
+		
+		$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
+		$stmt = $mysqli -> query($sql);
+	});
+>>>>>>> 5a3b209495222577ce1ab7b33d4f5e8d64d32e00
 	$app->run();
 ?>

@@ -286,3 +286,50 @@ function checkSession() {
   return false;
 }
 window.onload = checkSession;
+
+//Create a new Research Opportunity 
+function newROP(form){
+
+  var title = document.getElementsByName("name")[0].value;
+  var desc = document.getElementsByName("description")[0].value;
+  var dateStart = document.getElementsByName("startDate")[0].value;
+  var dateEnd = document.getElementsByName("endDate")[0].value;
+  var numPositions = document.getElementsByName("numOfPos")[0].value;
+  var paid = document.getElementsByName("paid")[0].checked;
+  var workStudy = document.getElementsByName("workStudy")[0].checked;
+  var graduate = document.getElementsByName("graduate")[0].checked;
+  var undergrad = document.getElementsByName("undergraduate")[0].checked;
+
+
+  //console.log(numPositions);
+
+
+    var dataString = 
+  {
+    "name": title,
+    "dateStart": dateStart,
+    "dateEnd": dateEnd,
+    "numPositions": numPositions,
+    "description": desc,
+    "paid": paid,
+    "workStudy": workStudy,
+    "graduate": graduate,
+    "undergraduate": undergrad
+  };
+
+console.log(dataString);
+
+
+  $.ajax({
+    type: "POST",
+    url: "api/index.php/createResearchOpportunity",
+    datatype: JSON,
+    data: dataString,
+    success: function(){
+      alert("success!");
+    },
+    error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
+
+  });
+  return false
+}
