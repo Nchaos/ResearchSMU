@@ -390,7 +390,8 @@
 		$stmt->bind_result($instId);
 		$stmt->fetch();
 		$stmt->close();
-		
+		echo $instId;
+		echo $deptId;
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
@@ -406,7 +407,7 @@
 					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
 					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
-					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')");
+					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
 				$stmt1 = $mysqli -> prepare($sql1);
 				$stmt1 -> execute();
 				$stmt1 -> close();
