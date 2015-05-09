@@ -905,10 +905,43 @@
 			$stmtProfName = $stmtProfFName . $stmtProfLName;
 			*/
 			
-			$return = array('titles' => array(0 => 'Biometrics Analyst'), 'professors' => array(0 => 'Jennifer Dworak'), 'depts' => 'Computer Science', 'wages' => 'Paid', 'posStatus' => 'Open', 'count' => '1');
+			$list = array('titles' => array(
+					0 => "Biometrics Analyst",
+					1 => "Secretary",
+					2 => "Help Desk"
+				), 
+				'professors' => array(
+					0 => "Jennifer Dworak",
+					1 => "Martin Lawrence",
+					2 => "Lawrence Martins"
+				),
+				'depts' => array(
+					0 => "Computer Science",
+					1 => "Law",
+					2 => "Any"
+				), 
+				'wage' => array(
+					0 => "Work Study",
+					1 => "Paid",
+					2 => "Paid"
+				), 
+				'posStatus' => array(
+					0 => "Open",
+					1 => "Filled",
+					2 => "Open"
+				),
+				'count' => 3
+				);
+			
+			
+			
+			
+			
+			
+			//$return = array('titles' => array(0 => 'Biometrics Analyst'), 'professors' => array(0 => 'Jennifer Dworak'), 'depts' => 'Computer Science', 'wages' => 'Paid', 'posStatus' => 'Open', 'count' => '1');
 			
 
-			echo json_encode($return);
+			echo json_encode($list);
 		}
 	});
 
