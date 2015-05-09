@@ -1664,16 +1664,25 @@
 			$stmt1 = $mysqli->prepare($sql1);
 			$stmt1->bind_param('i', $userId);
 			$stmt1->execute();
-			$result1 = $stmt1->get_result();
+			$studentType = $stmt1->get_result();
+	
+			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?)) as aggr";
+			$stmt2 = $mysqli->prepare($sql2);
+			$stmt2->bind_param('i', $userId);
+			$stmt2->execute();
+			$department = $stmt2->get_result();
 		} elseif($check == 'Faculty') {
-			$result1 = 'Faculty';
+			$studentType = 'Faculty';
+			$department = 'Faculty department not to be displayed';
 		}else
 		{
-			$result1 = 'Neither';
+			$studentType = 'Neither';
+			$department = 'May God have mercy on your soul';
 		}	
 		
 		$password = $res->fetch_assoc();
-		$info = array('userId'=> $userId, 'firstName' => $firstName, 'lastName'=>$lastName,'email'=>$email,'userType'=>$userType, 'studentType'=>$result1);
+		$info = array('userId'=> $userId, 'firstName' => $firstName, 'lastName'=>$lastName,'email'=>$email,
+				'studentType'=>$studentType,'department'=>$department);
 		echo json_encode($info);
 		return  json_encode($info);
 
