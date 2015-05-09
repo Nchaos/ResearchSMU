@@ -23,7 +23,10 @@ function position(){
 	$('#newInfo').empty();
 	
 	var count = 3;
-	var titles = {title:"Title", professorName:"Faculty Member", dept:"Department", wageType:"Wage Type", status:"Status"};
+	var titles = {0:"Title", 1:"Faculty Member", 2:"Department", 3:"Wage Type", 4:"Status"};
+	var string1 = "<tr><td class='columns'>"+titles[0]+"</td><td class='columns'>"+titles[1]+"</td><td class='columns'>"+titles[2]+"</td><td class='columns'>"+titles[3];
+	var string2 = "</td><td class='columns'>"+titles[4]+"</td>";
+	var titleString = string1 + string2;
 	var list = {titles:[
 			{0:"Biometrics Analyst"},
 			{1:"Secretary"},
@@ -50,6 +53,11 @@ function position(){
 			{2:"Open"}
 		]};
 	
+	
+	
+	var heading = document.createElement('div');
+	heading.innerHTML = "<table>"+titleString+"</table>";
+	document.getElementById("table").appendChild(heading);
 	
 	for(i = 0; i < count; i++){
 		var highSet = list["titles"];
