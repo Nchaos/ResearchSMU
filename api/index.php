@@ -1647,17 +1647,13 @@
 	{
 		global $mysqli, $debug;
 		session_start();
-		/*$userId = $_SESSION['userId'];
+		$userId = $_SESSION['userId'];
 		$firstName = $_SESSION['firstName'];
 		$lastName = $_SESSION['lastName'];
 		$email = $_SESSION['email'];
 		$userType = $_SESSION['userType'];
 		$query = "SELECT password FROM Password WHERE user_ID = '$userId'";
 		$res = $mysqli->query($query);
-		
-		$password = $res->fetch_assoc();
-		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
-		echo json_encode($info);*/
 		
 		$userId = $_SESSION['userId'];
 		$check = $_SESSION['userType'];
@@ -1668,45 +1664,65 @@
 			$stmt1 = $mysqli->prepare($sql1);
 			$stmt1->bind_param('i', $userId);
 			$stmt1->execute();
-			$result1 = $stmt1->get_result();
+			$studentType = $stmt1->get_result();
+	
+			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
+			$stmt2 = $mysqli->prepare($sql2);
+			$stmt2->bind_param('i', $userId);
+			$stmt2->execute();
+			$department = $stmt2->get_result();
 		} elseif($check == 'Faculty') {
-			$result1 = 'Faculty';
+			$studentType = 'Faculty';
+			$department = 'Faculty';
+			
+			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->bind_param('i', $userId);
+			$stmt->execute();
+			$department = $stmt->get_result();
 		}else
 		{
-			$result1 = 'Neither';
+			$studentType = 'Neither';
+			$department = 'May God have mercy on your soul';
 		}	
 		
-		$sql = "SELECT * FROM Users WHERE user_ID=?";
-		$stmt = $mysqli->prepare($sql);
-		$stmt->bind_param('i', $userId);
-		$stmt->execute();
-		$result = $stmt->get_result();
+		$password = $res->fetch_assoc();
+		$info = array('userId'=> $userId, 'firstName' => $firstName, 'lastName'=>$lastName,'email'=>$email,
+				'studentType'=>$studentType,'department'=>$department);
+		echo json_encode($info);
+		return  json_encode($info);
+
+		// $sql = "SELECT * FROM Users WHERE user_ID=?";
+		// $stmt = $mysqli->prepare($sql);
+		// $stmt->bind_param('i', $userId);
+		// $stmt->execute();
+		// $result = $stmt->get_result();
 
 
 		
-		if($row = $result->fetch_array()) {
-			if($row['active'] == true){
-				$json_array = array(
-					'firstName' => $row['fName'],
-					'lastName' => $row['lName'],
-					'email' => $row['email'],
-					'userType' => $row['userType'],
-					'studentType' => $result1
-				);
+		// if($row == $result->fetch_array()) {
+		// 	if($row['active'] == true){
+		// 		$json_array = array(
+		// 			'firstName' => $row['fName'],
+		// 			'lastName' => $row['lName'],
+		// 			'email' => $row['email'],
+		// 			'userType' => $row['userType'],
+		// 			'studentType' => $result1
+		// 		);
 				
-				echo json_encode($json_array);
-			} else {
-				die(json_encode(array(
-					'success' => false,
-					'ERROR' => 'User is inactive'
-				)));
-			}
-		} else {
-			die(json_encode(array(
-				'success' => false,
-				'ERROR' => 'Could not fetch user info'
-			)));
-		}
+		// 		echo json_encode($json_array);
+		// 	} else {
+		// 		die(json_encode(array(
+		// 			'success' => false,
+		// 			'ERROR' => 'User is inactive'
+		// 		)));
+		// 	}
+		// } else {
+		// 	die(json_encode(array(
+		// 		'success' => false,
+		// 		'ERROR' => 'Could not fetch user info'
+		// 	)));
+		// }
 	});
 
 	
