@@ -1601,19 +1601,17 @@
 			$studentType = $stmt1->get_result();
 
 	
-			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
-			$stmt2 = $mysqli->prepare($sql2);
-			$stmt2->execute();
-			$department = $stmt2->get_result();
+			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')");
+			$res = $selectName->fetch_assoc;
+			$department = $res['name'];
 			
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
-
-			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = '$userId')";
-			$stmt = $mysqli->prepare($sql);
-			$stmt->execute();
-			$department = $stmt->get_result();
+			
+			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')");
+			$res = $selectName->fetch_assoc;
+			$department = $res['name'];
 		}else
 		{
 			$studentType = 'Neither';
