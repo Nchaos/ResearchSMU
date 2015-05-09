@@ -77,9 +77,63 @@ function editInfo() {
     pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'>";
     document.getElementById("newInfo").appendChild(pwd2);
     
-    var dept = document.createElement('div');
-    dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
-    document.getElementById("newInfo").appendChild(dept);
+    // var dept = document.createElement('div');
+    // dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
+    // document.getElementById("newInfo").appendChild(dept);
+
+    var dept =document.createElement('div');
+    dept.id ='deptment';
+    document.getElementById('newInfo').appendChild(dept);
+ //    dept.innerHTML = "Department: <br><select name='major>'
+	// 				<option selected disabled hidden label='Department'></option>
+	// 				<option value='01'>Accounting</option>
+	// 				<option value='02'>Advertising</option>
+	// 				<option value='03'>Anthropology</option>
+	// 				<option value='04'>Applied Physiology</option>
+	// 				<option value='05'>Art</option>
+	// 				<option value='06'>Art History</option>
+	// 				<option value='07'>Art Management</option>
+	// 				<option value='08'>Biological Sciences</option>
+	// 				<option value='09'>Business</option>
+	// 				<option value='10'>Chemistry</option>
+	// 				<option value='11'>Civil &amp; Environmental Engineering</option>
+	// 				<option value='12'>Communication Studies</option>
+	// 				<option value='13'>Computer Science &amp; Engineering</option>
+	// 				<option value='14'>Counseling</option> 
+	// 				<option value='15'>Creative Computing</option>
+	// 				<option value='16'>Dance</option>
+	// 				<option value='17'>Dispute Resolution</option>
+	// 				<option value='18'>Earth Sciences</option>
+	// 				<option value='19'>Economics</option>
+	// 				<option value='20'>Electrical Engineering</option>
+	// 				<option value='21'>English</option>
+	// 				<option value='22'>Film and Media Arts</option>
+	// 				<option value='23'>Finance</option>
+	// 				<option value='24'>Higher Eduction</option>
+	// 				<option value='25'>History</option>
+	// 				<option value='26'>Journalism</option>
+	// 				<option value='27'>Management</option>
+	// 				<option value='28'>Management Science</option>
+	// 				<option value='29'>Marketing</option>
+	// 				<option value='30'>Mathematics</option>
+	// 				<option value='31'>Mechanical Engineering</option>
+	// 				<option value='32'>Music</option>
+	// 				<option value='33'>Philosophy</option>
+	// 				<option value='34'>Physics</option>
+	// 				<option value='35'>Political Science</option>
+	// 				<option value='36'>Psychology</option>
+	// 				<option value='37'>Real Estate</option>
+	// 				<option value='38'>Religious Studies</option>
+	// 				<option value='39'>Risk Management and Insurance</option>
+	// 				<option value='40'>Sports Management</option>
+	// 				<option value='41'>Sociology</option>
+	// 				<option value='42'>Statisical Sciences</option>
+	// 				<option value='43'>Teacher Education</option>
+	// 				<option value='44'>Theatre</option>
+	// 				<option value='45'>Wellness</option>
+	// 				<option value='46'>World Language</option>
+	// 			</select>";
+	// document.getElementById("newInfo").appendChild(dept);
 
     var resume = document.createElement('div');
     resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
