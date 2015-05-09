@@ -1739,6 +1739,7 @@
 						$new_password = $_POST['password'];
 						$sql = "UPDATE Password SET password = '$new_password' WHERE user_ID = '$userID'";
 						$stmt = $mysqli -> query($sql);
+						echo "password updated"
 					}
 					else
 					{
@@ -1748,7 +1749,7 @@
 			}
 	
 	});
-<<<<<<< HEAD
+
 	
 	//==============================================================//
 	//                	deactivate user		  	                    //
@@ -1767,7 +1768,7 @@
 		echo 'Account disabled';
 	});
 
-=======
+
 
 	//==============================================================//
 	//                	Change Lname		  	                    //
@@ -1782,6 +1783,6 @@
 		$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
 		$stmt = $mysqli -> query($sql);
 	});
->>>>>>> 5a3b209495222577ce1ab7b33d4f5e8d64d32e00
+
 	$app->run();
 ?>
