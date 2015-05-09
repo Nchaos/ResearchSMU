@@ -1609,11 +1609,9 @@
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
 
-			
-			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')");
-			echo $selectName;
-			$res = $selectName->fetch_assoc;
-			$department = $res['name'];
+			$query = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')";
+			$res = $mysqli->query($query);
+			$department = $res;
 		}else
 		{
 			$studentType = 'Neither';
