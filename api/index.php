@@ -1599,11 +1599,15 @@
 			$stmt1 = $mysqli->prepare($sql1);
 			$stmt1->execute();
 			$studentType = $stmt1->get_result();
-
 	
-			$selectName = $mysqli->query("SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')");
-			$res = $selectName->fetch_assoc;
-			$department = $res['name'];
+			$sql = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($active);
+			$stmt->fetch();
+			$stmt->close();
+		
+			$department = $active;
 			
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
