@@ -366,12 +366,12 @@
 	//                      Create ResearchOp                       //
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
-		if ($debug) echo "Creating research opportunity...\n";
+		//if ($debug) echo "Creating research opportunity...\n";
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		$instId = $_SESSION['instId'];
 		$deptId = $_SESSION['deptId'];
-		$check = $_POST['check'];
+		//$check = $_POST['check'];
 		$name = $_POST['name'];
 		$description = $_POST['desc'];
 		$dateStart = $_POST['dateStart'];
