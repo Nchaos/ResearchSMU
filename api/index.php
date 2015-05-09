@@ -865,7 +865,7 @@
 	//==============================================================//
 	//                	applied find		  	                    //
 	//==============================================================//	
-	$app->post('/changeLname', function(){
+	$app->post('/appliedFind', function(){
 		global $mysqli;
 		session_start();
 		
