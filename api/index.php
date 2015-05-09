@@ -410,9 +410,8 @@
 				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-<<<<<<< HEAD
 					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
-					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
+					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')");
 				$stmt1 = $mysqli -> prepare($sql1);
 				$stmt1 -> execute();
 				$stmt1 -> close();
