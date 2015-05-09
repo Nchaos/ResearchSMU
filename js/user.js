@@ -14,8 +14,11 @@ $(document).ready(function(){
 	$("#positions").click(position);
 	
 	$("#menu-toggle").click(function(e) {
-	        e.preventDefault();
-	        $("#wrapper").toggleClass("active");
+	    e.preventDefault();
+	    $("#wrapper").toggleClass("active");
+	});
+	$("#newROP").click(function(){
+		window.location.replace("newROP.html");
 	});
 });
 
@@ -123,10 +126,13 @@ function userInfo(){
 			
 			if(status == "Student"){
 					$("#staff").css("display", 'none');
+					$("#newROP").css("display", 'none');
 			}
 			if(status == "Faculty"){
+					//add create research op button
 					$("#student").css("display", 'none');
 					$("#resume").css("display", 'none');
+					$("#newROP").css("display", 'inline-block');
 			}
 				
 		},
@@ -166,11 +172,6 @@ function editInfo() {
     var pwd2 = document.createElement('div');
     pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'><button onClick='changePassword();'>Change Password</button><br><br>";
     document.getElementById("newInfo").appendChild(pwd2);
-    
-    // var dept = document.createElement('div');
-    // dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
-    // document.getElementById("newInfo").appendChild(dept);
-
 
     var deptArray = ["Accounting",
     				 "Advertising",
@@ -226,7 +227,9 @@ function editInfo() {
     dept.label = "Department: ";
     document.getElementById('newInfo').appendChild(dept);
 
-
+    var deptBtn = document.createElement("text");
+    document.getElementById('newInfo').appendChild(deptBtn);
+    deptBtn.innerHTML = "<button onClick='updateDepartment();'>Update Department</button>";
 
     for (var i = 0; i < deptArray.length; i++) {
     	var option = document.createElement("option");
@@ -271,6 +274,10 @@ function editInfo() {
     	
 
 	// })
+}
+
+function updateDepartment(){
+	alert("department change!");
 }
 
 function changefName(){
@@ -374,9 +381,6 @@ function changePassword(){
 		});
 
 }
-
-
-
 
 
 
