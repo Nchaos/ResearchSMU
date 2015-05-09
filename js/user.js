@@ -32,6 +32,7 @@ function position(){
 	$("#submission").css("display", 'none');
 	$("#table").css("display", 'inline-block');
 	$('#newInfo').empty();
+	$("#newROP").css("display", 'none');
 	
 	
 	var titles = {0:"Title", 1:"Faculty Member", 2:"Department", 3:"Wage Type", 4:"Status"};
@@ -57,8 +58,6 @@ function position(){
 				var highSet = list["titles"];
 				var value = highSet[i];
 				var jobs = value;
-				console.log(value);
-				console.log(jobs);
 				
 				var highSet = list["professors"];
 				var value = highSet[i];
