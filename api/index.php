@@ -384,7 +384,7 @@
 		$todayDate = date("Y-m-d");
 		
 		//get instId
-		$sql5 = "SELECT inst_ID from Department WHERE dept_ID = '$deptId'"
+		$sql5 = "SELECT inst_ID from Department WHERE dept_ID = '$deptId'";
 		$stmt = $mysqli->prepare($sql5);
 		$stmt->execute();
 		$stmt->bind_result($instId);
