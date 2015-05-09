@@ -1666,7 +1666,7 @@
 			$stmt1->execute();
 			$studentType = $stmt1->get_result();
 	
-			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?)) as aggr";
+			$sql2 = "Select name from Department where dept_ID = (select dept_ID from Student where user_ID = (?))";
 			$stmt2 = $mysqli->prepare($sql2);
 			$stmt2->bind_param('i', $userId);
 			$stmt2->execute();
