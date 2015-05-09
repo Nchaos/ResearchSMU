@@ -1760,7 +1760,7 @@
 						$hash_new_password = password_hash($new_password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
 						$sql = "UPDATE Password SET password = '$hash_new_password' WHERE user_ID = '$userID'";
 						$stmt = $mysqli -> query($sql);
-						echo "password updated"
+						echo "password updated";
 					}
 					else
 					{
