@@ -374,8 +374,8 @@
 		//$check = $_POST['check'];
 		$name = $_POST['name'];
 		$description = $_POST['desc'];
-		$dateStart = $_POST['dateStart'];
-		$dateEnd = $_POST['dateEnd'];
+		//$dateStart = $_POST['dateStart'];
+		//$dateEnd = $_POST['dateEnd'];
 		$numPositions = $_POST['numPositions'];
 		$paid = $_POST['paid'];
 		$workStudy = $_POST['workStudy'];
@@ -391,11 +391,11 @@
 		$stmt->fetch();
 		$stmt->close();
 		
-		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
+		if($name === "" ||/* $dateStart === "" || $dateEnd === "" ||*/ $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
 			if ($debug) echo "Checking for duplicate entry...\n";
-			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND dateStart='$dateStart' AND num_Positions='$numPositions'");
+			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND num_Positions='$numPositions'");
 			$checkResults = $dupCheck->fetch_assoc();
 			
 			if(!($checkResults === NULL))
@@ -403,10 +403,10 @@
 			else{
 				if ($debug) echo "Creating unique entry\n";
 				/*$insertROP = $mysqli->query(*/$sql1="INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
-					name, description, startDate, endDate, numPositions, paid, workStudy, acceptsUndergrad, 
+					name, description, numPositions, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
-					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')");
+					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc', 
+					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
 				$stmt1 = $mysqli -> prepare($sql1);
 				$stmt1 -> execute();
 				$stmt1 -> close();
