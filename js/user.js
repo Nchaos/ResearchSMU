@@ -49,30 +49,32 @@ function position(){
 		url: "api/index.php/appliedFind",		
 		datatype:"json",
 		success: function(data) {
-			var list = data; //JSON.parse(data);
+			var list = JSON.parse(data);
 			var count = list["count"];
-			
+			console.log(list);
 			
 			for(i = 0; i < count; i++){
 				var highSet = list["titles"];
 				var value = highSet[i];
-				var jobs = value[i];
+				var jobs = value;
+				console.log(value);
+				console.log(jobs);
 				
 				var highSet = list["professors"];
 				var value = highSet[i];
-				var names = value[i];
+				var names = value;
 				
 				var highSet = list["depts"];
 				var value = highSet[i];
-				var majors = value[i];
+				var majors = value;
 				
 				var highSet = list["wage"];
 				var value = highSet[i];
-				var wages = value[i];
+				var wages = value;
 				
 				var highSet = list["posStatus"];
 				var value = highSet[i];
-				var status = value[i];
+				var status = value;
 				
 				var table = document.createElement('div');
 			    var string1 = "<table id='table'><tr><td class='columns'>"+jobs+"</td><td class='columns'>"+names+"</td><td class='columns'>"+majors+"</td><td class='columns'>"+wages;
@@ -101,9 +103,9 @@ function position(){
 	
 	
 	
-	/*
 	
-	var list = {titles:[
+	
+	var list2 = {titles:[
 			{0:"Biometrics Analyst"},
 			{1:"Secretary"},
 			{2:"Scape Goat"}
@@ -129,8 +131,8 @@ function position(){
 			{2:"Open"}
 		]};
 	
-	
-	
+	console.log(list2);
+	/*
 	var heading = document.createElement('div');
 	heading.innerHTML = "<table>"+titleString+"</table>";
 	document.getElementById("table").appendChild(heading);
