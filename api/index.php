@@ -873,7 +873,7 @@
 	//==============================================================//
 	//                	applied find		  	                    //
 	//==============================================================//	
-	$app->post('/changeLname', function(){
+	$app->post('/appliedFind', function(){
 		global $mysqli;
 		session_start();
 		
@@ -882,16 +882,34 @@
 		
 		if($userType == 'Faculty')
 		{
-			$sql = "SELECT * FROM ResearchOp WHERE user_ID = '$userId'";
+			$sqlName = "SELECT name FROM ResearchOp WHERE user_ID = '$userId'";
+			$sqlProf = "SELECT fname, lname FROM Users WHERE user_ID = '$userId'";
 		}
 		else
 		{
-			$sql = "SELECT * FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			/*
+			$sqlName = "SELECT name FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtName = $mysqli -> query($sqlName);
+			$sqlProfFName = "SELECT fname FROM Users WHERE user_ID = '$userId'";
+			$stmtProfFName = $mysqli -> query($sqlProfFName);
+			$sqlProfLName = "SELECT lname FROM Users WHERE user_ID = '$userId'";
+			$stmtProfLName = $mysqli -> query($sqlProfLName);
+			$sqlDepts = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId'))";
+			$stmtDepts = $mysqli -> query($sqlDepts);
+			$sqlWage = "SELECT paid FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtWage = $mysqli -> query($sqlWage);
+			$sqlStatus = "SELECT numPositions FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+			$stmtStatus = $mysqli -> query($sqlStatus);
+			$sqlCount = "SELECT COUNT(researchOp_ID) FROM Applicants WHERE user_id = '$userId'";
+			$stmtCount = $mysqli -> query($sqlCount);
+			$stmtProfName = $stmtProfFName . $stmtProfLName;
+			*/
+			
+			$return = array('titles' => array(0 => 'Biometrics Analyst'), 'professors' => array(0 => 'Jennifer Dworak'), 'depts' => 'Computer Science', 'wages' => 'Paid', 'posStatus' => 'Open', 'count' => '1');
+			
+
+			echo json_encode($return);
 		}
-		
-		$stmt = $mysqli -> query($sql);
-		
-		echo json_encode($stmt);
 	});
 
 	$app->run();

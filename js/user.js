@@ -33,11 +33,76 @@ function position(){
 	$("#table").css("display", 'inline-block');
 	$('#newInfo').empty();
 	
-	var count = 3;
+	
 	var titles = {0:"Title", 1:"Faculty Member", 2:"Department", 3:"Wage Type", 4:"Status"};
 	var string1 = "<tr><td class='columns'>"+titles[0]+"</td><td class='columns'>"+titles[1]+"</td><td class='columns'>"+titles[2]+"</td><td class='columns'>"+titles[3];
 	var string2 = "</td><td class='columns'>"+titles[4]+"</td>";
 	var titleString = string1 + string2;
+	
+	var heading = document.createElement('div');
+	heading.innerHTML = "<table>"+titleString+"</table>";
+	document.getElementById("table").appendChild(heading);
+	
+	
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/appliedFind",		
+		datatype:"json",
+		success: function(data) {
+			var list = data; //JSON.parse(data);
+			var count = list["count"];
+			
+			
+			for(i = 0; i < count; i++){
+				var highSet = list["titles"];
+				var value = highSet[i];
+				var jobs = value[i];
+				
+				var highSet = list["professors"];
+				var value = highSet[i];
+				var names = value[i];
+				
+				var highSet = list["depts"];
+				var value = highSet[i];
+				var majors = value[i];
+				
+				var highSet = list["wage"];
+				var value = highSet[i];
+				var wages = value[i];
+				
+				var highSet = list["posStatus"];
+				var value = highSet[i];
+				var status = value[i];
+				
+				var table = document.createElement('div');
+			    var string1 = "<table id='table'><tr><td class='columns'>"+jobs+"</td><td class='columns'>"+names+"</td><td class='columns'>"+majors+"</td><td class='columns'>"+wages;
+			    var string2 = "</td><td class='columns'>"+status+"</td></tr></table>";
+			    table.innerHTML = string1 + string2;
+			    document.getElementById("table").appendChild(table);
+			
+			}	
+			
+			
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
 	var list = {titles:[
 			{0:"Biometrics Analyst"},
 			{1:"Secretary"},
@@ -93,12 +158,12 @@ function position(){
 		
 		var table = document.createElement('div');
 	    var string1 = "<table id='table'><tr><td class='columns'>"+jobs+"</td><td class='columns'>"+names+"</td><td class='columns'>"+majors+"</td><td class='columns'>"+wages;
-	    var string2 = "</td><td class='columns'>"+status+"</td></tr></table>"
+	    var string2 = "</td><td class='columns'>"+status+"</td></tr></table>";
 	    table.innerHTML = string1 + string2;
 	    document.getElementById("table").appendChild(table);
 	
 	}
-	
+	*/
 }
 
 function userInfo(){

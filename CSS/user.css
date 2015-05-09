@@ -221,9 +221,9 @@ div {
 .columns{
     display: table-cell;
     height: 100%;
-    padding-right: 5em;
+    margin-right: 5em;
     width: 600px;
-    text-align: center;
+    text-align: left;
 }
 
 
