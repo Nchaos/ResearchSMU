@@ -105,33 +105,33 @@ function position(){
 	
 	
 	
-	var list2 = {titles:[
-			{0:"Biometrics Analyst"},
-			{1:"Secretary"},
-			{2:"Scape Goat"}
-		], 
-		professors:[
-			{0:"Jennifer Dworak"},
-			{1:"Martin Lawrence"},
-			{2:"Dexter"}
-		],
-		depts:[
-			{0:"Computer Science"},
-			{1:"Law"},
-			{2:"Murder"}
-		], 
-		wage:[
-			{0:"Paid"},
-			{1:"Paid"},
-			{2:"Work Study"}
-		], 
-		posStatus:[
-			{0:"Open"},
-			{1:"Filled"},
-			{2:"Open"}
-		]};
+	// var list2 = {titles:[
+	// 		{0:"Biometrics Analyst"},
+	// 		{1:"Secretary"},
+	// 		{2:"Scape Goat"}
+	// 	], 
+	// 	professors:[
+	// 		{0:"Jennifer Dworak"},
+	// 		{1:"Martin Lawrence"},
+	// 		{2:"Dexter"}
+	// 	],
+	// 	depts:[
+	// 		{0:"Computer Science"},
+	// 		{1:"Law"},
+	// 		{2:"Murder"}
+	// 	], 
+	// 	wage:[
+	// 		{0:"Paid"},
+	// 		{1:"Paid"},
+	// 		{2:"Work Study"}
+	// 	], 
+	// 	posStatus:[
+	// 		{0:"Open"},
+	// 		{1:"Filled"},
+	// 		{2:"Open"}
+	// 	]};
 	
-	console.log(list2);
+	//console.log(list2);
 	/*
 	var heading = document.createElement('div');
 	heading.innerHTML = "<table>"+titleString+"</table>";
