@@ -27,11 +27,11 @@ function userInfo(){
 			var email = data['email'];
 			var fname = data['firstName'];
 			var lname = data['lastName'];
-			var major = data['studentType'];
-			var status = data['userType'];
+			var major = data['department'];
+			var status = data['studentType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
-			var html_string2 = "</td></tr><tr><td>Major: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr id='student'><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr><tr id='staff'><td>Faculty: </td><td style='padding-left: 8em'>"+status;
+			var html_string2 = "</td></tr><tr><td>Department: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr id='student'><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr><tr id='staff'><td></td><td style='padding-left: 8em'>"+status;
 			var html_string3 = "</td></tr></table>";
 			
 			
