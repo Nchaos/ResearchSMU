@@ -1685,7 +1685,12 @@
 			$studentType = 'Neither';
 			$department = 'May God have mercy on your soul';
 		}	
-		
+		// echo $userId;
+		// echo $firstName;
+		// echo $lastName;
+		// echo $emaill
+		// echo $studentType;
+		// echo $department;
 		$password = $res->fetch_assoc();
 		$info = array('userId'=> $userId, 'firstName' => $firstName, 'lastName'=>$lastName,'email'=>$email,
 				'studentType'=>$studentType,'department'=>$department);
