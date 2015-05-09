@@ -294,13 +294,13 @@ function newROP(){
   var desc = document.getElementsByName("description")[0].value;
   //var dateStart = document.getElementsByName("startDate")[0].value;
   //var dateEnd = document.getElementsByName("endDate")[0].value;
-  var numPositions = document.getElementsByName("numOfPos")[0].value;
+  //var numPositions = document.getElementsByName("numOfPos")[0].value;
   var paid = document.getElementsByName("paid")[0].checked;
   var workStudy = document.getElementsByName("workStudy")[0].checked;
   var graduate = document.getElementsByName("graduate")[0].checked;
   var undergrad = document.getElementsByName("undergraduate")[0].checked;
-  var deptId = document.getElementByID("Department")[0].value
-
+  var deptId = document.getElementById("Department").value
+  //console.log(deptId);
 
   //console.log(numPositions);
 
@@ -310,8 +310,8 @@ function newROP(){
     "name": title,
     //"dateStart": dateStart,
     //"dateEnd": dateEnd,
-    "numPositions": numPositions,
-    "description": desc,
+    //"numPositions": numPositions,
+    "desc": desc,
     "paid": paid,
     "workStudy": workStudy,
     "graduate": graduate,
