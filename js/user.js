@@ -27,11 +27,11 @@ function userInfo(){
 			var email = data['email'];
 			var fname = data['firstName'];
 			var lname = data['lastName'];
-			var major = data['studentType'];
-			var status = data['userType'];
+			var major = data['department'];
+			var status = data['studentType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
-			var html_string2 = "</td></tr><tr><td>Major: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr id='student'><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr><tr id='staff'><td>Faculty: </td><td style='padding-left: 8em'>"+status;
+			var html_string2 = "</td></tr><tr><td>Department: </td><td style='padding-left: 8em'>"+major+"</td></tr><tr id='student'><td>Grad or Undergrad: </td><td style='padding-left: 8em'>"+status+"</td></tr><tr id='staff'><td></td><td style='padding-left: 8em'>"+status;
 			var html_string3 = "</td></tr></table>";
 			
 			
@@ -77,9 +77,76 @@ function editInfo() {
     pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'>";
     document.getElementById("newInfo").appendChild(pwd2);
     
-    var dept = document.createElement('div');
-    dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
-    document.getElementById("newInfo").appendChild(dept);
+    // var dept = document.createElement('div');
+    // dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
+    // document.getElementById("newInfo").appendChild(dept);
+
+
+    var deptArray = ["Accounting",
+    				 "Advertising",
+    				 "Anthropology", 
+    				 "Applied Physiology", 
+    				 "Art",
+    				 "Art History",
+    				 "Art Management",
+    				 "Biological Sciences",
+    				 "Business",
+    				 "Chemistry", 
+    				 "Civil & Environmental Engineering",
+    				 "Communication Studies",
+    				 "Computer Sciences & Engineering",
+    				 "Counseling",
+    				 "Creative Computing",
+    				 "Dance",
+    				 "Dispute Resolution",
+    				 "Earth Sciences",
+    				 "Economics",
+    				 "Electrical Engineering",
+    				 "English",
+    				 "Film and Media Arts",
+    				 "Finance",
+    				 "Higher Education",
+    				 "History",
+    				 "Journalism",
+    				 "Management",
+    				 "Management Science",
+    				 "Marketing",
+    				 "Mathematics",
+    				 "Mechanical",
+    				 "Music",
+    				 "Philosophy",
+    				 "Physics",
+    				 "Political Science",
+    				 "Psychology",
+    				 "Real Estate",
+    				 "Religious Studies",
+    				 "Risk Management and Insurance",
+    				 "Sports Management",
+    				 "Sociology",
+    				 "Statisical Sciences",
+    				 "Teacher Education",
+    				 "Theatre",
+    				 "Wellness",
+    				 "World Language"
+    ];
+
+
+    var dept =document.createElement('select');
+    dept.id ='deptment';
+    document.getElementById('newInfo').appendChild(dept);
+
+
+
+    for (var i = 0; i < deptArray.length; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = deptArray[i];
+    dept.appendChild(option);
+}
+
+ //    dept.innerHTML = "Department: <br><select name='major>'
+	// 				
+	// document.getElementById("newInfo").appendChild(dept);
 
     var resume = document.createElement('div');
     resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
