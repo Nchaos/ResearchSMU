@@ -1647,17 +1647,13 @@
 	{
 		global $mysqli, $debug;
 		session_start();
-		/*$userId = $_SESSION['userId'];
+		$userId = $_SESSION['userId'];
 		$firstName = $_SESSION['firstName'];
 		$lastName = $_SESSION['lastName'];
 		$email = $_SESSION['email'];
 		$userType = $_SESSION['userType'];
 		$query = "SELECT password FROM Password WHERE user_ID = '$userId'";
 		$res = $mysqli->query($query);
-		
-		$password = $res->fetch_assoc();
-		$info = array('userId'=> '$userId', 'firstName' => '$firstName', 'lastName'=>'$lastName','email'=>'$email','userType'=>'$userType','password'=>'$password');
-		echo json_encode($info);*/
 		
 		$userId = $_SESSION['userId'];
 		$check = $_SESSION['userType'];
@@ -1676,37 +1672,42 @@
 			$result1 = 'Neither';
 		}	
 		
-		$sql = "SELECT * FROM Users WHERE user_ID=?";
-		$stmt = $mysqli->prepare($sql);
-		$stmt->bind_param('i', $userId);
-		$stmt->execute();
-		$result = $stmt->get_result();
+		$password = $res->fetch_assoc();
+		$info = array('userId'=> $userId, 'firstName' => $firstName, 'lastName'=>$lastName,'email'=>$email,'userType'=>$userType, 'studentType'=>$result1);
+		echo json_encode($info);
+		return  json_encode($info);
+
+		// $sql = "SELECT * FROM Users WHERE user_ID=?";
+		// $stmt = $mysqli->prepare($sql);
+		// $stmt->bind_param('i', $userId);
+		// $stmt->execute();
+		// $result = $stmt->get_result();
 
 
 		
-		if($row == $result->fetch_array()) {
-			if($row['active'] == true){
-				$json_array = array(
-					'firstName' => $row['fName'],
-					'lastName' => $row['lName'],
-					'email' => $row['email'],
-					'userType' => $row['userType'],
-					'studentType' => $result1
-				);
+		// if($row == $result->fetch_array()) {
+		// 	if($row['active'] == true){
+		// 		$json_array = array(
+		// 			'firstName' => $row['fName'],
+		// 			'lastName' => $row['lName'],
+		// 			'email' => $row['email'],
+		// 			'userType' => $row['userType'],
+		// 			'studentType' => $result1
+		// 		);
 				
-				echo json_encode($json_array);
-			} else {
-				die(json_encode(array(
-					'success' => false,
-					'ERROR' => 'User is inactive'
-				)));
-			}
-		} else {
-			die(json_encode(array(
-				'success' => false,
-				'ERROR' => 'Could not fetch user info'
-			)));
-		}
+		// 		echo json_encode($json_array);
+		// 	} else {
+		// 		die(json_encode(array(
+		// 			'success' => false,
+		// 			'ERROR' => 'User is inactive'
+		// 		)));
+		// 	}
+		// } else {
+		// 	die(json_encode(array(
+		// 		'success' => false,
+		// 		'ERROR' => 'Could not fetch user info'
+		// 	)));
+		// }
 	});
 
 	
