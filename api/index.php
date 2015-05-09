@@ -882,6 +882,7 @@
 		}
 		else
 		{
+			/*
 			$sqlName = "SELECT name FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
 			$stmtName = $mysqli -> query($sqlName);
 			$sqlProfFName = "SELECT fname FROM Users WHERE user_ID = '$userId'";
@@ -897,8 +898,9 @@
 			$sqlCount = "SELECT COUNT(researchOp_ID) FROM Applicants WHERE user_id = '$userId'";
 			$stmtCount = $mysqli -> query($sqlCount);
 			$stmtProfName = $stmtProfFName . $stmtProfLName;
+			*/
 			
-			$return = array('titles' => array(0 => $stmtName), 'professors' => array(1 => $stmtProfName), 'depts' => $stmtDepts, 'wages' => $stmtWage, 'posStatus' => $stmtStatus, 'count' => $stmtCount);
+			$return = array('titles' => array(0 => 'Biometrics Analyst'), 'professors' => array(0 => 'Jennifer Dworak'), 'depts' => 'Computer Science', 'wages' => 'Paid', 'posStatus' => 'Open', 'count' => '1');
 			
 
 			echo json_encode($return);
