@@ -410,11 +410,12 @@
 				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
 					name, description, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-					VALUES ('$userId', '$instId', '$deptId', '$todayDate', '$name', '$desc',
-					 '$paid', '$workStudy', '$undergraduate', '$graduate')");
-				// $stmt1 = $mysqli -> prepare($sql1);
-				// $stmt1 -> execute();
-				// $stmt1 -> close();
+<<<<<<< HEAD
+					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc','$dateStart', '$dateEnd', 
+					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
+				$stmt1 = $mysqli -> prepare($sql1);
+				$stmt1 -> execute();
+				$stmt1 -> close();
 				die(json_encode(array('Status' => 'Success')));
 			//}
 		}
@@ -716,7 +717,8 @@
 	$app->post('/changeinfo', function(){
 		global $mysqli;
 		session_start();
-		$userid = $_SESSION['userId'];
+				
+		/*$userid = $_SESSION['userId'];
 		//change pwd, dept, major, institution
 		if(isset($_POST['department']))
 		{
@@ -747,7 +749,49 @@
 			$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userid'";
 			$stmt = $mysqli -> query($sql);
 
+		}*/
+		
+				
+		//$array = $_POST;
+		//array_pop($array);
+		
+		/*foreach($_POST as $key => $value){
+			echo "$key => $value<br>";
+		}*/
+		
+		$select = "UPDATE Users SET ";
+		$values = " VALUES ( ";
+		
+		if($_POST['fName'] != ''){
+			$select .= 'fName="' . $_POST['fName'] . '", ';
+			$_SESSION['firstName'] = $_POST['fName'];
 		}
+		if($_POST['lName'] != ''){
+			$select .= 'lName="' . $_POST['lName'] . '", ';
+			$_SESSION['lastName'] = $_POST['lName'];
+
+		}
+		
+		$sql = substr($select, 0, -2) . ' WHERE user_ID=' . $_SESSION['userId'];
+		
+		echo $sql;
+
+		if($update = $mysqli->query($sql)){
+			echo "worked";
+		} else {
+			die(json_encode(array(
+				'success' => false,
+				'ERROR' => $mysqli->error
+			)));
+		}
+		
+		
+		
+		/*foreach($_SESSION as $key => $value){
+			echo "<br>$key => $value";
+		}*/
+		
+		
 	});
 	
 	
