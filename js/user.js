@@ -27,7 +27,7 @@ function userInfo(){
 			var email = data['email'];
 			var fname = data['firstName'];
 			var lname = data['lastName'];
-			var major = "CSE"; //value[''];
+			var major = data['studentType'];
 			var status = data['userType'];
 	
 			var html_string1 = "<table><tr><td>Email: </td><td style='padding-left: 8em'>"+email+"</td></tr><tr><td>First Name: </td><td style='padding-left: 8em'>"+fname+"</td></tr><tr><td>Last Name: </td><td style='padding-left: 8em'>"+lname;
@@ -37,10 +37,13 @@ function userInfo(){
 			
 			document.getElementById("info").innerHTML = html_string1 + html_string2 + html_string3;
 			
-			if(status == "Student")
+			if(status == "Student"){
 					$("#staff").css("display", 'none');
-			if(status == "Faculty")
+			}
+			if(status == "Faculty"){
 					$("#student").css("display", 'none');
+					$("#resume").css("display", 'none');
+			}
 				
 		},
 		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
@@ -61,6 +64,10 @@ function editInfo() {
     var lname = document.createElement('div');
     lname.innerHTML = "Last Name: <br><input type='text' id='last' name='lname'>";
     document.getElementById("newInfo").appendChild(lname);
+
+    var oldpwd = document.createElement('div');
+    oldpwd.innerHTML = "Old Password: <br><input type='password' id='oldpwd' name='password'>";
+    document.getElementById("newInfo").appendChild(oldpwd);    
     
     var pwd1 = document.createElement('div');
     pwd1.innerHTML = "Password: <br><input type='password' id='pwd' name='password'>";
@@ -73,8 +80,12 @@ function editInfo() {
     var dept = document.createElement('div');
     dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
     document.getElementById("newInfo").appendChild(dept);
+
+    var resume = document.createElement('div');
+    resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
+    document.getElementById("newInfo").appendChild(resume);
     
-	var cancelButton = document.getElementById('submission'),clicked = false;
+	var cancelButton = document.getElementById('submission').clicked = false;
 	cancelButton.addEventListener('click', function() { 
 		clicked = !clicked; 
 		if(clicked){
