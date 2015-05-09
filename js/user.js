@@ -332,7 +332,7 @@ function changelName(){
 	console.log(json_lName);
 	$.ajax({
 		type: "POST",
-		url: "api/index.php/updateLastName",		
+		url: "api/index.php/changeLname",		
 		datatype:"json",
 		data: json_lName,
 		success: function() {

@@ -485,7 +485,7 @@
 		 
 	});
 	
-	
+
 	//==============================================================//
 	//                   add resume     	                        //
 	//==============================================================//
@@ -676,9 +676,11 @@
 		if($check == 'Student') {
 			$sql1 = "SELECT (CASE WHEN Student.graduateStudent = 1 THEN 'Graduate' ELSE 'Undergraduate' END) as paidval
 					FROM Student WHERE user_ID='$userId'";
-			$stmt1 = $mysqli->prepare($sql1);
-			$stmt1->execute();
-			$studentType = $stmt1->get_result();
+			$stmt = $mysqli->prepare($sql1);
+			$stmt->execute();
+			$stmt->bind_result($studentType);
+			$stmt->fetch();
+			$stmt->close();
 	
 			$sql = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Student WHERE user_ID = '$userId')";
 			$stmt = $mysqli->prepare($sql);
@@ -692,6 +694,7 @@
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
 			$department = 'Computer Science and Engineering';
+
 			
 			$sql = "SELECT name FROM Department WHERE dept_ID = (SELECT dept_ID FROM Faculty WHERE user_ID = '$userId')";
 			$stmt = $mysqli->prepare($sql);
@@ -701,7 +704,6 @@
 			$stmt->close();
 		
 			$department = $active;
-			
 		}else
 		{
 			$studentType = 'Neither';
