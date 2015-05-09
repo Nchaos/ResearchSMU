@@ -369,8 +369,8 @@
 		//if ($debug) echo "Creating research opportunity...\n";
 		global $mysqli;
 		$userId = $_SESSION['userId'];
-		$instId = $_SESSION['instId'];
-		$deptId = $_SESSION['deptId'];
+		//$instId = $_SESSION['instId'];
+		$deptId = $_POST['deptId'];
 		//$check = $_POST['check'];
 		$name = $_POST['name'];
 		$description = $_POST['desc'];
@@ -382,6 +382,14 @@
 		$graduate = $_POST['graduate'];
 		$undergraduate = $_POST['undergraduate'];
 		$todayDate = date("Y-m-d");
+		
+		//get instId
+		$sql5 = "SELECT inst_ID from Department WHERE dept_ID = '$deptId'"
+		$stmt = $mysqli->prepare($sql5);
+		$stmt->execute();
+		$stmt->bind_result($instId);
+		$stmt->fetch();
+		$stmt->close();
 		
 		if($name === "" || $dateStart === "" || $dateEnd === "" || $numPositions === "")
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
@@ -427,9 +435,7 @@
 		}	 
 	});
 	
-	//==============================================================//
-	//                   AutoComplete		                        //
-	//==============================================================//
+	
 	//==============================================================//
 	//                      Autocomplete  		                    //
 	//==============================================================//
@@ -1544,35 +1550,6 @@
 		// Finally, destroy the session.
 		session_destroy();
 	});
-	
-	
-	
-	//==============================================================//
-	//                		   New Password	   	                    //
-	//==============================================================//	
-	$app->post('/newpassword', function(){
-		global $mysqli;
-		session_start();
-		//change pwd, dept, major, institution
-		//check if logged in
-		if(isset($_SESSION['userId']))
-		{		
-			$userId = $_SESSION['userId'];
-			$ptemp = $_POST['password'];
-			$hashedPassword = password_hash($ptemp, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
-			
-			$sql = 'UPDATE Password SET password = (?) WHERE user_ID = (?)';
-			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('ss', $hashedPassword, $userId);
-			$stmt -> execute();
-			$stmt -> close();
-		}
-		else
-		{
-			echo "YOU CANNOT CHANGE YOUR PASSWORD";
-		}
-	});	
-	
 	
 	
 	//==============================================================//
