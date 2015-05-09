@@ -367,16 +367,17 @@
 	//==============================================================//
 	$app->post('/createResearchOpportunity', function(){
 		//if ($debug) echo "Creating research opportunity...\n";
+		session_start();
 		global $mysqli;
 		$userId = $_SESSION['userId'];
 		//$instId = $_SESSION['instId'];
 		$deptId = $_POST['deptId'];
 		//$check = $_POST['check'];
 		$name = $_POST['name'];
-		$description = $_POST['desc'];
+		$desc = $_POST['desc'];
 		//$dateStart = $_POST['dateStart'];
 		//$dateEnd = $_POST['dateEnd'];
-		$numPositions = $_POST['numPositions'];
+		//$numPositions = $_POST['numPositions'];
 		$paid = $_POST['paid'];
 		$workStudy = $_POST['workStudy'];
 		$graduate = $_POST['graduate'];
@@ -390,28 +391,32 @@
 		$stmt->bind_result($instId);
 		$stmt->fetch();
 		$stmt->close();
+		//echo $deptId;
+		//echo $instId;
+
 		
-		if($name === "" ||/* $dateStart === "" || $dateEnd === "" ||*/ $numPositions === "")
+		if($name === "" /*||/* $dateStart === "" || $dateEnd === "" || $numPositions === ""*/)
 			die(json_encode(array('ERROR' => 'Received blank parameters from creation page')));
 		else{
-			if ($debug) echo "Checking for duplicate entry...\n";
-			$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name' AND num_Positions='$numPositions'");
-			$checkResults = $dupCheck->fetch_assoc();
+			//if ($debug) echo "Checking for duplicate entry...\n";
+			//$dupCheck = $mysqli->query("SELECT TOP 1 researchOp_ID FROM ResearchOp WHERE user_ID='$userId' AND name='$name'");
+			//$checkResults = $dupCheck->fetch_assoc();
 			
-			if(!($checkResults === NULL))
-				die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
-			else{
-				if ($debug) echo "Creating unique entry\n";
-				/*$insertROP = $mysqli->query(*/$sql1="INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
-					name, description, numPositions, paid, workStudy, acceptsUndergrad, 
+			// if(!($checkResults === NULL))
+			// 	die(json_encode(array('ERROR' => 'Research Opportunity already exists')));
+			// else{
+				//if ($debug) echo "Creating unique entry\n";
+				//echo "hello";
+				$insertROP = $mysqli->query("INSERT INTO ResearchOp (user_ID, inst_ID, dept_ID, dateCreated, 
+					name, description, paid, workStudy, acceptsUndergrad, 
 					acceptsGrad) 
-					VALUES ('$userId', '$instId', '$deptId', '$dateCreated', '$name', '$desc', 
-					'$numPositions', '$paid', '$workStudy', '$undergraduate', '$graduate')";
-				$stmt1 = $mysqli -> prepare($sql1);
-				$stmt1 -> execute();
-				$stmt1 -> close();
+					VALUES ('$userId', '$instId', '$deptId', '$todayDate', '$name', '$desc',
+					 '$paid', '$workStudy', '$undergraduate', '$graduate')");
+				// $stmt1 = $mysqli -> prepare($sql1);
+				// $stmt1 -> execute();
+				// $stmt1 -> close();
 				die(json_encode(array('Status' => 'Success')));
-			}
+			//}
 		}
 	});
 	
