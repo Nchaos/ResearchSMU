@@ -861,6 +861,30 @@
 		$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
 		$stmt = $mysqli -> query($sql);
 	});
+	
+	//==============================================================//
+	//                	applied find		  	                    //
+	//==============================================================//	
+	$app->post('/changeLname', function(){
+		global $mysqli;
+		session_start();
+		
+		$userId = $_SESSION['userId'];
+		$userType = $_SESSION['userType'];
+		
+		if($userType == 'Faculty')
+		{
+			$sql = "SELECT * FROM ResearchOp WHERE user_ID = '$userId'";
+		}
+		else
+		{
+			$sql = "SELECT * FROM ResearchOp WHERE researchOp_ID = (SELECT researchOp_ID FROM Applicants WHERE user_ID = '$userId')";
+		}
+		
+		$stmt = $mysqli -> query($sql);
+		
+		echo json_encode($stmt);
+	});
 
 	$app->run();
 ?>
