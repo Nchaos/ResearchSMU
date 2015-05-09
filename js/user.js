@@ -2,6 +2,10 @@
 
 $(document).ready(function(){
 	$("#edit").click(editInfo);
+	$("#cancel").click(function(){
+		$("#newInfo").css("display", 'none');
+		userInfo();
+	});
 	$(window).load(userInfo);
 	$("#accountInfo").click(function(){
 		$("#newInfo").css("display", 'none');
@@ -10,8 +14,15 @@ $(document).ready(function(){
 	$("#positions").click(position);
 	
 	$("#menu-toggle").click(function(e) {
-	        e.preventDefault();
-	        $("#wrapper").toggleClass("active");
+	    e.preventDefault();
+	    $("#wrapper").toggleClass("active");
+	});
+	$("#newROP").click(function(){
+		window.location.replace("newROP.html");
+	});
+	$('#newROP').css("display", "none");
+	$("#home").click(function(){
+		window.location.replace("index.html");
 	});
 });
 
@@ -95,6 +106,7 @@ function userInfo(){
 	$("#edit").css("display", 'inline-block');
 	$("#info").css("display", 'inline-block');
 	$("#submission").css("display", 'none');
+	$("#cancel").css("display", 'none');
 	$('#table').empty();
 
 	$.ajax({
@@ -118,10 +130,13 @@ function userInfo(){
 			
 			if(status == "Student"){
 					$("#staff").css("display", 'none');
+					$("#newROP").css("display", 'none');
 			}
 			if(status == "Faculty"){
+					//add create research op button
 					$("#student").css("display", 'none');
 					$("#resume").css("display", 'none');
+					$("#newROP").css("display", 'inline-block');
 			}
 				
 		},
@@ -134,16 +149,20 @@ function editInfo() {
 	$("#info").css("display", 'none');
 	$("#edit").css("display", 'none');
 	$("#submission").css("display", 'inline-block');
+	$("#cancel").css("display", 'inline-block');
 	$("#newInfo").css("display", 'inline-block');
 	$('#table').empty();
 	$('#newInfo').empty();
 	
 	var fname = document.createElement('div');
-    fname.innerHTML = "First Name: <br><input type='text' id='first' name='fname'>";
+    fname.innerHTML = "First Name: <br><input type='text' id='first' name='fname'><button onClick='changefName();'>Change First Name</button>";
     document.getElementById("newInfo").appendChild(fname);
+
+    //var fnameButton = document.createElement('button');
+    //document.getElementById("newInfo").appendChild(fnameButton);
     
     var lname = document.createElement('div');
-    lname.innerHTML = "Last Name: <br><input type='text' id='last' name='lname'>";
+    lname.innerHTML = "Last Name: <br><input type='text' id='last' name='lname'><button onClick='changelName();'>Change Last Name</button>";
     document.getElementById("newInfo").appendChild(lname);
 
     var oldpwd = document.createElement('div');
@@ -155,13 +174,8 @@ function editInfo() {
     document.getElementById("newInfo").appendChild(pwd1);
     
     var pwd2 = document.createElement('div');
-    pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'>";
+    pwd2.innerHTML = "Password Confirmation: <br><input type='password' id='pwdCheck' name='confirm'><button onClick='changePassword();'>Change Password</button><br><br>";
     document.getElementById("newInfo").appendChild(pwd2);
-    
-    // var dept = document.createElement('div');
-    // dept.innerHTML = "Department: <br><input type='text' id='major' name='dept'>";
-    // document.getElementById("newInfo").appendChild(dept);
-
 
     var deptArray = ["Accounting",
     				 "Advertising",
@@ -213,82 +227,129 @@ function editInfo() {
 
 
     var dept =document.createElement('select');
-    dept.id ='deptment';
+    dept.id ='department';
+    dept.label = "Department: ";
     document.getElementById('newInfo').appendChild(dept);
 
-
+    var deptBtn = document.createElement("text");
+    document.getElementById('newInfo').appendChild(deptBtn);
+    deptBtn.innerHTML = "<button onClick='updateDepartment();'>Update Department</button>";
 
     for (var i = 0; i < deptArray.length; i++) {
-    var option = document.createElement("option");
-    option.value = i;
-    option.text = deptArray[i];
-    dept.appendChild(option);
-}
-
- //    dept.innerHTML = "Department: <br><select name='major>'
-	// 				
-	// document.getElementById("newInfo").appendChild(dept);
+    	var option = document.createElement("option");
+    	option.value = i;
+    	option.text = deptArray[i];
+    	dept.appendChild(option);
+	}
 
     var resume = document.createElement('div');
-    resume.innerHTML = "Upload a Resume: <br><input type='file' name='resume'/><br>";
+    resume.innerHTML = "<br>Upload a Resume: <br><input type='file' name='resume'/><br>";
     document.getElementById("newInfo").appendChild(resume);
     
-	var cancelButton = document.getElementById('submission').clicked = false;
-	cancelButton.addEventListener('click', function() { 
-		clicked = !clicked; 
-		if(clicked){
-	    	var fnameValue = document.getElementById("first").value;
-	    	var lnameValue = document.getElementById("last").value;
-	    	var pwd1Value = document.getElementById("pwd").value;
-	    	var pwd2Value = document.getElementById("pwdCheck").value;
-	    	var majorValue = document.getElementById("major").value;
-	    	
-	    	var pwdChecker = $("#submission").click(checkPassword);
+	// $('#submission').on('click', function(){
+	// 	//Change this to work with resume
+
+ //      	    var fnameValue = document.getElementById("first").value;
+	//     	var lnameValue = document.getElementById("last").value;
+	//     	var pwd1Value = document.getElementById("pwd").value;
+	//     	var pwd2Value = document.getElementById("pwdCheck").value;
+	//     	var majorValue = document.getElementById("department").value;
 		    
-		    if(pwdChecker == true){
-		    	var json_string = '{"fname":"'+fnameValue+'","lname":"'+lnameValue+'","password":"'+pwd1Value+'","confirm":"'+pwd2Value+'","major":"'+majorValue+'"}';
-		    	console.log(json_string);
+		    
+	// 	    var json_string = 
+	// 	    {
+	// 	    	"fname": fnameValue,
+	// 	    	"lname": lnameValue,
+	// 	    	"password": pwd1Value,
+	// 	    	"confirm": pwd2Value,
+	// 	    	"major": majorValue
+	// 		};
+	// 	    	console.log(json_string);
 		    	
-		    	$.ajax({
-					type: "POST",
-					url: "api/index.php/changeinfo",		
-					datatype:"json",
-					data: json_string,
-					success: function() {
-					  	window.location.href = "user.html";   
-					}
-				});
-		   }
-    	}
-	});
+	// 	    	$.ajax({
+	// 				type: "POST",
+	// 				url: "api/index.php/changeinfo",		
+	// 				datatype:"json",
+	// 				data: json_string,
+	// 				success: function() {
+	// 				  	window.location.href = "user.html";   
+	// 				}
+	// 			});
+    	
+
+	// })
 }
 
-function checkPassword(event){
-	event.preventDefault();
-	
+function updateDepartment(){
+	alert("department change!");
+}
+
+function changefName(){
+	var fnameValue = document.getElementById("first").value;
+	var json_fName = 
+	{
+		"firstName": fnameValue
+	};
+	console.log(json_fName);
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/updateFirstName",		
+		datatype:"json",
+		data: json_fName,
+		success: function() {
+			alert('You have successfully updated your First Name!');
+			//Uncomment the line before when fully working
+		  	//window.location.href = "user.html";   
+		},
+		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
+		});
+}
+
+function changelName(){
+	var lnameValue = document.getElementById("last").value;
+	var json_lName = 
+	{
+		"lastName": lnameValue
+	};
+	console.log(json_lName);
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/updateLastName",		
+		datatype:"json",
+		data: json_lName,
+		success: function() {
+			alert('You have successfully updated your Last Name!');
+			//Uncomment the line before when fully working
+		  	//window.location.href = "user.html";   
+		},
+		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
+		});
+}
+
+function changePassword(){
 	///////////////////////////////////////////////////////////
 	////////////		Password Validation 		///////////
 	///////////////////////////////////////////////////////////
-    if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("confirm")[0].value) {
-      if(document.getElementsByName("password")[0].value.length < 8) {
+    if(document.getElementById("pwd").value != "" && document.getElementById("pwd").value == document.getElementById("pwdCheck").value) {
+      if(document.getElementById("pwd").value.length < 8) {
         alert("Error: Password must contain at least eight characters!");
         $("pwd").focus();
         return false;
       }
       re = /[0-9]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one number (0-9)!");
         $("pwd").focus();
         return false;
       }
       re = /[a-z]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one lowercase letter (a-z)!");
         $("pwd").focus();
         return false;
       }
       re = /[A-Z]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one uppercase letter (A-Z)!");
         $("pwd").focus();
         return false;
@@ -297,10 +358,33 @@ function checkPassword(event){
       alert("Error: Please check that you've entered and confirmed your password!");
       $("pwd").focus();
       return false;
-    }
-}	
+  	}
 
+  	var oldpwd = document.getElementById("oldpwd").value;
+  	var pwd1Value = document.getElementById("pwd").value;
+	//var pwd2Value = document.getElementById("pwdCheck").value;
 
+	var json_pass = 
+		    {
+		    	"oldpassword": oldpwd,
+		    	"password": pwd1Value
+			};
+
+	console.log(json_pass);
+	$.ajax({
+		type: "POST",
+		url: "api/index.php/updatePassword",		
+		datatype:"json",
+		data: json_pass,
+		success: function() {
+			alert('You have successfully changed your password!');
+			//Uncomment the line before when fully working
+		  	//window.location.href = "user.html";   
+		},
+		error: function(jqXHR, textStatus, errorThrown){alert(errorThrown);}
+		});
+
+}
 
 
 
