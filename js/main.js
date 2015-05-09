@@ -299,6 +299,10 @@ function newROP(form){
   var graduate = document.getElementsByName("graduate")[0].checked;
   var undergrad = document.getElementsByName("undergraduate")[0].checked;
 
+
+  //console.log(numPositions);
+
+
     var dataString = 
   {
     "name": title,
@@ -311,7 +315,8 @@ function newROP(form){
     "graduate": graduate,
     "undergraduate": undergrad
   };
-//console.log(dataString);
+
+console.log(dataString);
 
     // $name = $_POST['name'];
     // $description = $_POST['desc'];

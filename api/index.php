@@ -1673,13 +1673,13 @@
 			$department = $stmt2->get_result();
 		} elseif($check == 'Faculty') {
 			$studentType = 'Faculty';
-			$department = 'Faculty';
-			
-			$sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
-			$stmt = $mysqli->prepare($sql);
-			$stmt->bind_param('i', $userId);
-			$stmt->execute();
-			$department = $stmt->get_result();
+			$department = 'Computer Science and Engineering';
+
+			// $sql = "Select name from Department where dept_ID = (select dept_ID from Faculty where user_ID = (?))";
+			// $stmt = $mysqli->prepare($sql);
+			// $stmt->bind_param('i', $userId);
+			// $stmt->execute();
+			// $department = $stmt->get_result();
 		}else
 		{
 			$studentType = 'Neither';
