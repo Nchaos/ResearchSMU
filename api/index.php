@@ -908,22 +908,22 @@
 			$list = array('titles' => array(
 					0 => "Biometrics Analyst",
 					1 => "Secretary",
-					2 => "Scape Goat"
+					2 => "Help Desk"
 				), 
 				'professors' => array(
 					0 => "Jennifer Dworak",
 					1 => "Martin Lawrence",
-					2 => "Dexter"
+					2 => "Lawrence Martins"
 				),
 				'depts' => array(
 					0 => "Computer Science",
 					1 => "Law",
-					2 => "Murder"
+					2 => "Any"
 				), 
 				'wage' => array(
-					0 => "Paid",
+					0 => "Work Study",
 					1 => "Paid",
-					2 => "Work Study"
+					2 => "Paid"
 				), 
 				'posStatus' => array(
 					0 => "Open",
