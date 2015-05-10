@@ -208,8 +208,9 @@ function() {
 });
 })(jQuery);
 
-
-// Login JS stuff
+/////////////////////////
+////  Login JS CSS    ///
+/////////////////////////
 
 $(document).ready(function() {
   $('a.login-window').click(function() {
@@ -240,6 +241,46 @@ $(document).ready(function() {
   
   $('a.close, #mask').on('click',function() { 
     $('#mask , .login-popup').fadeOut(300 , function() {
+    $('#mask').remove();  
+  }); 
+  return false;
+  });
+
+});  
+
+//////////////////////////
+////  Register JS CSS  ///
+//////////////////////////
+
+$(document).ready(function() {
+  $('a.register-window').click(function() {
+    
+    // Getting the variable's value from a link 
+    var registerUser = $(this).attr('href');
+
+    //Fade in the Popup and add close button
+    $(registerUser).fadeIn(300);
+    
+    //Set the center alignment padding + border
+    var popMargTop = ($(registerUser).height() + 24) / 2; 
+    var popMargLeft = ($(registerUser).width() + 24) / 2; 
+    
+    $(registerUser).css({ 
+      'margin-top' : -popMargTop,
+      'margin-left' : -popMargLeft
+    });
+    
+    // Add the mask to body
+    $('body').append('<div id="mask"></div>');
+    $('#mask').fadeIn(300);
+    
+    return false;
+  });
+  
+  // When clicking on the button close or the mask layer the popup closed
+  
+  $('a.close, #mask').on('click',function() { 
+    $('#mask , .register-popup').fadeOut(300 , function() {
     $('#mask').remove();  
   }); 
   return false;
