@@ -72,7 +72,7 @@ function Login(event){
             alert(error); // just in case somebody to click on share witout writing anything :
 		  }
           if(success == true) {
-				   $('#login-box , .login-popup').fadeOut(300 , function() {
+				   $('#login-box , .form').fadeOut(300 , function() {
 				   $('#login-box').remove();  
                  });// end fadeOut function()
                  

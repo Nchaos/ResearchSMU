@@ -389,7 +389,8 @@ body {
 }
 
 /*Login Button stuff*/
-
+/* Commented out May 10 */
+/*
 .container {width: 10em; margin: 0 auto; overflow: hidden;}
 
 #content {  float: none; width: 100%;}
@@ -397,7 +398,7 @@ body {
 .post { margin: 0 auto; float: none; }
 
 .btn-sign {
-  /*width:460px;*/
+  /*width:460px;
   margin-bottom:20px;
   margin:0 auto;
   padding:20px;
@@ -412,7 +413,7 @@ body {
   text-transform:uppercase;
 }
 
-.btn-sign a { color:#fff; text-shadow:0 1px 2px #161616; }
+.btn-sign a { color:#fff; text-shadow:0 1px 2px #161616; }*/
 
 #mask {
   display: none;
@@ -429,16 +430,12 @@ body {
   padding: 10px;  
   border: 2px solid #ddd;
   float: left;
+  width: 25%;
   font-size: 1.2em;
   position: fixed;
   top: 50%; left: 50%;
   z-index: 99999;
-  box-shadow: 0px 0px 20px #999;
-  -moz-box-shadow: 0px 0px 20px #999; /* Firefox */
-    -webkit-box-shadow: 0px 0px 20px #999; /* Safari, Chrome */
-  border-radius:3px 3px 3px 3px;
-    -moz-border-radius: 3px; /* Firefox */
-    -webkit-border-radius: 3px; /* Safari, Chrome */
+  border-radius: 3px;
 }
 
 #description {
@@ -475,7 +472,9 @@ fieldset {
   border:none; 
 }
 
-form.loginUser .textbox label { 
+/* commented out May 10 */
+
+/*form.loginUser .textbox label { 
   display:block; 
   padding-bottom:7px; 
 }
@@ -506,7 +505,7 @@ form.loginUser .textbox input {
 }
 
 form.loginUser input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
-form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
+form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }*/
 
 .button { 
   background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);
@@ -529,6 +528,7 @@ form.loginUser input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2p
 
 .button:hover { background:#ddd; }
 
+/* DataTables */
 #resultsTable{
   display: none;
 }
@@ -548,5 +548,24 @@ div.slider {
 
 table.dataTable tbody td.no-padding {
     padding: 0;
+}
+
+/* Register User */
+#registerUser {
+  display: none;
+}
+
+.register-popup{
+  display:none;
+  background: #333;
+  padding: 10px;  
+  border: 2px solid #ddd;
+  float: left;
+  width: 25%;
+  font-size: 1.2em;
+  position: fixed;
+  top: 50%; left: 50%;
+  z-index: 99999;
+  border-radius: 3px;
 }
 
