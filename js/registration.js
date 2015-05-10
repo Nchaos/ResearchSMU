@@ -13,61 +13,61 @@ function checkForm(event){
 	console.log(document.getElementsByName("major")[0].value);*/
 
 	
-	if(document.getElementsByName("firstName")[0].value == "") {
+	if(document.getElementById("fName").value == "") {
 		alert("Error: First Name!");
 		$("#fName").focus();
 		return false;
 	}
 	re = /^\w+$/;
-	if(!re.test(document.getElementsByName("firstName")[0].value)) {
+	if(!re.test(document.getElementById("fName").value)) {
 		alert("Error: First Name!");
 		$("#fName").focus();
 		return false;
 	}
-	if(document.getElementsByName("lastName")[0].value == "") {
+	if(document.getElementById("lName").value == "") {
 		alert("Error: Last Name!");
 		$("#lName").focus();
 		return false;
 	}
-	if(!re.test(document.getElementsByName("lastName")[0].value)) {
+	if(!re.test(document.getElementById("lName").value)) {
 		alert("Error: Last Name!");
 		$("#lName").focus();
 		return false;
 	}
-	if(!(validateEmail(document.getElementsByName("Email")[0].value))){
+	if(!(validateEmail(document.getElementById("email").value))){
 		alert("Error: Email not valid");
-		$("#Email").focus();
+		$("#email").focus();
 		return false;
 	}
-	if(!(re.test(validateEmail(document.getElementsByName("Email")[0].value)))){
+	if(!(re.test(validateEmail(document.getElementById("email").value)))){
 		alert("Error: Email not valid");
-		$("#Email").focus();
+		$("#email").focus();
 		return false;
 	}
 
 	///////////////////////////////////////////////////////////
 	////////////		Password Validation 		///////////
 	///////////////////////////////////////////////////////////
-    if(document.getElementsByName("password")[0].value != "" && document.getElementsByName("password")[0].value == document.getElementsByName("password2")[0].value) {
-      if(document.getElementsByName("password")[0].value.length < 8) {
+    if(document.getElementById("pwd").value != "" && document.getElementById("pwd").value == document.getElementById("pwd2").value) {
+      if(document.getElementById("pwd").value.length < 8) {
         alert("Error: Password must contain at least eight characters!");
         $("pwd").focus();
         return false;
       }
       re = /[0-9]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one number (0-9)!");
         $("pwd").focus();
         return false;
       }
       re = /[a-z]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one lowercase letter (a-z)!");
         $("pwd").focus();
         return false;
       }
       re = /[A-Z]/;
-      if(!re.test(document.getElementsByName("password")[0].value)) {
+      if(!re.test(document.getElementById("pwd").value)) {
         alert("Error: password must contain at least one uppercase letter (A-Z)!");
         $("pwd").focus();
         return false;
@@ -225,10 +225,10 @@ function checkForm(event){
 	
 	var dataString = 
 	{
-	  "firstName": document.getElementsByName("firstName")[0].value,
-	  "lastName": document.getElementsByName("lastName")[0].value,
-	  "email": document.getElementsByName("Email")[0].value,
-	  "password": document.getElementsByName("password")[0].value,
+	  "firstName": document.getElementById("fName").value,
+	  "lastName": document.getElementById("lName").value,
+	  "email": document.getElementById("email").value,
+	  "password": document.getElementById("pwd").value,
 	  "check": check,
 	  "deptId": deptId,
 	  "grad": grad,

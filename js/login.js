@@ -9,41 +9,41 @@ function Login(event){
 	////////////////////////////////////////////////////////
 	/////////// 		Check form 			////////////////
 	////////////////////////////////////////////////////////
-	if(document.getElementsByName("email")[0].value == "") {
+	if(document.getElementById("emailLogin").value == "") {
 		alert("Error: Enter your email address! 1");
-		$("#email").focus();
+		$("#emailLogin").focus();
 		return false;
 	}
 
 	re = /^\w+$/;
-	if(re.test(document.getElementsByName("email")[0].value)) {
+	if(re.test(document.getElementById("emailLogin").value)) {
 		alert("Error: Enter your email address! 2");
-		$("#email").focus();
+		$("#emailLogin").focus();
 		return false;
 	}
 
-	if(!validateEmail(document.getElementsByName("email")[0].value)){
+	if(!validateEmail(document.getElementById("emailLogin").value)){
 		alert("Error: Email not valid 1");
-		$("eEmail").focus();
+		$("emailLogin").focus();
 		return false;
 	}
 
-	if(!re.test(validateEmail(document.getElementsByName("email")[0].value))){
+	if(!re.test(validateEmail(document.getElementById("email").value))){
 		alert("Error: Email not valid 2");
-		$("#email").focus();
+		$("#emailLogin").focus();
 		return false;
 	}
 	
-	if(document.getElementsByName("password")[0].value == "") {
+	if(document.getElementById("pwdLogin").value == "") {
 		alert("Error: Enter your password!");
-		$("#password").focus();
+		$("#pwdLogin").focus();
 		return false;
 	}
 
 	re = /^\w+$/;
-	if(!re.test(document.getElementsByName("password")[0].value)) {
+	if(!re.test(document.getElementById("pwdLogin").value)) {
 		alert("Error: Enter your password!");
-		$("#password").focus();
+		$("#pwdLogin").focus();
 		return false;
 	}		
 
@@ -52,8 +52,8 @@ function Login(event){
 	////////////////////////////////////////////////////////
 	var dataString = 
 	{
-	  "email": document.getElementsByName("email")[0].value,
-	  "password": document.getElementsByName("password")[0].value,
+	  "email": document.getElementById("emailLogin").value,
+	  "password": document.getElementById("pwdLogin").value,
 	};
 
 
