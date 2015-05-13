@@ -97,6 +97,12 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function cancelClickLogin(){
+    $('#mask , .login-popup').fadeOut(300 , function() {
+    $('#mask').remove();  
+  }); 
+}
+
 	////////////////////////////////////////////////////////
 	/////////// 		LOGOUT				////////////////
 	////////////////////////////////////////////////////////

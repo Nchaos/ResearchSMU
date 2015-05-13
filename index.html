@@ -131,6 +131,7 @@
             <h1>Email:</h1><input type="email" id="emailLogin" name="Email" placeholder="Email"/><br>
             <h1>Password:</h1><input type="password" id="pwdLogin" name="password" placeholder="Password"/><br>
             <input id="signin" class="button" type="submit" value="Sign In"/> 
+            <input id="Cancel" class="button" type="button" value="Cancel" onclick="return cancelClickLogin()"/>
           </form>
       </div>
     </div>
@@ -140,11 +141,11 @@
     <div class="form">
       <form id="createAccount" action="registration.html" method="POST">
         <h2>Create an Account</h2><br>
-        <h1>First name:</h1><input type="text" id="fName" name="firstName" placeholder="First name" required/><br>
-        <h1>Last name:</h1><input type="text" id="lName" name="lastName" placeholder="Last name" required/><br>
-        <h1>Email:</h1><input type="email" id="email" name="Email" placeholder="Example@example.com" required/><br>
-        <h1>Password:</h1><input type="password" id="pwd" name="password" placeholder="password" required/><br>
-        <h1>Confirm Password:</h1><input type="password" name="password2" id = "pwd2" placeholder="password" required/><br>
+        <h1>First name:</h1><input type="text" id="fName" name="firstName" placeholder="First name"/><br>
+        <h1>Last name:</h1><input type="text" id="lName" name="lastName" placeholder="Last name"/><br>
+        <h1>Email:</h1><input type="email" id="email" name="Email" placeholder="Example@example.com"/><br>
+        <h1>Password:</h1><input type="password" id="pwd" name="password" placeholder="password"/><br>
+        <h1>Confirm Password:</h1><input type="password" name="password2" id = "pwd2" placeholder="password"/><br>
 
         <input type="radio" name="studentOrFaculty" id="grad" value="Grad" required />
           <label for="grad">Grad</label>
@@ -207,7 +208,7 @@
 
         <br>
         <input id="register" class="button" type="submit" value="Register"/> 
-        <input id="Cancel" class="button" type="button" value="Cancel" onclick="return cancelClick()"/>
+        <input id="Cancel" class="button" type="button" value="Cancel" onclick="return cancelClickRegister()"/>
       </form>
     </div>
   </div>
@@ -318,6 +319,7 @@
           </tfoot>
  
         </table>
+        
     <!-- Slider used for sliding annimation-->
     <div class='slider'>
     </div>
