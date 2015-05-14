@@ -273,8 +273,13 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function cancelClick() {
-	window.location.href = "index.html";
+function cancelClickRegister() {
+	//window.location.href = "index.html";
+	// When clicking on the button close or the mask layer the popup closed
+  
+    $('#mask , .register-popup').fadeOut(300 , function() {
+    $('#mask').remove();  
+  }); 
 }
 
 

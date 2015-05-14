@@ -8,180 +8,182 @@
 		die("Connection failed: " . $mysqli->connect_error);
 	//==============================================================//
 	//							Login								//
+	//					Commented out 5/14/2015						//
 	//==============================================================//
-	$app->post('/loginUser', function(){
-		if ($debug) echo "Logging in...\n";
-		session_start();
-		global $mysqli;
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-		try {
-			//Try to find the email in 'Users' table:
-			if ($debug) echo "Looking for email in User's table\n";
-			$sql = "SELECT user_ID FROM Users WHERE email=(?)";
-			$stmt = $mysqli -> prepare($sql);
-			$userId = '';
-			$stmt -> bind_param('s', $email);
-			$stmt -> execute();
-			$stmt -> bind_result($userId);
-			$username_test = $stmt -> fetch();
+	// $app->post('/loginUser', function(){
+	// 	if ($debug) echo "Logging in...\n";
+	// 	session_start();
+	// 	global $mysqli;
+	// 	$email = $_POST['email'];
+	// 	$password = $_POST['password'];
+	// 	try {
+	// 		//Try to find the email in 'Users' table:
+	// 		if ($debug) echo "Looking for email in User's table\n";
+	// 		$sql = "SELECT user_ID FROM Users WHERE email=(?)";
+	// 		$stmt = $mysqli -> prepare($sql);
+	// 		$userId = '';
+	// 		$stmt -> bind_param('s', $email);
+	// 		$stmt -> execute();
+	// 		$stmt -> bind_result($userId);
+	// 		$username_test = $stmt -> fetch();
 			
-			//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-			if(($username_test === NULL)) {
-				//email was not found in the 'Users' table
-				die(json_encode(array('ERROR' => 'Could not find user')));
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			else{
-				if ($debug) echo "Found user, checking if active...\n";
-				//email was successfully found in the 'Users' table
-				$stmt->close();
+	// 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 		if(($username_test === NULL)) {
+	// 			//email was not found in the 'Users' table
+	// 			die(json_encode(array('ERROR' => 'Could not find user')));
+	// 		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 		else{
+	// 			if ($debug) echo "Found user, checking if active...\n";
+	// 			//email was successfully found in the 'Users' table
+	// 			$stmt->close();
 				
-				//Fetch the status of activation for a user:
-				$sql = "SELECT active FROM Users WHERE user_ID='$userId'";
-				$stmt1 = $mysqli->prepare($sql);
-				$stmt1->execute();
-				$active = '';
-				$stmt1->bind_result($active);
-				$stmt1-fetch();
-				$stmt1->close();
-				//Check if user's account is deactivated:
-				if($active){	
-					if ($debug) echo "User is not deactivated, validating password...\n";
-					//Fetch the associated password hash for that user from the 'Password' table
-					$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
-					$stmt1 = $mysqli->prepare($sql);
-					$stmt1->execute();
-					$passwordVal = '';
-					$stmt1->bind_result($passwordVal);
-					$stmt1->fetch();
-					$stmt1->close();			
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					if($passwordVal === NULL) {																						
-						die(json_encode(array('ERROR' => 'User could not be validated')));											
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-					/*=================\\
-					||	Get User Data  ||
-					\\=================*/
-					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-					else if(password_verify($password,$passwordVal)){
-						if ($debug) echo "Password correct, fetching info...\n";
-						$components = "SELECT * FROM Users WHERE user_ID='$userId'";
-						$returnValue = $mysqli -> query($components);
-						$iteration = $returnValue -> fetch_assoc();
+	// 			//Fetch the status of activation for a user:
+	// 			$sql = "SELECT active FROM Users WHERE user_ID='$userId'";
+	// 			$stmt1 = $mysqli->prepare($sql);
+	// 			$stmt1->execute();
+	// 			$active = '';
+	// 			$stmt1->bind_result($active);
+	// 			$stmt1-fetch();
+	// 			$stmt1->close();
+	// 			//Check if user's account is deactivated:
+	// 			if($active){	
+	// 				if ($debug) echo "User is not deactivated, validating password...\n";
+	// 				//Fetch the associated password hash for that user from the 'Password' table
+	// 				$sql = "SELECT password FROM Password WHERE user_ID='$userId'";
+	// 				$stmt1 = $mysqli->prepare($sql);
+	// 				$stmt1->execute();
+	// 				$passwordVal = '';
+	// 				$stmt1->bind_result($passwordVal);
+	// 				$stmt1->fetch();
+	// 				$stmt1->close();			
+	// 				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 				if($passwordVal === NULL) {																						
+	// 					die(json_encode(array('ERROR' => 'User could not be validated')));											
+	// 				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 				/*=================\\
+	// 				||	Get User Data  ||
+	// 				\\=================*/
+	// 				//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 				else if(password_verify($password,$passwordVal)){
+	// 					if ($debug) echo "Password correct, fetching info...\n";
+	// 					$components = "SELECT * FROM Users WHERE user_ID='$userId'";
+	// 					$returnValue = $mysqli -> query($components);
+	// 					$iteration = $returnValue -> fetch_assoc();
 						
-						$_SESSION['userId'] = $userId;
-						$_SESSION['firstName'] = $iteration['fName'];
-						$_SESSION['lastName'] = $iteration['lName'];
-						$_SESSION['email'] = $iteration['email'];
+	// 					$_SESSION['userId'] = $userId;
+	// 					$_SESSION['firstName'] = $iteration['fName'];
+	// 					$_SESSION['lastName'] = $iteration['lName'];
+	// 					$_SESSION['email'] = $iteration['email'];
 						
-						$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
-						$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
-						$resultStudent = $checkStudent->fetch_assoc();
-						$resultFaculty = $checkFaculty->fetch_assoc();
+	// 					$checkStudent = $mysqli->query("SELECT TOP 1 user_ID FROM Student WHERE user_ID='$userId'");
+	// 					$checkFaculty = $mysqli->query("SELECT TOP 1 user_ID FROM Faculty WHERE user_ID='$userId'");
+	// 					$resultStudent = $checkStudent->fetch_assoc();
+	// 					$resultFaculty = $checkFaculty->fetch_assoc();
 						
-						/*====================\\
-						||	Get Student Data  ||
-						\\====================*/
-						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-						if($resultStudent !== NULL && $resultFaculty === NULL){
-							if ($debug) echo "User is student\n";
-							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-							$returnValue = $mysqli->query($components);
-							$iteration = $returnValue->fetch_assoc();
+	// 					/*====================\\
+	// 					||	Get Student Data  ||
+	// 					\\====================*/
+	// 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 					if($resultStudent !== NULL && $resultFaculty === NULL){
+	// 						if ($debug) echo "User is student\n";
+	// 						$components = "SELECT * FROM Student WHERE user_ID='$userId'";
+	// 						$returnValue = $mysqli->query($components);
+	// 						$iteration = $returnValue->fetch_assoc();
 							
-							$_SESSION['instId'] = $iteration['inst_ID'];
-							$_SESSION['deptId'] = $iteration['dept_ID'];
-							$_SESSION['grad'] = $iteration['graduateStudent'];
-							$_SESSION['check'] = 'Student';
-						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-						/*====================\\
-						||	Get Faculty Data  ||
-						\\====================*/
-						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-						elseif($resultStudent === NULL && $resultFaculty !== NULL){
-							if ($debug) echo "User is faculty\n";
-							$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
-							$returnValue = $mysqli->query($components);
-							$iteration = $returnValue->fetch_assoc();
+	// 						$_SESSION['instId'] = $iteration['inst_ID'];
+	// 						$_SESSION['deptId'] = $iteration['dept_ID'];
+	// 						$_SESSION['grad'] = $iteration['graduateStudent'];
+	// 						$_SESSION['check'] = 'Student';
+	// 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 					/*====================\\
+	// 					||	Get Faculty Data  ||
+	// 					\\====================*/
+	// 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 					elseif($resultStudent === NULL && $resultFaculty !== NULL){
+	// 						if ($debug) echo "User is faculty\n";
+	// 						$components = "SELECT * FROM Faculty WHERE user_ID='$userId'";
+	// 						$returnValue = $mysqli->query($components);
+	// 						$iteration = $returnValue->fetch_assoc();
 							
-							$_SESSION['instId'] = $iteration['inst_ID'];
-							$_SESSION['deptId'] = $iteration['dept_ID'];
-							$_SESSION['check'] = 'Faculty';
-						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-						/*===============================================\\
-						||	If the user isn't in either the Student or	 ||
-						||	  Faculty table, then check the Admin table  ||
-						\\===============================================*/
-						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-						elseif($resultStudent === NULL && $resultFaculty === NULL){
-							if ($debug) echo "User is not in student or faculty\n";
-							$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
-							$result = $checkAdmin->fetch_assoc();
+	// 						$_SESSION['instId'] = $iteration['inst_ID'];
+	// 						$_SESSION['deptId'] = $iteration['dept_ID'];
+	// 						$_SESSION['check'] = 'Faculty';
+	// 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 					/*===============================================\\
+	// 					||	If the user isn't in either the Student or	 ||
+	// 					||	  Faculty table, then check the Admin table  ||
+	// 					\\===============================================*/
+	// 					//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 					elseif($resultStudent === NULL && $resultFaculty === NULL){
+	// 						if ($debug) echo "User is not in student or faculty\n";
+	// 						$checkAdmin = $mysqli->query("SELECT TOP 1 user_ID FROM Admin WHERE user_ID='$userId'");
+	// 						$result = $checkAdmin->fetch_assoc();
 							
-							/*==================\\
-							||	Get Admin Data  ||
-							\\==================*/
-							//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-							if($checkAdmin !== NULL){
-								if ($debug) echo "User is an admin\n";
-								$components = "SELECT * FROM Student WHERE user_ID='$userId'";
-								$returnValue = $mysqli->query($components);
-								$iteration = $returnValue->fetch_assoc();
+	// 						/*==================\\
+	// 						||	Get Admin Data  ||
+	// 						\\==================*/
+	// 						//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 						if($checkAdmin !== NULL){
+	// 							if ($debug) echo "User is an admin\n";
+	// 							$components = "SELECT * FROM Student WHERE user_ID='$userId'";
+	// 							$returnValue = $mysqli->query($components);
+	// 							$iteration = $returnValue->fetch_assoc();
 							
-								$_SESSION['check'] = 'Admin';
-							}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-							else
-								die(json_encode(array('ERROR' => 'User could not be found outside of Users table')));
-						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-						else
-							die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
-					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-					/*====================\\
-					||	Invalid Password  ||
-					\\====================*/
-					else
-						die(json_encode(array('ERROR' => 'Password invalid')));
-				}
-			}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 							$_SESSION['check'] = 'Admin';
+	// 						}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 						else
+	// 							die(json_encode(array('ERROR' => 'User could not be found outside of Users table')));
+	// 					}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 					else
+	// 						die(json_encode(array('ERROR' => 'User is somehow in both Student and Faculty tables')));
+	// 				}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 				/*====================\\
+	// 				||	Invalid Password  ||
+	// 				\\====================*/
+	// 				else
+	// 					die(json_encode(array('ERROR' => 'Password invalid')));
+	// 			}
+	// 		}//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			
-			if ($debug) echo "Incrementing log count\n";
-			$logCount = $mysqli->query("UPDATE Users SET loginCount=
-				(SELECT loginCount FROM Users WHERE user_ID='$userId')+1 
-				WHERE user_ID='$userId'");
+	// 		if ($debug) echo "Incrementing log count\n";
+	// 		$logCount = $mysqli->query("UPDATE Users SET loginCount=
+	// 			(SELECT loginCount FROM Users WHERE user_ID='$userId')+1 
+	// 			WHERE user_ID='$userId'");
 			
-			if ($debug){
-				if($logCount)
-					echo "Successfully updated login count!";
-				else
-					echo "ERROR: could not update login count";
-			}
+	// 		if ($debug){
+	// 			if($logCount)
+	// 				echo "Successfully updated login count!";
+	// 			else
+	// 				echo "ERROR: could not update login count";
+	// 		}
 			
-			$mysqli = null;
-		}catch(exception $e){
-			//echo '{"error":{"text":'. $e->getMessage() .'}}';
-			die(json_encode(array('ERROR' => $e->getMessage())));
-		}
+	// 		$mysqli = null;
+	// 	}catch(exception $e){
+	// 		//echo '{"error":{"text":'. $e->getMessage() .'}}';
+	// 		die(json_encode(array('ERROR' => $e->getMessage())));
+	// 	}
 		
-		echo json_encode(array('SUCCESS' => 'User logged in.'));
-	});
+	// 	echo json_encode(array('SUCCESS' => 'User logged in.'));
+	// });
 	
 	
 	
 	//==============================================================//
 	//							Logout								//
+	//					Commented out 5/14/15						//
 	//==============================================================//
-	$app->post('/logout', function() {
-		session_start();
-		$_SESSION = array();
-		if (ini_get("session.use_cookies")) {
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000,
-			$params["path"], $params["domain"],
-			$params["secure"], $params["httponly"]
-			);
-		}
-		session_destroy();
-	});
+	// $app->post('/logout', function() {
+	// 	session_start();
+	// 	$_SESSION = array();
+	// 	if (ini_get("session.use_cookies")) {
+	// 		$params = session_get_cookie_params();
+	// 		setcookie(session_name(), '', time() - 42000,
+	// 		$params["path"], $params["domain"],
+	// 		$params["secure"], $params["httponly"]
+	// 		);
+	// 	}
+	// 	session_destroy();
+	// });
 	
 	
 	
@@ -334,31 +336,32 @@
 	
 	//==============================================================//
 	//                      Position Link                           //
+	//					Commented out 5/14/15						//
 	//==============================================================//	
-	function positionLink(){//$dept_ID, $inst_ID
-		$buttonName = $_GET['buttonClick'];
-		$conn = new mysqli("localhost", "root", "toor", "DBGUI");
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		}
-		$sql = "SELECT dept_ID FROM Department WHERE name = $buttonName";
-		if($conn->query($sql) === TRUE) {
-			$dept_ID = $conn->query($sql);
-		} else {
-			echo "Error creating database: " . $conn->error;
-		} 
-		$s = "SELECT name, dateCreated, dateFinished, num_Positions 
-				FROM researchOP
-				WHERE dept_ID = $dept_ID";
-		if($conn->query($s) === TRUE) {
-			$result = $conn->query($s);
-		} else {
-			echo "Error creating database: " . $conn->error;
-		}
-		$conn->close();
+	// function positionLink(){//$dept_ID, $inst_ID
+	// 	$buttonName = $_GET['buttonClick'];
+	// 	$conn = new mysqli("localhost", "root", "toor", "DBGUI");
+	// 	if ($conn->connect_error) {
+	// 		die("Connection failed: " . $conn->connect_error);
+	// 	}
+	// 	$sql = "SELECT dept_ID FROM Department WHERE name = $buttonName";
+	// 	if($conn->query($sql) === TRUE) {
+	// 		$dept_ID = $conn->query($sql);
+	// 	} else {
+	// 		echo "Error creating database: " . $conn->error;
+	// 	} 
+	// 	$s = "SELECT name, dateCreated, dateFinished, num_Positions 
+	// 			FROM researchOP
+	// 			WHERE dept_ID = $dept_ID";
+	// 	if($conn->query($s) === TRUE) {
+	// 		$result = $conn->query($s);
+	// 	} else {
+	// 		echo "Error creating database: " . $conn->error;
+	// 	}
+	// 	$conn->close();
 		
-		echo json_encode($result);
-	}
+	// 	echo json_encode($result);
+	// }
 	
 	
 	
@@ -422,72 +425,76 @@
 	
 	//==============================================================//
 	//                      Search			                        //
+	//					Commented out 5/14/15						//
 	//==============================================================//
-	$app->post('/search', function(){
-		session_start();
-		global $mysqli;
-		$search = $_POST['search'];
+	// $app->post('/search', function(){
+	// 	session_start();
+	// 	global $mysqli;
+	// 	$search = $_POST['search'];
 
-		try {
-			$sql = "SELECT * FROM ResearchOp WHERE dept_ID like ?";
-			$stmt = $mysqli -> prepare($sql);
-			$stmt -> bind_param('s', $search);
-			$stmt -> execute();
-			$search_test = $stmt -> fetch();
-			$count = 0;
+	// 	try {
+	// 		$sql = "SELECT * FROM ResearchOp WHERE dept_ID like ?";
+	// 		$stmt = $mysqli -> prepare($sql);
+	// 		$stmt -> bind_param('s', $search);
+	// 		$stmt -> execute();
+	// 		$search_test = $stmt -> fetch();
+	// 		$count = 0;
 			
-			echo sqltojsonarray($array);
-			$stmt -> close();
-		}catch(exception $e){
-			echo "Search failed";
-		}	 
-	});
+	// 		echo sqltojsonarray($array);
+	// 		$stmt -> close();
+	// 	}catch(exception $e){
+	// 		echo "Search failed";
+	// 	}	 
+	// });
 	
 	
 	//==============================================================//
 	//                      Autocomplete  		                    //
+	//					Commented out 5/14/15						//
 	//==============================================================//
-	$app->post('/autocomplete', function(){
-		global $mysqli;
+	// $app->post('/autocomplete', function(){
+	// 	global $mysqli;
 		
-		$term = trim(strip_tags($_GET['term']));//retrieve the search term that autocomplete sends
+	// 	$term = trim(strip_tags($_GET['term']));//retrieve the search term that autocomplete sends
 
-		$qstring = "SELECT fName FROM Users WHERE fName LIKE '%".$term."%' and userType = 'faculty'";
-		$result = mysql_query($qstring);//query the database for entries containing the term
+	// 	$qstring = "SELECT fName FROM Users WHERE fName LIKE '%".$term."%' and userType = 'faculty'";
+	// 	$result = mysql_query($qstring);//query the database for entries containing the term
 
-		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
-		{
-				$row['fName']=htmlentities(stripslashes($row['fName']));
-				$row_set[] = $row;//build an array
-		}
+	// 	while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+	// 	{
+	// 			$row['fName']=htmlentities(stripslashes($row['fName']));
+	// 			$row_set[] = $row;//build an array
+	// 	}
 
-		$qstring = "SELECT lName FROM Users WHERE lName LIKE '%".$term."%' and userType = 'faculty'";
-		$result = mysql_query($qstring);//query the database for entries containing the term
-		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
-		{
-				$row['lName']=htmlentities(stripslashes($row['fName']));
-				$row_set[] = $row;//build an array
-		}
+	// 	$qstring = "SELECT lName FROM Users WHERE lName LIKE '%".$term."%' and userType = 'faculty'";
+	// 	$result = mysql_query($qstring);//query the database for entries containing the term
+	// 	while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+	// 	{
+	// 			$row['lName']=htmlentities(stripslashes($row['fName']));
+	// 			$row_set[] = $row;//build an array
+	// 	}
 
-		$qstring = "SELECT name FROM Institution WHERE name LIKE '%".$term."%'";
-		$result = mysql_query($qstring);//query the database for entries containing the term
-		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
-		{
-				$row['name']=htmlentities(stripslashes($row['name']));
-				$row_set[] = $row;//build an array
-		}
+	// 	$qstring = "SELECT name FROM Institution WHERE name LIKE '%".$term."%'";
+	// 	$result = mysql_query($qstring);//query the database for entries containing the term
+	// 	while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+	// 	{
+	// 			$row['name']=htmlentities(stripslashes($row['name']));
+	// 			$row_set[] = $row;//build an array
+	// 	}
 
-		$qstring = "SELECT name FROM Department WHERE name LIKE '%".$term."%'";
-		$result = mysql_query($qstring);//query the database for entries containing the term
-		while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
-		{
-				$row['name']=htmlentities(stripslashes($row['name']));
-				$row_set[] = $row;//build an array
-		}
-		$output = array_slice($row_set, 0, 10);
+	// 	$qstring = "SELECT name FROM Department WHERE name LIKE '%".$term."%'";
+	// 	$result = mysql_query($qstring);//query the database for entries containing the term
+	// 	while ($row = mysql_fetch_array($result,MYSQL_ASSOC))//loop through the retrieved values
+	// 	{
+	// 			$row['name']=htmlentities(stripslashes($row['name']));
+	// 			$row_set[] = $row;//build an array
+	// 	}
+	// 	$output = array_slice($row_set, 0, 10);
 		
-		echo json_encode($output);//format the array into json data
-	});
+	// 	echo json_encode($output);//format the array into json data
+	// });
+
+
 	//==============================================================//
 	//			Collect Information for Application Page			//
 	//==============================================================//
@@ -502,51 +509,54 @@
 
 	//==============================================================//
 	//                   add resume     	                        //
+	//					Commented out 5/14/15						//	
 	//==============================================================//
-	function resumeAdd($form_data){
-		global $mysqli;
-		$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));  
-		$result=MYSQL_QUERY("INSERT INTO uploads (description, data,filename,filesize,filetype) ". 
-		"VALUES('$form_description','$data','$form_data_name','$form_data_size','$form_data_type')");  
-		$id= mysql_insert_id();  
-		echo "<p>File ID: <b>$id</b><br>";  
-		echo "<p>File Name: <b>$form_data_name</b><br>";  
-		echo "<p>File Size: <b>$form_data_size</b><br>";  
-		echo "<p>File Type: <b>$form_data_type</b><p>";  
-	}
+	// function resumeAdd($form_data){
+	// 	global $mysqli;
+	// 	$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));  
+	// 	$result=MYSQL_QUERY("INSERT INTO uploads (description, data,filename,filesize,filetype) ". 
+	// 	"VALUES('$form_description','$data','$form_data_name','$form_data_size','$form_data_type')");  
+	// 	$id= mysql_insert_id();  
+	// 	echo "<p>File ID: <b>$id</b><br>";  
+	// 	echo "<p>File Name: <b>$form_data_name</b><br>";  
+	// 	echo "<p>File Size: <b>$form_data_size</b><br>";  
+	// 	echo "<p>File Type: <b>$form_data_type</b><p>";  
+	// }
 
 	
 	
 	//==============================================================//
 	//                   access resume   	                        //
+	//					Commented out 5/14/15						//
 	//==============================================================//	
-	function accessResume($ID){
-		$query = "SELECT data, filetype FROM uploads where id = $id"; 
-		if($mysqli->query($query) === TRUE) {
-				$result = $mysqli->query($query);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}		  
-		$data = MYSQL_RESULT($result,0,"data");  
-		$type = MYSQL_RESULT($result,0,"filetype");  
-		Header( "Content-type: $type");  
-		echo $data;
-	}
+	// function accessResume($ID){
+	// 	$query = "SELECT data, filetype FROM uploads where id = $id"; 
+	// 	if($mysqli->query($query) === TRUE) {
+	// 			$result = $mysqli->query($query);
+	// 		} else {
+	// 			echo "Error creating database: " . $mysqli->error;
+	// 		}		  
+	// 	$data = MYSQL_RESULT($result,0,"data");  
+	// 	$type = MYSQL_RESULT($result,0,"filetype");  
+	// 	Header( "Content-type: $type");  
+	// 	echo $data;
+	// }
 	
 	
 	
 	//==============================================================//
 	//                   delete resume   	                        //
+	//					Commented out 5/14/15						//
 	//==============================================================//
-	function deleteResume(){
-		$query = "DELETE FROM uploads where id=$id";  
-		if($mysqli->query($query) === TRUE) {
-				$delete = $mysqli->query($s);
-			} else {
-				echo "Error creating database: " . $mysqli->error;
-			}
-		print "File ID $id has been removed from the database"; 
-	}
+	// function deleteResume(){
+	// 	$query = "DELETE FROM uploads where id=$id";  
+	// 	if($mysqli->query($query) === TRUE) {
+	// 			$delete = $mysqli->query($s);
+	// 		} else {
+	// 			echo "Error creating database: " . $mysqli->error;
+	// 		}
+	// 	print "File ID $id has been removed from the database"; 
+	// }
 	
 	
 	//==============================================================//
@@ -901,17 +911,18 @@
 
 	//==============================================================//
 	//                	Change Lname		  	                    //
+	//					Commented out 5/14/15						//
 	//==============================================================//	
-	$app->post('/changeLname', function(){
-		global $mysqli;
-		session_start();
+	// $app->post('/changeLname', function(){
+	// 	global $mysqli;
+	// 	session_start();
 		
-		$lname = $_POST['lname'];
-		$userId = $_SESSION['userId'];
+	// 	$lname = $_POST['lname'];
+	// 	$userId = $_SESSION['userId'];
 		
-		$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
-		$stmt = $mysqli -> query($sql);
-	});
+	// 	$sql = "Update Users SET lName = '$lname' WHERE user_ID = '$userId'";
+	// 	$stmt = $mysqli -> query($sql);
+	// });
 	
 	//==============================================================//
 	//                	applied find		  	                    //
