@@ -88,57 +88,57 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `DBGUI`.`Uploads`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `DBGUI`.`Uploads` ;
+-- DROP TABLE IF EXISTS `DBGUI`.`Uploads` ;
 
-CREATE TABLE IF NOT EXISTS `DBGUI`.`Uploads` (
-  `upload_ID` INT NOT NULL AUTO_INCREMENT,
-  `description` CHAR(50) NULL,
-  `data` LONGBLOB NULL,
-  `fileName` CHAR(50) NULL,
-  `fileSize` CHAR(50) NULL,
-  `fileType` CHAR(50) NULL,
-  PRIMARY KEY (`upload_ID`))
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `DBGUI`.`Uploads` (
+--   `upload_ID` INT NOT NULL AUTO_INCREMENT,
+--   `description` CHAR(50) NULL,
+--   `data` LONGBLOB NULL,
+--   `fileName` CHAR(50) NULL,
+--   `fileSize` CHAR(50) NULL,
+--   `fileType` CHAR(50) NULL,
+--   PRIMARY KEY (`upload_ID`))
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `DBGUI`.`Student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `DBGUI`.`Student` ;
+-- DROP TABLE IF EXISTS `DBGUI`.`Student` ;
 
-CREATE TABLE IF NOT EXISTS `DBGUI`.`Student` (
-  `user_ID` INT NOT NULL,
-  `inst_ID` INT NOT NULL,
-  `dept_ID` INT NOT NULL,
-  `graduateStudent` TINYINT(1) NOT NULL,
-  `resume` INT NULL,
-  `loginCount` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`user_ID`),
-  INDEX `fk_General_Users_idx` (`user_ID` ASC),
-  INDEX `fk_General_Institution1_idx` (`inst_ID` ASC),
-  INDEX `fk_Student_Department1_idx` (`dept_ID` ASC),
-  INDEX `upload_ID_idx` (`resume` ASC),
-  CONSTRAINT `fk_General_Users`
-    FOREIGN KEY (`user_ID`)
-    REFERENCES `DBGUI`.`Users` (`user_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_General_Institution1`
-    FOREIGN KEY (`inst_ID`)
-    REFERENCES `DBGUI`.`Institution` (`inst_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Student_Department1`
-    FOREIGN KEY (`dept_ID`)
-    REFERENCES `DBGUI`.`Department` (`dept_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `upload_ID`
-    FOREIGN KEY (`resume`)
-    REFERENCES `DBGUI`.`Uploads` (`upload_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `DBGUI`.`Student` (
+--   `user_ID` INT NOT NULL,
+--   `inst_ID` INT NOT NULL,
+--   `dept_ID` INT NOT NULL,
+--   `graduateStudent` TINYINT(1) NOT NULL,
+--   `resume` INT NULL,
+--   `loginCount` INT NOT NULL DEFAULT 0,
+--   PRIMARY KEY (`user_ID`),
+--   INDEX `fk_General_Users_idx` (`user_ID` ASC),
+--   INDEX `fk_General_Institution1_idx` (`inst_ID` ASC),
+--   INDEX `fk_Student_Department1_idx` (`dept_ID` ASC),
+--   INDEX `upload_ID_idx` (`resume` ASC),
+--   CONSTRAINT `fk_General_Users`
+--     FOREIGN KEY (`user_ID`)
+--     REFERENCES `DBGUI`.`Users` (`user_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `fk_General_Institution1`
+--     FOREIGN KEY (`inst_ID`)
+--     REFERENCES `DBGUI`.`Institution` (`inst_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `fk_Student_Department1`
+--     FOREIGN KEY (`dept_ID`)
+--     REFERENCES `DBGUI`.`Department` (`dept_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `upload_ID`
+--     FOREIGN KEY (`resume`)
+--     REFERENCES `DBGUI`.`Uploads` (`upload_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -220,28 +220,28 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `DBGUI`.`Applicants`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `DBGUI`.`Applicants` ;
+-- DROP TABLE IF EXISTS `DBGUI`.`Applicants` ;
 
-CREATE TABLE IF NOT EXISTS `DBGUI`.`Applicants` (
-  `researchOp_ID` INT NOT NULL,
-  `user_ID` INT NOT NULL,
-  `status` VARCHAR(45) NOT NULL DEFAULT 'Pending' COMMENT 'Pending, Accepted, or Rejected',
-  `dateSubmitted` DATETIME NOT NULL,
-  `dateResponded` DATETIME NULL,
-  INDEX `fk_Applicants_ROP1_idx` (`researchOp_ID` ASC),
-  PRIMARY KEY (`researchOp_ID`, `user_ID`),
-  INDEX `fk_Applicants_Student1_idx` (`user_ID` ASC),
-  CONSTRAINT `fk_Applicants_ROP1`
-    FOREIGN KEY (`researchOp_ID`)
-    REFERENCES `DBGUI`.`ResearchOp` (`researchOp_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Applicants_Student1`
-    FOREIGN KEY (`user_ID`)
-    REFERENCES `DBGUI`.`Student` (`user_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `DBGUI`.`Applicants` (
+--   `researchOp_ID` INT NOT NULL,
+--   `user_ID` INT NOT NULL,
+--   `status` VARCHAR(45) NOT NULL DEFAULT 'Pending' COMMENT 'Pending, Accepted, or Rejected',
+--   `dateSubmitted` DATETIME NOT NULL,
+--   `dateResponded` DATETIME NULL,
+--   INDEX `fk_Applicants_ROP1_idx` (`researchOp_ID` ASC),
+--   PRIMARY KEY (`researchOp_ID`, `user_ID`),
+--   INDEX `fk_Applicants_Student1_idx` (`user_ID` ASC),
+--   CONSTRAINT `fk_Applicants_ROP1`
+--     FOREIGN KEY (`researchOp_ID`)
+--     REFERENCES `DBGUI`.`ResearchOp` (`researchOp_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `fk_Applicants_Student1`
+--     FOREIGN KEY (`user_ID`)
+--     REFERENCES `DBGUI`.`Student` (`user_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -265,45 +265,45 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `DBGUI`.`Token`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `DBGUI`.`Token` ;
+-- DROP TABLE IF EXISTS `DBGUI`.`Token` ;
 
-CREATE TABLE IF NOT EXISTS `DBGUI`.`Token` (
-  `token_ID` INT NOT NULL AUTO_INCREMENT,
-  `accessToken` MEDIUMTEXT NOT NULL,
-  `expires` DATETIME NOT NULL,
-  PRIMARY KEY (`token_ID`))
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `DBGUI`.`Token` (
+--   `token_ID` INT NOT NULL AUTO_INCREMENT,
+--   `accessToken` MEDIUMTEXT NOT NULL,
+--   `expires` DATETIME NOT NULL,
+--   PRIMARY KEY (`token_ID`))
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `DBGUI`.`Chat`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `DBGUI`.`Chat` ;
+-- DROP TABLE IF EXISTS `DBGUI`.`Chat` ;
 
-CREATE TABLE IF NOT EXISTS `DBGUI`.`Chat` (
-  `student_ID` INT NOT NULL,
-  `faculty_ID` INT NOT NULL,
-  `group_ID` INT NOT NULL,
-  `student_BOT` VARCHAR(26) NOT NULL,
-  `faculty_BOT` VARCHAR(26) NOT NULL,
-  `dateCreated` DATETIME NOT NULL,
-  PRIMARY KEY (`student_ID`, `faculty_ID`),
-  INDEX `student_ID_idx` (`student_ID` ASC),
-  INDEX `faculty_ID_idx` (`faculty_ID` ASC),
-  UNIQUE INDEX `group_ID_UNIQUE` (`group_ID` ASC),
-  UNIQUE INDEX `student_BOT_UNIQUE` (`student_BOT` ASC),
-  UNIQUE INDEX `faculty_BOT_UNIQUE` (`faculty_BOT` ASC),
-  CONSTRAINT `student_ID`
-    FOREIGN KEY (`student_ID`)
-    REFERENCES `DBGUI`.`Student` (`user_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `faculty_ID`
-    FOREIGN KEY (`faculty_ID`)
-    REFERENCES `DBGUI`.`Faculty` (`user_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `DBGUI`.`Chat` (
+--   `student_ID` INT NOT NULL,
+--   `faculty_ID` INT NOT NULL,
+--   `group_ID` INT NOT NULL,
+--   `student_BOT` VARCHAR(26) NOT NULL,
+--   `faculty_BOT` VARCHAR(26) NOT NULL,
+--   `dateCreated` DATETIME NOT NULL,
+--   PRIMARY KEY (`student_ID`, `faculty_ID`),
+--   INDEX `student_ID_idx` (`student_ID` ASC),
+--   INDEX `faculty_ID_idx` (`faculty_ID` ASC),
+--   UNIQUE INDEX `group_ID_UNIQUE` (`group_ID` ASC),
+--   UNIQUE INDEX `student_BOT_UNIQUE` (`student_BOT` ASC),
+--   UNIQUE INDEX `faculty_BOT_UNIQUE` (`faculty_BOT` ASC),
+--   CONSTRAINT `student_ID`
+--     FOREIGN KEY (`student_ID`)
+--     REFERENCES `DBGUI`.`Student` (`user_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `faculty_ID`
+--     FOREIGN KEY (`faculty_ID`)
+--     REFERENCES `DBGUI`.`Faculty` (`user_ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -405,31 +405,31 @@ INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 	(001, 004, 045, 2),
 	(002, 003, 016, 4);
 
-INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, numPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
+-- INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, description, startDate, numPositions, paid, workStudy, acceptsUndergrad, acceptsGrad) VALUES
 
-	(100, 013, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you do not have to talk to real people!", '2015-01-15', 12, true, false, true, false),
-	(101, 002, 002, 023, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, true,  false, false, true),
-	(102, 001, 003, 005, TRUE, '2014-11-24', "Future of Art", "Art did not used to suck, maybe it will not suck in the future?", '2015-06-02', 1, false,  false, false, true),
-	(103, 001, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
-	(104, 002, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
+-- 	(100, 013, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "Create a girlfriend so you do not have to talk to real people!", '2015-01-15', 12, true, false, true, false),
+-- 	(101, 002, 002, 023, TRUE, '2014-11-23', "Business in America", "You live in America. Do the business OUR way.", '2015-03-13', 5, true,  false, false, true),
+-- 	(102, 001, 003, 005, TRUE, '2014-11-24', "Future of Art", "Art did not used to suck, maybe it will not suck in the future?", '2015-06-02', 1, false,  false, false, true),
+-- 	(103, 001, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
+-- 	(104, 002, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
 	
-INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
- 	(102, 009, "Rejected", '2015-12-14 00:00:00'),
- 	(103, 010, "Accepted", '2015-12-15 05:24:23'),
- 	(104, 011, "Pending", '2015-12-13 06:21:30');
+-- INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
+--  	(102, 009, "Rejected", '2015-12-14 00:00:00'),
+--  	(103, 010, "Accepted", '2015-12-15 05:24:23'),
+--  	(104, 011, "Pending", '2015-12-13 06:21:30');
 
-INSERT INTO Password(user_ID, password) VALUES
-	(013, "ImCookingNoodles"),
-	(001, "CreamOfTheCrop"),
-	(002, "OhYeahBrother");
-	-- (003, "password1"),
-	-- (004, "password2"),
-	-- (005, "password3"),
-	-- (006, "MyCountry"),
-	-- (007, "NucularWar"),
-	-- (008, "WhoIsMonica"),
-	-- (009, "EEEEEEEAGLE"),
-	-- (010, "Bajingo"),
-	-- (011, "SurgeryR00lz"),
-	-- (012, "CRaaaAaAAzy");
+-- INSERT INTO Password(user_ID, password) VALUES
+-- 	(013, "ImCookingNoodles"),
+-- 	(001, "CreamOfTheCrop"),
+-- 	(002, "OhYeahBrother");
+-- 	-- (003, "password1"),
+-- 	-- (004, "password2"),
+-- 	-- (005, "password3"),
+-- 	-- (006, "MyCountry"),
+-- 	-- (007, "NucularWar"),
+-- 	-- (008, "WhoIsMonica"),
+-- 	-- (009, "EEEEEEEAGLE"),
+-- 	-- (010, "Bajingo"),
+-- 	-- (011, "SurgeryR00lz"),
+-- 	-- (012, "CRaaaAaAAzy");
 
