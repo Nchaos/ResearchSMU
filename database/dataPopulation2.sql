@@ -1,3 +1,9 @@
+USE 'DBGUI';
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 INSERT INTO Institution(inst_ID, name) VALUES
 
 	(001, "Dedman"),
@@ -72,5 +78,14 @@ INSERT INTO Admin(user_ID) VALUES
 
 	(001),
 	(002);
+
+INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, gradStudents, description) VALUES
+
+	(100, 003, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "No Grad Students here!", "Create a girlfriend so you do not have to talk to real people!"),
+	(101, 002, 002, 023, TRUE, '2014-11-23', "Business in America", "No Grad Students here!", "You live in America. Do the business OUR way."),
+	(102, 001, 003, 005, TRUE, '2014-11-24', "Future of Art", "No Grad Students here!", "Art did not used to suck, maybe it will not suck in the future?"),
+	(103, 001, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "No Grad Students here!", "We made sure to kill the cow right after it ate. DIG IN!"),
+	(104, 003, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "No Grad Students here!", "Psychopaths act weird in courtroom situations. Let us watch what they do.");	
+	
 
 
