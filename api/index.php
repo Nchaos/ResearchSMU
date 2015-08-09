@@ -257,12 +257,15 @@
 			if ($debug) echo "Checking user email exists...\n";
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
-			$activeCheck = $mysqli->query("SELECT active FROM Users WHERE email='$email'");
-			$activeResults = $activeCheck->fetch_assoc();
-			//echo mysql_result($activeCheck, 0);
 			if(($checkResults === NULL))
 				die(json_encode(array('ERROR' => 'Email is not a faculty email of SMU')));
-			if(($activeResults == TRUE)){
+
+			$activeCheck = $mysqli->query("SELECT active FROM Users WHERE email='$email'");
+			//$activeResults = mysql_result($activeCheck, 0);
+			$activeResults = $activeCheck->fetch_assoc();
+			$isActive = (int) $activeResults['active'];
+			//echo $activeResults['active'];
+			if(($isActive === 1)){
 				die(json_encode(array('ERROR' => 'This User is already Active, Please sign in instead')));
 			}
 			else{
@@ -272,8 +275,9 @@
 				if ($debug) echo "Hashing password...\n";
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
 				if($debug) echo "Hashed password, now creating user\n";
-				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated, userType) VALUES ('$firstName', '$lastName', '$email', '$date', 'Faculty')");
-	
+				//$insertUser = $mysqli->query("UPDATE Users (fName, lName, email, dateCreated, userType, active) VALUES ('$firstName', '$lastName', '$email', '$date', 'Faculty', 1)");
+				$updateUser = $mysqli->query("UPDATE Users SET fName = '$firstName', lName = '$lastName', dateCreated = '$date', userType = 'Faculty', active = 1 WHERE email = '$email'");
+
 				if ($debug) echo "User created, now fetching id\n";
 				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$res = $selectUserId->fetch_assoc();
