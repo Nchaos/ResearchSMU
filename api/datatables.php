@@ -49,9 +49,8 @@
 		$stmt0 -> close();
 		
 		$sql = "CREATE TABLE TEMP(ResearchOp_ID int primary key, rName VARCHAR(48), 
-					name VARCHAR(90), startDate DATE, endDate DATE, numPositions INT, 
-					dName VARCHAR(45), iName VARCHAR(45), 
-					paid VARCHAR(10), workStudy VARCHAR(10), acceptsUndergrad VARCHAR(10), acceptsGrad VARCHAR(10), 
+					name VARCHAR(90),  
+					dName VARCHAR(45), iName VARCHAR(45), gradStudents VARCHAR(270), 
 					description MEDIUMTEXT)";
 		
 		$stmt = $mysqli -> prepare($sql);
@@ -63,15 +62,9 @@
 					ResearchOp.ResearchOp_ID, 
 					ResearchOp.name, 
 					Concat(Users.fName, ' ', Users.lName), 
-					ResearchOp.startDate, 
-					ResearchOp.endDate, 
-					ResearchOp.numPositions, 
 					Department.name, 
-					Institution.name, 
-					(CASE WHEN ResearchOp.paid = 1 THEN 'Yes' ELSE 'No' END) as paidval, 
-					(CASE WHEN ResearchOp.workStudy = 1 THEN 'Yes' ELSE 'No' END) as wsval,
-					(CASE WHEN ResearchOp.acceptsUndergrad= 1 THEN 'Yes' ELSE 'No' END) as ugval, 
-					(CASE WHEN ResearchOp.acceptsGrad= 1 THEN 'Yes' ELSE 'No' END) as gval, 
+					Institution.name,
+					ResearchOp.gradStudents, 
 					ResearchOp.description
 				from 
 					ResearchOp join Department on ResearchOp.Dept_ID = Department.Dept_ID 
@@ -102,15 +95,16 @@
 			array( 'db' => 'rName',    				'dt' => "rName" ),
 			array( 'db' => 'name',    				'dt' => "pName" ),
 			//array( 'db' => 'lName',    				'dt' => "fName" ),
-			array( 'db' => 'startDate',				'dt' => "startDate" ), 
-			array( 'db' => 'endDate',  				'dt' => "endDate" ),
-			array( 'db' => 'numPositions',    		'dt' => "numPositions" ),
+			//array( 'db' => 'startDate',				'dt' => "startDate" ), 
+			//array( 'db' => 'endDate',  				'dt' => "endDate" ),
+			//array( 'db' => 'numPositions',    		'dt' => "numPositions" ),
+			array( 'db' => 'gradStudents',			'dt' => 'gradStudents'),
 			array( 'db' => 'dName',    				'dt' => "dName" ),
 			array( 'db' => 'iName',    				'dt' => "iName" ),
-			array( 'db' => 'paid',					'dt' => "paid" ), 
-			array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
-			array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
-			array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
+			// array( 'db' => 'paid',					'dt' => "paid" ), 
+			// array( 'db' => 'workStudy',  			'dt' => "workStudy" ),
+			// array( 'db' => 'acceptsUndergrad',		'dt' => "acceptsUndergrad"), 
+			// array( 'db' => 'acceptsGrad',  			'dt' => "acceptsGrad" ),
 			array( 'db' => 'description',			'dt' => "descript" )
 		);
 		 

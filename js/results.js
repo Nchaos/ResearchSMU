@@ -23,33 +23,37 @@ function format ( d ) {
                 '<td>'+d.pName+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Number of Positions:</td>'+
-                '<td>'+d.numPositions+'</td>'+
+                '<td>Graduate Students:</td>'+
+                '<td>'+d.gradStudents+'</td>'+
             '</tr>'+
-            '<tr>'+
-                '<td>Start Date:</td>'+
-                '<td>'+d.startDate+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>End Date:</td>'+
-                '<td>'+d.endDate+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>Paid:</td>'+
-                '<td>'+d.paid+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>Work Study:</td>'+
-                '<td>'+d.workStudy+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>Accepts Undergrad:</td>'+
-                '<td>'+d.acceptsUndergrad+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>Accepts Grad:</td>'+
-                '<td>'+d.acceptsGrad+'</td>'+
-            '</tr>'+
+            // '<tr>'+
+            //     '<td>Number of Positions:</td>'+
+            //     '<td>'+d.numPositions+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>Start Date:</td>'+
+            //     '<td>'+d.startDate+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>End Date:</td>'+
+            //     '<td>'+d.endDate+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>Paid:</td>'+
+            //     '<td>'+d.paid+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>Work Study:</td>'+
+            //     '<td>'+d.workStudy+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>Accepts Undergrad:</td>'+
+            //     '<td>'+d.acceptsUndergrad+'</td>'+
+            // '</tr>'+
+            // '<tr>'+
+            //     '<td>Accepts Grad:</td>'+
+            //     '<td>'+d.acceptsGrad+'</td>'+
+            // '</tr>'+
             '<tr>'+
                 '<td>Description:</td>'+
                 '<td>'+d.descript+'</td>'+
