@@ -194,8 +194,107 @@
 	//Still need to add date created:
 	//  Get the current time, assign it to a variable,
 	//  and insert it with all the user's information.
-	
+
+	$app->post('/lookUpfname', function(){
+		global $mysqli, $debug;
+		if ($debug) echo "Creating account";
+		//$check = $_POST['check'];
+		$firstName = $_POST['firstName'];
+		
+		if ($debug) echo "Received parameters";
+		
+		if($firstName === "")
+			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
+		else{
+			if ($debug) echo "Checking user doesn't already exist...\n";
+			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE fName='$firstName'");
+			$checkResults = $dupCheck->fetch_assoc();
+			if(($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'No Users found with the given first name')));
+			else{
+				if ($debug) echo "Email Found\n";
+			}
+		}
+	});
+
+	$app->post('/lookUplname', function(){
+		global $mysqli, $debug;
+		if ($debug) echo "Creating account";
+		//$check = $_POST['check'];
+		$lastName = $_POST['lastName'];
+		
+		if ($debug) echo "Received parameters";
+		
+		if($firstName === "")
+			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
+		else{
+			if ($debug) echo "Checking user doesn't already exist...\n";
+			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE lName='$lastName'");
+			$checkResults = $dupCheck->fetch_assoc();
+			if(($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'No Users found with the given first name')));
+			else{
+				if ($debug) echo "Email Found\n";
+			}
+		}
+	});
+
 	$app->post('/createAccount', function(){
+		global $mysqli, $debug;
+		if ($debug) echo "Creating account";
+		$firstName = $_POST['firstName'];
+		$lastName = $_POST['lastName'];
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+		$userId = '';
+		$date = date("Y-m-d");
+		
+		if ($debug) echo "Received parameters";
+		
+		if($firstName === "" || $lastName === "" || $email === "" || $password === "")
+			die(json_encode(array('ERROR' => 'Received blank parameters from registration')));
+		else{
+			if ($debug) echo "Checking user email exists...\n";
+			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
+			$checkResults = $dupCheck->fetch_assoc();
+			$activeCheck = $mysqli->query("SELECT active FROM Users WHERE email='$email'");
+			$activeResults = $activeCheck->fetch_assoc();
+			//echo mysql_result($activeCheck, 0);
+			if(($checkResults === NULL))
+				die(json_encode(array('ERROR' => 'Email is not a faculty email of SMU')));
+			if(($activeResults == TRUE)){
+				die(json_encode(array('ERROR' => 'This User is already Active, Please sign in instead')));
+			}
+			else{
+				if ($debug) echo "Creating new user...\n";
+				
+				//Create encrypted hash from password:
+				if ($debug) echo "Hashing password...\n";
+				$hashedPassword = password_hash($password, PASSWORD_DEFAULT, array('salt'=>'22abgspq1257odb397zndo'));
+				if($debug) echo "Hashed password, now creating user\n";
+				$insertUser = $mysqli->query("INSERT INTO Users (fName, lName, email, dateCreated, userType) VALUES ('$firstName', '$lastName', '$email', '$date', 'Faculty')");
+	
+				if ($debug) echo "User created, now fetching id\n";
+				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
+				$res = $selectUserId->fetch_assoc();
+				$userId = $res['user_ID'];
+				echo "$userId\n";
+				if ($debug) echo "Got id, now inserting password\n";
+				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
+				
+				
+					if ($debug) echo "Inserting user into faculty table\n";
+					$instId = $_POST['instId'];
+					$deptId = $_POST['deptId'];
+					$insertFaculty = $mysqli->query("INSERT INTO Faculty (user_ID, inst_ID, dept_ID) VALUES ('$userId', '$instId', '$deptId')");
+				
+				}
+			}
+		echo json_encode(array('SUCCESS' => 'Created user!'));
+		//if ($debug) echo "Created User!";
+	});
+	
+	$app->post('/createAccountOLD', function(){
 		global $mysqli, $debug;
 		if ($debug) echo "Creating account";
 		$check = $_POST['check'];

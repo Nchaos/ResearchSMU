@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `DBGUI`.`Users` ;
 
 CREATE TABLE IF NOT EXISTS `DBGUI`.`Users` (
   `user_ID` INT NOT NULL AUTO_INCREMENT,
-  `active` TINYINT(1) NOT NULL DEFAULT 1,
+  `active` TINYINT(1) NOT NULL DEFAULT 0,
   `dateCreated` DATE NOT NULL,
   `dateDeactivated` DATE NULL,
   `fName` VARCHAR(45) NOT NULL,
   `lName` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `userType` VARCHAR(10) NOT NULL,
+  `email` VARCHAR(60) NOT NULL,
+  `userType` VARCHAR(15) NOT NULL,
   PRIMARY KEY (`user_ID`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
@@ -305,21 +305,21 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
--- INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email, userType) VALUES
+INSERT INTO Users(user_ID, active, dateCreated, fname, lname, email, userType) VALUES
 
--- 	(013, TRUE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu", "Faculty"),
--- 	(001, TRUE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu", "Faculty"),
--- 	(002, TRUE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu","Faculty"),
--- 	(003, TRUE, '2013-06-16', "George", "Harrison", "george@smu.edu","Faculty"),
--- 	(004, TRUE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu","Faculty"),
--- 	(005, TRUE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu","Faculty"),
--- 	(006, TRUE, '2013-09-19', "Barack", "Obama", "obama@smu.edu","Faculty"),
--- 	(007, TRUE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu","Faculty"),
--- 	(008, TRUE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu","Faculty"),
--- 	(009, TRUE, '2012-12-22', "John", "Dorian", "dorian@smu.edu","Faculty"),
--- 	(010, TRUE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu","Faculty"),
--- 	(011, TRUE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu","Faculty"),
--- 	(012, TRUE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu","Faculty");
+	(013, FALSE, '2012-03-13', "Dwayne The Rock", "Johnson", "rock@smu.edu", "Admin"),
+	(001, FALSE, '2012-04-14', "Macho Man Randy", "Savage", "savage@smu.edu", "Faculty"),
+	(002, FALSE, '2013-05-15', "Hulk", "Hogan", "hulk@smu.edu","Faculty"),
+	(003, FALSE, '2013-06-16', "George", "Harrison", "george@smu.edu","Faculty"),
+	(004, FALSE, '2013-07-17', "Paul", "McCartney", "paul@smu.edu","Faculty"),
+	(005, FALSE, '2013-08-18', "Ringo", "Starr", "ringo@smu.edu","Faculty"),
+	(006, FALSE, '2013-09-19', "Barack", "Obama", "obama@smu.edu","Faculty"),
+	(007, FALSE, '2014-10-20', "Dubya", "Bush", "dubya@smu.edu","Faculty"),
+	(008, FALSE, '2013-11-21', "Willy", "Clinton", "bill@smu.edu","Faculty"),
+	(009, FALSE, '2012-12-22', "John", "Dorian", "dorian@smu.edu","Faculty"),
+	(010, FALSE, '2011-01-23', "Elliot", "Reid", "ET@smu.edu","Faculty"),
+	(011, FALSE, '2012-02-24', "Christopher", "Turkleton", "turk@smu.edu","Faculty"),
+	(012, FALSE, '2013-03-25', "Crazy", "Hooch", "hooch@smu.edu","Faculty");
 	
 -- INSERT INTO Admin(user_ID) VALUES
 
@@ -327,61 +327,61 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- 	(007),
 -- 	(008);
 
--- INSERT INTO Institution(inst_ID, name) VALUES
+INSERT INTO Institution(inst_ID, name) VALUES
 
--- 	(001, "Dedman"),
--- 	(002, "Cox"),
--- 	(003, "Meadows"),
--- 	(004, "Simmons"),
--- 	(005, "Lyle");
+	(001, "Dedman"),
+	(002, "Cox"),
+	(003, "Meadows"),
+	(004, "Simmons"),
+	(005, "Lyle");
 
--- INSERT INTO Department(dept_ID, inst_ID, name) VALUES
+INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 
--- 	(003, 001, "Anthropology"),
--- 	(008, 001, "Biological Sciences"),
--- 	(010, 001, "Chemistry"),
--- 	(018, 001, "Earth Sciences"),
--- 	(019, 001, "Economics"),
--- 	(021, 001, "English"),
--- 	(025, 001, "History"),
--- 	(030, 001, "Math"),
--- 	(033, 001, "Philosophy"),
--- 	(034, 001, "Physics"),
--- 	(035, 001, "Political Science"),
--- 	(036, 001, "Psychology"),
--- 	(038, 001, "Religious Sciences"),
--- 	(041, 001, "Sociology"),
--- 	(042, 001, "Statistical Sciences"),
--- 	(046, 001, "World Languages"),
--- 	(011, 005, "Civil & Environmental Engineering"),
--- 	(013, 005, "Computer Science & Engineering"),
--- 	(020, 005, "Electrical Engineering"),
--- 	(028, 005, "Management Sciences"),
--- 	(031, 005, "Mechanical Engineering"),
--- 	(001, 002, "Accounting"),
--- 	(023, 002, "Finance"),
--- 	(029, 002, "Marketing"),
--- 	(027, 002, "Management"),
--- 	(037, 002, "Real Estate"),
--- 	(039, 002, "Risk Management"),
--- 	(002, 003, "Advertising"),
--- 	(005, 003, "Art"),
--- 	(006, 003, "Art History"),
--- 	(007, 003, "Art Management"),
--- 	(012, 003, "Communication"),
--- 	(015, 003, "Creative Computing"),
--- 	(016, 003, "Dance"),
--- 	(022, 003, "Film & Media Arts"),
--- 	(026, 003, "Journalism"),
--- 	(032, 003, "Music"),
--- 	(044, 003, "Theatre"),
--- 	(004, 004, "Applied Physiology"),
--- 	(014, 004, "Counseling"),
--- 	(017, 004, "Dispute Resolution"),
--- 	(024, 004, "Higher Education"),
--- 	(040, 004, "Sports Management"),
--- 	(043, 004, "Teacher Education"),
--- 	(045, 004, "Wellness");
+	(003, 001, "Anthropology"),
+	(008, 001, "Biological Sciences"),
+	(010, 001, "Chemistry"),
+	(018, 001, "Earth Sciences"),
+	(019, 001, "Economics"),
+	(021, 001, "English"),
+	(025, 001, "History"),
+	(030, 001, "Math"),
+	(033, 001, "Philosophy"),
+	(034, 001, "Physics"),
+	(035, 001, "Political Science"),
+	(036, 001, "Psychology"),
+	(038, 001, "Religious Sciences"),
+	(041, 001, "Sociology"),
+	(042, 001, "Statistical Sciences"),
+	(046, 001, "World Languages"),
+	(011, 005, "Civil & Environmental Engineering"),
+	(013, 005, "Computer Science & Engineering"),
+	(020, 005, "Electrical Engineering"),
+	(028, 005, "Management Sciences"),
+	(031, 005, "Mechanical Engineering"),
+	(001, 002, "Accounting"),
+	(023, 002, "Finance"),
+	(029, 002, "Marketing"),
+	(027, 002, "Management"),
+	(037, 002, "Real Estate"),
+	(039, 002, "Risk Management"),
+	(002, 003, "Advertising"),
+	(005, 003, "Art"),
+	(006, 003, "Art History"),
+	(007, 003, "Art Management"),
+	(012, 003, "Communication"),
+	(015, 003, "Creative Computing"),
+	(016, 003, "Dance"),
+	(022, 003, "Film & Media Arts"),
+	(026, 003, "Journalism"),
+	(032, 003, "Music"),
+	(044, 003, "Theatre"),
+	(004, 004, "Applied Physiology"),
+	(014, 004, "Counseling"),
+	(017, 004, "Dispute Resolution"),
+	(024, 004, "Higher Education"),
+	(040, 004, "Sports Management"),
+	(043, 004, "Teacher Education"),
+	(045, 004, "Wellness");
 	
 -- INSERT INTO Student(user_ID, inst_ID, dept_ID, graduateStudent, loginCount) VALUES
 
@@ -426,4 +426,3 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- 	-- (010, "Bajingo"),
 -- 	-- (011, "SurgeryR00lz"),
 -- 	-- (012, "CRaaaAaAAzy");
-
