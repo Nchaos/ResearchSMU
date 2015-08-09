@@ -35,11 +35,10 @@ class PHPMailer
 
     /**
      * Email priority.
-     * Options: null (default), 1 = High, 3 = Normal, 5 = low.
-     * When null, the header is not set at all.
+     * Options: 1 = High, 3 = Normal, 5 = low.
      * @type integer
      */
-    public $Priority = null;
+    public $Priority = 3;
 
     /**
      * The character set of the message.
@@ -851,61 +850,6 @@ class PHPMailer
             }
         }
         return false;
-    }
-
-    /**
-     * Parse and validate a string containing one or more RFC822-style comma-separated email addresses
-     * of the form "display name <address>" into an array of name/address pairs.
-     * Uses the imap_rfc822_parse_adrlist function if the IMAP extension is available.
-     * Note that quotes in the name part are removed.
-     * @param string $addrstr The address list string
-     * @param bool $useimap Whether to use the IMAP extension to parse the list
-     * @return array
-     * @link http://www.andrew.cmu.edu/user/agreen1/testing/mrbs/web/Mail/RFC822.php A more careful implementation
-     */
-    public function parseAddresses($addrstr, $useimap = true)
-    {
-        $addresses = array();
-        if ($useimap and function_exists('imap_rfc822_parse_adrlist')) {
-            //Use this built-in parser if it's available
-            $list = imap_rfc822_parse_adrlist($addrstr, '');
-            foreach ($list as $address) {
-                if ($address->host != '.SYNTAX-ERROR.') {
-                    if ($this->validateAddress($address->mailbox . '@' . $address->host)) {
-                        $addresses[] = array(
-                            'name' => (property_exists($address, 'personal') ? $address->personal : ''),
-                            'address' => $address->mailbox . '@' . $address->host
-                        );
-                    }
-                }
-            }
-        } else {
-            //Use this simpler parser
-            $list = explode(',', $addrstr);
-            foreach ($list as $address) {
-                $address = trim($address);
-                //Is there a separate name part?
-                if (strpos($address, '<') === false) {
-                    //No separate name, just use the whole thing
-                    if ($this->validateAddress($address)) {
-                        $addresses[] = array(
-                            'name' => '',
-                            'address' => $address
-                        );
-                    }
-                } else {
-                    list($name, $email) = explode('<', $address);
-                    $email = trim(str_replace('>', '', $email));
-                    if ($this->validateAddress($email)) {
-                        $addresses[] = array(
-                            'name' => trim(str_replace(array('"', "'"), '', $name)),
-                            'address' => $email
-                        );
-                    }
-                }
-            }
-        }
-        return $addresses;
     }
 
     /**
@@ -1827,9 +1771,7 @@ class PHPMailer
             $this->lastMessageID = sprintf('<%s@%s>', $this->uniqueid, $this->ServerHostname());
         }
         $result .= $this->headerLine('Message-ID', $this->lastMessageID);
-        if (!is_null($this->Priority)) {
-            $result .= $this->headerLine('X-Priority', $this->Priority);
-        }
+        $result .= $this->headerLine('X-Priority', $this->Priority);
         if ($this->XMailer == '') {
             $result .= $this->headerLine(
                 'X-Mailer',
@@ -1955,9 +1897,8 @@ class PHPMailer
             $bodyEncoding = '7bit';
             $bodyCharSet = 'us-ascii';
         }
-        //If lines are too long, and we're not already using an encoding that will shorten them,
-        //change to quoted-printable transfer encoding
-        if ('base64' != $this->Encoding and self::hasLineLongerThanMax($this->Body)) {
+        //If lines are too long, change to quoted-printable transfer encoding
+        if (self::hasLineLongerThanMax($this->Body)) {
             $this->Encoding = 'quoted-printable';
             $bodyEncoding = 'quoted-printable';
         }
@@ -2618,7 +2559,7 @@ class PHPMailer
     {
         // Use native function if it's available (>= PHP5.3)
         if (function_exists('quoted_printable_encode')) {
-            return quoted_printable_encode($string);
+            return $this->fixEOL(quoted_printable_encode($string));
         }
         // Fall back to a pure PHP implementation
         $string = str_replace(
@@ -2626,7 +2567,8 @@ class PHPMailer
             array(' ', "\r\n=2E", "\r\n", '='),
             rawurlencode($string)
         );
-        return preg_replace('/[^\r\n]{' . ($line_max - 3) . '}[^=\r\n]{2}/', "$0=\r\n", $string);
+        $string = preg_replace('/[^\r\n]{' . ($line_max - 3) . '}[^=\r\n]{2}/', "$0=\r\n", $string);
+        return $this->fixEOL($string);
     }
 
     /**
@@ -3201,16 +3143,6 @@ class PHPMailer
             'bin'   => 'application/macbinary',
             'doc'   => 'application/msword',
             'word'  => 'application/msword',
-            'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'xltx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-            'potx'  => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-            'ppsx'  => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-            'pptx'  => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'sldx'  => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-            'docx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'dotx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-            'xlam'  => 'application/vnd.ms-excel.addin.macroEnabled.12',
-            'xlsb'  => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
             'class' => 'application/octet-stream',
             'dll'   => 'application/octet-stream',
             'dms'   => 'application/octet-stream',
