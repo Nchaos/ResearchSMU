@@ -209,10 +209,6 @@ function checkForm(event){
 			{
 				alert("Error: The email you have enter is not a registered SMU faculty email. Try using the faculty email finder button.");
 			}
-			// $('#registerUser , .form').fadeOut(300 , function() {
-			// 	//$('#registerUser').remove();  
-			// });
-			// $('#mask').remove();
 			$('#mask , .register-popup').fadeOut(300 , function() {
     		$('#mask').remove();  
   			}); 
