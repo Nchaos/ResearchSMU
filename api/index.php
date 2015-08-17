@@ -1,5 +1,5 @@
 <?php
-	$debug = true;
+	$debug = false;
 	require 'vendor/autoload.php';
 	$app = new \Slim\Slim();
 	
@@ -257,16 +257,20 @@
 			if ($debug) echo "Checking user email exists...\n";
 			$dupCheck = $mysqli->query("SELECT email FROM Users WHERE email='$email'");
 			$checkResults = $dupCheck->fetch_assoc();
-			if(($checkResults === NULL))
-				die(json_encode(array('ERROR' => 'Email is not a faculty email of SMU')));
-
+			if(($checkResults === NULL)){
+				$response_array['status'] = 'error1';
+				header('Content-type: application/json');
+				die(json_encode($response_array));
+				//die(json_encode(array('ERROR' => 'Email is not a faculty email of SMU')));
+			}
 			$activeCheck = $mysqli->query("SELECT active FROM Users WHERE email='$email'");
-			//$activeResults = mysql_result($activeCheck, 0);
 			$activeResults = $activeCheck->fetch_assoc();
 			$isActive = (int) $activeResults['active'];
-			//echo $activeResults['active'];
 			if(($isActive === 1)){
-				die(json_encode(array('ERROR' => 'This User is already Active, Please sign in instead')));
+				$response_array['status'] = 'error2';
+				header('Content-type: application/json');
+				die(json_encode($response_array));
+				//die(json_encode(array('ERROR' => 'This User is already Active, Please sign in instead')));
 			}
 			else{
 				if ($debug) echo "Creating new user...\n";
@@ -282,7 +286,7 @@
 				$selectUserId = $mysqli->query("SELECT user_ID FROM Users where email='$email'");
 				$res = $selectUserId->fetch_assoc();
 				$userId = $res['user_ID'];
-				echo "$userId\n";
+				//echo "$userId\n";
 				if ($debug) echo "Got id, now inserting password\n";
 				$insertPassword = $mysqli->query("INSERT INTO Password (user_ID, password) VALUES ('$userId', '$hashedPassword')");
 				
@@ -294,7 +298,13 @@
 				
 				}
 			}
-		echo json_encode(array('SUCCESS' => 'Created user!'));
+		//echo json_encode(array('SUCCESS' => 'Created user!'));
+
+		$response_array['status'] = 'success';
+    	header('Content-type: application/json');
+		echo json_encode($response_array);
+
+
 		//if ($debug) echo "Created User!";
 	});
 	

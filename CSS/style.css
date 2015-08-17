@@ -1,5 +1,6 @@
 body {
     background-image:url(../img/DallasHall.jpg);
+/*    background-color: blue;*/
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

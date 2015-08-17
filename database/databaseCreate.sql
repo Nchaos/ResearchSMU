@@ -393,9 +393,9 @@ INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 --  	(011, 005, 013, TRUE, 1),
 --  	(012, 005, 013, TRUE, 2);
 
--- INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
+INSERT INTO Faculty(user_ID, inst_ID, dept_ID, loginCount) VALUES
 
--- 	(013, 005, 013, 3),
+	(010, 005, 013, 3);
 -- 	(001, 004, 045, 2),
 -- 	(002, 003, 016, 4);
 
@@ -407,6 +407,15 @@ INSERT INTO Department(dept_ID, inst_ID, name) VALUES
 -- 	(103, 001, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "We made sure to kill the cow right after it ate. DIG IN!", '2015-10-30', 5, false, true, false, false),
 -- 	(104, 002, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "Psychopaths act weird in courtroom situations. Let us watch what they do.", '2015-12-12', 3, true, true, true, true);	
 	
+  INSERT INTO ResearchOp(researchOp_ID, user_ID, inst_ID, dept_ID, active, dateCreated, name, gradStudents, description) VALUES
+
+  (100, 010, 005, 013, TRUE, '2014-11-22', "Virtual Girlfriend Creation", "No Grad Students here!", "Create a girlfriend so you do not have to talk to real people!"),
+  (101, 010, 002, 023, TRUE, '2014-11-23', "Business in America", "No Grad Students here!", "You live in America. Do the business OUR way."),
+  (102, 010, 003, 005, TRUE, '2014-11-24', "Future of Art", "No Grad Students here!", "Art did not used to suck, maybe it will not suck in the future?"),
+  (103, 010, 001, 008, TRUE, '2014-11-25', "Dissection of Cow Stomach", "No Grad Students here!", "We made sure to kill the cow right after it ate. DIG IN!"),
+  (104, 010, 001, 036, TRUE, '2014-11-26', "Court Behavior Analysis", "No Grad Students here!", "Psychopaths act weird in courtroom situations. Let us watch what they do."); 
+
+
 -- INSERT INTO Applicants(researchOp_ID, user_ID, status, dateSubmitted) VALUES
 --  	(102, 009, "Rejected", '2015-12-14 00:00:00'),
 --  	(103, 010, "Accepted", '2015-12-15 05:24:23'),

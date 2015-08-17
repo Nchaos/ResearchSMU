@@ -1,113 +1,140 @@
 <!DOCTYPE html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>ResearchSMU-User</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<head>
+	<title> ResearchSMU </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="CSS/bootstrap-theme.css">
-        <link rel="stylesheet" href="CSS/bootstrap.min.css">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="stylesheet" href="CSS/style.css">
-        <link rel="stylesheet" href="CSS/user.css">
-        <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/user.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.4-dist/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="DataTables-1.10.6/media/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="CSS/style.css">
+    <link rel="stylesheet" type="text/css" href="CSS/filters.css">
+    <link rel="stylesheet" type="text/css" href="CSS/register.css">
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
 
+</head>
 
-    </head>
-    <body>
-    	
-    	<div id="form-holder" class="container">
-    	
-	    	<div id="wrapper" class="active">
-	        <!-- Sidebar -->
-	            <!-- Sidebar -->
-	      		<div id="sidebar-wrapper">
-	      			<ul id="sidebar_menu" class="sidebar-nav">
-	           			<li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
-	      			</ul>
-	        		<ul class="sidebar-nav" id="sidebar">     
-	          			<li id="accountInfo"><a>Account<span class="sub_icon glyphicon glyphicon-chevron-right"></span></a></li>
-	          			<li id="positions"><a>Positions<span class="sub_icon glyphicon glyphicon-chevron-right"></span></a></li>
-	       			</ul>
-	      		</div>
+<body>
 
+      <div id="cssmenu">
+      <ul>
+         <li class="home"><a href="index.html">ResearchSMU</a></li>
+         <li class="dedman"><a href="#" onclick="tabInstitutionHandler('01');return false;" data-name="Inst" data-value="01">Dedman College of <br>Humanitiies and Sciences</a>
+              <ul>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('03');return false;" data-name="Dept" data-value="03">Anthropology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('08');return false;" data-name="Dept" data-value="08">Biological Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('10');return false;" data-name="Dept" data-value="10">Chemistry</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('18');return false;" data-name="Dept" data-value="18">Earth Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('19');return false;" data-name="Dept" data-value="19">Economics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('21');return false;" data-name="Dept" data-value="21">English</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('25');return false;" data-name="Dept" data-value="25">History</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('30');return false;" data-name="Dept" data-value="30">Mathematics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('33');return false;" data-name="Dept" data-value="33">Philosophy</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('34');return false;" data-name="Dept" data-value="34">Physics</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('35');return false;" data-name="Dept" data-value="35">Political Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('36');return false;" data-name="Dept" data-value="36">Psychology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('38');return false;" data-name="Dept" data-value="38">Religious Studies</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('41');return false;" data-name="Dept" data-value="41">Sociology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('42');return false;" data-name="Dept" data-value="42">Statisitical Sciences</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('46');return false;" data-name="Dept" data-value="46">World Language</a>
+              </ul>
+         </li>
+              <li class="lyle"><a href="#" onclick="tabInstitutionHandler('05');return false;" data-name="Inst" data-value="05">Lyle School <br>of Engineering</a>
+              <ul>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('11');return false;" data-name="Dept" data-value="11">Civil &amp; Environmental Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('13');return false;" data-name="Dept" data-value="13">Computer Science &amp; Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('20');return false;" data-name="Dept" data-value="20">Electrical Engineering</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('28');return false;" data-name="Dept" data-value="28">Management Science</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('31');return false;" data-name="Dept" data-value="31">Mechanical Engineering</a>
+              </ul>
+         </li>
+              <li class="cox"><a href="#" onclick="tabInstitutionHandler('02');return false;" data-name="Inst" data-value="02">Cox School <br>of Business</a>
+              <ul>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('01');return false;" data-name="Dept" data-value="01">Accounting</a>>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('23');return false;" data-name="Dept" data-value="23">Finance</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('29');return false;" data-name="Dept" data-value="29">Marketing</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('27');return false;" data-name="Dept" data-value="27">Management</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('37');return false;" data-name="Dept" data-value="37">Real Estate</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('39');return false;" data-name="Dept" data-value="39">Risk Management &amp; Insurance</a>
+              </ul>
+         </li>
+              <li class="meadows"><a href="#" onclick="tabInstitutionHandler('03');return false;" data-name="Inst" data-data-value="03">Meadows School <br>of the Arts</a>
+              <ul>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('02');return false;" data-name="Dept" data-value="02">Advertising</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('05');return false;" data-name="Dept" data-value="05">Art</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('06');return false;" data-name="Dept" data-value="06">Art History</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('07');return false;" data-name="Dept" data-value="07">Arts Mangagement</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('12');return false;" data-name="Dept" data-value="12">Communication Studies</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('15');return false;" data-name="Dept" data-value="15">Creative Computation</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('16');return false;" data-name="Dept" data-value="16">Dance</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('22');return false;" data-name="Dept" data-value="22">Film and Media Arts</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('26');return false;" data-name="Dept" data-value="26">Journalism</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('32');return false;" data-name="Dept" data-value="32">Music</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('44');return false;" data-name="Dept" data-value="44">Theatre</a>
+              </ul>
+         </li>
+              <li class="simmons"><a href="#" onclick="tabInstitutionHandler('04');return false;" data-name="Inst" data-value="04">Simmons School <br>of Education</a>
+              <ul>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('04');return false;" data-name="Dept" data-value="04">Applied Phsiology</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('14');return false;" data-name="Dept" data-value="14">Counseling</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('17');return false;" data-name="Dept" data-value="17">Dispute Resolution</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('24');return false;" data-name="Dept" data-value="24">Higher Education</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('40');return false;" data-name="Dept" data-value="40">Sports Management</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('43');return false;" data-name="Dept" data-value="43">Teacher Education</a>
+                  <li class="has-sub"><a href="#" onclick="tabDeptHandler('46');return false;" data-name="Dept" data-value="46">Wellness</a>
+              </ul>
+         </li>
+         <li class="userLinks"><a href="#">Journal</a></li>
+         <li class="userlinks"><a href="user.html" class="user-window">My Account</a></li>
+         <li class="userlinks"><a href="#registerUser" class="register-window">Register</a></li>
+         <li class="userlinks"><a href="#login-box" class="login-window">Login</a></li>
+         <li class="userlinks"><a href="#signout" class="logout">Logout</a></li>
+      </ul>
+    </div>
 
+   	<div id="editSelector">
+   		<button id="profile" type="button" onclick="alert('Hello world!')">Edit Profile</button>
+   		<button id="researchOps" type="button">Edit ResearchOPs</button>
+  	</div>
 
-	      		<!-- Page content -->
-	      		<div id="page-content-wrapper">
-	        	<!-- Keep all page content within the page-content inset div! -->
-	        		<div class="page-content inset">
-	          			<div class="row">
-	              			<div class="col-md-12">
-	              				<div class="header">
-	              					<h1>User Info</h1>
-	              				</div> 
-	              				<div id="info">Info Here</div><br>
-	              				<input type="button" id="edit" value="Edit"/><br>
-	              				<div id="newInfo"></div><br />
-	              				<input type="button" id="submission" value="Submit"/>
-	              				<input type="button" id="cancel" value="Cancel"/>
-	              				<input type="button" id="newROP" value ="Create new ROP"/>
-	              				<div id="table"></div>
-	              				<input type="button" id="home" value="Back to Home"/>
+        <table id="resultsTable" class="display">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Professor</th>
+                  <th>Department</th>
+                  <th>School</th>
+              </tr>
+          </thead>
 
-	           <!--   				<div class="input-form">
-	              					<form id ="form">
-	              						<div class="form-group">
-	      										<label class="control-label col-sm-2" for="email">Email:</label>
-	      									<div class="col-sm-10">          
-	        									<input type="email" class="form-control" id="email" placeholder="something@example.com">
-	      									</div>
-	    								</div>
-	    								<div class="form-group">
-	      									<label class="control-label col-sm-2" for="pwd">Password:</label>
-	      									<div class="col-sm-10">          
-	        									<input type="password" class="form-control" id="pwd" placeholder="Enter password">
-	      									</div>
-	      									
-	      									<label class="control-label col-sm-2" for="pwd">Confirm Password:</label>
-	      									<div class="col-sm-10">          
-	        									<input type="password" class="form-control" id="confirmation" placeholder="Confirm password">
-	      									</div>
-	      									
-	      									<label class="control-label col-sm-2" for="pwd">First Name:</label>
-	      									<div class="col-sm-10">          
-	        									<input type="text" class="form-control" id="fname" placeholder="Enter first name">
-	      									</div>
-	      									
-	      									<label class="control-label col-sm-2" for="pwd">Last Name:</label>
-	      									<div class="col-sm-10">          
-	        									<input type="text" class="form-control" id="lname" placeholder="Enter last name">
-	      									</div>
-	      									
-	      									<label class="control-label col-sm-2" for="pwd">Resume:</label>
+          <tbody>
+          </tbody>
+          <tfoot>
+              <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Professor</th>
+                  <th>Department</th>
+                  <th>School</th>
+              </tr>
+          </tfoot>
+ 
+        </table>
 
-		      									<div class="col-sm-10">          
-		        									<input type="file" class="form-control" id="file-select" name="resume[]">
-		        								</div>
-	    								</div>
-	    								<div class="form-group">        
-	      									<div class="col-sm-offset-2 col-sm-10">
-	        									<button type="submit" id="upload" class="btn btn-default">Submit</button>
-	      									</div>
-	    								</div>
-	              					</form>
-	              				</div> -->
-	            			</div>
-	          			</div>
-	        		</div>
-	      		</div> 
+    <!-- Slider used for sliding annimation-->
+    <div class='slider'>
+    </div>
 
-
-	    	</div>
-	    	
-	    </div>
-	    	
-	    	
-    </body>
+    <script src="js/facultyResults.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+</body>
 </html>
